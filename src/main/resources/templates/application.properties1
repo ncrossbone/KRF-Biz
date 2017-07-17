@@ -1,0 +1,25 @@
+spring.profiles.active=local
+
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.url=jdbc:oracle:thin:@112.217.167.123:31521:orcl
+spring.datasource.username=WATER
+spring.datasource.password=WATER
+    
+server.error.whitelabel.enabled=true
+    
+# Mybatis config
+mybatis.mapper-locations=classpath:mapper/**/*.xml
+
+mybatis.configuration.lazy-loading-enabled=true
+mybatis.configuration.aggressive-lazy-loading=false
+mybatis.configuration.map-underscore-to-camel-case=true
+
+
+# log 
+logging.level.org.springframework.web=DEBUG
+logging.level.com.pristinecore.sbtest.rest=DEBUG
+logging.file=logs/spring-boot-logging.log
+
+# server
+server.contextPath=/krf
+spring.mvc.async.request-timeout=60000

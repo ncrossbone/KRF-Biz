@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+       Copyright 2015-2016 the original author or authors.
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ce.krf.biz.mapper.SampleMapper">
+    <select id="getLabelLayerAdmin" resultType="hashmap" parameterType="String">
+    	SELECT /* KRF-BIZ.SampleMapper.getLabelLayerAdmin */
+               PT_NO AS "PT_NO"
+    	      ,VAL 
+    	  FROM KRF_MAP_VALUE_V_A001 
+    	 WHERE GUBUN = #{value}
+     <![CDATA[ ROWNUM < 100 AND ROWNUM > 0 ]]> AND ROWNUM &lt; 100 AND ROWNUM &gt; 0
+    </select>
+    <select id="getRWMDT" resultType="hashmap" parameterType="String">
+    	SELECT /* KRF-BIZ.SampleMapper.getRWMDT */
+    	       COL_KOR
+    	      ,CONT 
+    	  FROM KRF_SITEINFO 
+    	 WHERE SITE_CD = #{value}
+    	  <!-- <foreach item="user" index="index" collection="users" open="(" separator="," close=")">
+		        #{user.userType}
+		      </foreach> -->
+      
+    </select>
+    
+    <select id="getLabelLayerAdminForPost" resultType="com.ce.krf.biz.model.SampleVO" parameterType="com.ce.krf.biz.model.SampleVO">
+    	SELECT /* KRF-BIZ.SampleMapper.getLabelLayerAdminForPost */
+    	       PT_NO AS "PT_NO"
+    	      ,VAL 
+    	  FROM KRF_MAP_VALUE_V_A001 
+    	 WHERE GUBUN = #{gubun}
+    </select>
+    
+    <insert id="putSessionIp" parameterType="String">
+    	INSERT INTO KRF_COUNT (USER_IP, LOGIN_DT) VALUES(#{value}, SYSDATE)
+    </insert>
+    
+    <insert id="putClickLog" parameterType="com.ce.krf.biz.model.ClickLogVO">
+    	INSERT INTO SEARCHLOGTB (USER_IP
+    	 						,TYPE
+    	 						,SEARCH_DATE 
+    	 						,CLICK_NODE
+    	 						,CLICK_PARENT_NODE 
+    	 						,CLICK_DATA ,CLICK_DATA_ID) 
+    	 		        VALUES(#{ip}
+    	 		              ,#{type}
+    	 		              ,SYSDATE 
+    	 		              ,#{node}
+    	 		              ,#{parentId}
+    	 		              ,#{data}
+    	 		              ,#{id})
+    </insert>
+  <insert id="putClickLogs" parameterType="com.ce.krf.biz.model.SampleVO">
+    	INSERT ALL 
+    	<foreach collection="logList" item="item" separator="">
+    		   INTO SEARCHLOGTB (USER_IP
+    	 						,TYPE
+    	 						,SEARCH_DATE 
+    	 						,CLICK_NODE
+    	 						,CLICK_PARENT_NODE 
+    	 						,CLICK_DATA 
+    	 						,CLICK_DATA_ID) 
+    	 		        VALUES
+            			      (#{item.ip}
+    	 		              ,#{item.type}
+    	 		              ,SYSDATE 
+    	 		              ,#{item.node}
+    	 		              ,#{item.parentId}
+    	 		              ,#{item.data}
+    	 		              ,#{item.id})
+		</foreach>
+		SELECT 1 FROM DUAL
+    </insert>
+</mapper>
