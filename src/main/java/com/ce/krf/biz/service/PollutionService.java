@@ -18,11 +18,8 @@ public class PollutionService {
 	@Autowired
 	public PollutionMapper pollutionMapper;
 
-	public List pollutionSelect(String index, String catDid, String year) throws Exception {
-		
-		PollutionVO param = new PollutionVO();
-		param.setCatDid(catDid);
-		param.setYear(year);
+	public List pollutionSelect(String index, PollutionVO param) throws Exception {
+		param.setCatDids(param.getCatDid().split(","));
 		Method method = pollutionMapper.getClass().getMethod("pollutionSelect" + index, PollutionVO.class);
 		List result = (List) method.invoke(pollutionMapper, param);
 		return result;
