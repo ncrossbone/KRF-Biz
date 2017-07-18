@@ -1,7 +1,5 @@
 package com.ce.krf.biz.controller;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -11,17 +9,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ce.krf.KrfBizApplication;
 import com.ce.krf.biz.base.BaseController;
-import com.ce.krf.biz.model.ClickLogVO;
-import com.ce.krf.biz.model.SampleVO;
 import com.ce.krf.biz.service.SampleService;
 
 @RestController
@@ -32,10 +24,23 @@ public class SampleRestController extends BaseController {
 
 	@Autowired
 	public SampleService sampleService;
-
-	@RequestMapping(value = "/labellayeradmin/{gubun}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, Object> sampleForPathVar(@PathVariable String gubun) {
-		return sampleService.getLabelLayerAdmin(gubun);
+	
+	
+	//단일 파라미터 - get
+	@GetMapping(value = "/helloGet/{ptNo}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> helloGet(@PathVariable String ptNo) {
+		return sampleService.getLabelLayerAdmin(ptNo);
+	}
+	
+	//단일 파라미터 - post
+	@PostMapping(value = "/helloPost/{ptNo}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> helloPost(@PathVariable String ptNo) {
+		return sampleService.getLabelLayerAdmin(ptNo);
+	}
+	/*//DB test
+	@RequestMapping(value = "/labellayeradmin/{ptNo}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> sampleForPathVar(@PathVariable String ptNo) {
+		return sampleService.getLabelLayerAdmin(ptNo);
 	}
 
 	@RequestMapping(value = "/labellayeradmin", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -89,5 +94,17 @@ public class SampleRestController extends BaseController {
 		String ipAddr = request.getRemoteAddr();
 		return sampleService.putSessionIp(ipAddr);
 	}
+	
+	@PostMapping(value = "/hyeokGet", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String hyeokGet() {
+
+		//logger.debug("hello GET");
+		//logger.info("hello GET");
+		//logger.warn("hello GET");
+		//logger.error("hello GET");
+
+		return "hyeokGet";
+	}*/
+	
 
 }
