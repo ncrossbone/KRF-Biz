@@ -1,5 +1,7 @@
 package com.ce.krf.biz.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -13,10 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ce.krf.KrfBizApplication;
 import com.ce.krf.biz.base.BaseController;
-import com.ce.krf.biz.model.ResultVO;
 import com.ce.krf.biz.service.DroneService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/drone")
@@ -28,10 +28,8 @@ public class DroneController extends BaseController {
 
 	@RequestMapping(value = "/getRWMDT", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
 	public String getRWMDT(@RequestParam String siteCodes, @RequestParam String measureDate, String layerDate) {
-		ObjectMapper om = new ObjectMapper();
-		
-		ResultVO result = new ResultVO();
-		result.setDatas(droneService.getRWMDT(siteCodes, measureDate, layerDate));
+		HashMap result = new HashMap();
+		result.put("data", droneService.getRWMDT(siteCodes, measureDate, layerDate));
 		try {
 			return om.writeValueAsString(result);
 		} catch (JsonProcessingException e) {
