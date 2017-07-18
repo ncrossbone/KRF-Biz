@@ -30,11 +30,12 @@ public class SampleService {
 	@Autowired
 	public SampleMapper sampleMapper;
 	
-	public Map<String, Object> getLabelLayerAdmin(String gubun) {
+	public Map<String, Object> getLabelLayerAdmin(String ptNo) {
 		HashMap res = new HashMap<String, Object>();
-		res.put("datas", sampleMapper.getLabelLayerAdmin(gubun));
+		res.put("datas", sampleMapper.getLabelLayerAdmin(ptNo));
 		return res;
 	}
+	
 	public Map<String, Object> getLabelLayerAdminForPost(SampleVO param) {
 		HashMap res = new HashMap<String, Object>();
 		res.put("datas", sampleMapper.getLabelLayerAdminForPost(param));
