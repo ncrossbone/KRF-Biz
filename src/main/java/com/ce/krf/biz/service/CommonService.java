@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletOutputStream;
@@ -118,5 +119,18 @@ public class CommonService {
 	public int clickSession(ClickLogVO clickLogVO) {
 		// TODO Auto-generated method stub
 		return commonMapper.clickSession(clickLogVO);
+	}
+	
+	public Map<String,Object> getLabelLayerAdmin(){
+		
+		HashMap result = new HashMap();
+		result.put("bodDatas", commonMapper.getLabelLayerAdmin("ITEM_BOD"));
+		result.put("codDatas", commonMapper.getLabelLayerAdmin("ITEM_COD"));
+		result.put("docDatas", commonMapper.getLabelLayerAdmin("ITEM_DOC"));
+		result.put("tnDatas", commonMapper.getLabelLayerAdmin("ITEM_TN"));
+		result.put("tpDatas", commonMapper.getLabelLayerAdmin("ITEM_TP"));
+		result.put("tempDatas", commonMapper.getLabelLayerAdmin("ITEM_TEMP"));
+		
+		return null;
 	}
 }

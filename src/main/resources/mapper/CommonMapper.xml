@@ -30,4 +30,13 @@
     	 		              ,#{data}
     	 		              ,#{id})
     </insert>
+    
+    <select id="getLabelLayerAdmin" parameterType="String" resultType="hashmap">
+    	SELECT  /* KRF-BIZ.CommonMapper.getLabelLayerAdmin */
+    			GUBUN,
+    	        PT_NO,
+    	        VAL
+    	  FROM KRF_MAP_VALUE_V_A001
+    	 WHERE GUBUN = #{value}
+    </select>
 </mapper>
