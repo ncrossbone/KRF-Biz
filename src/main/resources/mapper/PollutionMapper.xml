@@ -16,6 +16,182 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.PollutionMapper">
     <select id="pollutionSelect01_01" parameterType="com.ce.krf.biz.model.PollutionVO" resultType="hashmap">
-    	SELECT 'POLLL' AS P FROM DUAL
+    	WITH TBL_PLA_POP_TOTAL AS (                                                                                                                                                        
+	      SELECT YYYY                                                                                           
+	           , WS_NM                                                                                          
+	           , MB_NM                                                                                          
+	           , SB_ID                                                                                          
+	           , SB_NM                                                                                          
+	           , CAT_DID                                                                                        
+	           , ADM_CD                                                                                         
+	           , DO_NM||' '||CTY_NM||' '||DONG_NM||' '||RI_NM AS ADDR                                           
+	           , FINAL_PERCENTAGE                                                                               
+	           , AREA_A1                                                                                        
+	           , AREA_A2                                                                                        
+	           , AREA_SUM                                                                                       
+	           , REGION                                                                                         
+	           , REGION_DATE                                                                                    
+	           , U_A1_TP_CODE                                                                                   
+	           , U_A1_TP_DATE                                                                                   
+	           , U_A1_TP_NAME                                                                                   
+	           , U_A3_TP_CODE                                                                                   
+	           , U_A3_TP_DATE                                                                                   
+	           , U_A3_TP_NAME                                                                                   
+	           , POP_SUM                                                                                        
+	           , UPOP_SUM                                                                                       
+	           , UPOP_A1_SUM                                                                                    
+	           , UPOP_A1_SEPARATE_WT_SUM                                                                        
+	           , UPOP_A1_SEPARATE_IT_SUM                                                                        
+	           , UPOP_A1_COMBINED_WT_SUM                                                                        
+	           , UPOP_A1_COMBINED_IT_SUM                                                                        
+	           , UPOP_A2_SUM                                                                                    
+	           , UPOP_A2_SANITARY                                                                               
+	           , UPOP_A2_SEPTIC                                                                                 
+	           , UPOP_A2_REMOVAL                                                                                
+	           , SPOP_SUM                                                                                       
+	           , SPOP_A1_SUM                                                                                    
+	           , SPOP_A1_SEPARATE_WT_SUM                                                                        
+	           , SPOP_A1_SEPARATE_IT_SUM                                                                        
+	           , SPOP_A1_COMBINED_WT_SUM                                                                        
+	           , SPOP_A1_COMBINED_IT_SUM                                                                        
+	           , SPOP_A2_SUM                                                                                    
+	           , SPOP_A2_SANITARY                                                                               
+	           , SPOP_A2_SEPTIC                                                                                 
+	           , SPOP_A2_REMOVAL                                                                                
+	        FROM PLA_POP_TOTAL_FOR_CAT                                                                          
+		 WHERE CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>	
+	       AND YYYY = #{year}                                 
+	        )                                                                                                   
+	  SELECT YYYY                                                                                               
+	       , WS_NM                                                                                              
+	       , MB_NM                                                                                              
+	       , SB_NM                                                                                              
+	       , POP_SUM                                                                                            
+	       , UPOP_SUM                                                                                           
+	       , SPOP_SUM                                                                                    
+	    from (                                                                                                  
+	          SELECT YYYY                                                                                       
+	               , WS_NM                                                                                      
+	               , MB_NM                                                                                      
+	               , SB_NM                                                                                      
+	               , SB_ID                                                                                      
+	               , SUM(AREA_A1) AS AREA_A1                                                                    
+	               , SUM(AREA_A2) AS AREA_A2                                                                    
+	               , SUM(AREA_SUM) AS AREA_SUM                                                                  
+	               , '' AS REGION                                                                               
+	               , '' AS REGION_DATE                                                                          
+	               , '' AS U_A1_TP_CODE                                                                         
+	               , '' AS U_A1_TP_DATE                                                                         
+	               , '' AS U_A1_TP_NAME                                                                         
+	               , '' AS U_A3_TP_CODE                                                                         
+	               , '' AS U_A3_TP_DATE                                                                         
+	               , '' AS U_A3_TP_NAME                                                                         
+	               , SUM(POP_SUM) AS POP_SUM                                                                    
+	               , SUM(UPOP_SUM) AS UPOP_SUM                                                                  
+	               , SUM(UPOP_A1_SUM) AS UPOP_A1_SUM                                                            
+	               , SUM(UPOP_A1_SEPARATE_WT_SUM) AS UPOP_A1_SEPARATE_WT_SUM                                    
+	               , SUM(UPOP_A1_SEPARATE_IT_SUM) AS UPOP_A1_SEPARATE_IT_SUM                                    
+	               , SUM(UPOP_A1_COMBINED_WT_SUM) AS UPOP_A1_COMBINED_WT_SUM                                    
+	               , SUM(UPOP_A1_COMBINED_IT_SUM) AS UPOP_A1_COMBINED_IT_SUM                                    
+	               , SUM(UPOP_A2_SUM) AS UPOP_A2_SUM                                                            
+	               , SUM(UPOP_A2_SANITARY) AS UPOP_A2_SANITARY                                                  
+	               , SUM(UPOP_A2_SEPTIC) AS UPOP_A2_SEPTIC                                                      
+	               , SUM(UPOP_A2_REMOVAL) AS UPOP_A2_REMOVAL                                                    
+	               , SUM(SPOP_SUM) AS SPOP_SUM                                                                  
+	               , SUM(SPOP_A1_SUM) AS SPOP_A1_SUM                                                            
+	               , SUM(SPOP_A1_SEPARATE_WT_SUM) AS SPOP_A1_SEPARATE_WT_SUM                                    
+	               , SUM(SPOP_A1_SEPARATE_IT_SUM) AS SPOP_A1_SEPARATE_IT_SUM                                    
+	               , SUM(SPOP_A1_COMBINED_WT_SUM) AS SPOP_A1_COMBINED_WT_SUM                                    
+	               , SUM(SPOP_A1_COMBINED_IT_SUM) AS SPOP_A1_COMBINED_IT_SUM                                    
+	               , SUM(SPOP_A2_SUM) AS SPOP_A2_SUM                                                            
+	               , SUM(SPOP_A2_SANITARY) AS SPOP_A2_SANITARY                                                  
+	               , SUM(SPOP_A2_SEPTIC) AS SPOP_A2_SEPTIC                                                      
+	               , SUM(SPOP_A2_REMOVAL) AS SPOP_A2_REMOVAL                                                    
+	            from (                                                                                          
+	                  SELECT YYYY                                                                               
+	                       , WS_NM                                                                              
+	                       , MB_NM                                                                              
+	                       , SB_NM                                                                              
+	                       , CAT_DID                                                                            
+	                       , ADDR                                                                               
+	                       , FINAL_PERCENTAGE                                                                   
+	                       , ADM_CD                                                                             
+	                       , SB_ID                                                                              
+	                       , AREA_A1                                                                            
+	                       , AREA_A2                                                                            
+	                       , AREA_SUM                                                                           
+	                       , REGION                                                                             
+	                       , REGION_DATE                                                                        
+	                       , U_A1_TP_CODE                                                                       
+	                       , U_A1_TP_DATE                                                                       
+	                       , U_A1_TP_NAME                                                                       
+	                       , U_A3_TP_CODE                                                                       
+	                       , U_A3_TP_DATE                                                                       
+	                       , U_A3_TP_NAME                                                                       
+	                       , POP_SUM                                                                            
+	                       , UPOP_SUM                                                                           
+	                       , UPOP_A1_SUM                                                                        
+	                       , UPOP_A1_SEPARATE_WT_SUM                                                            
+	                       , UPOP_A1_SEPARATE_IT_SUM                                                            
+	                       , UPOP_A1_COMBINED_WT_SUM                                                            
+	                       , UPOP_A1_COMBINED_IT_SUM                                                            
+	                       , UPOP_A2_SUM                                                                        
+	                       , UPOP_A2_SANITARY                                                                   
+	                       , UPOP_A2_SEPTIC                                                                     
+	                       , UPOP_A2_REMOVAL                                                                    
+	                       , SPOP_SUM                                                                           
+	                       , SPOP_A1_SUM                                                                        
+	                       , SPOP_A1_SEPARATE_WT_SUM                                                            
+	                       , SPOP_A1_SEPARATE_IT_SUM                                                            
+	                       , SPOP_A1_COMBINED_WT_SUM                                                            
+	                       , SPOP_A1_COMBINED_IT_SUM                                                            
+	                       , SPOP_A2_SUM                                                                        
+	                       , SPOP_A2_SANITARY                                                                   
+	                       , SPOP_A2_SEPTIC                                                                     
+	                       , SPOP_A2_REMOVAL                                                                    
+	                    FROM TBL_PLA_POP_TOTAL                                                                  
+	                 )                                                                                          
+	          GROUP BY YYYY, WS_NM, MB_NM, SB_NM, SB_ID                                                         
+	          UNION                                                                                             
+	          SELECT '' AS YYYY                                                                                 
+	               , '' AS WS_NM                                                                                
+	               , '' AS MB_NM                                                                                
+	               , '총계' AS SB_NM                                                                            
+	               , '' AS SB_ID                                                                                
+	               , SUM(AREA_A1) AS AREA_A1                                                                    
+	               , SUM(AREA_A2) AS AREA_A2                                                                    
+	               , SUM(AREA_SUM) AS AREA_SUM                                                                  
+	               , '' AS REGION                                                                               
+	               , '' AS REGION_DATE                                                                          
+	               , '' AS U_A1_TP_CODE                                                                         
+	               , '' AS U_A1_TP_DATE                                                                         
+	               , '' AS U_A1_TP_NAME                                                                         
+	               , '' AS U_A3_TP_CODE                                                                         
+	               , '' AS U_A3_TP_DATE                                                                         
+	               , '' AS U_A3_TP_NAME                                                                         
+	               , SUM(POP_SUM) AS POP_SUM                                                                    
+	               , SUM(UPOP_SUM) AS UPOP_SUM                                                                  
+	               , SUM(UPOP_A1_SUM) AS UPOP_A1_SUM                                                            
+	               , SUM(UPOP_A1_SEPARATE_WT_SUM) AS UPOP_A1_SEPARATE_WT_SUM                                    
+	               , SUM(UPOP_A1_SEPARATE_IT_SUM) AS UPOP_A1_SEPARATE_IT_SUM                                    
+	               , SUM(UPOP_A1_COMBINED_WT_SUM) AS UPOP_A1_COMBINED_WT_SUM                                    
+	               , SUM(UPOP_A1_COMBINED_IT_SUM) AS UPOP_A1_COMBINED_IT_SUM                                    
+	               , SUM(UPOP_A2_SUM) AS UPOP_A2_SUM                                                            
+	               , SUM(UPOP_A2_SANITARY) AS UPOP_A2_SANITARY                                                  
+	               , SUM(UPOP_A2_SEPTIC) AS UPOP_A2_SEPTIC                                                      
+	               , SUM(UPOP_A2_REMOVAL) AS UPOP_A2_REMOVAL                                                    
+	               , SUM(SPOP_SUM) AS SPOP_SUM                                                                  
+	               , SUM(SPOP_A1_SUM) AS SPOP_A1_SUM                                                            
+	               , SUM(SPOP_A1_SEPARATE_WT_SUM) AS SPOP_A1_SEPARATE_WT_SUM                                    
+	               , SUM(SPOP_A1_SEPARATE_IT_SUM) AS SPOP_A1_SEPARATE_IT_SUM                                    
+	               , SUM(SPOP_A1_COMBINED_WT_SUM) AS SPOP_A1_COMBINED_WT_SUM                                    
+	               , SUM(SPOP_A1_COMBINED_IT_SUM) AS SPOP_A1_COMBINED_IT_SUM                                    
+	               , SUM(SPOP_A2_SUM) AS SPOP_A2_SUM                                                            
+	               , SUM(SPOP_A2_SANITARY) AS SPOP_A2_SANITARY                                                  
+	               , SUM(SPOP_A2_SEPTIC) AS SPOP_A2_SEPTIC                                                      
+	               , SUM(SPOP_A2_REMOVAL) AS SPOP_A2_REMOVAL                                                    
+	            FROM TBL_PLA_POP_TOTAL                                                                          
+	         )                                                                                                  
+	   ORDER BY DECODE(SB_NM,'총계',1,2), SB_ID 
     </select>
 </mapper>
