@@ -15,5 +15,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.CommonMapper">
-    
+    <insert id="clickSession" parameterType="com.ce.krf.biz.model.ClickLogVO">
+    	INSERT INTO SEARCHLOGTB (USER_IP
+    	 						,TYPE
+    	 						,SEARCH_DATE 
+    	 						,CLICK_NODE
+    	 						,CLICK_PARENT_NODE 
+    	 						,CLICK_DATA ,CLICK_DATA_ID) 
+    	 		        VALUES(#{ip}
+    	 		              ,#{type}
+    	 		              ,SYSDATE 
+    	 		              ,#{node}
+    	 		              ,#{parentId}
+    	 		              ,#{data}
+    	 		              ,#{id})
+    </insert>
 </mapper>
