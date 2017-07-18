@@ -1,14 +1,13 @@
 package com.ce.krf.biz.controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+//github.com/ncrossbone/KRF-Biz.git
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ce.krf.KrfBizApplication;
 import com.ce.krf.biz.base.BaseController;
+import com.ce.krf.biz.model.ClickLogVO;
 import com.ce.krf.biz.model.ExcelDownloadVO;
+import com.ce.krf.biz.model.ResultVO;
 import com.ce.krf.biz.service.CommonService;
 
 /**
@@ -70,5 +71,20 @@ public class CommonController extends BaseController {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 		return "";
+	}
+	
+	
+	@PostMapping(value = "/clickSession", consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResultVO clickSession(@RequestBody ClickLogVO clickLogVO) {
+		
+		clickLogVO.setIp(request.getRemoteAddr());
+		
+		ResultVO result = new ResultVO();
+		int cnt = commonService.clickSession(clickLogVO);
+		
+		result.setMgs(cnt +"건 저장됨");
+		result.setCode(1);
+		
+		return result;
 	}
 }

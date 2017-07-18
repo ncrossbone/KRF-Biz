@@ -1,0 +1,467 @@
+2017-07-18 09:42:11,395 INFO  [main] com.ce.krf.KrfBizApplication : Starting KrfBizApplication on MSDN-SPECIAL with PID 9104 (F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz\target\classes started by Administrator in F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz)
+2017-07-18 09:42:11,395 INFO  [main] com.ce.krf.KrfBizApplication : The following profiles are active: local
+2017-07-18 09:42:11,630 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7334aada: startup date [Tue Jul 18 09:42:11 KST 2017]; root of context hierarchy
+2017-07-18 09:42:13,147 INFO  [main] org.springframework.beans.factory.xml.XmlBeanDefinitionReader : Loading XML bean definitions from class path resource [META-INF/cxf/cxf.xml]
+2017-07-18 09:42:15,618 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-07-18 09:42:15,650 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2017-07-18 09:42:15,666 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet Engine: Apache Tomcat/8.5.15
+2017-07-18 09:42:15,790 INFO  [localhost-startStop-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/krf] : Initializing Spring embedded WebApplicationContext
+2017-07-18 09:42:15,790 INFO  [localhost-startStop-1] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 4176 ms
+2017-07-18 09:42:15,963 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 09:42:15,963 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 09:42:15,963 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 09:42:16,025 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'dispatcherServlet' to [/]
+2017-07-18 09:42:16,025 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'CXFServlet' to [/services/*]
+2017-07-18 09:42:16,025 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-07-18 09:42:16,863 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/chart/getRWMDT/{siteCd}],methods=[GET],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.ChartController.getRWMDT(java.lang.String)
+2017-07-18 09:42:16,863 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/index]}" onto public java.lang.String com.ce.krf.biz.controller.SamplePageController.navigate(org.springframework.ui.Model)
+2017-07-18 09:42:16,863 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloGet/{ptNo}],methods=[GET],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloGet(java.lang.String)
+2017-07-18 09:42:16,863 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloPost/{ptNo}],methods=[POST],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloPost(java.lang.String)
+2017-07-18 09:42:16,863 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-07-18 09:42:16,863 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-18 09:42:16,912 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7334aada: startup date [Tue Jul 18 09:42:11 KST 2017]; root of context hierarchy
+2017-07-18 09:42:17,597 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Registering beans for JMX exposure on startup
+2017-07-18 09:42:17,790 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2017-07-18 09:42:17,806 INFO  [main] com.ce.krf.KrfBizApplication : Started KrfBizApplication in 7.772 seconds (JVM running for 9.501)
+2017-07-18 09:42:48,843 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/krf] : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-07-18 09:42:48,843 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : FrameworkServlet 'dispatcherServlet': initialization started
+2017-07-18 09:42:48,886 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : FrameworkServlet 'dispatcherServlet': initialization completed in 43 ms
+2017-07-18 10:46:32,823 WARN  [http-nio-8080-exec-3] org.springframework.web.servlet.PageNotFound : No mapping found for HTTP request with URI [/krf/common/clickSession/] in DispatcherServlet with name 'dispatcherServlet'
+2017-07-18 11:01:01,348 WARN  [http-nio-8080-exec-5] org.springframework.web.servlet.PageNotFound : No mapping found for HTTP request with URI [/krf/common/clickSession] in DispatcherServlet with name 'dispatcherServlet'
+2017-07-18 11:01:02,481 WARN  [http-nio-8080-exec-6] org.springframework.web.servlet.PageNotFound : No mapping found for HTTP request with URI [/krf/common/clickSession] in DispatcherServlet with name 'dispatcherServlet'
+2017-07-18 11:01:03,061 WARN  [http-nio-8080-exec-8] org.springframework.web.servlet.PageNotFound : No mapping found for HTTP request with URI [/krf/common/clickSession] in DispatcherServlet with name 'dispatcherServlet'
+2017-07-18 11:33:34,959 INFO  [main] com.ce.krf.KrfBizApplication : Starting KrfBizApplication on MSDN-SPECIAL with PID 7504 (F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz\target\classes started by Administrator in F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz)
+2017-07-18 11:33:34,959 INFO  [main] com.ce.krf.KrfBizApplication : The following profiles are active: local
+2017-07-18 11:33:35,006 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5f354bcf: startup date [Tue Jul 18 11:33:35 KST 2017]; root of context hierarchy
+2017-07-18 11:33:35,553 INFO  [main] org.springframework.beans.factory.xml.XmlBeanDefinitionReader : Loading XML bean definitions from class path resource [META-INF/cxf/cxf.xml]
+2017-07-18 11:33:36,447 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-07-18 11:33:36,447 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2017-07-18 11:33:36,463 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet Engine: Apache Tomcat/8.5.15
+2017-07-18 11:33:36,526 INFO  [localhost-startStop-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/krf] : Initializing Spring embedded WebApplicationContext
+2017-07-18 11:33:36,526 INFO  [localhost-startStop-1] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 1520 ms
+2017-07-18 11:33:36,668 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:33:36,668 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:33:36,668 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:33:36,714 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'dispatcherServlet' to [/]
+2017-07-18 11:33:36,714 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'CXFServlet' to [/services/*]
+2017-07-18 11:33:36,714 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-07-18 11:33:37,177 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/chart/getRWMDT/{siteCd}],methods=[GET],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.ChartController.getRWMDT(java.lang.String)
+2017-07-18 11:33:37,177 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/common/clickSession],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public com.ce.krf.biz.model.ResultVO com.ce.krf.biz.controller.CommonController.clickSession(com.ce.krf.biz.model.ClickLogVO)
+2017-07-18 11:33:37,177 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/index]}" onto public java.lang.String com.ce.krf.biz.controller.SamplePageController.navigate(org.springframework.ui.Model)
+2017-07-18 11:33:37,177 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloGet/{ptNo}],methods=[GET],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloGet(java.lang.String)
+2017-07-18 11:33:37,177 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloPost/{ptNo}],methods=[POST],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloPost(java.lang.String)
+2017-07-18 11:33:37,192 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-07-18 11:33:37,192 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-18 11:33:37,255 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5f354bcf: startup date [Tue Jul 18 11:33:35 KST 2017]; root of context hierarchy
+2017-07-18 11:33:37,771 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Registering beans for JMX exposure on startup
+2017-07-18 11:33:37,865 ERROR [main] org.apache.coyote.http11.Http11NioProtocol : Failed to start end point associated with ProtocolHandler ["http-nio-8080"]
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:978)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:628)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.ce.krf.KrfBizApplication.main(KrfBizApplication.java:39)
+2017-07-18 11:33:37,865 ERROR [main] org.apache.catalina.core.StandardService : Failed to start connector [Connector[HTTP/1.1-8080]]
+org.apache.catalina.LifecycleException: Failed to start component [Connector[HTTP/1.1-8080]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:167)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.ce.krf.KrfBizApplication.main(KrfBizApplication.java:39)
+Caused by: org.apache.catalina.LifecycleException: service.getName(): "Tomcat";  Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1029)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	... 13 common frames omitted
+Caused by: java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:978)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:628)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022)
+	... 14 common frames omitted
+2017-07-18 11:33:37,881 INFO  [main] org.apache.catalina.core.StandardService : Stopping service [Tomcat]
+2017-07-18 11:33:37,959 INFO  [main] org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer : 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2017-07-18 11:33:37,959 ERROR [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 8080 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 8080, or configure this application to listen on another port.
+
+2017-07-18 11:33:37,974 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5f354bcf: startup date [Tue Jul 18 11:33:35 KST 2017]; root of context hierarchy
+2017-07-18 11:33:37,974 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Unregistering JMX-exposed beans on shutdown
+2017-07-18 11:33:52,744 INFO  [RMI TCP Connection(2)-127.0.0.1] org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2017-07-18 11:33:52,744 INFO  [RMI TCP Connection(2)-127.0.0.1] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7334aada: startup date [Tue Jul 18 09:42:11 KST 2017]; root of context hierarchy
+2017-07-18 11:33:52,744 INFO  [RMI TCP Connection(2)-127.0.0.1] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Unregistering JMX-exposed beans on shutdown
+2017-07-18 11:33:59,939 INFO  [main] com.ce.krf.KrfBizApplication : Starting KrfBizApplication on MSDN-SPECIAL with PID 7928 (F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz\target\classes started by Administrator in F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz)
+2017-07-18 11:33:59,954 INFO  [main] com.ce.krf.KrfBizApplication : The following profiles are active: local
+2017-07-18 11:34:00,002 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5f354bcf: startup date [Tue Jul 18 11:34:00 KST 2017]; root of context hierarchy
+2017-07-18 11:34:00,619 INFO  [main] org.springframework.beans.factory.xml.XmlBeanDefinitionReader : Loading XML bean definitions from class path resource [META-INF/cxf/cxf.xml]
+2017-07-18 11:34:01,476 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-07-18 11:34:01,491 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2017-07-18 11:34:01,491 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet Engine: Apache Tomcat/8.5.15
+2017-07-18 11:34:01,586 INFO  [localhost-startStop-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/krf] : Initializing Spring embedded WebApplicationContext
+2017-07-18 11:34:01,586 INFO  [localhost-startStop-1] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 1584 ms
+2017-07-18 11:34:01,711 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:34:01,711 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:34:01,711 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:34:01,758 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'dispatcherServlet' to [/]
+2017-07-18 11:34:01,758 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'CXFServlet' to [/services/*]
+2017-07-18 11:34:01,758 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-07-18 11:34:02,245 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/chart/getRWMDT/{siteCd}],methods=[GET],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.ChartController.getRWMDT(java.lang.String)
+2017-07-18 11:34:02,245 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/common/clickSession],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public com.ce.krf.biz.model.ResultVO com.ce.krf.biz.controller.CommonController.clickSession(com.ce.krf.biz.model.ClickLogVO)
+2017-07-18 11:34:02,245 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/index]}" onto public java.lang.String com.ce.krf.biz.controller.SamplePageController.navigate(org.springframework.ui.Model)
+2017-07-18 11:34:02,245 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloGet/{ptNo}],methods=[GET],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloGet(java.lang.String)
+2017-07-18 11:34:02,245 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloPost/{ptNo}],methods=[POST],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloPost(java.lang.String)
+2017-07-18 11:34:02,245 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-07-18 11:34:02,245 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-18 11:34:02,308 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5f354bcf: startup date [Tue Jul 18 11:34:00 KST 2017]; root of context hierarchy
+2017-07-18 11:34:02,833 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Registering beans for JMX exposure on startup
+2017-07-18 11:34:02,897 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2017-07-18 11:34:02,897 INFO  [main] com.ce.krf.KrfBizApplication : Started KrfBizApplication in 3.267 seconds (JVM running for 3.957)
+2017-07-18 11:34:19,155 INFO  [http-nio-8080-exec-2] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/krf] : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-07-18 11:34:19,155 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet : FrameworkServlet 'dispatcherServlet': initialization started
+2017-07-18 11:34:19,181 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet : FrameworkServlet 'dispatcherServlet': initialization completed in 26 ms
+2017-07-18 11:34:50,118 WARN  [http-nio-8080-exec-3] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Failed to read HTTP message: org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public com.ce.krf.biz.model.ResultVO com.ce.krf.biz.controller.CommonController.clickSession(com.ce.krf.biz.model.ClickLogVO)
+2017-07-18 11:36:26,831 WARN  [http-nio-8080-exec-5] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Failed to read HTTP message: org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('i' (code 105)): was expecting double-quote to start field name; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character ('i' (code 105)): was expecting double-quote to start field name
+ at [Source: java.io.PushbackInputStream@62effcfe; line: 1, column: 3]
+2017-07-18 11:46:10,617 INFO  [main] com.ce.krf.KrfBizApplication : Starting KrfBizApplication on MSDN-SPECIAL with PID 11112 (F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz\target\classes started by Administrator in F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz)
+2017-07-18 11:46:10,617 INFO  [main] com.ce.krf.KrfBizApplication : The following profiles are active: local
+2017-07-18 11:46:10,679 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7334aada: startup date [Tue Jul 18 11:46:10 KST 2017]; root of context hierarchy
+2017-07-18 11:46:12,102 INFO  [main] org.springframework.beans.factory.xml.XmlBeanDefinitionReader : Loading XML bean definitions from class path resource [META-INF/cxf/cxf.xml]
+2017-07-18 11:46:13,884 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-07-18 11:46:13,900 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2017-07-18 11:46:13,900 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet Engine: Apache Tomcat/8.5.15
+2017-07-18 11:46:14,137 INFO  [localhost-startStop-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/krf] : Initializing Spring embedded WebApplicationContext
+2017-07-18 11:46:14,137 INFO  [localhost-startStop-1] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 3473 ms
+2017-07-18 11:46:14,262 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:46:14,262 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:46:14,262 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:46:14,309 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'dispatcherServlet' to [/]
+2017-07-18 11:46:14,309 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'CXFServlet' to [/services/*]
+2017-07-18 11:46:14,309 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-07-18 11:46:14,935 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/chart/getRWMDT/{siteCd}],methods=[GET],consumes=[application/json],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.ChartController.getRWMDT(java.lang.String)
+2017-07-18 11:46:14,935 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/common/clickSession],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public com.ce.krf.biz.model.ResultVO com.ce.krf.biz.controller.CommonController.clickSession(com.ce.krf.biz.model.ClickLogVO)
+2017-07-18 11:46:14,935 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/index]}" onto public java.lang.String com.ce.krf.biz.controller.SamplePageController.navigate(org.springframework.ui.Model)
+2017-07-18 11:46:14,935 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloGet/{ptNo}],methods=[GET],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloGet(java.lang.String)
+2017-07-18 11:46:14,935 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloPost/{ptNo}],methods=[POST],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloPost(java.lang.String)
+2017-07-18 11:46:14,935 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-07-18 11:46:14,935 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-18 11:46:14,982 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7334aada: startup date [Tue Jul 18 11:46:10 KST 2017]; root of context hierarchy
+2017-07-18 11:46:15,388 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Registering beans for JMX exposure on startup
+2017-07-18 11:46:15,451 ERROR [main] org.apache.coyote.http11.Http11NioProtocol : Failed to start end point associated with ProtocolHandler ["http-nio-8080"]
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:978)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:628)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.ce.krf.KrfBizApplication.main(KrfBizApplication.java:39)
+2017-07-18 11:46:15,451 ERROR [main] org.apache.catalina.core.StandardService : Failed to start connector [Connector[HTTP/1.1-8080]]
+org.apache.catalina.LifecycleException: Failed to start component [Connector[HTTP/1.1-8080]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:167)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.ce.krf.KrfBizApplication.main(KrfBizApplication.java:39)
+Caused by: org.apache.catalina.LifecycleException: service.getName(): "Tomcat";  Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1029)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	... 13 common frames omitted
+Caused by: java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:978)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:628)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022)
+	... 14 common frames omitted
+2017-07-18 11:46:15,498 INFO  [main] org.apache.catalina.core.StandardService : Stopping service [Tomcat]
+2017-07-18 11:46:15,529 INFO  [main] org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer : 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2017-07-18 11:46:15,544 ERROR [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 8080 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 8080, or configure this application to listen on another port.
+
+2017-07-18 11:46:15,544 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7334aada: startup date [Tue Jul 18 11:46:10 KST 2017]; root of context hierarchy
+2017-07-18 11:46:15,544 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Unregistering JMX-exposed beans on shutdown
+2017-07-18 11:46:51,169 INFO  [main] com.ce.krf.KrfBizApplication : Starting KrfBizApplication on MSDN-SPECIAL with PID 10448 (F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz\target\classes started by Administrator in F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz)
+2017-07-18 11:46:51,169 INFO  [main] com.ce.krf.KrfBizApplication : The following profiles are active: local
+2017-07-18 11:46:51,215 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7334aada: startup date [Tue Jul 18 11:46:51 KST 2017]; root of context hierarchy
+2017-07-18 11:46:51,654 INFO  [main] org.springframework.beans.factory.xml.XmlBeanDefinitionReader : Loading XML bean definitions from class path resource [META-INF/cxf/cxf.xml]
+2017-07-18 11:46:52,321 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-07-18 11:46:52,321 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2017-07-18 11:46:52,321 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet Engine: Apache Tomcat/8.5.15
+2017-07-18 11:46:52,399 INFO  [localhost-startStop-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/krf] : Initializing Spring embedded WebApplicationContext
+2017-07-18 11:46:52,399 INFO  [localhost-startStop-1] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 1199 ms
+2017-07-18 11:46:52,493 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:46:52,493 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:46:52,493 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:46:52,540 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'dispatcherServlet' to [/]
+2017-07-18 11:46:52,540 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'CXFServlet' to [/services/*]
+2017-07-18 11:46:52,540 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-07-18 11:46:52,898 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/chart/getRWMDT/{siteCd}],methods=[GET],consumes=[application/json],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.ChartController.getRWMDT(java.lang.String)
+2017-07-18 11:46:52,914 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/common/clickSession],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public com.ce.krf.biz.model.ResultVO com.ce.krf.biz.controller.CommonController.clickSession(com.ce.krf.biz.model.ClickLogVO)
+2017-07-18 11:46:52,914 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/index]}" onto public java.lang.String com.ce.krf.biz.controller.SamplePageController.navigate(org.springframework.ui.Model)
+2017-07-18 11:46:52,914 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloGet/{ptNo}],methods=[GET],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloGet(java.lang.String)
+2017-07-18 11:46:52,914 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloPost/{ptNo}],methods=[POST],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloPost(java.lang.String)
+2017-07-18 11:46:52,914 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-07-18 11:46:52,914 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-18 11:46:52,962 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7334aada: startup date [Tue Jul 18 11:46:51 KST 2017]; root of context hierarchy
+2017-07-18 11:46:53,289 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Registering beans for JMX exposure on startup
+2017-07-18 11:46:53,305 ERROR [main] org.apache.coyote.http11.Http11NioProtocol : Failed to start end point associated with ProtocolHandler ["http-nio-8080"]
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:978)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:628)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.ce.krf.KrfBizApplication.main(KrfBizApplication.java:39)
+2017-07-18 11:46:53,305 ERROR [main] org.apache.catalina.core.StandardService : Failed to start connector [Connector[HTTP/1.1-8080]]
+org.apache.catalina.LifecycleException: Failed to start component [Connector[HTTP/1.1-8080]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:167)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.ce.krf.KrfBizApplication.main(KrfBizApplication.java:39)
+Caused by: org.apache.catalina.LifecycleException: service.getName(): "Tomcat";  Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1029)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	... 13 common frames omitted
+Caused by: java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:978)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:628)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022)
+	... 14 common frames omitted
+2017-07-18 11:46:53,321 INFO  [main] org.apache.catalina.core.StandardService : Stopping service [Tomcat]
+2017-07-18 11:46:53,321 INFO  [main] org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer : 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2017-07-18 11:46:53,321 ERROR [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 8080 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 8080, or configure this application to listen on another port.
+
+2017-07-18 11:46:53,321 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7334aada: startup date [Tue Jul 18 11:46:51 KST 2017]; root of context hierarchy
+2017-07-18 11:46:53,336 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Unregistering JMX-exposed beans on shutdown
+2017-07-18 11:47:32,069 INFO  [main] com.ce.krf.KrfBizApplication : Starting KrfBizApplication on MSDN-SPECIAL with PID 8108 (F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz\target\classes started by Administrator in F:\PARKHYEOK\ALL_WORKSPACES\SPRING_WORKSPACE\KRF_Biz)
+2017-07-18 11:47:32,085 INFO  [main] com.ce.krf.KrfBizApplication : The following profiles are active: local
+2017-07-18 11:47:32,132 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5f354bcf: startup date [Tue Jul 18 11:47:32 KST 2017]; root of context hierarchy
+2017-07-18 11:47:32,665 INFO  [main] org.springframework.beans.factory.xml.XmlBeanDefinitionReader : Loading XML bean definitions from class path resource [META-INF/cxf/cxf.xml]
+2017-07-18 11:47:33,431 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-07-18 11:47:33,447 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2017-07-18 11:47:33,447 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet Engine: Apache Tomcat/8.5.15
+2017-07-18 11:47:33,510 INFO  [localhost-startStop-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/krf] : Initializing Spring embedded WebApplicationContext
+2017-07-18 11:47:33,510 INFO  [localhost-startStop-1] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 1378 ms
+2017-07-18 11:47:33,636 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:47:33,636 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:47:33,636 WARN  [localhost-startStop-1] org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class org.apache.cxf.spring.boot.autoconfigure.CxfProperties contains validation constraints but had not been annotated with @Validated.
+2017-07-18 11:47:33,683 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'dispatcherServlet' to [/]
+2017-07-18 11:47:33,683 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean : Mapping servlet: 'CXFServlet' to [/services/*]
+2017-07-18 11:47:33,698 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-07-18 11:47:34,167 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/chart/getRWMDT/{siteCd}],methods=[GET],consumes=[application/json],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.ChartController.getRWMDT(java.lang.String)
+2017-07-18 11:47:34,167 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/common/clickSession],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public com.ce.krf.biz.model.ResultVO com.ce.krf.biz.controller.CommonController.clickSession(com.ce.krf.biz.model.ClickLogVO)
+2017-07-18 11:47:34,167 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/index]}" onto public java.lang.String com.ce.krf.biz.controller.SamplePageController.navigate(org.springframework.ui.Model)
+2017-07-18 11:47:34,167 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloGet/{ptNo}],methods=[GET],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloGet(java.lang.String)
+2017-07-18 11:47:34,167 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/biz/helloPost/{ptNo}],methods=[POST],produces=[application/json]}" onto public java.util.Map<java.lang.String, java.lang.Object> com.ce.krf.biz.controller.SampleRestController.helloPost(java.lang.String)
+2017-07-18 11:47:34,167 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-07-18 11:47:34,167 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-18 11:47:34,245 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5f354bcf: startup date [Tue Jul 18 11:47:32 KST 2017]; root of context hierarchy
+2017-07-18 11:47:34,777 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Registering beans for JMX exposure on startup
+2017-07-18 11:47:34,809 ERROR [main] org.apache.coyote.http11.Http11NioProtocol : Failed to start end point associated with ProtocolHandler ["http-nio-8080"]
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:978)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:628)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.ce.krf.KrfBizApplication.main(KrfBizApplication.java:39)
+2017-07-18 11:47:34,825 ERROR [main] org.apache.catalina.core.StandardService : Failed to start connector [Connector[HTTP/1.1-8080]]
+org.apache.catalina.LifecycleException: Failed to start component [Connector[HTTP/1.1-8080]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:167)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250)
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.ce.krf.KrfBizApplication.main(KrfBizApplication.java:39)
+Caused by: org.apache.catalina.LifecycleException: service.getName(): "Tomcat";  Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1029)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	... 13 common frames omitted
+Caused by: java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.Net.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)
+	at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:978)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:628)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022)
+	... 14 common frames omitted
+2017-07-18 11:47:34,825 INFO  [main] org.apache.catalina.core.StandardService : Stopping service [Tomcat]
+2017-07-18 11:47:34,840 INFO  [main] org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer : 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2017-07-18 11:47:34,840 ERROR [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 8080 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 8080, or configure this application to listen on another port.
+
+2017-07-18 11:47:34,840 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5f354bcf: startup date [Tue Jul 18 11:47:32 KST 2017]; root of context hierarchy
+2017-07-18 11:47:34,840 INFO  [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter : Unregistering JMX-exposed beans on shutdown

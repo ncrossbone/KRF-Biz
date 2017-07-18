@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.ce.krf.biz.mapper.CommonMapper;
+import com.ce.krf.biz.model.ClickLogVO;
 import com.ce.krf.biz.model.ExcelDownloadVO;
 import com.ce.krf.biz.util.HTTPConnector;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +29,7 @@ public class CommonService {
 
 	@Autowired
 	public CommonMapper commonMapper;
-
+	
 	@Value("${print.img.path}")
 	public String imgPath;
 
@@ -112,5 +113,10 @@ public class CommonService {
 			sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
 		}
 		return sb.toString();
+	}
+	
+	public int clickSession(ClickLogVO clickLogVO) {
+		// TODO Auto-generated method stub
+		return commonMapper.clickSession(clickLogVO);
 	}
 }
