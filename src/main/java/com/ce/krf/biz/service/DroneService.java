@@ -1,11 +1,15 @@
 package com.ce.krf.biz.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ce.krf.biz.mapper.DroneMapper;
+import com.ce.krf.biz.model.DroneVO;
 
 @Component
 public class DroneService {
@@ -14,4 +18,24 @@ public class DroneService {
 	
 	@Autowired
 	public DroneMapper droneMapper;
+	
+	public List getRWMDT(String siteCodes, String measureDate, String layerDate) {
+		DroneVO param = new DroneVO();
+		
+		param.setSiteCodes(siteCodes.split(","));
+		param.setMeasureDate(measureDate);
+		param.setLayerDate(layerDate);
+		List<HashMap> rwmdtList = droneMapper.getRWMDT(param);
+		for(int i=0; i<rwmdtList.size(); i++) {
+			HashMap rwmdt = rwmdtList.get(i);
+			if("-".equals(rwmdt.get("WMCYMD"))) {
+				param.setPtNo((String)rwmdt.get("PT_NO"));
+				List<HashMap> rwmdtSubList = droneMapper.getSubRWMDT(param);
+				if(rwmdtSubList.size()>0) {
+					rwmdt = rwmdtSubList.get(rwmdtSubList.size()-1);
+				}
+			}
+		}
+		return rwmdtList;
+	}
 }

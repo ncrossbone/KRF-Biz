@@ -16,6 +16,51 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.DroneMapper">
     <select id="getRWMDT" resultType="hashmap" parameterType="com.ce.krf.biz.model.DroneVO">
-    
+     WITH SCODE AS (
+    	<foreach collection="siteCodes" item="item" separator="UNION">
+    	  SELECT #{item} AS PT_NO FROM DUAL 
+    	</foreach>
+    	 )
+	SELECT /* KRF-BIZ.DroneMapper.getRWMDT */
+	       SCODE.PT_NO,
+	       NVL (TO_CHAR (TO_DATE (SDATA.WMCYMD, 'YYYYMMDD'), 'YYYY-MM-DD'), '-') AS WMCYMD,
+	       NVL (TO_CHAR (SDATA.ITEM_SURFACE_CLOA), '-') AS ITEM_SURFACE_CLOA,
+	       NVL (TO_CHAR (SDATA.ITEM_TEMP_SURF), '-') AS ITEM_TEMP_SURF,
+	       NVL (TO_CHAR (SDATA.ITEM_BLUE_GREEN_ALGAE), '-') AS ITEM_BLUE_GREEN_ALGAE
+	  FROM SCODE,
+	       (SELECT AA.*
+	          FROM (SELECT A.PT_NO,
+	                       REPLACE (B.WMCYMD, '.', '') AS WMCYMD,
+	                       A.ITEM_SURFACE_CLOA,
+	                       A.ITEM_TEMP_SURF,
+	                       A.ITEM_BLUE_GREEN_ALGAE
+	                  FROM AG_RWMDTI_NEW_DRONE A, AG_RWMDTD_DRONE B
+	                 WHERE A.PT_NO = B.PT_NO
+	                   AND A.WMYR = B.WMYR
+	                   AND A.WMOD = B.WMOD
+	                   AND A.WMWK = B.WMWK) AA
+	         WHERE AA.PT_NO IN <foreach collection="siteCodes" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	           AND AA.WMCYMD <![CDATA[ >= ]]> (SELECT TO_CHAR(TRUNC(TO_DATE(REPLACE(#{layerDate}, '-', ''), 'yyyymmdd'), 'IW'), 'YYYYMMDD') AS STARTDT FROM DUAL)
+	           AND AA.WMCYMD <![CDATA[ <= ]]> (SELECT TO_CHAR(TRUNC(TO_DATE(REPLACE(#{layerDate}, '-', ''), 'yyyymmdd'), 'IW') + 6, 'YYYYMMDD') AS ENDDT FROM DUAL)
+	     ) SDATA
+	   WHERE SCODE.PT_NO = SDATA.PT_NO(+)
     </select>
+    <select  id="getSubRWMDT" resultType="hashmap" parameterType="com.ce.krf.biz.model.DroneVO">
+    SELECT A.PT_NO,
+	       NVL ( TO_CHAR (TO_DATE (REPLACE (B.WMCYMD, '.', ''), 'YYYYMMDD'), 'YYYY-MM-DD'), '-') AS WMCYMD,
+	       NVL (TO_CHAR (A.ITEM_SURFACE_CLOA), '-') AS ITEM_SURFACE_CLOA,
+	       NVL (TO_CHAR (A.ITEM_TEMP_SURF), '-') AS ITEM_TEMP_SURF,
+	       NVL (TO_CHAR (A.ITEM_BLUE_GREEN_ALGAE), '-') AS ITEM_BLUE_GREEN_ALGAE
+	  FROM AG_RWMDTI_NEW_DRONE A, AG_RWMDTD_DRONE B
+	 WHERE     A.PT_NO = B.PT_NO
+       AND A.WMYR = B.WMYR
+       AND A.WMOD = B.WMOD
+       AND A.WMWK = B.WMWK
+       AND A.PT_NO = #{ptNo}
+       AND B.WMCYMD =  (SELECT MAX (WMCYMD)
+	                      FROM AG_RWMDTD_DRONE
+	                     WHERE PT_NO = #{ptNo}
+	                       AND REPLACE (WMCYMD, '.', '') <![CDATA[ <= ]]> (SELECT TO_CHAR (TRUNC (TO_DATE (REPLACE (#{layerDate}, '-', ''),'yyyymmdd'),'IW')+ 6,'YYYYMMDD')AS ENDDT FROM DUAL))
+    </select>
+    
 </mapper>

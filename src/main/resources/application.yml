@@ -20,8 +20,8 @@ spring:
     async:
       request-timeout: 60000
   datasource:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:thin:@112.217.167.123:31521:orcl
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@112.217.167.123:31521:orcl
     username: WATER
     password: WATER
 logging: 

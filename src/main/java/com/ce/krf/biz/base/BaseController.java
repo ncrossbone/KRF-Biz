@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class BaseController {
 	
 	@Autowired
@@ -12,4 +14,7 @@ public class BaseController {
 	
 	@Autowired
 	public HttpServletResponse response;
+	
+	public ObjectMapper om = new ObjectMapper();
+	
 }
