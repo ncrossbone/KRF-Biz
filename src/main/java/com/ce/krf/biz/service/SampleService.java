@@ -1,8 +1,15 @@
 package com.ce.krf.biz.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.ce.krf.biz.mapper.SampleMapper;
 import com.ce.krf.biz.model.ClickLogVO;
+import com.ce.krf.biz.model.ExcelDownloadVO;
 import com.ce.krf.biz.model.SampleVO;
 
 // @Component 어노테이션 해야 Autowired 를 하여 사용 할 수 있다.
@@ -55,5 +63,20 @@ public class SampleService {
 			}
 		}
 		return sampleMapper.putClickLogs(logInfo)+"";
+	}
+	public void excelSample(ExcelDownloadVO excelVo, ServletOutputStream servletOutputStream) {
+	}
+	
+	public void httpSample() throws IOException {
+		URL url = new URL("");
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setDoOutput(true);
+		conn.setRequestProperty("Context-Type", "application/x-www-form-urlencoded");
+		int status = conn.getResponseCode();
+		// 성공
+		if(status == 200) {
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		}
 	}
 }
