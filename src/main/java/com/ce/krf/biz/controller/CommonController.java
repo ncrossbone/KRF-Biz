@@ -91,7 +91,7 @@ public class CommonController extends BaseController {
 		return result;
 	}
 	
-	@GetMapping(value = "/getLabelLayerAdmin", consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/getLabelLayerAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> getLabelLayerAdmin(){
 		return commonService.getLabelLayerAdmin();
 	}

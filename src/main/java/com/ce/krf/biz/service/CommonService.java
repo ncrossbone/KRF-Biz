@@ -131,6 +131,6 @@ public class CommonService {
 		result.put("tpDatas", commonMapper.getLabelLayerAdmin("ITEM_TP"));
 		result.put("tempDatas", commonMapper.getLabelLayerAdmin("ITEM_TEMP"));
 		
-		return null;
+		return result;
 	}
 }

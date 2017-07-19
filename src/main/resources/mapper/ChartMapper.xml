@@ -22,4 +22,234 @@
     	  FROM KRF_SITEINFO 
     	  WHERE SITE_CD = #{siteCd}
     </select>
+    
+    <select id="getRWMDTSelectA" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	     WITH TMP_TBL AS (
+	    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelectA */
+	    		   RANK( ) OVER(PARTITION BY A.PT_NO||ITEM_NAME
+	        	   ORDER BY WMCYMD DESC) RN ,
+			       A.PT_NO,
+			       PT_NM,
+			       A.WMYR,
+			       A.WMOD,
+			       WMWK,
+			       WMCYMD,
+			       ITEM_NAME ,
+	          CASE
+	               WHEN SUBSTR(ITEM_VALUE, 1, 1) = '.' THEN 0||ITEM_VALUE
+	               ELSE ITEM_VALUE
+	               END ITEM_VALUE
+	          FROM (
+	        			SELECT PT_NO,
+	          				   WMYR,
+	                           WMOD,
+	                           WMCD ,
+	                      CASE
+			                   WHEN ITCD = '1052' THEN 'ITEM_BOD'
+			                   WHEN ITCD = '1054' THEN 'ITEM_DOC'
+			                   WHEN ITCD = '1049' THEN 'ITEM_COD'
+			                   WHEN ITCD = '1055' THEN 'ITEM_TN'
+			                   WHEN ITCD = '1056' THEN 'ITEM_TP'
+			                   WHEN ITCD = '1060' THEN 'ITEM_TEMP'
+			                   WHEN ITCD = '1039' THEN 'ITEM_PH'
+			                   WHEN ITCD = '1053' THEN 'ITEM_SS'
+			                   WHEN ITCD = '1063' THEN 'ITEM_CLOA'
+	                  	   END ITEM_NAME ,
+	                           TO_CHAR(WMVL) AS ITEM_VALUE ,
+	          				   TO_CHAR(WMVL) AS ITEM_VALUE_1
+	                      FROM TW_RWMDT
+	                     WHERE ITCD IN ('1052',
+	                                    '1054',
+						                '1049',
+						                '1055',
+						                '1056',
+						                '1060',
+						                '1039',
+						                '1053',
+						                '1063') 
+			        ) A ,
+	            RWMPT B ,
+	               (
+	        		    SELECT DISTINCT PT_NO ,
+					           WMYR ,
+					           WMOD ,
+					           SUBSTR(WMWK, 1, 1)||'회차' AS WMWK ,
+					           WMCYMD
+	                      FROM RWMDTD 
+	               ) C
+					     WHERE A.PT_NO = B.PT_NO
+					       AND A.PT_NO = C.PT_NO
+					       AND A.WMYR = C.WMYR
+					       AND A.WMOD = C.WMOD
+					       AND A.WMCD = SUBSTR(C.WMWK, 1, 1)
+					       AND C.WMCYMD IS NOT NULL
+					       AND A.PT_NO = #{recordId}
+					       <if test="defaultChart != null and defaultChart == 0">
+   		       	   			   AND A.WMYR||A.WMOD BETWEEN #{preFullDate} AND #{nextFullDate} 
+  			   			   </if>
+					       AND ITEM_NAME = #{selectItem}
+					       AND ITEM_VALUE IS NOT NULL
+					  ORDER BY WMCYMD, ITEM_NAME
+					)
+	SELECT RN,
+	       PT_NO,
+	       PT_NM,
+	       WMYR,
+	       WMOD,
+	  	   WMWK,
+	       WMCYMD,
+	       ITEM_NAME,
+	       TO_NUMBER(ITEM_VALUE) AS ITEM_VALUE ,
+	       REPLACE(ITEM_VALUE, '999999999', '정량한계미만' ) AS ITEM_VALUE_1
+	  FROM (
+	          SELECT *
+	            FROM TMP_TBL
+	 		   <if test="defaultChart != null and defaultChart == 1">
+   		       	   WHERE <![CDATA[ RN <= 10 ]]> 
+  			   </if>
+	        ORDER BY WMCYMD
+	       )
+	UNION ALL
+	SELECT 999 as RN,
+	  '',
+	  '',
+	  '',
+	  '',
+	  '',
+	  '',
+	  '',
+	  MAX(TO_NUMBER(REPLACE(TO_NUMBER(ITEM_VALUE), 999999999, 0))) + MAX(TO_NUMBER(REPLACE(TO_NUMBER(ITEM_VALUE), 999999999, 0))) / 10,
+	  ''
+	FROM TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1">
+   		WHERE <![CDATA[ RN <= 10 ]]> 
+  	</if>
+   
+    
+    </select>
+    
+    <select id="getRWMDTSelectB" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	     WITH TMP_TBL AS (
+	     					/* KRF-BIZ.ChartMapper.getRWMDTSelectB */
+    						SELECT RANK() OVER(PARTITION BY FACT_CODE||WAST_NO||ITEM_NAME
+        						   ORDER BY BASE_TIME DESC) RN,
+      						       FACT_CODE AS PT_NO ,
+ 								   /* 사업장코드 */FACT_NAME AS PT_NM ,
+ 								   /* 사업장명 */WAST_NO ,
+ 								   /* 방류구번호 */SUBSTR(BASE_TIME, 1, 4)||'.'||SUBSTR(BASE_TIME, 5, 2)||'.'||SUBSTR(BASE_TIME, 7, 2) AS WMCYMD ,
+ 								   /* 측정일자 */ITEM_NAME,
+        						   TO_NUMBER(ITEM_VALUE) AS ITEM_VALUE
+                              FROM (
+        								SELECT DISTINCT A.ADM_CD,
+          									   A.BASE_TIME,
+          									   A.WAST_NO,
+          									   A.FACT_CODE,
+          									   A.FACT_NAME,
+                                          CASE
+							                   WHEN A.ITEM_CODE = 'BOD00' THEN 'ITEM_BOD'
+							                   WHEN A.ITEM_CODE = 'COD00' THEN 'ITEM_COD'
+							                   WHEN A.ITEM_CODE = 'SUS00' THEN 'ITEM_SS'
+							                   WHEN A.ITEM_CODE = 'TON00' THEN 'ITEM_TN'
+							                   WHEN A.ITEM_CODE = 'TOP00' THEN 'ITEM_TP'
+							                   WHEN A.ITEM_CODE = 'PHY00' THEN 'ITEM_PH'
+							                   WHEN A.ITEM_CODE = 'FLW01' THEN 'ITEM_FLW'
+							                   WHEN A.ITEM_CODE = 'TOC00' THEN 'ITEM_TOC'
+                    					  ELSE NULL
+                  						   END ITEM_NAME,
+          									   A.HOUR_VL AS ITEM_VALUE,
+                                               A.FACT_KIND,
+                                               A.FACT_KIND_NAME,
+                                               A.FACT_CAPACITY
+        								  FROM (
+            										SELECT A.FACT_CODE,
+											               A.BASE_TIME,
+											               A.WAST_NO,
+											               A.ITEM_CODE,
+                           							  CASE UPPER(A. HOUR_VL)
+                            						  WHEN 'NULL' THEN NULL
+                            						  ELSE A.HOUR_VL
+                          							   END HOUR_VL ,
+              											   A.TRANS_TIME,
+              											   B.FACT_NAME,
+											               B.ADM_CD,
+											               C.FACT_KIND,
+											               F.FACT_KIND_NAME,
+											               TO_NUMBER( C.FACT_CAPACITY) FACT_CAPACITY,
+											               C.FACT_BUSINESS,
+											               D.RIVER_CODE ,
+											               E.NAME RIVER_NAME
+											          FROM TMS_HOURDATA A,
+											               WTMSC_FACT_WAST_TEMP B,
+											               WTMSC_FACT C,
+											               WTMSC_FACT_WAST D,
+											               WTMSC_RIVER E,
+											               WTMSC_FACT_KIND F
+            										 WHERE A.FACT_CODE = B.FACT_CODE
+										               AND A.WAST_NO = B.WAST_NO
+										               AND A.FACT_CODE = C.FACT_CODE
+										               AND A.FACT_CODE = D.FACT_CODE
+										               AND A.WAST_NO = D.WAST_NO
+										               AND D.WAST_USED = 'Y'
+										               AND D.RIVER_CODE = E.CODE(+)
+										               AND C.FACT_KIND = F.FACT_KIND(+) 
+										         ) A,
+                                    (
+							            SELECT DISTINCT A.ITEM_ORDER,
+							                   A.ITEM_CODE,
+								               A.ITEM_NAME,
+								               A .ITEM_MNAME,
+								               A.ITEM_UNIT_CODE ,
+								               A.COL_NAME,
+								               A.TWTMS_CODE,
+								               A.ITEM_USED,
+								               A.LEVY_FLAG,
+								               A.EX_LEVY_FLAG,
+								               A.ITEM_DP,
+								               A.MEAS_KIND_CODE,
+								               A.ITEM_KIND_CODE,
+								               A.MEAS_KIND_CODE_SECOND,
+								               A.ITEM_DP2,
+								               B.ITEM_UNIT
+							             FROM WTMSC_ITEM A,
+							                  WTMSC_CODE B
+							            WHERE A.ITEM_UNIT_CODE = B.ITEM_UNIT_CODE
+							              AND A.ITEM_USED = 'Y' 
+							        ) B
+						WHERE A.ITEM_CODE = B.ITEM_CODE 
+					)
+		    WHERE 1=1
+				<if test="defaultChart != null and defaultChart == 0">
+					 <![CDATA[ AND SUBSTR(BASE_TIME, 1, 6) >= #{preFullDate} ]]>
+					 <![CDATA[ AND SUBSTR(BASE_TIME, 1, 6) <= #{nextFullDate} ]]>
+				</if>
+		      AND FACT_CODE = #{recordId}
+		      AND ITEM_NAME = #{selectItem}
+		      AND ITEM_VALUE IS NOT NULL
+		    ORDER BY ROWNUM DESC 
+		   )
+SELECT RN,
+	   PT_NO,
+	   PT_NM,
+	   WAST_NO,
+	   WMCYMD,
+	   ITEM_NAME,
+	   ITEM_VALUE
+ FROM (
+    SELECT *
+      FROM TMP_TBL
+     <if test="defaultChart != null and defaultChart == 1">
+   		 WHERE <![CDATA[ RN <= 10 ]]> 
+  	 </if>    
+  ORDER BY ROWNUM DESC 
+    )
+UNION ALL
+   SELECT 9999 AS RN,
+          '',
+		  '',
+		  '',
+		  '',
+		  '',
+		  MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10
+	 FROM TMP_TBL 
+    </select>
 </mapper>
