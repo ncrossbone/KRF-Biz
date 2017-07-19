@@ -36,7 +36,7 @@ public class PollutionController extends BaseController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return "error";
+			return e.getMessage();
 		}
 	}
 }
