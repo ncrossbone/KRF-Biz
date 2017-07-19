@@ -46,7 +46,8 @@
 	   WHERE SCODE.PT_NO = SDATA.PT_NO(+)
     </select>
     <select  id="getSubRWMDT" resultType="hashmap" parameterType="com.ce.krf.biz.model.DroneVO">
-    SELECT A.PT_NO,
+    SELECT /* KRF-BIZ.DroneMapper.getSubRWMDT */ 
+           A.PT_NO,
 	       NVL ( TO_CHAR (TO_DATE (REPLACE (B.WMCYMD, '.', ''), 'YYYYMMDD'), 'YYYY-MM-DD'), '-') AS WMCYMD,
 	       NVL (TO_CHAR (A.ITEM_SURFACE_CLOA), '-') AS ITEM_SURFACE_CLOA,
 	       NVL (TO_CHAR (A.ITEM_TEMP_SURF), '-') AS ITEM_TEMP_SURF,
