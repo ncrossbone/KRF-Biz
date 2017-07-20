@@ -16,4 +16,12 @@ public interface ChartMapper {
 	public List getRWMDTSelectD002(ChartVO param);
 	public List getRWMDTSelectD003(ChartVO param);
 	public List getRWMDTSelectD004(ChartVO param);
+	public List getRWMDTSelectD005(ChartVO param);
+	public List getRWMDTSelectD006(ChartVO param);
+	public List getRWMDTSelectD007(ChartVO param);
+	
+	public List getRWMDTSelectF_1(ChartVO param);
+	public List getRWMDTSelectF_2(ChartVO param);
+	public List getRWMDTSelectF_3(ChartVO param);
+	public List getRWMDTSelectF_4(ChartVO param);
 }
