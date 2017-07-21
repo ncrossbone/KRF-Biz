@@ -16,7 +16,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.SearchResultMapper">
     <select id="searchResult_A" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-    	SELECT RN,
+  SELECT /* KRF-BIZ.SearchResultMapper.searchResult_A */
+         RN,
          RN_2,
          PT_NO,
          PT_NM,
@@ -705,37 +706,34 @@ ORDER BY PT_NO, RN, RN_2 DESC
     	
     </select>
     <select id="searchResult_A_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-    	SELECT '99999' AS RN , max(wmyr||'.'||wmod) as END  FROM RWMDTI_NEW WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+    	SELECT /* KRF-BIZ.SearchResultMapper.searchResult_A_getDate */ 
+    	       '99999' AS RN 
+    	       ,MAX(WMYR||'.'||WMOD) AS END  
+    	  FROM  RWMDTI_NEW 
+    	 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
     </select>
     
-    
-    
     <select id="searchResult_B_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-	    SELECT SUBSTR(MAX(BASE_TIME),0,4) AS YEAR , 
+	    SELECT /* KRF-BIZ.SearchResultMapper.searchResult_B_getDate */ 
+	           SUBSTR(MAX(BASE_TIME),0,4) AS YEAR , 
 	    	   SUBSTR(MAX(BASE_TIME),5,2) AS MONTH ,
 	    	   SUBSTR(MAX(BASE_TIME),7,2) AS DAY ,
 	       	   MAX(BASE_TIME) AS WMCYMD 
-			FROM   TMS_HOURDATA 
-		  WHERE  FACT_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	      FROM TMS_HOURDATA 
+		 WHERE FACT_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
     </select>
     
     <select id="searchResult_B" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-    
-    /* Formatted on 2017-07-19 오후 4:57:59 (QP5 v5.136.908.31019) */
-           SELECT A.RN,
-                  A.WS_NM                                             /* 히든 */
-                         ,
-                  A.AM_NM                                             /* 히든 */
-                         ,
-                  A.AS_NM                                             /* 히든 */
-                         ,
+           SELECT /* KRF-BIZ.SearchResultMapper.searchResult_B */ 
+                  A.RN,
+                  A.WS_NM,
+                  A.AM_NM,
+                  A.AS_NM,
                   A.PT_NO,
                   A.PT_NM,
                   A.WAST_NO,
-                  A.FACT_KIND_NAME                                    /* 히든 */
-                                  ,
-                  A.FACT_CAPACITY                                     /* 히든 */
-                                 ,
+                  A.FACT_KIND_NAME,
+                  A.FACT_CAPACITY,
                   A.WMCYMD AS WMCYMD,
                   B.WMCYMD AS CHART_DATE,
                   A.BOD AS CURR_BOD,
@@ -754,12 +752,9 @@ ORDER BY PT_NO, RN, RN_2 DESC
                   B.FLW AS CHART_FLW,
                   A.TOC AS CURR_TOC,
                   B.TOC AS CHART_TOC,
-                  A.DO_NM                                             /* 히든 */
-                         ,
-                  A.CTY_NM                                            /* 히든 */
-                          ,
-                  A.DONG_NM                                           /* 히든 */
-                           ,
+                  A.DO_NM,
+                  A.CTY_NM,
+                  A.DONG_NM,
                   A.RI_NM                                             /* 히든 */
              FROM (                       SELECT RANK ()
                                                     OVER (PARTITION BY A.FACT_CODE, A.WAST_NO
@@ -1030,8 +1025,7 @@ ORDER BY PT_NO, RN, RN_2 DESC
     
     <!-- 수질자동측정지점 - 미확정 -->
     <select id="searchResult_B001" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-    
-    	WITH TBL_TEMP 
+   	WITH TBL_TEMP 
      AS (SELECT RIVER_ID, 
                 SITE_NAME, 
                 MSR_DATE, 
@@ -1586,7 +1580,8 @@ ORDER BY PT_NO, RN, RN_2 DESC
          GROUP  BY RIVER_ID, 
                    SITE_NAME, 
                    MSR_DATE) 
-SELECT RIVER_ID, 
+SELECT /* KRF-BIZ.SearchResultMapper.searchResult_B001 */ 
+       RIVER_ID, 
        SITE_NAME, 
        MSR_DATE, 
        CASE 
@@ -1674,7 +1669,7 @@ ORDER  BY RIVER_ID,
     <!-- 수질자동측정지점 - 확정 -->
     <select id="searchResult_B001_Fix" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
     
-    	WITH TBL_TEMP 
+    WITH TBL_TEMP 
      AS (SELECT RIVER_ID, 
                 SITE_NAME, 
                 MSR_DATE, 

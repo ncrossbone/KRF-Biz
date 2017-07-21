@@ -18,6 +18,7 @@ public class SearchResultVO {
 	private String start = null;
 	private String end = null;
 	
+	private String firstSearch = null;
 	
 	public String getCatDid() {
 		return catDid;
@@ -82,6 +83,12 @@ public class SearchResultVO {
 	}
 	public void setGubun(String gubun) {
 		this.gubun = gubun;
+	}
+	public String getFirstSearch() {
+		return firstSearch;
+	}
+	public void setFirstSearch(String firstSearch) {
+		this.firstSearch = firstSearch;
 	}
 	
 	
