@@ -103,7 +103,7 @@ public class CommonController extends BaseController {
 	 * @Method Name : sessionData
 	 * @return
 	 */
-	@PostMapping(value = "/sessionData", consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/sessionData",consumes = MediaType.ALL_VALUE, produces = MediaType.ALL_VALUE)
 	public ResultVO sessionData() {
 		
 		String ip = request.getRemoteAddr();

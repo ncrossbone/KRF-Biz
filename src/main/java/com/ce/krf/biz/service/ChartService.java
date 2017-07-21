@@ -1,6 +1,7 @@
 package com.ce.krf.biz.service;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,19 +16,20 @@ import com.ce.krf.biz.model.ChartVO;
 
 @Component
 public class ChartService {
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	public ChartMapper chartMapper;
 	
 	
-	public Map<String, Object> getRWMDT(String recordId) {
+	public HashMap getRWMDT(String recordId) {
 		HashMap res = new HashMap<String, Object>();
-		res.put("datas", chartMapper.getRWMDT(recordId));
+		res.put("data", chartMapper.getRWMDT(recordId));
 		return res;
 	}
 	
-	public List getRWMDTSelect(String index,ChartVO param) throws Exception {
+	public HashMap getRWMDTSelect(String index,ChartVO param) throws Exception {
 		
 		if(param.getDefaultChart()!=null && param.getDefaultChart().equals("0")) {
 			param.setPreFullDate(param.getSelectYear() + param.getSelectMonth());
@@ -36,6 +38,10 @@ public class ChartService {
 		
 		Method method = chartMapper.getClass().getMethod("getRWMDTSelect" + index,ChartVO.class);
 		List result = (List) method.invoke(chartMapper,param);
-		return result;
+		HashMap reMap = new HashMap();
+		reMap.put("data", (result.size()>1)? result.subList(0, result.size()-1) : new ArrayList());
+		reMap.put("maxdata", result.subList(result.size()-1, result.size()));
+		return reMap;
 	}
+	
 }
