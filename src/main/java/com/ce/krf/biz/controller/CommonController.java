@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 //github.com/ncrossbone/KRF-Biz.git
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import com.ce.krf.KrfBizApplication;
 import com.ce.krf.biz.base.BaseController;
 import com.ce.krf.biz.model.ClickLogVO;
 import com.ce.krf.biz.model.ExcelDownloadVO;
+import com.ce.krf.biz.model.ImageVO;
 import com.ce.krf.biz.model.ResultVO;
 import com.ce.krf.biz.service.CommonService;
 
@@ -94,5 +96,39 @@ public class CommonController extends BaseController {
 	@GetMapping(value = "/getLabelLayerAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> getLabelLayerAdmin(){
 		return commonService.getLabelLayerAdmin();
+	}
+	
+	/**
+	 * Desc : 접속 IP 로그
+	 * @Method Name : sessionData
+	 * @return
+	 */
+	@PostMapping(value = "/sessionData", consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResultVO sessionData() {
+		
+		String ip = request.getRemoteAddr();
+		
+		ResultVO result = new ResultVO();
+		int cnt = commonService.sessionData(ip);
+		
+		result.setMgs(cnt +"건 저장됨");
+		result.setCode(1);
+		
+		return result;
+	}
+	
+	@PostMapping(value="/imageDelete",consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void imageDelete(@RequestBody ImageVO imageVO) {
+		
+		String[] imgArr = {imageVO.getResultParam(),
+								imageVO.getSvgParam(),
+								imageVO.getPngParam()};
+		
+		try {
+			commonService.imageDelete(imgArr);
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
 	}
 }

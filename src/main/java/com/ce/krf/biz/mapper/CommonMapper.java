@@ -9,4 +9,6 @@ public interface CommonMapper {
 
 	public int clickSession(ClickLogVO clickLogVO);
 	public List<Map<String, Object>> getLabelLayerAdmin(String gubun);
+	
+	public int sessionData(String ip);
 }

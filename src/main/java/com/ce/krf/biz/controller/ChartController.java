@@ -31,8 +31,8 @@ public class ChartController extends BaseController{
 	
 	
 	@GetMapping(value = "/getRWMDT", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, Object> getRWMDT(@RequestParam String siteCd) {
-		return chartService.getRWMDT(siteCd);
+	public Map<String, Object> getRWMDT(@RequestParam String recordId) {
+		return chartService.getRWMDT(recordId);
 	}
 	
 	

@@ -21,9 +21,9 @@ public class ChartService {
 	public ChartMapper chartMapper;
 	
 	
-	public Map<String, Object> getRWMDT(String siteCd) {
+	public Map<String, Object> getRWMDT(String recordId) {
 		HashMap res = new HashMap<String, Object>();
-		res.put("datas", chartMapper.getRWMDT(siteCd));
+		res.put("datas", chartMapper.getRWMDT(recordId));
 		return res;
 	}
 	
