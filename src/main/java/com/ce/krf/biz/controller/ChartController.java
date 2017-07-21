@@ -1,14 +1,12 @@
 package com.ce.krf.biz.controller;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +39,6 @@ public class ChartController extends BaseController{
 			return "error";
 		}
 	}
-	
 	
 	@GetMapping(value = "/getRWMDT_{index}", produces = "text/html; charset=euc-kr")
 	public String pollutionSelect(@PathVariable String index, @ModelAttribute ChartVO param) {
