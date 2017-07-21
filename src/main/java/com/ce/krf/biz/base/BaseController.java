@@ -22,10 +22,10 @@ public class BaseController {
 
 	public String getEuckrString(HashMap src) throws Exception {
 		String res = om.writeValueAsString(src);
-		return new String(res.getBytes(), "EUC-KR");
+		return res; //new String(res.getBytes(), "EUC-KR");
 	}
 
 	public String getEuckrString(String src) throws Exception {
-		return new String(src.getBytes(), "EUC-KR");
+		return src; //new String(src.getBytes(), "EUC-KR");
 	}
 }
