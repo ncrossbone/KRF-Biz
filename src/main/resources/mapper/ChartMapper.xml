@@ -20,7 +20,7 @@
                COL_KOR AS "column",
        		   CONT  AS "cont"
     	  FROM KRF_SITEINFO 
-    	  WHERE SITE_CD = #{siteCd}
+    	  WHERE SITE_CD = #{value}
     </select>
     
     <select id="getRWMDTSelectA" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
