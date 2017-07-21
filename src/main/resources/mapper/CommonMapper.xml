@@ -30,4 +30,21 @@
     	 		              ,#{data}
     	 		              ,#{id})
     </insert>
+    
+    <select id="getLabelLayerAdmin" parameterType="String" resultType="hashmap">
+    	SELECT  /* KRF-BIZ.CommonMapper.getLabelLayerAdmin */
+    			GUBUN,
+    	        PT_NO,
+    	        VAL
+    	  FROM KRF_MAP_VALUE_V_A001
+    	 WHERE GUBUN = #{gubun}
+    </select>
+    
+	<insert id="sessionData" parameterType="String">
+	INSERT INTO KRF_COUNT 
+	            (USER_IP, 
+	             LOGIN_DT) 
+	VALUES     (#{ip}, 
+	            SYSDATE) 
+	</insert>
 </mapper>

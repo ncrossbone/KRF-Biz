@@ -20,6 +20,1476 @@
                COL_KOR AS "column",
        		   CONT  AS "cont"
     	  FROM KRF_SITEINFO 
-    	  WHERE SITE_CD = #{siteCd}
+    	  WHERE SITE_CD = #{recordId}
     </select>
+    
+    <select id="getRWMDTSelectA" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	     WITH TMP_TBL AS (
+	    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelectA */
+	    		   RANK( ) OVER(PARTITION BY A.PT_NO||ITEM_NAME
+	        	   ORDER BY WMCYMD DESC) RN ,
+			       A.PT_NO,
+			       PT_NM,
+			       A.WMYR,
+			       A.WMOD,
+			       WMWK,
+			       WMCYMD,
+			       ITEM_NAME ,
+	          CASE
+	               WHEN SUBSTR(ITEM_VALUE, 1, 1) = '.' THEN 0||ITEM_VALUE
+	               ELSE ITEM_VALUE
+	               END ITEM_VALUE
+	          FROM (
+	        			SELECT PT_NO,
+	          				   WMYR,
+	                           WMOD,
+	                           WMCD ,
+	                      CASE
+			                   WHEN ITCD = '1052' THEN 'ITEM_BOD'
+			                   WHEN ITCD = '1054' THEN 'ITEM_DOC'
+			                   WHEN ITCD = '1049' THEN 'ITEM_COD'
+			                   WHEN ITCD = '1055' THEN 'ITEM_TN'
+			                   WHEN ITCD = '1056' THEN 'ITEM_TP'
+			                   WHEN ITCD = '1060' THEN 'ITEM_TEMP'
+			                   WHEN ITCD = '1039' THEN 'ITEM_PH'
+			                   WHEN ITCD = '1053' THEN 'ITEM_SS'
+			                   WHEN ITCD = '1063' THEN 'ITEM_CLOA'
+	                  	   END ITEM_NAME ,
+	                           TO_CHAR(WMVL) AS ITEM_VALUE ,
+	          				   TO_CHAR(WMVL) AS ITEM_VALUE_1
+	                      FROM TW_RWMDT
+	                     WHERE ITCD IN ('1052',
+	                                    '1054',
+						                '1049',
+						                '1055',
+						                '1056',
+						                '1060',
+						                '1039',
+						                '1053',
+						                '1063') 
+			        ) A ,
+	            RWMPT B ,
+	               (
+	        		    SELECT DISTINCT PT_NO ,
+					           WMYR ,
+					           WMOD ,
+					           SUBSTR(WMWK, 1, 1)||'회차' AS WMWK ,
+					           WMCYMD
+	                      FROM RWMDTD 
+	               ) C
+					     WHERE A.PT_NO = B.PT_NO
+					       AND A.PT_NO = C.PT_NO
+					       AND A.WMYR = C.WMYR
+					       AND A.WMOD = C.WMOD
+					       AND A.WMCD = SUBSTR(C.WMWK, 1, 1)
+					       AND C.WMCYMD IS NOT NULL
+					       AND A.PT_NO = #{recordId}
+					       <if test="defaultChart != null and defaultChart == 0">
+   		       	   			   AND A.WMYR||A.WMOD BETWEEN #{preFullDate} AND #{nextFullDate} 
+  			   			   </if>
+					       AND ITEM_NAME = #{selectItem}
+					       AND ITEM_VALUE IS NOT NULL
+					  ORDER BY WMCYMD, ITEM_NAME
+					)
+	SELECT RN,
+	       PT_NO,
+	       PT_NM,
+	       WMYR,
+	       WMOD,
+	  	   WMWK,
+	       WMCYMD,
+	       ITEM_NAME,
+	       TO_NUMBER(ITEM_VALUE) AS ITEM_VALUE ,
+	       REPLACE(ITEM_VALUE, '999999999', '정량한계미만' ) AS ITEM_VALUE_1
+	  FROM (
+	          SELECT *
+	            FROM TMP_TBL
+	 		   <if test="defaultChart != null and defaultChart == 1">
+   		       	   WHERE <![CDATA[ RN <= 10 ]]> 
+  			   </if>
+	        ORDER BY WMCYMD
+	       )
+	UNION ALL
+	SELECT 999 as RN,
+	  '',
+	  '',
+	  '',
+	  '',
+	  '',
+	  '',
+	  '',
+	  MAX(TO_NUMBER(REPLACE(TO_NUMBER(ITEM_VALUE), 999999999, 0))) + MAX(TO_NUMBER(REPLACE(TO_NUMBER(ITEM_VALUE), 999999999, 0))) / 10,
+	  ''
+	FROM TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1">
+   		WHERE <![CDATA[ RN <= 10 ]]> 
+  	</if>
+   
+    
+    </select>
+    
+    <select id="getRWMDTSelectB" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	     WITH TMP_TBL AS (
+	     					/* KRF-BIZ.ChartMapper.getRWMDTSelectB */
+    						SELECT RANK() OVER(PARTITION BY FACT_CODE||WAST_NO||ITEM_NAME
+        						   ORDER BY BASE_TIME DESC) RN,
+      						       FACT_CODE AS PT_NO ,
+ 								   /* 사업장코드 */FACT_NAME AS PT_NM ,
+ 								   /* 사업장명 */WAST_NO ,
+ 								   /* 방류구번호 */SUBSTR(BASE_TIME, 1, 4)||'.'||SUBSTR(BASE_TIME, 5, 2)||'.'||SUBSTR(BASE_TIME, 7, 2) AS WMCYMD ,
+ 								   /* 측정일자 */ITEM_NAME,
+        						   TO_NUMBER(ITEM_VALUE) AS ITEM_VALUE
+                              FROM (
+        								SELECT DISTINCT A.ADM_CD,
+          									   A.BASE_TIME,
+          									   A.WAST_NO,
+          									   A.FACT_CODE,
+          									   A.FACT_NAME,
+                                          CASE
+							                   WHEN A.ITEM_CODE = 'BOD00' THEN 'ITEM_BOD'
+							                   WHEN A.ITEM_CODE = 'COD00' THEN 'ITEM_COD'
+							                   WHEN A.ITEM_CODE = 'SUS00' THEN 'ITEM_SS'
+							                   WHEN A.ITEM_CODE = 'TON00' THEN 'ITEM_TN'
+							                   WHEN A.ITEM_CODE = 'TOP00' THEN 'ITEM_TP'
+							                   WHEN A.ITEM_CODE = 'PHY00' THEN 'ITEM_PH'
+							                   WHEN A.ITEM_CODE = 'FLW01' THEN 'ITEM_FLW'
+							                   WHEN A.ITEM_CODE = 'TOC00' THEN 'ITEM_TOC'
+                    					  ELSE NULL
+                  						   END ITEM_NAME,
+          									   A.HOUR_VL AS ITEM_VALUE,
+                                               A.FACT_KIND,
+                                               A.FACT_KIND_NAME,
+                                               A.FACT_CAPACITY
+        								  FROM (
+            										SELECT A.FACT_CODE,
+											               A.BASE_TIME,
+											               A.WAST_NO,
+											               A.ITEM_CODE,
+                           							  CASE UPPER(A. HOUR_VL)
+                            						  WHEN 'NULL' THEN NULL
+                            						  ELSE A.HOUR_VL
+                          							   END HOUR_VL ,
+              											   A.TRANS_TIME,
+              											   B.FACT_NAME,
+											               B.ADM_CD,
+											               C.FACT_KIND,
+											               F.FACT_KIND_NAME,
+											               TO_NUMBER( C.FACT_CAPACITY) FACT_CAPACITY,
+											               C.FACT_BUSINESS,
+											               D.RIVER_CODE ,
+											               E.NAME RIVER_NAME
+											          FROM TMS_HOURDATA A,
+											               WTMSC_FACT_WAST_TEMP B,
+											               WTMSC_FACT C,
+											               WTMSC_FACT_WAST D,
+											               WTMSC_RIVER E,
+											               WTMSC_FACT_KIND F
+            										 WHERE A.FACT_CODE = B.FACT_CODE
+										               AND A.WAST_NO = B.WAST_NO
+										               AND A.FACT_CODE = C.FACT_CODE
+										               AND A.FACT_CODE = D.FACT_CODE
+										               AND A.WAST_NO = D.WAST_NO
+										               AND D.WAST_USED = 'Y'
+										               AND D.RIVER_CODE = E.CODE(+)
+										               AND C.FACT_KIND = F.FACT_KIND(+) 
+										         ) A,
+                                    (
+							            SELECT DISTINCT A.ITEM_ORDER,
+							                   A.ITEM_CODE,
+								               A.ITEM_NAME,
+								               A .ITEM_MNAME,
+								               A.ITEM_UNIT_CODE ,
+								               A.COL_NAME,
+								               A.TWTMS_CODE,
+								               A.ITEM_USED,
+								               A.LEVY_FLAG,
+								               A.EX_LEVY_FLAG,
+								               A.ITEM_DP,
+								               A.MEAS_KIND_CODE,
+								               A.ITEM_KIND_CODE,
+								               A.MEAS_KIND_CODE_SECOND,
+								               A.ITEM_DP2,
+								               B.ITEM_UNIT
+							             FROM WTMSC_ITEM A,
+							                  WTMSC_CODE B
+							            WHERE A.ITEM_UNIT_CODE = B.ITEM_UNIT_CODE
+							              AND A.ITEM_USED = 'Y' 
+							        ) B
+						WHERE A.ITEM_CODE = B.ITEM_CODE 
+					)
+		    WHERE 1=1
+				<if test="defaultChart != null and defaultChart == 0">
+					 <![CDATA[ AND SUBSTR(BASE_TIME, 1, 6) >= #{preFullDate} ]]>
+					 <![CDATA[ AND SUBSTR(BASE_TIME, 1, 6) <= #{nextFullDate} ]]>
+				</if>
+		      AND FACT_CODE = #{recordId}
+		      AND ITEM_NAME = #{selectItem}
+		      AND ITEM_VALUE IS NOT NULL
+		    ORDER BY ROWNUM DESC 
+		   )
+SELECT RN,
+	   PT_NO,
+	   PT_NM,
+	   WAST_NO,
+	   WMCYMD,
+	   ITEM_NAME,
+	   ITEM_VALUE
+ FROM (
+    SELECT *
+      FROM TMP_TBL
+     <if test="defaultChart != null and defaultChart == 1">
+   		 WHERE <![CDATA[ RN <= 10 ]]> 
+  	 </if>    
+  ORDER BY ROWNUM DESC 
+    )
+UNION ALL
+   SELECT 9999 AS RN,
+          '',
+		  '',
+		  '',
+		  '',
+		  '',
+		  MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10
+	 FROM TMP_TBL 
+    </select>
+    
+    <select id="getRWMDTSelectC" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+     WITH TMP_TBL AS (	/* KRF-BIZ.ChartMapper.getRWMDTSelectC */
+    					SELECT RANK() OVER(PARTITION BY PT_NO||ITEM_NAME
+        			  ORDER BY WMCYMD ASC) AS RN,
+ 								   /* 순번 */PT_NO,
+      									   PT_NM,
+								           WMYR,
+									       WMOM AS WMOD,
+									       WMCYMD,
+									       WMWK,
+									       CODE_CTN,
+									       ITEM_NAME,
+									       ITEM_VALUE
+    					 FROM (
+        						SELECT A.PT_NO,
+          							   PT_NM,
+							           WMYR,
+							           WMOM ,
+							           WMYR||'.'||WMOM||'.'||WMOM AS WMCYMD ,
+							                  CASE
+							                    WHEN WMWK = '1' THEN '상반기'
+							                    WHEN WMWK = '2' THEN '하반기'
+							                  END WMWK ,
+							           CODE_CTN,
+							           ITEM_NAME,
+							           ITEM_VALUE
+        				 FROM (
+					            SELECT PT_NO,
+						               WMYR,
+						               WMOM,
+						               WMWK,
+						               'ITEM_DOW' AS ITEM_NAME,
+						               DECODE(ITEM_DOW , '999999999', '정량한계미만', TO_CHAR(ITEM_DOW, 'FM999999990.0' )) AS ITEM_VALUE
+					              FROM SDM_RWMDTI
+            		UNION ALL
+            		
+            			SELECT PT_NO,
+              				   WMYR,
+					           WMOM,
+					           WMWK,
+					           'ITEM_TEMP' AS ITEM_NAME,
+					           DECODE(ITEM_TEMP_LOW , '999999999', '정량한계미만', TO_CHAR(ITEM_TEMP_LOW, 'FM999999990' )) AS ITEM_VALUE
+            			  FROM SDM_RWMDTI
+            			  
+                    UNION ALL
+                    
+			            SELECT PT_NO,
+			                   WMYR,
+			                   WMOM,
+				               WMWK,
+				               'ITEM_DO' AS ITEM_NAME,
+				               DECODE(ITEM_DO_LOW , '999999999', '정량한계미만', TO_CHAR(ITEM_DO_LOW, 'FM999999990.0' )) AS ITEM_VALUE
+			              FROM SDM_RWMDTI
+			              
+            		UNION ALL
+            		
+            			SELECT PT_NO,
+				               WMYR,
+				               WMOM,
+				               WMWK,
+				               'ITEM_PH' AS ITEM_NAME,
+				               DECODE(ITEM_PH_LOW , '999999999', '정량한계미만', TO_CHAR(ITEM_PH_LOW, 'FM999999990.0' )) AS ITEM_VALUE
+				          FROM SDM_RWMDTI
+				          
+            		UNION ALL
+            
+            			SELECT PT_NO,
+				               WMYR,
+				               WMOM,
+				               WMWK,
+				               'ITEM_EC' AS ITEM_NAME,
+				               DECODE(ITEM_EC_LOW , '999999999', '정량한계미만', TO_CHAR(ITEM_EC_LOW, 'FM999999990' )) AS ITEM_VALUE
+				          FROM SDM_RWMDTI
+				          
+            		UNION ALL
+            		 
+			            SELECT PT_NO,
+			              	   WMYR,
+			              	   WMOM,
+			              	   WMWK,
+			                   'ITEM_COD' AS ITEM_NAME,
+			                   DECODE(ITEM_COD , '999999999', '정량한계미만', TO_CHAR(ITEM_COD, 'FM999999990.00')) AS ITEM_VALUE
+			              FROM SDM_RWMDTI
+			              
+            		UNION ALL
+            		
+            			SELECT PT_NO,
+				               WMYR,
+				               WMOM,
+				               WMWK,
+				               'ITEM_TOC' AS ITEM_NAME,
+				               DECODE(ITEM_TOC , '999999999', '정량한계미만', TO_CHAR(ITEM_TOC, 'FM999999990.00')) AS ITEM_VALUE
+            			  FROM SDM_RWMDTI
+            			  
+            		UNION ALL
+            		
+			            SELECT PT_NO,
+				               WMYR,
+				               WMOM,
+				               WMWK,
+				               'ITEM_TN' AS ITEM_NAME,
+				               DECODE(ITEM_TN , '999999999', '정량한계미만', TO_CHAR(ITEM_TN, 'FM999999990' )) AS ITEM_VALUE
+				          FROM SDM_RWMDTI
+				          
+			        UNION ALL
+			        
+			            SELECT PT_NO,
+				               WMYR,
+				               WMOM,
+				               WMWK,
+				               'ITEM_TP' AS ITEM_NAME,
+				               DECODE(ITEM_TP , '999999999', '정량한계미만', TO_CHAR(ITEM_TP, 'FM999999990' )) AS ITEM_VALUE
+			              FROM SDM_RWMDTI 
+			    ) A ,
+        SDM_RWMPT B ,
+             CODE C
+             
+        WHERE A.PT_NO = B.PT_NO
+          AND B.JOSACODE = C.CODE
+          AND C.CODE_ID = 'ORG001' 
+          
+        )
+        
+    WHERE PT_NO = #{recordId}
+    <if test="defaultChart != null and defaultChart == 0">
+    	AND WMYR||WMOM BETWEEN #{preFullDate} AND #{nextFullDate}
+	</if>
+    ORDER BY WMYR asc , WMOM asc 
+    
+    )
+SELECT RN,
+	   PT_NO,
+ 	   PT_NM,
+	   WMYR,
+	   WMOD,
+	   WMCYMD,
+	   WMWK,
+	   CODE_CTN,
+	   ITEM_NAME,
+	   TO_NUMBER(ITEM_VALUE) AS ITEM_VALUE
+  FROM TMP_TBL
+ WHERE ITEM_NAME = #{selectItem}
+   AND ITEM_VALUE IS NOT NULL
+   <if test="defaultChart != null and defaultChart == 1">
+   		AND <![CDATA[ ROWNUM <= 10 ]]> 
+   </if>
+UNION ALL
+     SELECT 999 AS RN,
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'' ,
+			MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10
+      FROM TMP_TBL
+	 WHERE ITEM_NAME = #{selectItem}
+	 <if test="defaultChart != null and defaultChart == 1">
+	 	  AND <![CDATA[ ROWNUM <= 10 ]]> 
+     </if>
+    </select>
+    
+	<select id="getRWMDTSelectD001" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectD001 */
+	     AS (SELECT * 
+	         FROM   (SELECT RANK() 
+	                          OVER( 
+	                            PARTITION BY WLOBSCD 
+	                            ORDER BY WLOBSCD, WMCYMD DESC) AS RN /* 순번 */, 
+	                        WLOBSCD                            AS PT_NO 
+	                        /* 관측소코드 */, 
+	                        OBSNM                              AS PT_NM 
+	                        /* 관측소명 */, 
+	                        WMCYMD /* 관측일자 */, 
+	                        'WL'                               AS ITEM_NAME, 
+	                        WL                                 AS ITEM_VALUE 
+	                /* 수위(cm) */ 
+	                 FROM   (SELECT TO_CHAR(A.YMDH, 'YYYY.MM.DD') AS WMCYMD, 
+	                                A.WLOBSCD, 
+	                                OBSNM, 
+	                                MAX(ADM_CD)                   ADM_CD, 
+	                                ROUND(AVG(WL) / 1, 2)         WL 
+	                         FROM   WLDY A, 
+	                                WLOBSIF D 
+	                         WHERE  A.WLOBSCD = D.WLOBSCD
+	                         <if test="defaultChart != null and defaultChart == 0">
+	         						AND  <![CDATA[ SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'), 1, 6) >= #{preFullDate} ]]>
+	         						AND  <![CDATA[ SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'), 1, 6) <= #{nextFullDate} ]]>
+	         				 </if>  
+	                                AND A.WLOBSCD = #{recordId} 
+	                                AND WL IS NOT NULL 
+	                         GROUP  BY TO_CHAR(A.YMDH, 'YYYY.MM.DD'), 
+	                                   A.WLOBSCD, 
+	                                   OBSNM) A, 
+	                        KESTI_WATER_ALL_MAP B, 
+	                        COM_DISTRICT_RAW C 
+	                 WHERE  A.ADM_CD = B.ADM_CD 
+	                        AND A.ADM_CD = C.ADM_CD) 
+	         <if test="defaultChart != null and defaultChart == 1">
+	         	WHERE  <![CDATA[ RN <= 10 ]]>
+	         </if> 
+	         ORDER  BY PT_NO, 
+	                   WMCYMD ASC) SELECT * 
+	FROM   (SELECT * 
+	        FROM   TMP_TBL 
+	        ORDER  BY WMCYMD) 
+	UNION ALL 
+	SELECT 999 AS RN, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       NVL(MAX(ITEM_VALUE), 0) + NVL(MAX(ITEM_VALUE), 0) / 10 
+	FROM   TMP_TBL 
+	</select>
+	
+	<select id="getRWMDTSelectD002" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectD002 */
+	     AS (SELECT * 
+	         FROM   (SELECT RANK() 
+	                          OVER( 
+	                            PARTITION BY RFOBSCD 
+	                            ORDER BY RFOBSCD, YMD DESC) AS RN 
+	                        /* 순번 참고용 */, 
+	                        RFOBSCD                         AS PT_NO 
+	                        /* 관측소코드 */, 
+	                        OBSNM                           AS PT_NM 
+	                        /* 관측소명 */, 
+	                        YMD                             AS WMCYMD 
+	                        /* 관측일자*/, 
+	                        'RF'                            AS ITEM_NAME, 
+	                        RF                              AS ITEM_VALUE 
+	                /* 우량자료(mm) */ 
+	                 FROM   (SELECT SUBSTR(YMD, 1, 4) 
+	                                ||'.' 
+	                                ||SUBSTR(YMD, 5, 2) 
+	                                ||'.' 
+	                                ||SUBSTR(YMD, 7, 2)   AS YMD, 
+	                                A.RFOBSCD, 
+	                                OBSNM, 
+	                                MAX(ADM_CD)           ADM_CD, 
+	                                ROUND(SUM(RF) / 1, 3) RF 
+	                         FROM   RFDY A, 
+	                                RFOBSIF D 
+	                         WHERE  A.RFOBSCD = D.RFOBSCD 
+	                         <if test="defaultChart != null and defaultChart == 1">
+	         						AND SUBSTR(YMD, 1, 6) BETWEEN '201410' AND '201510' 
+	         				 </if> 
+	                         <if test="defaultChart != null and defaultChart == 0">
+	         						AND SUBSTR(YMD, 1, 6) BETWEEN #{preFullDate} AND #{nextFullDate} 
+	         				 </if>       
+	                                AND A.RFOBSCD = #{recordId} 
+	                                AND RF IS NOT NULL 
+	                         GROUP  BY YMD, 
+	                                   A.RFOBSCD, 
+	                                   D.OBSNM 
+	                         ORDER  BY YMD, 
+	                                   A .RFOBSCD, 
+	                                   D.OBSNM) A, 
+	                        KESTI_WATER_ALL_MAP B, 
+	                        COM_DISTRICT_RAW C 
+	                 WHERE  A.ADM_CD = B.ADM_CD 
+	                        AND A.ADM_CD = C.ADM_CD) 
+	         <if test="defaultChart != null and defaultChart == 1">
+	         	WHERE  <![CDATA[ RN <= 10 ]]>
+	         </if> 
+	         ORDER  BY PT_NO, 
+	                   WMCYMD ASC) SELECT * 
+	FROM   (SELECT * 
+	        FROM   TMP_TBL 
+	        ORDER  BY WMCYMD) 
+	UNION ALL 
+	SELECT 999 AS RN, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL 
+	</select>
+	
+	<select id="getRWMDTSelectD003" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectD003 */
+	     AS (SELECT * 
+	         FROM   (SELECT RANK() 
+	                          OVER( 
+	                            PARTITION BY WLOBSCD 
+	                            ORDER BY WLOBSCD, WMCYMD DESC) AS RN,/* 순번 */ 
+	                        WLOBSCD                            AS PT_NO, 
+	                        /* 관측소코드 */ 
+	                        OBSNM                              AS PT_NM, 
+	                        /* 관측소명 */ 
+	                        WMCYMD,/* 관측일자 */ 
+	                        'FW'                               AS ITEM_NAME, 
+	                        FW                                 AS ITEM_VALUE 
+	                /* 유량(CMS) */ 
+	                 FROM   (SELECT TO_CHAR(YMDH, 'YYYY.MM.DD') WMCYMD, 
+	                                A.WLOBSCD, 
+	                                OBSNM, 
+	                                MAX(ADM_CD)                 ADM_CD, 
+	                                ROUND(AVG(FW) / 1, 4)       FW 
+	                         FROM   FWDY A, 
+	                                FWOBSIF D 
+	                         WHERE  A.WLOBSCD = D.FWOBSCD
+	                         
+	                         <if test="defaultChart != null and defaultChart == 0">
+	         						AND  <![CDATA[ SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'), 1, 6) >= #{preFullDate} ]]>
+	         						AND  <![CDATA[ SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'), 1, 6) <= #{nextFullDate} ]]>
+	         				 </if>
+	         				   
+	                                AND A.WLOBSCD = #{recordId} 
+	                                AND FW IS NOT NULL 
+	                         GROUP  BY TO_CHAR(YMDH, 'YYYY.MM.DD'), 
+	                                   A.WLOBSCD, 
+	                                   OBSNM) A, 
+	                        KESTI_WATER_ALL_MAP B, 
+	                        COM_DISTRICT_RAW C 
+	                 WHERE  A.ADM_CD = B.ADM_CD 
+	                        AND A.ADM_CD = C.ADM_CD) 
+			<if test="defaultChart != null and defaultChart == 1">
+	         	WHERE  <![CDATA[ RN <= 10 ]]>
+	        </if> 
+	         ORDER  BY PT_NO, 
+	                   WMCYMD ASC) SELECT * 
+	FROM   (SELECT * 
+	        FROM   TMP_TBL 
+	        ORDER  BY WMCYMD) 
+	UNION ALL 
+	SELECT 99999 AS RN, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL 
+	</select>
+	
+	<select id="getRWMDTSelectD004" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectD004 */
+	     AS (SELECT RANK() 
+	                  OVER( 
+	                    PARTITION BY A.DMOBSCD, ITEM_NAME 
+	                    ORDER BY A.DMOBSCD, YMD DESC) AS RN, 
+	                OBSNM                             AS PT_NM, 
+	                A.DMOBSCD                         PT_NO, 
+	                SUBSTR(YMD, 1, 4) 
+	                ||'.' 
+	                ||SUBSTR(YMD, 5, 2) 
+	                ||'.' 
+	                ||SUBSTR(YMD, 7, 2)               AS WMCYMD, 
+	                ITEM_NAME, 
+	                ITEM_VALUE 
+	         FROM   (SELECT DMOBSCD, 
+	                        YMD, 
+	                        TRIM('SWL ')           AS ITEM_NAME, 
+	                        ROUND(AVG(SWL) / 1, 3) AS ITEM_VALUE 
+	                 FROM   DMDY 
+	                 GROUP  BY DMOBSCD, 
+	                           YMD 
+	                 UNION ALL 
+	                 SELECT DMOBSCD, 
+	                        YMD, 
+	                        TRIM('INF ')           AS ITEM_NAME, 
+	                        ROUND(AVG(INF) / 1, 3) AS ITEM_VALUE 
+	                 FROM   DMDY 
+	                 GROUP  BY DMOBSCD, 
+	                           YMD 
+	                 UNION ALL 
+	                 SELECT DMOBSCD, 
+	                        YMD, 
+	                        TRIM('OTF ')           AS ITEM_NAME, 
+	                        ROUND(AVG(OTF) / 1, 3) AS ITEM_VALUE 
+	                 FROM   DMDY 
+	                 GROUP  BY DMOBSCD, 
+	                           YMD 
+	                 UNION ALL 
+	                 SELECT DMOBSCD, 
+	                        YMD, 
+	                        TRIM('SFW ')           AS ITEM_NAME, 
+	                        ROUND(AVG(SFW) / 1, 3) AS ITEM_VALUE 
+	                 FROM   DMDY 
+	                 GROUP  BY DMOBSCD, 
+	                           YMD 
+	                 UNION ALL 
+	                 SELECT DMOBSCD, 
+	                        YMD, 
+	                        TRIM('ECPC')            AS ITEM_NAME, 
+	                        ROUND(AVG(ECPC) / 1, 3) AS ITEM_VALUE 
+	                 FROM   DMDY 
+	                 GROUP  BY DMOBSCD, 
+	                           YMD) A, 
+	                DMOBSIF B 
+	         WHERE  A.DMOBSCD = B.DMOBSCD
+					<if test="defaultChart != null and defaultChart == 0">             	
+		             	AND <![CDATA[ SUBSTR(A.YMD, 1, 6) >= #{preFullDate} ]]>
+					    AND <![CDATA[ SUBSTR(A.YMD, 1, 6) <= #{nextFullDate} ]]>
+	                </if>
+	                AND A.DMOBSCD = #{recordId} 
+	                AND ITEM_NAME = #{selectItem} 
+	                AND ITEM_VALUE IS NOT NULL 
+	         ORDER  BY A.DMOBSCD, 
+	                   WMCYMD ASC) SELECT * 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1">
+	         	WHERE  <![CDATA[ RN <= 10 ]]>
+	</if> 
+	UNION ALL 
+	SELECT 999, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL 
+	<if test="defaultChart != null and defaultChart == 1">
+	         	WHERE  <![CDATA[ RN <= 10 ]]>
+	</if> 
+	</select>
+	
+	<select id="getRWMDTSelectD005" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectD005 */
+	     AS (SELECT RANK() 
+	                  OVER( 
+	                    PARTITION BY STNID||ITEM_NAME 
+	                    ORDER BY STNID, WMCYMD DESC) AS RN /* 순번 */, 
+	                STNID                            AS PT_NO, 
+	                OBSNM                            AS PT_NM, 
+	                WMCYMD, 
+	                ITEM_NAME, 
+	                ITEM_VALUE 
+	         FROM   (SELECT STNID, 
+	                        SUBSTR(TM, 1, 8)       AS WMCYMD, 
+	                        'WD'                   AS ITEM_NAME, 
+	                        ROUND(AVG(WD / 10), 2) AS ITEM_VALUE 
+	                 FROM   WTAWSMST 
+	                 GROUP  BY STNID, 
+	                           SUBSTR(TM, 1, 8) 
+	                 UNION ALL 
+	                 SELECT STNID, 
+	                        SUBSTR(TM, 1, 8)       AS WMCYMD, 
+	                        'WS'                   AS ITEM_NAME, 
+	                        ROUND(AVG(WS / 10), 2) AS ITEM_VALUE 
+	                 FROM   WTAWSMST 
+	                 GROUP  BY STNID, 
+	                           SUBSTR(TM, 1, 8) 
+	                 UNION ALL 
+	                 SELECT STNID, 
+	                        SUBSTR(TM, 1, 8)       AS WMCYMD, 
+	                        'TA'                   AS ITEM_NAME, 
+	                        ROUND(AVG(TA / 10), 2) AS ITEM_VALUE 
+	                 FROM   WTAWSMST 
+	                 GROUP  BY STNID, 
+	                           SUBSTR(TM, 1, 8) 
+	                 UNION ALL 
+	                 SELECT STNID, 
+	                        SUBSTR(TM, 1, 8)  AS WMCYMD, 
+	                        'HM'              AS ITEM_NAME, 
+	                        ROUND(AVG(HM), 2) AS ITEM_VALUE 
+	                 FROM   WTAWSMST 
+	                 GROUP  BY STNID, 
+	                           SUBSTR(TM, 1, 8) 
+	                 UNION ALL 
+	                 SELECT STNID, 
+	                        SUBSTR(TM, 1, 8)  AS WMCYMD, 
+	                        'PA'              AS ITEM_NAME, 
+	                        ROUND(AVG(PA), 2) AS ITEM_VALUE 
+	                 FROM   WTAWSMST 
+	                 GROUP  BY STNID, 
+	                           SUBSTR(TM, 1, 8) 
+	                 UNION ALL 
+	                 SELECT STNID, 
+	                        SUBSTR(TM, 1, 8)  AS WMCYMD, 
+	                        'PS'              AS ITEM_NAME, 
+	                        ROUND(AVG(PS), 2) AS ITEM_VALUE 
+	                 FROM   WTAWSMST 
+	                 GROUP  BY STNID, 
+	                           SUBSTR(TM, 1, 8) 
+	                 UNION ALL 
+	                 SELECT STNID, 
+	                        SUBSTR(TM, 1, 8)    AS WMCYMD, 
+	                        'RNYN'              AS ITEM_NAME, 
+	                        ROUND(AVG(RNYN), 2) AS ITEM_VALUE 
+	                 FROM   WTAWSMST 
+	                 GROUP  BY STNID, 
+	                           SUBSTR(TM, 1, 8) 
+	                 UNION ALL 
+	                 SELECT STNID, 
+	                        SUBSTR(TM, 1, 8)          AS WMCYMD, 
+	                        'RN1HR'                   AS ITEM_NAME, 
+	                        ROUND(AVG(RN1HR / 10), 2) AS ITEM_VALUE 
+	                 FROM   WTAWSMST 
+	                 GROUP  BY STNID, 
+	                           SUBSTR(TM, 1, 8) 
+	                 UNION ALL 
+	                 SELECT STNID, 
+	                        SUBSTR(TM, 1, 8)          AS WMCYMD, 
+	                        'RNDAY'                   AS ITEM_NAME, 
+	                        ROUND(AVG(RNDAY / 10), 2) AS ITEM_VALUE 
+	                 FROM   WTAWSMST 
+	                 GROUP  BY STNID, 
+	                           SUBSTR(TM, 1, 8)) A, 
+	                WTOBSIF B 
+	         WHERE  A.STNID = B.WTOBSCD 
+	                AND OBSTCD = '2' 
+	                AND A.STNID = #{recordId}
+	                <if test="defaultChart != null and defaultChart == 1">
+						AND SUBSTR(WMCYMD, 1, 6) BETWEEN '201410' AND '201510'
+					</if>
+					<if test="defaultChart != null and defaultChart == 0">
+		 				AND SUBSTR(WMCYMD, 1, 6) BETWEEN #{preFullDate} AND #{nextFullDate}
+					</if>	
+	                AND ITEM_NAME = #{selectItem} 
+	                AND ITEM_VALUE IS NOT NULL 
+	         ORDER  BY WMCYMD ASC) SELECT * 
+	FROM   (SELECT * 
+	        FROM   TMP_TBL 
+	        <if test="defaultChart != null and defaultChart == 1">
+	        	WHERE  <![CDATA[ RN <= 10 ]]>
+	        </if>
+            ) 
+	UNION ALL 
+	SELECT 9999 AS RN, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL 
+	<if test="defaultChart != null and defaultChart == 1">
+		WHERE  <![CDATA[ RN <= 10 ]]>
+	</if>
+	</select>
+	
+	<select id="getRWMDTSelectD006" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectD006 */
+	     AS (SELECT RANK() 
+	                  OVER( 
+	                    PARTITION BY OBSNMENG||ITEM_NAME 
+	                    ORDER BY OBSNMENG, TM DESC) AS RN, 
+	                TM                              AS WMCYMD, 
+	                E.OBSNMENG                      AS PT_NO, 
+	                STN_NM                          AS PT_NM, 
+	                ITEM_NAME, 
+	                MAX(ITEM_VALUE)                 AS ITEM_VALUE 
+	         FROM   (SELECT * 
+	                 FROM   (SELECT STN_ID, 
+	                                TM, 
+	                                'RND'  AS ITEM_NAME, 
+	                                RN_DAY AS ITEM_VALUE 
+	                         FROM   RNDY 
+	                         UNION ALL 
+	                         SELECT STN_ID, 
+	                                TM, 
+	                                'TA' AS ITEM_NAME, 
+	                                TA   AS ITEM_VALUE 
+	                         FROM   RNDY 
+	                         UNION ALL 
+	                         SELECT STN_ID, 
+	                                TM, 
+	                                'SIDAY' AS ITEM_NAME, 
+	                                SI_DAY  AS ITEM_VALUE 
+	                         FROM   RNDY)) A, 
+	                KESTI_RNDY_ST D, 
+	                WTOBSIF E 
+	         WHERE  A.STN_ID = D.STN_ID 
+	                AND A.STN_ID = E.OBSNMENG 
+					<if test="defaultChart != null and defaultChart == 1">
+						AND SUBSTR(A.TM, 1, 6) BETWEEN '201410' AND '201510'
+					</if>
+					<if test="defaultChart != null and defaultChart == 0">
+						AND SUBSTR(A.TM, 1, 6) BETWEEN #{preFullDate} AND #{nextFullDate}
+		 			</if>
+	                AND D.STN_ID = #{recordId} 
+	                AND ITEM_NAME = #{selectItem} 
+	                AND ITEM_VALUE IS NOT NULL 
+	         GROUP  BY TM, 
+	                   E.OBSNMENG, 
+	                   STN_NM, 
+	                   ITEM_NAME 
+	         ORDER  BY PT_NO, 
+	                   WMCYMD ASC) SELECT * 
+	FROM   (SELECT * 
+	        FROM   TMP_TBL
+	        <if test="defaultChart != null and defaultChart == 1"> 
+	        	WHERE  <![CDATA[ RN <= 10 ]]>
+	        </if>
+	        ) 
+	UNION ALL 
+	SELECT 999 AS RN, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]>
+	</if> 
+	</select>
+	
+	<select id="getRWMDTSelectD007" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectD007 */
+	     AS (SELECT RANK() 
+	                  OVER( 
+	                    PARTITION BY A.BOOBSCD, ITEM_NAME 
+	                    ORDER BY A.BOOBSCD, WMCYMD DESC, WMCYMD_2 DESC) 
+	                   AS RN /* 순번 */, 
+	                A.BOOBSCD 
+	                   AS PT_NO /* 관측소코드 */, 
+	                OBSNM 
+	                   AS PT_NM /* 관측소명 */, 
+	                TO_CHAR(TO_DATE(WMCYMD 
+	                                ||WMCYMD_2, 'YYYYMMDD HH24:MI'), 
+	                'YYYY.MM.DD HH24:MI' 
+	                ) 
+	                   AS WMCYMD /* 관측일자 */, 
+	                ITEM_NAME, 
+	                ITEM_VALUE 
+	         FROM   (SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)    AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)    AS WMCYMD_2, 
+	                        TRIM('SWL   ')         AS ITEM_NAME, 
+	                        ROUND(AVG(SWL) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)    AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)    AS WMCYMD_2, 
+	                        TRIM('OWL   ')         AS ITEM_NAME, 
+	                        ROUND(AVG(OWL) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)    AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)    AS WMCYMD_2, 
+	                        TRIM('SFW   ')         AS ITEM_NAME, 
+	                        ROUND(AVG(SFW) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)     AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)     AS WMCYMD_2, 
+	                        TRIM('ECPC  ')          AS ITEM_NAME, 
+	                        ROUND(AVG(ECPC) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)    AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)    AS WMCYMD_2, 
+	                        TRIM('INF   ')         AS ITEM_NAME, 
+	                        ROUND(AVG(INF) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)       AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)       AS WMCYMD_2, 
+	                        TRIM('TOTOTF')            AS ITEM_NAME, 
+	                        ROUND(AVG(TOTOTF) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)      AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)      AS WMCYMD_2, 
+	                        TRIM('EGOTF ')           AS ITEM_NAME, 
+	                        ROUND(AVG(EGOTF) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)      AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)      AS WMCYMD_2, 
+	                        TRIM('GTOTF ')           AS ITEM_NAME, 
+	                        ROUND(AVG(GTOTF) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)      AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)      AS WMCYMD_2, 
+	                        TRIM('CBOTF ')           AS ITEM_NAME, 
+	                        ROUND(AVG(CBOTF) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)      AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)      AS WMCYMD_2, 
+	                        TRIM('FWOTF ')           AS ITEM_NAME, 
+	                        ROUND(AVG(FWOTF) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6) 
+	                 UNION ALL 
+	                 SELECT BOOBSCD, 
+	                        SUBSTR(YMDHM, 1, 6)       AS WMCYMD, 
+	                        SUBSTR(YMDHM, 7, 6)       AS WMCYMD_2, 
+	                        TRIM('ETCOTF')            AS ITEM_NAME, 
+	                        ROUND(AVG(ETCOTF) / 1, 3) AS ITEM_VALUE 
+	                 FROM   BOMST 
+	                 GROUP  BY BOOBSCD, 
+	                           SUBSTR(YMDHM, 1, 6), 
+	                           SUBSTR(YMDHM, 7, 6)) A, 
+	                BOOBSIF B 
+	         WHERE  A.BOOBSCD = B.BOOBSCD
+	         		<if test="defaultChart != null and defaultChart == 1"> 
+		                AND <![CDATA[ WMCYMD >= '201510' ]]>
+		                AND <![CDATA[ WMCYMD <= '201510' ]]> 
+	                </if>
+	    			<if test="defaultChart != null and defaultChart == 0">
+						AND <![CDATA[ WMCYMD >= #{preFullDate} ]]>
+						AND <![CDATA[ WMCYMD <= #{nextFullDate} ]]>
+					</if>
+	                AND A.BOOBSCD = #{recordId} 
+	                AND ITEM_NAME = #{selectItem} 
+	                AND ITEM_VALUE IS NOT NULL 
+	         ORDER  BY PT_NO, 
+	                   A.WMCYMD ASC) SELECT * 
+	FROM   (SELECT * 
+	        FROM   TMP_TBL
+	        <if test="defaultChart != null and defaultChart == 1"> 
+	        	WHERE  <![CDATA[ RN <= 10 ]]> 
+	        </if>
+	        ORDER  BY WMCYMD) 
+	UNION ALL 
+	SELECT 999, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]> 
+	</if>
+	</select>
+	
+	<select id="getRWMDTSelectF_1" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectF_1 */
+	     AS (SELECT RANK() 
+	                  OVER( 
+	                    PARTITION BY A.FACI_CD, A.DISCHARGE_NUM, ITEM_NAME 
+	                    ORDER BY A.FACI_CD, A.DISCHARGE_NUM, A.WORK_DT DESC) AS RN, 
+	                A.FACI_CD                                                AS 
+	                PT_NO, 
+	                FACI_NM                                                  AS 
+	                PT_NM 
+	                   /* 처리시설명 */, 
+	                REPLACE(A.WORK_DT, '-', '.')                             AS 
+	                WMCYMD 
+	                   /* 운영일자 */, 
+	                '방류구번호 : ' 
+	                ||A.DISCHARGE_NUM                                        AS 
+	                   DISCHARGE_NUM /* 방류구번호 */, 
+	                ITEM_NAME, 
+	                ITEM_VALUE 
+	         FROM   (SELECT YYYY, 
+	                        FACI_NM, 
+	                        FACI_CD, 
+	                        WORK_DT, 
+	                        DISCHARGE_NUM, 
+	                        TRIM('AMT_PHYS    ') AS ITEM_NAME, 
+	                        DISCHARGE_AMT_PHYS   AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_OUT_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_NM, 
+	                        FACI_CD, 
+	                        WORK_DT, 
+	                        DISCHARGE_NUM, 
+	                        TRIM('AMT_BIO     ') AS ITEM_NAME, 
+	                        DISCHARGE_AMT_BIO    AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_OUT_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_NM, 
+	                        FACI_CD, 
+	                        WORK_DT, 
+	                        DISCHARGE_NUM, 
+	                        TRIM('AMT_HIGHTEC ')  AS ITEM_NAME, 
+	                        DISCHARGE_AMT_HIGHTEC AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_OUT_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_NM, 
+	                        FACI_CD, 
+	                        WORK_DT, 
+	                        DISCHARGE_NUM, 
+	                        TRIM('ITEM_BOD    ') AS ITEM_NAME, 
+	                        BOD                  AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_OUT_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_NM, 
+	                        FACI_CD, 
+	                        WORK_DT, 
+	                        DISCHARGE_NUM, 
+	                        TRIM('ITEM_COD    ') AS ITEM_NAME, 
+	                        COD                  AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_OUT_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_NM, 
+	                        FACI_CD, 
+	                        WORK_DT, 
+	                        DISCHARGE_NUM, 
+	                        TRIM('ITEM_SS     ') AS ITEM_NAME, 
+	                        SS                   AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_OUT_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_NM, 
+	                        FACI_CD, 
+	                        WORK_DT, 
+	                        DISCHARGE_NUM, 
+	                        TRIM('ITEM_TN     ') AS ITEM_NAME, 
+	                        TN                   AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_OUT_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_NM, 
+	                        FACI_CD, 
+	                        WORK_DT, 
+	                        DISCHARGE_NUM, 
+	                        TRIM('ITEM_TP     ') AS ITEM_NAME, 
+	                        TP                   AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_OUT_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_NM, 
+	                        FACI_CD, 
+	                        WORK_DT, 
+	                        DISCHARGE_NUM, 
+	                        TRIM('ITEM_COLI   ') AS ITEM_NAME, 
+	                        COLI                 AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_OUT_TOTAL) A, 
+	                (SELECT FACI_CD, 
+	                        WORK_DT, 
+	                        MAX(DISCHARGE_NUM) AS DISCHARGE_NUM 
+	                 FROM   VPLA_FACI_OUT_TOTAL 
+	                 GROUP  BY FACI_CD, 
+	                           WORK_DT) B 
+	         WHERE  A.FACI_CD = B.FACI_CD 
+	                AND A.WORK_DT = B.WORK_DT 
+	                AND A.DISCHARGE_NUM IN ( 1, NULL ) 
+	                AND A.DISCHARGE_NUM = B.DISCHARGE_NUM 
+	                AND A.FACI_CD = #{recordId}
+					<if test="defaultChart != null and defaultChart == 0">                
+	                	AND SUBSTR(A.WORK_DT, 1, 4)||SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{preFullDate} AND #{nextFullDate}
+	                </if>
+	                AND ITEM_NAME = #{selectItem} 
+	                AND ITEM_VALUE IS NOT NULL 
+	         ORDER  BY FACI_NM, 
+	                   DISCHARGE_NUM, 
+	                   WMCYMD ASC) SELECT * 
+	FROM   (SELECT * 
+	        FROM   TMP_TBL 
+	        ORDER  BY WMCYMD) 
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]>
+	</if> 
+	UNION ALL 
+	SELECT 999 AS RN, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]> 
+	</if>
+	</select>
+	
+	<select id="getRWMDTSelectF_2" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectF_2 */
+	     AS (SELECT RANK() 
+	                  OVER( 
+	                    PARTITION BY A.FACI_CD, ITEM_NAME 
+	                    ORDER BY A.WORK_DT DESC) AS RN /* 순번 참고용 */, 
+	                FACI_NM                      AS PT_NM /* 처리시설명*/, 
+	                REPLACE(A.WORK_DT, '-', '.') AS WMCYMD /* 운영일자*/, 
+	                '유입원 : ' 
+	                ||A.IN_PL_TYPE               AS IN_PL_TYPE /* 유입원 */, 
+	                ITEM_NAME, 
+	                ITEM_VALUE 
+	         FROM   (SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        IN_PL_TYPE, 
+	                        'ITEM_AMT' AS ITEM_NAME, 
+	                        AMT        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_DIRECT_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        IN_PL_TYPE, 
+	                        'ITEM_BOD' AS ITEM_NAME, 
+	                        BOD        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_DIRECT_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        IN_PL_TYPE, 
+	                        'ITEM_COD' AS ITEM_NAME, 
+	                        COD        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_DIRECT_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        IN_PL_TYPE, 
+	                        'ITEM_SS' AS ITEM_NAME, 
+	                        SS        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_DIRECT_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        IN_PL_TYPE, 
+	                        'ITEM_TN' AS ITEM_NAME, 
+	                        TN        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_DIRECT_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        IN_PL_TYPE, 
+	                        'ITEM_TP' AS ITEM_NAME, 
+	                        TP        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_DIRECT_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        IN_PL_TYPE, 
+	                        'ITEM_COLI' AS ITEM_NAME, 
+	                        COLI        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_DIRECT_TRANSFER) A, 
+	                (SELECT FACI_CD, 
+	                        WORK_DT, 
+	                        MAX(IN_PL_TYPE) AS IN_PL_TYPE 
+	                 FROM   VPLA_FACI_DIRECT_TRANSFER 
+	                 GROUP  BY FACI_CD, 
+	                           WORK_DT) B 
+	         WHERE  A.FACI_CD = B .FACI_CD 
+	                AND A.WORK_DT = B.WORK_DT 
+	                AND A.IN_PL_TYPE = B.IN_PL_TYPE 
+	                AND A.FACI_CD = #{recordId}
+	                <if test="defaultChart != null and defaultChart == 0"> 
+	                	AND SUBSTR(A.WORK_DT, 1, 4) ||SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{preFullDate} AND #{nextFullDate}
+	                </if> 
+	                AND ITEM_NAME = #{selectItem} 
+	                AND ITEM_VALUE IS NOT NULL 
+	         ORDER  BY FACI_NM, 
+	                   A.WORK_DT ASC, 
+	                   IN_PL_TYPE) SELECT * 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]> 
+	</if> 
+	UNION ALL 
+	SELECT 999, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]> 
+	</if> 
+	</select>
+
+	<select id="getRWMDTSelectF_3" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectF_3 */
+	     AS (SELECT RANK() 
+	                  OVER( 
+	                    PARTITION BY A.FACI_CD, A.PIPE_NUM, ITEM_NAME 
+	                    ORDER BY A.FACI_CD, A.PIPE_NUM, A.WORK_DT DESC) AS RN, 
+	                FACI_NM                                             AS PT_NM 
+	                   /* 처리시설명 */, 
+	                REPLACE(A.WORK_DT, '-', '.')                        AS WMCYMD 
+	                   /* 운영일자 */, 
+	                '유입구번호 : ' 
+	                ||A.PIPE_NUM                                        AS PIPE_NUM 
+	                   /* 유입구번호 */, 
+	                ITEM_NAME, 
+	                ITEM_VALUE 
+	         FROM   (SELECT YYYY, 
+	                        FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        TRIM('ITEM_AMT ') AS ITEM_NAME, 
+	                        TO_NUMBER(AMT)    AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_IN_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        TRIM('ITEM_BOD ') AS ITEM_NAME, 
+	                        TO_NUMBER(BOD)    AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_IN_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        TRIM('ITEM_COD ') AS ITEM_NAME, 
+	                        TO_NUMBER(COD)    AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_IN_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        TRIM('ITEM_SS  ') AS ITEM_NAME, 
+	                        TO_NUMBER(SS)     AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_IN_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        TRIM('ITEM_TN  ') AS ITEM_NAME, 
+	                        TO_NUMBER(TN)     AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_IN_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        TRIM('ITEM_TP  ') AS ITEM_NAME, 
+	                        TO_NUMBER(TP)     AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_IN_TOTAL 
+	                 UNION ALL 
+	                 SELECT YYYY, 
+	                        FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        TRIM('ITEM_COLI') AS ITEM_NAME, 
+	                        TO_NUMBER(COLI)   AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_IN_TOTAL) A, 
+	                (SELECT FACI_CD, 
+	                        WORK_DT, 
+	                        MIN(PIPE_NUM) AS PIPE_NUM 
+	                 FROM   VPLA_FACI_IN_TOTAL 
+	                 GROUP  BY FACI_CD, 
+	                           WORK_DT) B 
+	         WHERE  A.FACI_CD = B.FACI_CD 
+	                AND A.PIPE_NUM IN ( 0, 1, NULL ) 
+	                AND A.PIPE_NUM = B.PIPE_NUM 
+	                AND A.WORK_DT = B.WORK_DT 
+	                AND A.FACI_CD = #{recordId}
+	                <if test="defaultChart != null and defaultChart == 0"> 
+	                	AND SUBSTR(A.WORK_DT, 1, 4) ||SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{preFullDate} AND #{nextFullDate}
+	                </if> 
+	                AND ITEM_NAME = #{selectItem} 
+	                AND ITEM_VALUE IS NOT NULL 
+	         ORDER  BY FACI_NM, 
+	                   PIPE_NUM, 
+	                   WMCYMD ASC) SELECT * 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]> 
+	</if>  
+	UNION ALL 
+	SELECT 99999, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]> 
+	</if>  
+	</select>
+	
+	<select id="getRWMDTSelectF_4" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	WITH TMP_TBL /* KRF-BIZ.ChartMapper.getRWMDTSelectF_4 */
+	     AS (SELECT RANK() 
+	                  OVER( 
+	                    PARTITION BY A.FACI_CD, A.PIPE_NUM, ITEM_NAME 
+	                    ORDER BY A.FACI_CD, A.PIPE_NUM, A.WORK_DT DESC) AS RN, 
+	                FACI_NM                                             AS PT_NM, 
+	                REPLACE(A.WORK_DT, '-', '.')                        AS WMCYMD 
+	                   /* 운영일자*/, 
+	                '관거번호 : ' 
+	                ||A.PIPE_NUM 
+	                ||'(' 
+	                ||PIPE_TYPE 
+	                ||')'                                               AS PIPE_NUM 
+	                   /* 관거번호(관거유형) */, 
+	                ITEM_NAME, 
+	                ITEM_VALUE 
+	         FROM   (SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        PIPE_TYPE, 
+	                        'ITEM_AMT' AS ITEM_NAME, 
+	                        AMT        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_PIPE_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        PIPE_TYPE, 
+	                        'ITEM_BOD' AS ITEM_NAME, 
+	                        BOD        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_PIPE_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        PIPE_TYPE, 
+	                        'ITEM_COD' AS ITEM_NAME, 
+	                        COD        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_PIPE_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        PIPE_TYPE, 
+	                        'ITEM_SS' AS ITEM_NAME, 
+	                        SS        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_PIPE_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        PIPE_TYPE, 
+	                        'ITEM_TN' AS ITEM_NAME, 
+	                        TN        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_PIPE_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        PIPE_TYPE, 
+	                        'ITEM_TP' AS ITEM_NAME, 
+	                        TP        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_PIPE_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        PIPE_TYPE, 
+	                        'ITEM_COLI' AS ITEM_NAME, 
+	                        COLI        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_PIPE_TRANSFER 
+	                 UNION ALL 
+	                 SELECT FACI_CD, 
+	                        FACI_NM, 
+	                        WORK_DT, 
+	                        PIPE_NUM, 
+	                        PIPE_TYPE, 
+	                        'ITEM_BYPASS_AMT' AS ITEM_NAME, 
+	                        BYPASS_AMT        AS ITEM_VALUE 
+	                 FROM   VPLA_FACI_PIPE_TRANSFER) A, 
+	                (SELECT FACI_CD, 
+	                        WORK_DT, 
+	                        MAX(PIPE_NUM) AS PIPE_NUM 
+	                 FROM   VPLA_FACI_PIPE_TRANSFER 
+	                 GROUP  BY FACI_CD, 
+	                           WORK_DT) B 
+	         WHERE  A.FACI_CD = B.FACI_CD 
+	                AND A.WORK_DT = B.WORK_DT 
+	                AND A.PIPE_NUM IN ( 0, 1, NULL ) 
+	                AND A.PIPE_NUM = B. PIPE_NUM 
+	                AND A.FACI_CD = #{recordId}
+	                <if test="defaultChart != null and defaultChart == 0"> 
+	                	AND SUBSTR(A.WORK_DT, 1, 4) ||SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{preFullDate} AND #{nextFullDate}
+	                </if> 
+	                AND ITEM_NAME = #{selectItem} 
+	                AND ITEM_VALUE IS NOT NULL 
+	         ORDER  BY FACI_NM, 
+	                   PIPE_NUM, 
+	                   WMCYMD ASC) SELECT * 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]> 
+	</if>  
+	UNION ALL 
+	SELECT 999, 
+	       '', 
+	       '', 
+	       '', 
+	       '', 
+	       MAX(ITEM_VALUE) + MAX(ITEM_VALUE) / 10 
+	FROM   TMP_TBL
+	<if test="defaultChart != null and defaultChart == 1"> 
+		WHERE  <![CDATA[ RN <= 10 ]]> 
+	</if>  
+	</select>
 </mapper>
