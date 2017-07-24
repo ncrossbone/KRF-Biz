@@ -3002,8 +3002,6 @@ ORDER  BY A.PT_NO,
 
 <!-- 기타측정지점 - 우량관측소 GROUT CODE : D / LAYER CODE : D002 -->
 <select id="searchResult_D_2" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-
-
 SELECT A.rn /* 순번 참고용 */, 
        A.ws_nm /* 대권역 */, 
        A.am_nm /* 중권역 */, 
@@ -3083,18 +3081,15 @@ FROM   (SELECT Rank()
 WHERE  A.pt_no = B.pt_no 
        AND A.rn BETWEEN B.rn - 4 AND B.rn 
        AND Substr(A.wmcymd, 1, 4) 
-           ||Substr(A.wmcymd, 6, 2) BETWEEN #{start} AND #{end} 
+           ||Substr(A.wmcymd, 6, 2) BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} 
        AND A.pt_no IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
 ORDER  BY A.pt_no, 
           A.wmcymd DESC, 
           B.wmcymd 
-
-
 </select>    
 
 <!-- 기타측정지점 - 유량관측소 GROUT CODE : D / LAYER CODE : D003 -->
 <select id="searchResult_D_3" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-
 SELECT A.RN /* 순번 */, 
        A.WS_NM /* 대권역 */, 
        A.AM_NM /* 중권역 */, 
@@ -3124,8 +3119,8 @@ FROM   (SELECT RANK()
                 FROM   FWDY A, 
                        FWOBSIF D 
                 WHERE  A.WLOBSCD = D.FWOBSCD 
-                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDD'), 1, 6) >= #{start}
-                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDD'), 1, 6) <![CDATA[ <=   ]]> #{end} 
+                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDD'), 1, 6) >= #{startYear} || #{startMonth}
+                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDD'), 1, 6) <![CDATA[ <=   ]]> #{endYear} || #{endMonth}
                        AND A.WLOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	
                 GROUP  BY TO_CHAR(YMDH, 'YYYY.MM.DD'), 
                           A.WLOBSCD, 
@@ -3153,9 +3148,8 @@ FROM   (SELECT RANK()
                 FROM   FWDY A, 
                        FWOBSIF D 
                 WHERE  A.WLOBSCD = D.FWOBSCD 
-                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDD'), 1, 6) >= TO_CHAR( 
-                           TO_DATE(#{start}, 'YYYYMM') - 35, 'YYYYMM') 
-                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDD'), 1, 6) <![CDATA[ <=  ]]> #{end} 
+                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDD'), 1, 6) >= TO_CHAR( TO_DATE(#{startYear} || #{startMonth}, 'YYYYMM') - 35, 'YYYYMM') 
+                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDD'), 1, 6) <![CDATA[ <=  ]]> #{endYear} || #{endMonth}
                        AND A.WLOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
                 GROUP  BY A.WLOBSCD, 
                           TO_CHAR(YMDH, 'YYYY.MM.DD'), 
@@ -3224,8 +3218,8 @@ FROM   (SELECT RANK()
                 FROM   DMDY A, 
                        DMOBSIF D 
                 WHERE  A.DMOBSCD = D.DMOBSCD 
-                       AND SUBSTR(A.YMD, 1, 6) >= #{start} 
-                       AND SUBSTR(A.YMD, 1, 6) <![CDATA[ <= ]]> #{end}
+                       AND SUBSTR(A.YMD, 1, 6) >= #{startYear} || #{startMonth} 
+                       AND SUBSTR(A.YMD, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth}
                        AND A.DMOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
                 GROUP  BY SUBSTR(YMD, 1, 4) 
                           ||'.' 
@@ -3269,8 +3263,8 @@ FROM   (SELECT RANK()
                 FROM   DMDY A, 
                        DMOBSIF D 
                 WHERE  A.DMOBSCD = D.DMOBSCD 
-                       AND SUBSTR(A.YMD, 1, 6) >= #{start} 
-                       AND SUBSTR(A.YMD, 1, 6) <![CDATA[ <= ]]> #{end} 
+                       AND SUBSTR(A.YMD, 1, 6) >= #{startYear} || #{startMonth}
+                       AND SUBSTR(A.YMD, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth} 
                        AND A.DMOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
                 GROUP  BY SUBSTR(YMD, 1, 4) 
                           ||'.' 
@@ -3364,8 +3358,8 @@ FROM   (SELECT RANK()
                        WTOBSIF B 
                 WHERE  A.STNID = B.WTOBSCD 
                        AND A.STNID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
-                       AND SUBSTR(TM, 1, 6) >= #{start} 
-                       AND SUBSTR(TM, 1, 6) <![CDATA[ <= ]]> #{end} 
+                       AND SUBSTR(TM, 1, 6) >= #{startYear} || #{startMonth}
+                       AND SUBSTR(TM, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth}
                        AND B.OBSTCD = '2' 
                 GROUP  BY STNID, 
                           OBSNM, 
@@ -3414,11 +3408,8 @@ FROM   (SELECT RANK()
                        WTOBSIF B 
                 WHERE  A.STNID = B.WTOBSCD 
                        AND A.STNID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
-                       AND SUBSTR(TM, 1, 6) >= TO_CHAR( 
-                           TO_DATE(#{start}, 'YYYYMM') - 35 
-                                               , 
-                                               'YYYYMM') 
-                       AND SUBSTR(TM, 1, 6) <![CDATA[ <= ]]> #{end} 
+                       AND SUBSTR(TM, 1, 6) >= TO_CHAR(TO_DATE(#{startYear} || #{startMonth}, 'YYYYMM') - 35,'YYYYMM') 
+                       AND SUBSTR(TM, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth} 
                        AND B.OBSTCD = '2' 
                 GROUP  BY STNID, 
                           OBSNM, 
@@ -3477,8 +3468,8 @@ FROM   (SELECT RANK()
                        WTOBSIF E 
                 WHERE  A.STN_ID = D.STN_ID 
                        AND A.STN_ID = E.OBSNMENG 
-                       AND SUBSTR(A.TM, 1, 6) >= #{start} 
-                       AND SUBSTR(A.TM, 1, 6) <![CDATA[ <= ]]> #{end} 
+                       AND SUBSTR(A.TM, 1, 6) >= #{startYear} || #{startMonth}
+                       AND SUBSTR(A.TM, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth}
                        AND D.STN_ID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
                 GROUP  BY TM, 
                           E.OBSNMENG, 
@@ -3514,10 +3505,8 @@ FROM   (SELECT RANK()
                        WTOBSIF E 
                 WHERE  A.STN_ID = D.STN_ID 
                        AND A.STN_ID = E.OBSNMENG 
-                       AND SUBSTR(A.TM, 1, 6) >= TO_CHAR( 
-                           TO_DATE(#{start}, 'YYYYMM') - 35, 
-                                                 'YYYYMM') 
-                       AND SUBSTR(A.TM, 1, 6) <![CDATA[ <= ]]> #{end} 
+                       AND SUBSTR(A.TM, 1, 6) >= TO_CHAR( TO_DATE(#{startYear} || #{startMonth}, 'YYYYMM') - 35, 'YYYYMM') 
+                       AND SUBSTR(A.TM, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth}
                        AND D.STN_ID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
                 GROUP  BY TM, 
                           E.OBSNMENG, 
@@ -3615,8 +3604,8 @@ FROM   (SELECT RANK()
                 FROM   BOMST A, 
                        BOOBSIF D 
                 WHERE  A.BOOBSCD = D.BOOBSCD 
-                       AND SUBSTR(A.YMDHM, 1, 6) >= #{start} 
-                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ <= ]]> #{end} 
+                       AND SUBSTR(A.YMDHM, 1, 6) >= #{startYear} || #{startMonth}
+                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth}
                        AND A.BOOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
                 GROUP  BY SUBSTR(A.YMDHM, 1, 6), 
                           SUBSTR(A.YMDHM, 7, 6), 
@@ -3672,10 +3661,8 @@ FROM   (SELECT RANK()
                 FROM   BOMST A, 
                        BOOBSIF D 
                 WHERE  A.BOOBSCD = D.BOOBSCD 
-                       AND SUBSTR(A.YMDHM, 1, 6) >= TO_CHAR( 
-                           TO_DATE(#{start}, 'YYYYMM') - 35, 
-                                                    'YYYYMM') 
-                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ <= ]]> #{end} 
+                       AND SUBSTR(A.YMDHM, 1, 6) >= TO_CHAR( TO_DATE(#{startYear} || #{startMonth}, 'YYYYMM') - 35, 'YYYYMM') 
+                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth} 
                        AND A.BOOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
                 GROUP  BY SUBSTR(A.YMDHM, 1, 6), 
                           SUBSTR(A.YMDHM, 7, 6), 
