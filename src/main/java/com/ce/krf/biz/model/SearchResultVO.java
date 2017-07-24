@@ -18,6 +18,12 @@ public class SearchResultVO {
 	private String start = null;
 	private String end = null;
 	
+	private String startYear = null;
+	private String startMonth = null;
+	private String endYear = null;
+	private String endMonth = null;
+	
+	
 	private String firstSearch = null;
 	
 	public String getCatDid() {
@@ -89,6 +95,30 @@ public class SearchResultVO {
 	}
 	public void setFirstSearch(String firstSearch) {
 		this.firstSearch = firstSearch;
+	}
+	public String getStartYear() {
+		return startYear;
+	}
+	public void setStartYear(String startYear) {
+		this.startYear = startYear;
+	}
+	public String getStartMonth() {
+		return startMonth;
+	}
+	public void setStartMonth(String startMonth) {
+		this.startMonth = startMonth;
+	}
+	public String getEndYear() {
+		return endYear;
+	}
+	public void setEndYear(String endYear) {
+		this.endYear = endYear;
+	}
+	public String getEndMonth() {
+		return endMonth;
+	}
+	public void setEndMonth(String endMonth) {
+		this.endMonth = endMonth;
 	}
 	
 	

@@ -20,32 +20,28 @@ import com.ce.krf.biz.service.ChartService;
 
 @RestController
 @RequestMapping("/chart")
-public class ChartController extends BaseController{
+public class ChartController extends BaseController {
 	private final Logger logger = LoggerFactory.getLogger(KrfBizApplication.class);
-	
+
 	@Autowired
 	public ChartService chartService;
-	
-	
+
 	@RequestMapping(value = "/getRWMDT", produces = "text/html; charset=euc-kr")
 	public String getRWMDT(@ModelAttribute ChartVO param) {
-		HashMap result = new HashMap();
 		try {
-			result.put("data", chartService.getRWMDT(param.getRecordId()));
-			return getEuckrString(result);
+			return getEuckrString((HashMap) chartService.getRWMDT(param.getRecordId()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
-	
-	@GetMapping(value = "/getRWMDT_{index}", produces = "text/html; charset=euc-kr")
+
+	@RequestMapping(value = "/getRWMDT_{index}", produces = "text/html; charset=euc-kr")
 	public String pollutionSelect(@PathVariable String index, @ModelAttribute ChartVO param) {
 		HashMap result = new HashMap();
 		try {
-			result.put("data", chartService.getRWMDTSelect(index,param));
-			return getEuckrString(result);
+			return getEuckrString(chartService.getRWMDTSelect(index, param));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

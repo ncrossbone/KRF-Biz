@@ -103,18 +103,11 @@ public class CommonController extends BaseController {
 	 * @Method Name : sessionData
 	 * @return
 	 */
-	@PostMapping(value = "/sessionData", consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResultVO sessionData() {
-		
+	@RequestMapping(value = "/sessionData", method= RequestMethod.POST,  produces = "text/html; charset=euc-kr")
+	public String sessionData() {
 		String ip = request.getRemoteAddr();
-		
-		ResultVO result = new ResultVO();
 		int cnt = commonService.sessionData(ip);
-		
-		result.setMgs(cnt +"건 저장됨");
-		result.setCode(1);
-		
-		return result;
+		return cnt +"건 저장됨";
 	}
 	
 	@PostMapping(value="/imageDelete",consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
