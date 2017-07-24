@@ -35,6 +35,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			System.out.println(e);
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
