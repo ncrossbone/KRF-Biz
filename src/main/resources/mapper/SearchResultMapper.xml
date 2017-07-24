@@ -2947,10 +2947,8 @@ FROM   (SELECT RANK()
                 FROM   WLDY A, 
                        WLOBSIF D 
                 WHERE  A.WLOBSCD = D.WLOBSCD 
-                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDDHH24'), 1, 6) <![CDATA[ >=    ]]>
-                           #{start} 
-                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDDHH24'), 1, 6) <![CDATA[ <=    ]]>
-                            #{end} 
+                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDDHH24'), 1, 6) <![CDATA[ >=    ]]> #{startYear} || #{startMonth}
+                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDDHH24'), 1, 6) <![CDATA[ <=    ]]> #{endYear} || #{endMonth}
                        AND A.WLOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
                 GROUP  BY SUBSTR(TO_CHAR(YMDH, 'YYYYMMDDHH24'), 1, 8), 
                           A.WLOBSCD, 
@@ -2986,11 +2984,8 @@ FROM   (SELECT RANK()
                 FROM   WLDY A, 
                        WLOBSIF D 
                 WHERE  A.WLOBSCD = D.WLOBSCD 
-                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDDHH24'), 1, 6) <![CDATA[  >=   ]]> 
-                           TO_CHAR( 
-                           TO_DATE(#{start}, 'YYYYMM') - 35, 'YYYYMM') 
-                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDDHH24'), 1, 6) <![CDATA[  <=   ]]>
-                           #{end} 
+                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDDHH24'), 1, 6) <![CDATA[  >=   ]]> TO_CHAR(TO_DATE(#{startYear} || #{startMonth}, 'YYYYMM') - 35, 'YYYYMM') 
+                       AND SUBSTR(TO_CHAR(A.YMDH, 'YYYYMMDDHH24'), 1, 6) <![CDATA[  <=   ]]> #{endYear} || #{endMonth} 
                        AND A.WLOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
                 GROUP  BY SUBSTR(TO_CHAR(YMDH, 'YYYYMMDDHH24'), 1, 8), 
                           A.WLOBSCD, 
