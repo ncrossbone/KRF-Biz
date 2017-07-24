@@ -1416,19 +1416,19 @@ public class SearchResultService {
 					CURR_WL = String.valueOf(rs.get("CURR_WL"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_WL")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_WL")).trim());
 					CHART_WL.add(Chart_Data_tmp);
 
 					CURR_MXWL = String.valueOf(rs.get("CURR_MXWL"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_MXWL")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_MXWL")).trim());
 					CHART_MXWL.add(Chart_Data_tmp);
 
 					CURR_MNWL = String.valueOf(rs.get("CURR_MNWL"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_MNWL")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_MNWL")).trim());
 					CHART_MNWL.add(Chart_Data_tmp);
 
 					if (!preSeq.equals(String.valueOf(rs.get("RN")))) {
@@ -1439,9 +1439,7 @@ public class SearchResultService {
 
 					check = preSeq2;
 					WMCYMD = String.valueOf(rs.get("WMCYMD"));
-
 				}
-
 			}
 
 			jsonRecord = new HashMap();
@@ -1458,7 +1456,7 @@ public class SearchResultService {
 				jsonRecord.put("CHART_MXWL", CHART_MXWL);
 				jsonRecord.put("CURR_MNWL", CURR_MNWL);
 				jsonRecord.put("CHART_MNWL", CHART_MNWL);
-			} else if (cnt == 0 && check == "9999") {
+			} else if (cnt == 0 && "9999".equals(check)) {
 				jsonRecord.put("WMCYMD", WMCYMD);
 			} else {
 				jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
@@ -1499,7 +1497,7 @@ public class SearchResultService {
 				CURR_RF = String.valueOf(rs.get("CURR_RF"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RF")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RF")).trim());
 				CHART_RF.add(Chart_Data_tmp);
 
 				if (!preSeq.equals(String.valueOf(rs.get("RN"))))
@@ -1552,7 +1550,7 @@ public class SearchResultService {
 				CURR_FW = String.valueOf(rs.get("CURR_FW"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_FW")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_FW")).trim());
 				CHART_FW.add(Chart_Data_tmp);
 
 				if (!preSeq.equals(rs.get("RN")))
@@ -1623,31 +1621,31 @@ public class SearchResultService {
 				CURR_SWL = String.valueOf(rs.get("CURR_SWL"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SWL")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SWL")).trim());
 				CHART_SWL.add(Chart_Data_tmp);
 
 				CURR_INF = String.valueOf(rs.get("CURR_INF"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_INF")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_INF")).trim());
 				CHART_INF.add(Chart_Data_tmp);
 
 				CURR_OTF = String.valueOf(rs.get("CURR_OTF"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_OTF")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_OTF")).trim());
 				CHART_OTF.add(Chart_Data_tmp);
 
 				CURR_SFW = String.valueOf(rs.get("CURR_SFW"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SFW")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SFW")).trim());
 				CHART_SFW.add(Chart_Data_tmp);
 
 				CURR_ECPC = String.valueOf(rs.get("CURR_ECPC"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_ECPC")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_ECPC")).trim());
 				CHART_ECPC.add(Chart_Data_tmp);
 
 				if (!preSeq.equals(String.valueOf(rs.get("RN"))))
@@ -1739,55 +1737,55 @@ public class SearchResultService {
 					CURR_WD = String.valueOf(rs.get("CURR_WD"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_WD")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_WD")).trim());
 					CHART_WD.add(Chart_Data_tmp);
 
 					CURR_WS = String.valueOf(rs.get("CURR_WS"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_WS")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_WS")).trim());
 					CHART_WS.add(Chart_Data_tmp);
 
 					CURR_TA = String.valueOf(rs.get("CURR_TA"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_TA")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_TA")).trim());
 					CHART_TA.add(Chart_Data_tmp);
 
 					CURR_HM = String.valueOf(rs.get("CURR_HM"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_HM")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_HM")).trim());
 					CHART_HM.add(Chart_Data_tmp);
 
 					CURR_PA = String.valueOf(rs.get("CURR_PA"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_PA")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_PA")).trim());
 					CHART_PA.add(Chart_Data_tmp);
 
 					CURR_PS = String.valueOf(rs.get("CURR_PS"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_PS")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_PS")).trim());
 					CHART_PS.add(Chart_Data_tmp);
 
 					CURR_RNYN = String.valueOf(rs.get("CURR_RNYN"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RNYN")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RNYN")).trim());
 					CHART_RNYN.add(Chart_Data_tmp);
 
 					CURR_RN1HR = String.valueOf(rs.get("CURR_RN1HR"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RN1HR")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RN1HR")).trim());
 					CHART_RN1HR.add(Chart_Data_tmp);
 
 					CURR_RNDAY = String.valueOf(rs.get("CURR_RNDAY"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RNDAY")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RNDAY")).trim());
 					CHART_RNDAY.add(Chart_Data_tmp);
 
 					if (!preSeq.equals(String.valueOf(rs.get("RN")))) {
@@ -1832,7 +1830,7 @@ public class SearchResultService {
 				jsonRecord.put("CHART_RN1HR", CHART_RN1HR);
 				jsonRecord.put("CURR_RNDAY", CURR_RNDAY);
 				jsonRecord.put("CHART_RNDAY", CHART_RNDAY);
-			} else if (cnt == 0 && check == "9999") {
+			} else if (cnt == 0 && "9999".equals(check)) {
 				jsonRecord.put("WMCYMD", WMCYMD);
 			} else {
 				jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
@@ -1847,7 +1845,6 @@ public class SearchResultService {
 
 					jsonRecord = new HashMap();
 
-					// jsonRecord.put("parentId", parentId);
 					jsonRecord.put("WS_NM", WS_NM);
 					jsonRecord.put("AM_NM", AM_NM);
 					jsonRecord.put("AS_NM", AS_NM);
@@ -1870,7 +1867,6 @@ public class SearchResultService {
 					CHART_SIDAY = new ArrayList();
 
 				}
-				// else{
 				WS_NM = String.valueOf(rs.get("WS_NM"));
 				AM_NM = String.valueOf(rs.get("AM_NM"));
 				AS_NM = String.valueOf(rs.get("AS_NM"));
@@ -1881,19 +1877,19 @@ public class SearchResultService {
 				CURR_RND = String.valueOf(rs.get("CURR_RND"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RND")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RND")).trim());
 				CHART_RND.add(Chart_Data_tmp);
 
 				CURR_TA = String.valueOf(rs.get("CURR_TA"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_TA")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_TA")).trim());
 				CHART_TA.add(Chart_Data_tmp);
 
 				CURR_SIDAY = String.valueOf(rs.get("CURR_SIDAY"));
 				Chart_Data_tmp = new ArrayList();
 				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SIDAY")));
+				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SIDAY")).trim());
 				CHART_SIDAY.add(Chart_Data_tmp);
 
 				if (!preSeq.equals(String.valueOf(rs.get("RN"))))
@@ -1987,67 +1983,67 @@ public class SearchResultService {
 					CURR_SWL = String.valueOf(rs.get("CURR_SWL"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SWL")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SWL")).trim());
 					CHART_SWL.add(Chart_Data_tmp);
 
 					CURR_OWL = String.valueOf(rs.get("CURR_OWL"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_OWL")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_OWL")).trim());
 					CHART_OWL.add(Chart_Data_tmp);
 
 					CURR_SFW = String.valueOf(rs.get("CURR_SFW"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SFW")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SFW")).trim());
 					CHART_SFW.add(Chart_Data_tmp);
 
 					CURR_ECPC = String.valueOf(rs.get("CURR_ECPC"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_ECPC")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_ECPC")).trim());
 					CHART_ECPC.add(Chart_Data_tmp);
 
 					CURR_INF = String.valueOf(rs.get("CURR_INF"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_INF")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_INF")).trim());
 					CHART_INF.add(Chart_Data_tmp);
 
 					CURR_TOTOTF = String.valueOf(rs.get("CURR_TOTOTF"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_TOTOTF")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_TOTOTF")).trim());
 					CHART_TOTOTF.add(Chart_Data_tmp);
 
 					CURR_EGOTF = String.valueOf(rs.get("CURR_EGOTF"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_EGOTF")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_EGOTF")).trim());
 					CHART_EGOTF.add(Chart_Data_tmp);
 
 					CURR_GTOTF = String.valueOf(rs.get("CURR_GTOTF"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_GTOTF")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_GTOTF")).trim());
 					CHART_GTOTF.add(Chart_Data_tmp);
 
 					CURR_CBOTF = String.valueOf(rs.get("CURR_CBOTF"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_CBOTF")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_CBOTF")).trim());
 					CHART_CBOTF.add(Chart_Data_tmp);
 
 					CURR_FWOTF = String.valueOf(rs.get("CURR_FWOTF"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_FWOTF")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_FWOTF")).trim());
 					CHART_FWOTF.add(Chart_Data_tmp);
 
 					CURR_ETCOTF = String.valueOf(rs.get("CURR_ETCOTF"));
 					Chart_Data_tmp = new ArrayList();
 					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_ETCOTF")));
+					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_ETCOTF")).trim());
 					CHART_ETCOTF.add(Chart_Data_tmp);
 
 					if (!preSeq.equals(String.valueOf(rs.get("RN")))) {
@@ -2091,7 +2087,7 @@ public class SearchResultService {
 				jsonRecord.put("CHART_FWOTF", CHART_FWOTF);
 				jsonRecord.put("CURR_ETCOTF", CURR_ETCOTF);
 				jsonRecord.put("CHART_ETCOTF", CHART_ETCOTF);
-			} else if (cnt == 0 && check == "9999") {
+			} else if (cnt == 0 && "9999".equals(check)) {
 				jsonRecord.put("WMCYMD", WMCYMD);
 			} else {
 				jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
