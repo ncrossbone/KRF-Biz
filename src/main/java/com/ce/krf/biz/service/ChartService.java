@@ -32,8 +32,8 @@ public class ChartService {
 	public HashMap getRWMDTSelect(String index,ChartVO param) throws Exception {
 		
 		if(param.getDefaultChart()!=null && param.getDefaultChart().equals("0")) {
-			param.setPreFullDate(param.getSelectYear() + param.getSelectMonth());
-			param.setNextFullDate(param.getSelectYear2() + param.getSelectMonth2());
+			param.setPreFullDate(param.getRecordYear() + param.getRecordMonth());
+			param.setNextFullDate(param.getRecordYear2() + param.getRecordMonth2());
 		}
 		
 		Method method = chartMapper.getClass().getMethod("getRWMDTSelect" + index,ChartVO.class);
