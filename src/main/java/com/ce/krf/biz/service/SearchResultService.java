@@ -357,7 +357,6 @@ public class SearchResultService {
 				
 			CURR_BOD = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("CURR_BOD"));
 			Chart_Data_tmp = new ArrayList();
-			
 			Chart_Data_tmp.add(cnt + ((HashMap<String,String>)searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
 			Chart_Data_tmp.add(((HashMap<String,String>)searchResult.get(i)).get("CHART_BOD"));
 			if(((HashMap<String,String>)searchResult.get(i)).get("CHART_BOD") != null){
@@ -905,12 +904,246 @@ public class SearchResultService {
 	}
 
 	// 수질측정지점 LAYER CODE : B
-	public List searchResult_B(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
+	public HashMap searchResult_B(SearchResultVO param) throws Exception {
+		
+		String[] siteIds = param.getSiteIds();
+		if(siteIds != null && siteIds.length>0) {
+			for(int i=0; i<siteIds.length; i++) {
+				siteIds[i] = siteIds[i].replaceAll("'", "");
+			}
+		}
+		
 		if ("noDate".equals(param.getFirstSearch())) {
-			return searchResultMapper.searchResult_B_getDate(param);
+			
+			HashMap result = new HashMap();
+			result.put("data", searchResultMapper.searchResult_B_getDate(param));
+			return result;
+			
 		} else {
-			return searchResultMapper.searchResult_B(param);
+			
+			
+			List searchResult = searchResultMapper.searchResult_B(param);
+			
+			HashMap jsonObj  = new HashMap();
+			ArrayList jsonArr = new ArrayList();
+			
+			
+			String preSeq = "";
+			
+			
+			String WS_NM = "";
+			String AM_NM = "";
+			String AS_NM = "";
+			String PT_NO = "";
+			String PT_NM = "";
+			String WAST_NO = "";
+			String FACT_KIND_NAME = "";
+			String FACT_CAPACITY = "";
+			String WMCYMD = "";
+			String CHART_DATE = "";
+			
+			
+			String CURR_BOD = "";
+			ArrayList CHART_BOD = new ArrayList();
+			ArrayList Chart_Data_tmp = new ArrayList();
+			
+			String CURR_COD = "";
+			ArrayList CHART_COD = new ArrayList();
+			
+			String CURR_SS = "";
+			ArrayList CHART_SS = new ArrayList();
+			
+			String CURR_TN = "";
+			ArrayList CHART_TN = new ArrayList();
+			
+			String CURR_TP = "";
+			ArrayList CHART_TP = new ArrayList();
+			
+			String CURR_PH = "";
+			ArrayList CHART_PH = new ArrayList();
+			
+			String CURR_FLW = "";
+			ArrayList CHART_FLW = new ArrayList();
+			
+			String CURR_TOC = "";
+			ArrayList CHART_TOC = new ArrayList();
+			
+			String DO_NM = "";
+			String CTY_NM = "";
+			String DONG_NM = "";
+			String RI_NM = "";
+			
+			int cnt = 0;
+			
+			
+			
+			for(int i = 0 ; i < searchResult.size(); i++){
+				cnt++;
+				if(!preSeq.equals("") && !preSeq.equals(String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("RN")))
+						|| !PT_NO.equals("") && !PT_NO.equals(((HashMap)searchResult.get(i)).get("PT_NO"))) {
+					
+					cnt = 1;
+					
+					HashMap jsonRecord = new HashMap();
+					
+					
+					jsonRecord.put("WS_NM",WS_NM);
+					jsonRecord.put("AM_NM",AM_NM);
+					jsonRecord.put("AS_NM",AS_NM);
+					jsonRecord.put("PT_NO",PT_NO);
+					jsonRecord.put("PT_NM",PT_NM);
+					jsonRecord.put("WAST_NO",WAST_NO);
+					jsonRecord.put("FACT_KIND_NAME",FACT_KIND_NAME);
+					jsonRecord.put("FACT_CAPACITY",FACT_CAPACITY);
+					jsonRecord.put("WMCYMD",WMCYMD);
+					jsonRecord.put("CHART_DATE",CHART_DATE);
+					jsonRecord.put("CURR_BOD",CURR_BOD);
+					jsonRecord.put("CHART_BOD",CHART_BOD);
+					jsonRecord.put("Chart_Data_tmp",Chart_Data_tmp);
+					jsonRecord.put("CURR_COD",CURR_COD);
+					jsonRecord.put("CHART_COD",CHART_COD);
+					jsonRecord.put("CURR_SS",CURR_SS);
+					jsonRecord.put("CHART_SS",CHART_SS);
+					jsonRecord.put("CURR_TN",CURR_TN);
+					jsonRecord.put("CHART_TN",CHART_TN);
+					jsonRecord.put("CURR_TP",CURR_TP);
+					jsonRecord.put("CHART_TP",CHART_TP);
+					jsonRecord.put("CURR_PH",CURR_PH);
+					jsonRecord.put("CHART_PH",CHART_PH);
+					jsonRecord.put("CURR_FLW",CURR_FLW);
+					jsonRecord.put("CHART_FLW",CHART_FLW);
+					jsonRecord.put("CURR_TOC",CURR_TOC);
+					jsonRecord.put("CHART_TOC",CHART_TOC);
+					jsonRecord.put("DO_NM",DO_NM);
+					jsonRecord.put("CTY_NM",CTY_NM);
+					jsonRecord.put("DONG_NM",DONG_NM);
+					jsonRecord.put("RI_NM",RI_NM);
+			  		
+			  		jsonArr.add(jsonRecord);
+			  		
+			  		CHART_BOD = new ArrayList();
+			  		CHART_COD = new ArrayList();
+			  		CHART_SS = new ArrayList();
+			  		CHART_TN = new ArrayList();
+			  		CHART_TP = new ArrayList();
+			  		CHART_PH = new ArrayList();
+			  		CHART_FLW = new ArrayList();
+			  		CHART_TOC = new ArrayList();
+			  		
+				}
+				
+				WS_NM  = ((HashMap<String,String>)searchResult.get(i)).get("WS_NM");
+				AM_NM  = ((HashMap<String,String>)searchResult.get(i)).get("AM_NM");
+				AS_NM  = ((HashMap<String,String>)searchResult.get(i)).get("AS_NM");
+				PT_NO  = ((HashMap<String,String>)searchResult.get(i)).get("PT_NO");
+				PT_NM  = ((HashMap<String,String>)searchResult.get(i)).get("PT_NM");
+				WAST_NO  = ((HashMap<String,String>)searchResult.get(i)).get("WAST_NO");
+				FACT_KIND_NAME  = ((HashMap<String,String>)searchResult.get(i)).get("FACT_KIND_NAME");
+				FACT_CAPACITY  = ((HashMap<String,String>)searchResult.get(i)).get("FACT_CAPACITY");
+				WMCYMD  = ((HashMap<String,String>)searchResult.get(i)).get("WMCYMD");
+				
+				
+				CURR_BOD = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("CURR_BOD"));
+				Chart_Data_tmp = new ArrayList();
+				Chart_Data_tmp.add(cnt + ((HashMap<String,String>)searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
+				Chart_Data_tmp.add(((HashMap<String,String>)searchResult.get(i)).get("CHART_BOD"));
+				CHART_BOD.add(Chart_Data_tmp);
+				
+				CURR_COD = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("CURR_COD"));
+				Chart_Data_tmp = new ArrayList();
+				Chart_Data_tmp.add(cnt + ((HashMap<String,String>)searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
+				Chart_Data_tmp.add(((HashMap<String,String>)searchResult.get(i)).get("CHART_COD"));
+				CHART_COD.add(Chart_Data_tmp);
+							
+				CURR_SS  = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("CURR_SS"));
+				Chart_Data_tmp = new ArrayList();
+				Chart_Data_tmp.add(cnt + ((HashMap<String,String>)searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
+				Chart_Data_tmp.add(((HashMap<String,String>)searchResult.get(i)).get("CHART_SS"));
+				CHART_SS.add(Chart_Data_tmp);
+				
+				
+				CURR_TN = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("CURR_TN"));
+				Chart_Data_tmp = new ArrayList();
+				Chart_Data_tmp.add(cnt + ((HashMap<String,String>)searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
+				Chart_Data_tmp.add(((HashMap<String,String>)searchResult.get(i)).get("CHART_TN"));
+				CHART_TN.add(Chart_Data_tmp);
+				
+				
+				CURR_TP = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("CURR_TP"));
+		  		Chart_Data_tmp = new ArrayList();
+				Chart_Data_tmp.add(cnt + ((HashMap<String,String>)searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
+				Chart_Data_tmp.add(((HashMap<String,String>)searchResult.get(i)).get("CHART_TP"));
+				CHART_TP.add(Chart_Data_tmp);
+				
+				
+				CURR_PH = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("CURR_PH"));
+		  		Chart_Data_tmp = new ArrayList();
+				Chart_Data_tmp.add(cnt + ((HashMap<String,String>)searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
+				Chart_Data_tmp.add(((HashMap<String,String>)searchResult.get(i)).get("CHART_PH"));
+				CHART_PH.add(Chart_Data_tmp);
+		  		
+		  		
+		  		CURR_FLW = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("CURR_FLW"));
+		  		Chart_Data_tmp = new ArrayList();
+				Chart_Data_tmp.add(cnt + ((HashMap<String,String>)searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
+				Chart_Data_tmp.add(((HashMap<String,String>)searchResult.get(i)).get("CHART_FLW"));
+				CHART_FLW.add(Chart_Data_tmp);
+		  		
+		  		
+		  		CURR_TOC = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("CURR_TOC"));
+		  		Chart_Data_tmp = new ArrayList();
+				Chart_Data_tmp.add(cnt + ((HashMap<String,String>)searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
+				Chart_Data_tmp.add(((HashMap<String,String>)searchResult.get(i)).get("CHART_TOC"));
+				CHART_TOC.add(Chart_Data_tmp);
+				
+				
+				if(!preSeq.equals(((HashMap<String,String>)searchResult.get(i)).get("RN"))){
+					preSeq = String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("RN"));
+				}
+				
+			}
+				
+			HashMap jsonRecord = new HashMap();
+			
+			if(cnt > 0) {
+				jsonRecord.put("WS_NM",WS_NM);
+				jsonRecord.put("AM_NM",AM_NM);
+				jsonRecord.put("AS_NM",AS_NM);
+				jsonRecord.put("PT_NO",PT_NO);
+				jsonRecord.put("PT_NM",PT_NM);
+				jsonRecord.put("WAST_NO",WAST_NO);
+				jsonRecord.put("FACT_KIND_NAME",FACT_KIND_NAME);
+				jsonRecord.put("FACT_CAPACITY",FACT_CAPACITY);
+				jsonRecord.put("WMCYMD",WMCYMD);
+				jsonRecord.put("CURR_BOD",CURR_BOD);
+				jsonRecord.put("CHART_BOD",CHART_BOD);
+				jsonRecord.put("CURR_COD",CURR_COD);
+				jsonRecord.put("CHART_COD",CHART_COD);
+				jsonRecord.put("CURR_SS",CURR_SS);
+				jsonRecord.put("CHART_SS",CHART_SS);
+				jsonRecord.put("CURR_TN",CURR_TN);
+				jsonRecord.put("CHART_TN",CHART_TN);
+				jsonRecord.put("CURR_TP",CURR_TP);
+				jsonRecord.put("CHART_TP",CHART_TP);
+				jsonRecord.put("CURR_PH",CURR_PH);
+				jsonRecord.put("CHART_PH",CHART_PH);
+				jsonRecord.put("CURR_FLW",CURR_FLW);
+				jsonRecord.put("CHART_FLW",CHART_FLW);
+				jsonRecord.put("CURR_TOC",CURR_TOC);
+				jsonRecord.put("CHART_TOC",CHART_TOC);
+				jsonRecord.put("DO_NM",DO_NM);
+				jsonRecord.put("CTY_NM",CTY_NM);
+				jsonRecord.put("DONG_NM",DONG_NM);
+				jsonRecord.put("RI_NM",RI_NM);
+			}else {
+				jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
+			}
+			
+			jsonArr.add(jsonRecord);
+			
+			jsonObj.put("data", jsonArr);
+			
+			return jsonObj;
 		}
 	}
 

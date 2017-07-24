@@ -43,9 +43,8 @@ public class SearchResultController extends BaseController{
 	// 수질자동측정지점 - 사업장TMS GROUP CODE : B
 	@RequestMapping(value = "/searchResult_B", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
 	public String searchResult_B(@ModelAttribute SearchResultVO param) {
-		HashMap result = new HashMap();
 		try {
-			result.put("data", searchResultService.searchResult_B(param));
+			HashMap result = (searchResultService.searchResult_B(param));
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
