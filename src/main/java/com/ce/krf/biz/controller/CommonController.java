@@ -79,18 +79,14 @@ public class CommonController extends BaseController {
 	}
 	
 	
-	@PostMapping(value = "/clickSession", consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResultVO clickSession(@RequestBody ClickLogVO clickLogVO) {
+	@PostMapping(value = "/clickSession",  produces = "text/html; charset=euc-kr")
+	public String clickSession(@ModelAttribute ClickLogVO clickLogVO) {
 		
 		clickLogVO.setIp(request.getRemoteAddr());
 		
-		ResultVO result = new ResultVO();
 		int cnt = commonService.clickSession(clickLogVO);
 		
-		result.setMgs(cnt +"건 저장됨");
-		result.setCode(1);
-		
-		return result;
+		return cnt +"건 저장됨";
 	}
 	
 	@GetMapping(value = "/getLabelLayerAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
