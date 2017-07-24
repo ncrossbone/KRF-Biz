@@ -29,12 +29,12 @@ public class SearchResultController extends BaseController{
 	// 수질측정지점 LAYER CODE : A
 	@RequestMapping(value = "/searchResult_A", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
 	public String searchResult_A(@ModelAttribute SearchResultVO param) {
-		HashMap result = new HashMap();
 		try {
-			result.put("data", searchResultService.searchResult_A(param));
+			HashMap result = searchResultService.searchResult_A(param);
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			System.out.println(e);
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}

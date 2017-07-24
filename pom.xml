@@ -70,6 +70,10 @@
 		<!-- <artifactId>tomcat-embed-jasper</artifactId> -->
 		<!-- <scope>provided</scope> -->
 		<!-- </dependency> -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

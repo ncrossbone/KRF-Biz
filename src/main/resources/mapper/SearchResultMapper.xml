@@ -527,8 +527,8 @@
                                              AND B.WMYR = C.WMYR
                                              AND B.WMOD = C.WMOD
                                              AND B.WMWK = C.WMWK
-                                             AND B.WMYR || B.WMOD >= #{start}
-                                             AND B.WMYR || B.WMOD <![CDATA[ <=    #{end} ]]>
+                                             AND B.WMYR || B.WMOD >= #{startYear} || #{startMonth}
+                                             AND B.WMYR || B.WMOD <![CDATA[ <=    #{endYear} || #{endMonth} ]]>
                                              AND SUBSTR (A.PT_NO, 1, 7) IN
                                                       <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	
                                              AND C.WMCYMD IS NOT NULL) A,
@@ -691,8 +691,8 @@
                                              AND B.WMOD = C.WMOD
                                              AND B.WMWK = C.WMWK
                                              AND B.WMYR || B.WMOD >=
-                                                   TO_CHAR (TO_DATE (#{start},'YYYYMM')- 360,'YYYYMM')
-                                             AND B.WMYR || B.WMOD <![CDATA[ <= #{end} ]]>
+                                                   TO_CHAR (TO_DATE (#{startYear} || #{startMonth},'YYYYMM')- 360,'YYYYMM')
+                                             AND B.WMYR || B.WMOD <![CDATA[ <= #{endYear} || #{endMonth} ]]>
                                              AND SUBSTR (A.PT_NO, 1, 7) IN
                                                       <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	
                                              AND C.WMCYMD IS NOT NULL) B,
@@ -707,8 +707,7 @@ ORDER BY PT_NO, RN, RN_2 DESC
     </select>
     <select id="searchResult_A_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
     	SELECT /* KRF-BIZ.SearchResultMapper.searchResult_A_getDate */ 
-    	       '99999' AS RN 
-    	       ,MAX(WMYR||'.'||WMOD) AS END  
+    	       MAX(WMYR||'.'||WMOD) AS WMCYMD  
     	  FROM  RWMDTI_NEW 
     	 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
     </select>

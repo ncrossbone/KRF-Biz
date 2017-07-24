@@ -2,15 +2,43 @@ package com.ce.krf.biz.model;
 
 public class ChartVO {
 	private String recordId;
-	private String selectYear;
-	private String selectYear2;
-	private String selectMonth;
-	private String selectMonth2;
+	
+	private String recordYear;
+	private String recordYear2;
+	private String recordMonth;
+	private String recordMonth2;
+	
 	private String defaultChart;
 	private String selectItem;
 	
 	private String nextFullDate;
 	private String preFullDate;
+	
+	public String getRecordYear() {
+		return recordYear;
+	}
+	public void setRecordYear(String recordYear) {
+		this.recordYear = recordYear;
+	}
+	public String getRecordYear2() {
+		return recordYear2;
+	}
+	public void setRecordYear2(String recordYear2) {
+		this.recordYear2 = recordYear2;
+	}
+	public String getRecordMonth() {
+		return recordMonth;
+	}
+	public void setRecordMonth(String recordMonth) {
+		this.recordMonth = recordMonth;
+	}
+	public String getRecordMonth2() {
+		return recordMonth2;
+	}
+	public void setRecordMonth2(String recordMonth2) {
+		this.recordMonth2 = recordMonth2;
+	}
+	
 	
 	public String getPreFullDate() {
 		return preFullDate;
@@ -29,30 +57,6 @@ public class ChartVO {
 	}
 	public void setRecordId(String recordId) {
 		this.recordId = recordId;
-	}
-	public String getSelectYear() {
-		return selectYear;
-	}
-	public void setSelectYear(String selectYear) {
-		this.selectYear = selectYear;
-	}
-	public String getSelectYear2() {
-		return selectYear2;
-	}
-	public void setSelectYear2(String selectYear2) {
-		this.selectYear2 = selectYear2;
-	}
-	public String getSelectMonth() {
-		return selectMonth;
-	}
-	public void setSelectMonth(String selectMonth) {
-		this.selectMonth = selectMonth;
-	}
-	public String getSelectMonth2() {
-		return selectMonth2;
-	}
-	public void setSelectMonth2(String selectMonth2) {
-		this.selectMonth2 = selectMonth2;
 	}
 	public String getDefaultChart() {
 		return defaultChart;
