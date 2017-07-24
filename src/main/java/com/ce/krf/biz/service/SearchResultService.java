@@ -28,11 +28,17 @@ public class SearchResultService {
 
 	// 수질측정지점 LAYER CODE : A
 	public HashMap searchResult_A(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
+		//param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
+		String[] siteIds = param.getSiteIds();
+		if(siteIds != null && siteIds.length>0) {
+			for(int i=0; i<siteIds.length; i++) {
+				siteIds[i] = siteIds[i].replaceAll("'", "");
+			}
+		}
 
 		if ("noDate".equals(param.getFirstSearch())) {
 			HashMap result = new HashMap();
-			result.put("data", searchResultMapper.searchResult_D_getDate(param));
+			result.put("data", searchResultMapper.searchResult_A_getDate(param));
 			return result;
 		}else {
 			
@@ -345,7 +351,7 @@ public class SearchResultService {
 				WMYR =   ((HashMap<String,String>)searchResult.get(i)).get("WMYR");
 				WMOD =   ((HashMap<String,String>)searchResult.get(i)).get("WMOD");
 				WMWK =   ((HashMap<String,String>)searchResult.get(i)).get("WMWK");
-				WMDEP =  ((HashMap<String,String>)searchResult.get(i)).get("WMDEP");
+				WMDEP =  String.valueOf(((HashMap<String,String>)searchResult.get(i)).get("WMDEP"));
 				
 				
 				
@@ -932,13 +938,6 @@ public class SearchResultService {
 		return result;
 	}
 
-	// 기타측정지점 - 수위관측소 GROUT CODE : D / LAYER CODE : D001
-	public List searchResult_D_getDate(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
-		List result = searchResultMapper.searchResult_D_getDate(param);
-		return result;
-	}
-
 	public HashMap searchResult_D(String gubun, SearchResultVO param) throws Exception {
 //		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
 		String[] siteIds = param.getSiteIds();
@@ -1322,7 +1321,6 @@ public class SearchResultService {
 
 					cnt = 1;
 
-					// System.out.println(preSite + preDate);
 					jsonRecord = new HashMap();
 
 					// jsonRecord.put("parentId", parentId);
@@ -1586,7 +1584,6 @@ public class SearchResultService {
 
 					cnt = 1;
 
-					// System.out.println(preSite + preDate);
 					jsonRecord = new HashMap();
 
 					// jsonRecord.put("parentId", parentId);
