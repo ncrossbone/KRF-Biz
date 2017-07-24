@@ -103,7 +103,7 @@ public class CommonController extends BaseController {
 	 * @Method Name : sessionData
 	 * @return
 	 */
-	@RequestMapping(value = "/sessionData", method= RequestMethod.POST,  produces = "text/html; ")
+	@RequestMapping(value = "/sessionData", method= RequestMethod.POST,  produces = "text/html; charset=euc-kr")
 	public String sessionData() {
 		String ip = request.getRemoteAddr();
 		int cnt = commonService.sessionData(ip);
