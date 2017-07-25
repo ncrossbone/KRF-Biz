@@ -33,6 +33,9 @@ public class SearchResultService {
 		if ("noDate".equals(param.getFirstSearch())) {
 			HashMap result = new HashMap();
 			result.put("data", searchResultMapper.searchResult_A_getDate(param));
+			
+			
+			
 			return result;
 		} else {
 
@@ -950,6 +953,7 @@ public class SearchResultService {
 
 			HashMap result = new HashMap();
 			result.put("data", searchResultMapper.searchResult_B_getDate(param));
+			
 			return result;
 
 		} else {
@@ -1192,11 +1196,38 @@ public class SearchResultService {
 	}
 
 	// 퇴적물 LAYER CODE : C
-	public List searchResult_C(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
+	public HashMap searchResult_C(SearchResultVO param) throws Exception {
+		
+		String[] siteIds = param.getSiteIds();
+		if (siteIds != null && siteIds.length > 0) {
+			for (int i = 0; i < siteIds.length; i++) {
+				siteIds[i] = siteIds[i].replaceAll("'", "");
+			}
+		}
 
-		List result = searchResultMapper.searchResult_C(param);
-		return result;
+		if ("noDate".equals(param.getFirstSearch())) {
+			HashMap result = new HashMap();
+			result.put("data", searchResultMapper.searchResult_C_getDate(param));
+			
+			
+			return result;
+		} else {
+			
+			HashMap jsonRecord = null;
+			
+			List searchResult = searchResultMapper.searchResult_C(param);
+			HashMap result = new HashMap();
+			HashMap jsonObj  = new HashMap();
+			ArrayList jsonArr = new ArrayList();
+			
+			
+			
+			
+			return result;
+		}
+		
+		
+		
 	}
 
 	public HashMap searchResult_D(String gubun, SearchResultVO param) throws Exception {
@@ -1212,6 +1243,8 @@ public class SearchResultService {
 			param.setGubun(gubun);
 			HashMap result = new HashMap();
 			result.put("data", searchResultMapper.searchResult_D_getDate(param));
+			
+			
 			return result;
 		} else {
 			Method method = searchResultMapper.getClass().getMethod("searchResult_D_" + gubun, SearchResultVO.class);
@@ -1226,14 +1259,852 @@ public class SearchResultService {
 	}
 
 	// 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001
-	public List searchResult_F(String gubun, SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
+	public HashMap searchResult_F(String gubun, SearchResultVO param) throws Exception {
+		
+		String[] siteIds = param.getSiteIds();
+		if (siteIds != null && siteIds.length > 0) {
+			for (int i = 0; i < siteIds.length; i++) {
+				siteIds[i] = siteIds[i].replaceAll("'", "");
+			}
+		}
+		
 		if ("noDate".equals(param.getFirstSearch())) {
 			param.setGubun(gubun);
-			return searchResultMapper.searchResult_F_getDate(param);
+			
+			HashMap result = new HashMap();
+			
+			result.put("data", searchResultMapper.searchResult_F_getDate(param));
+			
+			
+			
+			return result;
 		} else {
 			Method method = searchResultMapper.getClass().getMethod("searchResult_F_" + gubun, SearchResultVO.class);
-			return (List) method.invoke(searchResultMapper, param);
+			
+			List srcList = (List) method.invoke(searchResultMapper, param);
+			
+			HashMap jsonObj  = new HashMap();
+			ArrayList jsonArr = new ArrayList();
+			HashMap jsonRecord = null;
+			
+			
+			if("1".equals(gubun)) {
+				
+				int cnt = 0;
+				String preSeq = "";
+				String FACI_CD = "";
+				String FACI_NM = "";
+				String WORK_DT_VAL = "";
+				ArrayList WORK_DT_GRAPH = new ArrayList();
+				
+				String DISCHARGE_NUM = "";
+				
+				String DISCHARGE_AMT_PHYS_VAL = "";
+				ArrayList DISCHARGE_AMT_PHYS_GRAPH = new ArrayList();
+				ArrayList Chart_Data_tmp = new ArrayList();
+				
+				String DISCHARGE_AMT_BIO_VAL = "";
+				ArrayList DISCHARGE_AMT_BIO_GRAPH = new ArrayList();
+				
+				String DISCHARGE_AMT_HIGHTEC_VAL = "";
+				ArrayList DISCHARGE_AMT_HIGHTEC_GRAPH = new ArrayList();
+				
+				String BOD_VAL = "";
+				ArrayList BOD_GRAPH = new ArrayList();
+				
+				String COD_VAL = "";
+				ArrayList COD_GRAPH = new ArrayList();
+				
+				String SS_VAL = "";
+				ArrayList SS_GRAPH = new ArrayList();
+				
+				String TN_VAL = "";
+				ArrayList TN_GRAPH = new ArrayList();
+				
+				String TP_VAL = "";
+				ArrayList TP_GRAPH = new ArrayList();
+				
+				String COLI_VAL = "";
+				ArrayList COLI_GRAPH = new ArrayList();
+				
+				
+				String DISCHARGE_DISINFECT = "";
+				String DISCHARGE_FACI_NM = "";
+				
+				for (int i = 0; i < srcList.size(); i++) {
+					
+					HashMap rs = (HashMap) srcList.get(i);
+					cnt++;
+					
+					if(!preSeq.equals("") && !preSeq.equals(String.valueOf(rs.get("NO")))) {
+						
+						cnt = 1;
+						jsonRecord = new HashMap();
+						
+						jsonRecord.put("FACI_CD", FACI_CD);
+						jsonRecord.put("FACI_NM", FACI_NM);
+				  		jsonRecord.put("WORK_DT_VAL", WORK_DT_VAL);
+				  		jsonRecord.put("WORK_DT_GRAPH", WORK_DT_GRAPH);
+				  		jsonRecord.put("DISCHARGE_NUM", DISCHARGE_NUM);
+				  		jsonRecord.put("DISCHARGE_AMT_PHYS_VAL", DISCHARGE_AMT_PHYS_VAL);
+				  		jsonRecord.put("DISCHARGE_AMT_PHYS_GRAPH", DISCHARGE_AMT_PHYS_GRAPH);
+				  		jsonRecord.put("DISCHARGE_AMT_BIO_VAL", DISCHARGE_AMT_BIO_VAL);
+				  		jsonRecord.put("DISCHARGE_AMT_BIO_GRAPH", DISCHARGE_AMT_BIO_GRAPH);
+				  		jsonRecord.put("DISCHARGE_AMT_HIGHTEC_VAL", DISCHARGE_AMT_HIGHTEC_VAL);
+				  		jsonRecord.put("DISCHARGE_AMT_HIGHTEC_GRAPH", DISCHARGE_AMT_HIGHTEC_GRAPH);
+				  		jsonRecord.put("BOD_VAL", BOD_VAL);
+				  		jsonRecord.put("BOD_GRAPH", BOD_GRAPH);
+				  		jsonRecord.put("COD_VAL", COD_VAL);
+				  		jsonRecord.put("COD_GRAPH", COD_GRAPH);
+				  		jsonRecord.put("SS_VAL", SS_VAL);
+				  		jsonRecord.put("SS_GRAPH", SS_GRAPH);
+				  		jsonRecord.put("TN_VAL", TN_VAL);
+				  		jsonRecord.put("TN_GRAPH", TN_GRAPH);
+				  		jsonRecord.put("TP_VAL", TP_VAL);
+				  		jsonRecord.put("TP_GRAPH", TP_GRAPH);
+				  		jsonRecord.put("COLI_VAL", COLI_VAL);
+				  		jsonRecord.put("COLI_GRAPH", COLI_GRAPH);
+				  		jsonRecord.put("DISCHARGE_DISINFECT", DISCHARGE_DISINFECT);
+				  		jsonRecord.put("DISCHARGE_FACI_NM", DISCHARGE_FACI_NM);
+				  		
+				  		jsonArr.add(jsonRecord);
+				  		
+				  		WORK_DT_GRAPH = new ArrayList();
+				  		DISCHARGE_AMT_PHYS_GRAPH = new ArrayList();
+				  		DISCHARGE_AMT_BIO_GRAPH = new ArrayList();
+				  		DISCHARGE_AMT_HIGHTEC_GRAPH = new ArrayList();
+				  		BOD_GRAPH = new ArrayList();
+				  		COD_GRAPH  = new ArrayList();
+				  		SS_GRAPH  = new ArrayList();
+				  		TN_GRAPH  = new ArrayList();
+				  		TP_GRAPH  = new ArrayList();
+				  		COLI_GRAPH  = new ArrayList();
+						
+						
+					}
+					
+					FACI_CD  = String.valueOf(rs.get("FACI_CD"));
+					FACI_NM  = String.valueOf(rs.get("FACI_NM"));
+					DISCHARGE_DISINFECT = String.valueOf(rs.get("DISCHARGE_DISINFECT"));
+			  		DISCHARGE_FACI_NM = String.valueOf(rs.get("DISCHARGE_FACI_NM"));
+			  		DISCHARGE_NUM  = String.valueOf(rs.get("DISCHARGE_NUM"));
+			  		WORK_DT_VAL = String.valueOf(rs.get("WORK_DT_VAL"));
+					
+					
+					
+					
+					
+					DISCHARGE_AMT_PHYS_VAL  = String.valueOf(rs.get("DISCHARGE_AMT_PHYS_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("DISCHARGE_AMT_PHYS_GRAPH"));
+					if(String.valueOf(rs.get("DISCHARGE_AMT_PHYS_GRAPH")) != null) {
+						DISCHARGE_AMT_PHYS_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					DISCHARGE_AMT_BIO_VAL  = String.valueOf(rs.get("DISCHARGE_AMT_BIO_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("DISCHARGE_AMT_BIO_GRAPH"));
+					if(String.valueOf(rs.get("DISCHARGE_AMT_BIO_GRAPH")) != null) {
+						DISCHARGE_AMT_BIO_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					DISCHARGE_AMT_HIGHTEC_VAL  = String.valueOf(rs.get("DISCHARGE_AMT_HIGHTEC_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("DISCHARGE_AMT_HIGHTEC_GRAPH"));
+					if(String.valueOf(rs.get("DISCHARGE_AMT_HIGHTEC_GRAPH")) != null) {
+						DISCHARGE_AMT_HIGHTEC_GRAPH.add(Chart_Data_tmp);	
+					}
+					
+					
+					
+					BOD_VAL = String.valueOf(rs.get("BOD_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("BOD_GRAPH"));
+					if(String.valueOf(rs.get("BOD_GRAPH")) !=null) {
+						BOD_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					COD_VAL = String.valueOf(rs.get("COD_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("COD_GRAPH"));
+					if(String.valueOf(rs.get("COD_GRAPH")) != null) {
+						COD_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					SS_VAL = String.valueOf(rs.get("SS_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("SS_GRAPH"));
+					if(String.valueOf(rs.get("SS_GRAPH")) != null) {
+						SS_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		
+			  		
+				  	TN_VAL = String.valueOf(rs.get("TN_VAL"));
+				  	Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("TN_GRAPH"));
+					if(String.valueOf(rs.get("TN_GRAPH")) != null) {
+						TN_GRAPH.add(Chart_Data_tmp);
+					}
+					
+
+			  		
+			  		
+			  		TP_VAL = String.valueOf(rs.get("TP_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("TP_GRAPH"));
+					if(String.valueOf(rs.get("TP_GRAPH")) != null) {
+						TP_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		
+					
+					if (!preSeq.equals(String.valueOf(rs.get("NO")))) {
+						preSeq = String.valueOf(rs.get("NO"));
+					}
+					
+					
+				}
+				
+				jsonRecord = new HashMap();
+				if (cnt > 0) {
+					jsonRecord.put("FACI_CD", FACI_CD);
+					jsonRecord.put("FACI_NM", FACI_NM);
+					jsonRecord.put("WORK_DT_VAL", WORK_DT_VAL);
+					jsonRecord.put("WORK_DT_GRAPH", WORK_DT_GRAPH);
+					jsonRecord.put("DISCHARGE_NUM", DISCHARGE_NUM);
+					jsonRecord.put("DISCHARGE_AMT_PHYS_VAL", DISCHARGE_AMT_PHYS_VAL);
+					jsonRecord.put("DISCHARGE_AMT_PHYS_GRAPH", DISCHARGE_AMT_PHYS_GRAPH);
+					jsonRecord.put("DISCHARGE_AMT_BIO_VAL", DISCHARGE_AMT_BIO_VAL);
+					jsonRecord.put("DISCHARGE_AMT_BIO_GRAPH", DISCHARGE_AMT_BIO_GRAPH);
+					jsonRecord.put("DISCHARGE_AMT_HIGHTEC_VAL", DISCHARGE_AMT_HIGHTEC_VAL);
+					jsonRecord.put("DISCHARGE_AMT_HIGHTEC_GRAPH", DISCHARGE_AMT_HIGHTEC_GRAPH);
+					jsonRecord.put("BOD_VAL", BOD_VAL);
+					jsonRecord.put("BOD_GRAPH", BOD_GRAPH);
+					jsonRecord.put("COD_VAL", COD_VAL);
+					jsonRecord.put("COD_GRAPH", COD_GRAPH);
+					jsonRecord.put("SS_VAL", SS_VAL);
+					jsonRecord.put("SS_GRAPH", SS_GRAPH);
+					jsonRecord.put("TN_VAL", TN_VAL);
+					jsonRecord.put("TN_GRAPH", TN_GRAPH);
+					jsonRecord.put("TP_VAL", TP_VAL);
+					jsonRecord.put("TP_GRAPH", TP_GRAPH);
+					jsonRecord.put("COLI_VAL", COLI_VAL);
+					jsonRecord.put("COLI_GRAPH", COLI_GRAPH); 
+					jsonRecord.put("DISCHARGE_DISINFECT", DISCHARGE_DISINFECT);
+					jsonRecord.put("DISCHARGE_FACI_NM", DISCHARGE_FACI_NM);
+				} else {
+					jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
+				}
+				
+			}else if("2".equals(gubun)) {
+				
+				int cnt = 0;
+				String preSeq = "";
+				String FACI_CD = "";
+				String FACI_NM = "";
+				
+				String WORK_DT_VAL = "";
+				ArrayList WORK_DT_GRAPH = new ArrayList();
+				ArrayList Chart_Data_tmp = new ArrayList();
+				
+				String IN_PL_TYPE = "";
+				
+				
+				String AMT_VAL = "";
+				ArrayList AMT_GRAPH = new ArrayList();
+				
+				String BOD_VAL = "";
+				ArrayList BOD_GRAPH = new ArrayList();
+				
+				String COD_VAL = "";
+				ArrayList COD_GRAPH = new ArrayList();
+				
+				String SS_VAL = "";
+				ArrayList SS_GRAPH = new ArrayList();
+				
+				String TN_VAL = "";
+				ArrayList TN_GRAPH = new ArrayList();
+				
+				String TP_VAL = "";
+				ArrayList TP_GRAPH = new ArrayList();
+				
+				String COLI_VAL = "";
+				ArrayList COLI_GRAPH = new ArrayList();
+				
+				
+				for (int i = 0; i < srcList.size(); i++) {
+					
+					HashMap rs = (HashMap) srcList.get(i);
+					cnt++;
+					
+					if(!preSeq.equals("") && !preSeq.equals(String.valueOf(rs.get("NO")))) {
+						
+						cnt = 1;
+						jsonRecord = new HashMap();
+						
+						jsonRecord.put("FACI_CD", FACI_CD);
+						jsonRecord.put("FACI_NM", FACI_NM);
+				  		jsonRecord.put("WORK_DT_VAL", WORK_DT_VAL);
+				  		jsonRecord.put("WORK_DT_GRAPH", WORK_DT_GRAPH);
+				  		jsonRecord.put("IN_PL_TYPE", IN_PL_TYPE);
+				  		jsonRecord.put("AMT_VAL", AMT_VAL);
+				  		jsonRecord.put("AMT_GRAPH", AMT_GRAPH);
+				  		jsonRecord.put("BOD_VAL", BOD_VAL);
+				  		jsonRecord.put("BOD_GRAPH", BOD_GRAPH);
+				  		jsonRecord.put("COD_VAL", COD_VAL);
+				  		jsonRecord.put("COD_GRAPH", COD_GRAPH);
+				  		jsonRecord.put("SS_VAL", SS_VAL);
+				  		jsonRecord.put("SS_GRAPH", SS_GRAPH);
+				  		jsonRecord.put("TN_VAL", TN_VAL);
+				  		jsonRecord.put("TN_GRAPH", TN_GRAPH);
+				  		jsonRecord.put("TP_VAL", TP_VAL);
+				  		jsonRecord.put("TP_GRAPH", TP_GRAPH);
+				  		jsonRecord.put("COLI_VAL", COLI_VAL);
+				  		jsonRecord.put("COLI_GRAPH", COLI_GRAPH);
+				  		
+				  		jsonArr.add(jsonRecord);
+				  		
+				  		WORK_DT_GRAPH = new ArrayList();
+				  		AMT_GRAPH = new ArrayList();
+				  		BOD_GRAPH = new ArrayList();
+				  		COD_GRAPH  = new ArrayList();
+				  		SS_GRAPH  = new ArrayList();
+				  		TN_GRAPH  = new ArrayList();
+				  		TP_GRAPH  = new ArrayList();
+				  		COLI_GRAPH  = new ArrayList();
+						
+					}
+					
+					FACI_CD  = String.valueOf(rs.get("FACI_CD"));
+					FACI_NM  = String.valueOf(rs.get("FACI_NM"));
+					IN_PL_TYPE  = String.valueOf(rs.get("IN_PL_TYPE"));
+					WORK_DT_VAL = String.valueOf(rs.get("WORK_DT_VAL"));
+					
+					
+					
+					
+					AMT_VAL  = String.valueOf(rs.get("AMT_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("AMT_GRAPH"));
+					if(String.valueOf(rs.get("AMT_GRAPH")) != null) {
+						AMT_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					BOD_VAL = String.valueOf(rs.get("BOD_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("BOD_GRAPH"));
+					if(String.valueOf(rs.get("BOD_GRAPH")) != null) {
+						BOD_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					COD_VAL = String.valueOf(rs.get("COD_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("COD_GRAPH"));
+					if(String.valueOf(rs.get("COD_GRAPH")) != null) {
+						COD_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					SS_VAL = String.valueOf(rs.get("SS_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("SS_GRAPH"));
+					if(String.valueOf(rs.get("SS_GRAPH")) != null) {
+						SS_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		
+			  		TN_VAL = String.valueOf(rs.get("TN_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("TN_GRAPH"));
+					if(String.valueOf(rs.get("TN_GRAPH")) != null) {
+						TN_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		
+			  		TP_VAL = String.valueOf(rs.get("TP_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("TP_GRAPH"));
+					if(String.valueOf(rs.get("TP_GRAPH")) != null) {
+						TP_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		
+			  		
+			  		COLI_VAL = String.valueOf(rs.get("COLI_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("COLI_GRAPH"));
+					if(String.valueOf(rs.get("COLI_GRAPH")) != null) {
+						COLI_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					if (!preSeq.equals(String.valueOf(rs.get("NO")))) {
+						preSeq = String.valueOf(rs.get("NO"));
+					}
+					
+				}
+				
+				jsonRecord = new HashMap();
+				if (cnt > 0) {
+					jsonRecord.put("FACI_CD", FACI_CD);
+					jsonRecord.put("FACI_NM", FACI_NM);
+					jsonRecord.put("WORK_DT_VAL", WORK_DT_VAL);
+					jsonRecord.put("WORK_DT_GRAPH", WORK_DT_GRAPH);
+					jsonRecord.put("IN_PL_TYPE", IN_PL_TYPE);
+					jsonRecord.put("AMT_VAL", AMT_VAL);
+					jsonRecord.put("AMT_GRAPH", AMT_GRAPH);
+					jsonRecord.put("BOD_VAL", BOD_VAL);
+					jsonRecord.put("BOD_GRAPH", BOD_GRAPH);
+					jsonRecord.put("COD_VAL", COD_VAL);
+					jsonRecord.put("COD_GRAPH", COD_GRAPH);
+					jsonRecord.put("SS_VAL", SS_VAL);
+					jsonRecord.put("SS_GRAPH", SS_GRAPH);
+					jsonRecord.put("TN_VAL", TN_VAL);
+					jsonRecord.put("TN_GRAPH", TN_GRAPH);
+					jsonRecord.put("TP_VAL", TP_VAL);
+					jsonRecord.put("TP_GRAPH", TP_GRAPH);
+					jsonRecord.put("COLI_VAL", COLI_VAL);
+					jsonRecord.put("COLI_GRAPH", COLI_GRAPH);
+				} else {
+					jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
+				}
+				
+			}else if("3".equals(gubun)) {
+				
+				int cnt = 0;
+				String preSeq = "";
+				String FACI_CD = "";
+				String FACI_NM = "";
+				
+				String WORK_DT_VAL = "";
+				ArrayList WORK_DT_GRAPH = new ArrayList();
+				ArrayList Chart_Data_tmp = new ArrayList();
+				
+				String PIPE_NUM = "";
+				
+				String AMT_VAL = "";
+				ArrayList AMT_GRAPH = new ArrayList();
+				
+				String BOD_VAL = "";
+				ArrayList BOD_GRAPH = new ArrayList();
+				
+				String COD_VAL = "";
+				ArrayList COD_GRAPH = new ArrayList();
+				
+				String SS_VAL = "";
+				ArrayList SS_GRAPH = new ArrayList();
+				
+				String TN_VAL = "";
+				ArrayList TN_GRAPH = new ArrayList();
+				
+				String TP_VAL = "";
+				ArrayList TP_GRAPH = new ArrayList();
+				
+				String COLI_VAL = "";
+				ArrayList COLI_GRAPH = new ArrayList();
+				
+				for (int i = 0; i < srcList.size(); i++) {
+					
+					HashMap rs = (HashMap) srcList.get(i);
+					cnt++;
+					
+					if(!preSeq.equals("") && !preSeq.equals(String.valueOf(rs.get("NO")))) {
+						
+						cnt = 1;
+						jsonRecord = new HashMap();
+						
+						jsonRecord.put("FACI_CD", FACI_CD);
+						jsonRecord.put("FACI_NM", FACI_NM);
+				  		jsonRecord.put("WORK_DT_VAL", WORK_DT_VAL);
+				  		jsonRecord.put("WORK_DT_GRAPH", WORK_DT_GRAPH);
+				  		jsonRecord.put("PIPE_NUM", PIPE_NUM);
+				  		jsonRecord.put("AMT_VAL", AMT_VAL);
+				  		jsonRecord.put("AMT_GRAPH", AMT_GRAPH);
+				  		jsonRecord.put("BOD_VAL", BOD_VAL);
+				  		jsonRecord.put("BOD_GRAPH", BOD_GRAPH);
+				  		jsonRecord.put("COD_VAL", COD_VAL);
+				  		jsonRecord.put("COD_GRAPH", COD_GRAPH);
+				  		jsonRecord.put("SS_VAL", SS_VAL);
+				  		jsonRecord.put("SS_GRAPH", SS_GRAPH);
+				  		jsonRecord.put("TN_VAL", TN_VAL);
+				  		jsonRecord.put("TN_GRAPH", TN_GRAPH);
+				  		jsonRecord.put("TP_VAL", TP_VAL);
+				  		jsonRecord.put("TP_GRAPH", TP_GRAPH);
+				  		jsonRecord.put("COLI_VAL", COLI_VAL);
+				  		jsonRecord.put("COLI_GRAPH", COLI_GRAPH);
+				  		
+				  		jsonArr.add(jsonRecord);
+				  		
+				  		WORK_DT_GRAPH = new ArrayList();
+				  		AMT_GRAPH = new ArrayList();
+				  		BOD_GRAPH = new ArrayList();
+				  		COD_GRAPH  = new ArrayList();
+				  		SS_GRAPH  = new ArrayList();
+				  		TN_GRAPH  = new ArrayList();
+				  		TP_GRAPH  = new ArrayList();
+				  		COLI_GRAPH  = new ArrayList();
+					}
+					
+					FACI_CD  = String.valueOf(rs.get("FACI_CD"));
+					FACI_NM  = String.valueOf(rs.get("FACI_NM"));
+					PIPE_NUM  = String.valueOf(rs.get("PIPE_NUM"));
+					WORK_DT_VAL = String.valueOf(rs.get("WORK_DT_VAL"));
+					
+					AMT_VAL  = String.valueOf(rs.get("AMT_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("AMT_GRAPH"));
+					if(String.valueOf(rs.get("AMT_GRAPH")) != null){
+						AMT_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					BOD_VAL = String.valueOf(rs.get("BOD_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("BOD_GRAPH"));
+					if(String.valueOf(rs.get("BOD_GRAPH")) != null) {
+						BOD_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					COD_VAL = String.valueOf(rs.get("COD_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("COD_GRAPH"));
+					if(String.valueOf(rs.get("COD_GRAPH")) != null) {
+						COD_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					SS_VAL = String.valueOf(rs.get("SS_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("SS_GRAPH"));
+					if(String.valueOf(rs.get("SS_GRAPH")) != null) {
+						SS_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		
+			  		
+			  		TN_VAL = String.valueOf(rs.get("TN_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("TN_GRAPH"));
+					if(String.valueOf(rs.get("TN_GRAPH")) != null) {
+						TN_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		
+			  		
+			  		TP_VAL = String.valueOf(rs.get("TP_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("TP_GRAPH"));
+					if(String.valueOf(rs.get("TP_GRAPH")) != null) {
+						TP_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		
+			  		
+			  		COLI_VAL = String.valueOf(rs.get("COLI_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("COLI_GRAPH"));
+					if(String.valueOf(rs.get("COLI_GRAPH")) != null) {
+						COLI_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					if (!preSeq.equals(String.valueOf(rs.get("NO")))) {
+						preSeq = String.valueOf(rs.get("NO"));
+					}
+					
+				}
+				
+				jsonRecord = new HashMap();
+				if(cnt > 0){
+					//jsonRecord.put("parentId", parentId);
+					jsonRecord.put("FACI_CD", FACI_CD);
+					jsonRecord.put("FACI_NM", FACI_NM);
+					jsonRecord.put("WORK_DT_VAL", WORK_DT_VAL);
+					jsonRecord.put("WORK_DT_GRAPH", WORK_DT_GRAPH);
+					jsonRecord.put("PIPE_NUM", PIPE_NUM);
+					jsonRecord.put("AMT_VAL", AMT_VAL);
+					jsonRecord.put("AMT_GRAPH", AMT_GRAPH);
+					jsonRecord.put("BOD_VAL", BOD_VAL);
+					jsonRecord.put("BOD_GRAPH", BOD_GRAPH);
+					jsonRecord.put("COD_VAL", COD_VAL);
+					jsonRecord.put("COD_GRAPH", COD_GRAPH);
+					jsonRecord.put("SS_VAL", SS_VAL);
+					jsonRecord.put("SS_GRAPH", SS_GRAPH);
+					jsonRecord.put("TN_VAL", TN_VAL);
+					jsonRecord.put("TN_GRAPH", TN_GRAPH);
+					jsonRecord.put("TP_VAL", TP_VAL);
+					jsonRecord.put("TP_GRAPH", TP_GRAPH);
+					jsonRecord.put("COLI_VAL", COLI_VAL);
+					jsonRecord.put("COLI_GRAPH", COLI_GRAPH);
+				} else {
+					jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
+				}
+				
+			}else if("4".equals(gubun)) {
+				
+				int cnt = 0;
+				String preSeq = "";
+				String FACI_CD = "";
+				String FACI_NM = "";
+				
+				String WORK_DT_VAL = "";
+				ArrayList WORK_DT_GRAPH = new ArrayList();
+				
+				String PIPE_NUM = "";
+				String PIPE_TYPE = "";
+				
+				String AMT_VAL = "";
+				ArrayList AMT_GRAPH = new ArrayList();
+				ArrayList Chart_Data_tmp = new ArrayList();
+				
+				String BOD_VAL = "";
+				ArrayList BOD_GRAPH = new ArrayList();
+				
+				String COD_VAL = "";
+				ArrayList COD_GRAPH = new ArrayList();
+				
+				String SS_VAL = "";
+				ArrayList SS_GRAPH = new ArrayList();
+				
+				String TN_VAL = "";
+				ArrayList TN_GRAPH = new ArrayList();
+				
+				String TP_VAL = "";
+				ArrayList TP_GRAPH = new ArrayList();
+				
+				String COLI_VAL = "";
+				ArrayList COLI_GRAPH = new ArrayList();
+				
+				String BYPASS_AMT_VAL = "";
+				ArrayList BYPASS_AMT_GRAPH = new ArrayList();
+				
+				String CONNECT_FACI_NM = "";
+				
+				
+				for (int i = 0; i < srcList.size(); i++) {
+					HashMap rs = (HashMap) srcList.get(i);
+					cnt++;
+					
+					if(!preSeq.equals("") && !preSeq.equals(String.valueOf(rs.get("NO")))) {
+						
+						
+						cnt  = 1;
+						
+						jsonRecord = new HashMap();
+						
+						jsonRecord.put("FACI_CD", FACI_CD);
+						jsonRecord.put("FACI_NM", FACI_NM);
+				  		jsonRecord.put("WORK_DT_VAL", WORK_DT_VAL);
+				  		jsonRecord.put("WORK_DT_GRAPH", WORK_DT_GRAPH);
+				  		jsonRecord.put("PIPE_NUM", PIPE_NUM);
+				  		jsonRecord.put("PIPE_TYPE", PIPE_TYPE);
+				  		jsonRecord.put("AMT_VAL", AMT_VAL);
+				  		jsonRecord.put("AMT_GRAPH", AMT_GRAPH);
+				  		jsonRecord.put("BOD_VAL", BOD_VAL);
+				  		jsonRecord.put("BOD_GRAPH", BOD_GRAPH);
+				  		jsonRecord.put("COD_VAL", COD_VAL);
+				  		jsonRecord.put("COD_GRAPH", COD_GRAPH);
+				  		jsonRecord.put("SS_VAL", SS_VAL);
+				  		jsonRecord.put("SS_GRAPH", SS_GRAPH);
+				  		jsonRecord.put("TN_VAL", TN_VAL);
+				  		jsonRecord.put("TN_GRAPH", TN_GRAPH);
+				  		jsonRecord.put("TP_VAL", TP_VAL);
+				  		jsonRecord.put("TP_GRAPH", TP_GRAPH);
+				  		jsonRecord.put("COLI_VAL", COLI_VAL);
+				  		jsonRecord.put("COLI_GRAPH", COLI_GRAPH);
+				  		jsonRecord.put("BYPASS_AMT_VAL", BYPASS_AMT_VAL);
+				  		jsonRecord.put("BYPASS_AMT_GRAPH", BYPASS_AMT_GRAPH); 
+				  		jsonRecord.put("CONNECT_FACI_NM", CONNECT_FACI_NM);
+				  		
+				  		jsonArr.add(jsonRecord);
+				  		
+				  		WORK_DT_GRAPH = new ArrayList();
+				  		AMT_GRAPH = new ArrayList();
+				  		BOD_GRAPH = new ArrayList();
+				  		COD_GRAPH  = new ArrayList();
+				  		SS_GRAPH  = new ArrayList();
+				  		TN_GRAPH  = new ArrayList();
+				  		TP_GRAPH  = new ArrayList();
+				  		COLI_GRAPH  = new ArrayList();
+				  		BYPASS_AMT_GRAPH  = new ArrayList();
+				  		
+					}
+					
+					FACI_CD  = String.valueOf(rs.get("FACI_CD"));
+					FACI_NM  = String.valueOf(rs.get("FACI_NM"));
+					PIPE_NUM  = String.valueOf(rs.get("PIPE_NUM"));
+					PIPE_TYPE  = String.valueOf(rs.get("PIPE_TYPE"));
+					CONNECT_FACI_NM = String.valueOf(rs.get("CONNECT_FACI_NM"));
+					
+					WORK_DT_VAL = String.valueOf(rs.get("WORK_DT_VAL"));
+					
+					AMT_VAL  = String.valueOf(rs.get("AMT_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("AMT_GRAPH"));
+					if(String.valueOf(rs.get("AMT_GRAPH")) != null) {
+						AMT_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					BOD_VAL = String.valueOf(rs.get("BOD_VAL"));
+					Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("BOD_GRAPH"));
+					if(String.valueOf(rs.get("BOD_GRAPH")) != null) {
+						BOD_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					COD_VAL = String.valueOf(rs.get("COD_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("COD_GRAPH"));
+					if(String.valueOf(rs.get("COD_GRAPH")) != null) {
+						COD_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					
+					SS_VAL = String.valueOf(rs.get("SS_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("SS_GRAPH"));
+					if(String.valueOf(rs.get("SS_GRAPH")) != null) {
+						SS_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		//CHART_TN.add(rs.get("CHART_TN"));
+			  		
+			  		
+			  		TN_VAL = String.valueOf(rs.get("TN_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("TN_GRAPH"));
+					if(String.valueOf(rs.get("TN_GRAPH")) != null) {
+						TN_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		//CHART_TP.add(rs.get("CHART_TP"));
+			  		
+			  		
+			  		TP_VAL = String.valueOf(rs.get("TP_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("TP_GRAPH"));
+					if(String.valueOf(rs.get("TP_GRAPH")) != null) {
+						TP_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		//CHART_TEMP.add(rs.get("CHART_TEMP"));
+			  		
+			  		
+			  		COLI_VAL = String.valueOf(rs.get("COLI_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("COLI_GRAPH"));
+					if(String.valueOf(rs.get("COLI_GRAPH")) != null) {
+						COLI_GRAPH.add(Chart_Data_tmp);
+					}
+					
+			  		//CHART_PH.add(rs.get("CHART_PH")); 
+			  		
+			  		
+			  		BYPASS_AMT_VAL = String.valueOf(rs.get("BYPASS_AMT_VAL"));
+			  		Chart_Data_tmp = new ArrayList();
+					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("WORK_DT_GRAPH")).replace("-", ""));
+					Chart_Data_tmp.add(rs.get("BYPASS_AMT_GRAPH"));
+					if(String.valueOf(rs.get("BYPASS_AMT_GRAPH")) != null) {
+						BYPASS_AMT_GRAPH.add(Chart_Data_tmp);
+					}
+					
+					
+					if (!preSeq.equals(String.valueOf(rs.get("NO")))) {
+						preSeq = String.valueOf(rs.get("NO"));
+					}
+					
+				}
+					
+				jsonRecord = new HashMap();
+				if (cnt > 0) {
+					jsonRecord.put("FACI_CD", FACI_CD);
+					jsonRecord.put("FACI_NM", FACI_NM);
+					jsonRecord.put("WORK_DT_VAL", WORK_DT_VAL);
+					jsonRecord.put("WORK_DT_GRAPH", WORK_DT_GRAPH);
+					jsonRecord.put("PIPE_NUM", PIPE_NUM);
+					jsonRecord.put("PIPE_TYPE", PIPE_TYPE);
+					jsonRecord.put("AMT_VAL", AMT_VAL);
+					jsonRecord.put("AMT_GRAPH", AMT_GRAPH);
+					jsonRecord.put("BOD_VAL", BOD_VAL);
+					jsonRecord.put("BOD_GRAPH", BOD_GRAPH);
+					jsonRecord.put("COD_VAL", COD_VAL);
+					jsonRecord.put("COD_GRAPH", COD_GRAPH);
+					jsonRecord.put("SS_VAL", SS_VAL);
+					jsonRecord.put("SS_GRAPH", SS_GRAPH);
+					jsonRecord.put("TN_VAL", TN_VAL);
+					jsonRecord.put("TN_GRAPH", TN_GRAPH);
+					jsonRecord.put("TP_VAL", TP_VAL);
+					jsonRecord.put("TP_GRAPH", TP_GRAPH);
+					jsonRecord.put("COLI_VAL", COLI_VAL);
+					jsonRecord.put("COLI_GRAPH", COLI_GRAPH);
+					jsonRecord.put("BYPASS_AMT_VAL", BYPASS_AMT_VAL);
+					jsonRecord.put("BYPASS_AMT_GRAPH", BYPASS_AMT_GRAPH); 
+					jsonRecord.put("CONNECT_FACI_NM", CONNECT_FACI_NM);
+				} else {
+					jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
+				}
+				
+			}
+			
+			
+			jsonArr.add(jsonRecord);
+			
+			
+			HashMap result = new HashMap();
+			
+			result.put("data", jsonArr);
+			
+			return result;
 		}
 	}
 

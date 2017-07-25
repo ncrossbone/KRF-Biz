@@ -34,7 +34,6 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println(e);
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
@@ -86,10 +85,8 @@ public class SearchResultController extends BaseController{
 	// 퇴적물 LAYER CODE : C
 	@RequestMapping(value = "/searchResult_C", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
 	public String searchResult_C(@ModelAttribute SearchResultVO param) {
-		HashMap result = new HashMap();
-		
 		try {
-			result.put("data", searchResultService.searchResult_C(param));
+			HashMap result = searchResultService.searchResult_C(param);
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -115,10 +112,9 @@ public class SearchResultController extends BaseController{
 	// 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001
 	@RequestMapping(value = "/searchResult_F_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
 	public String searchResult_F_1(@PathVariable String gubun, @ModelAttribute SearchResultVO param) {
-		HashMap result = new HashMap();
 		
 		try {
-			result.put("data", searchResultService.searchResult_F(gubun, param));
+			HashMap result = searchResultService.searchResult_F(gubun, param);
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
