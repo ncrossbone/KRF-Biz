@@ -1207,22 +1207,26 @@ public class SearchResultService {
 				siteIds[i] = siteIds[i].replaceAll("'", "");
 			}
 		}
-
+		
+		HashMap result = new HashMap();
+		List resultList = null;
+		
 		if ("noDate".equals(param.getFirstSearch())) {
 			param.setGubun(gubun);
-			HashMap result = new HashMap();
-			result.put("data", searchResultMapper.searchResult_D_getDate(param));
-			return result;
+			resultList = searchResultMapper.searchResult_D_getDate(param);
 		} else {
 			Method method = searchResultMapper.getClass().getMethod("searchResult_D_" + gubun, SearchResultVO.class);
-			List srcList = (List) method.invoke(searchResultMapper, param);
-
-			HashMap result = new HashMap();
-
-			setResultData(srcList, gubun, result);
-
-			return result;
+			resultList = (List) method.invoke(searchResultMapper, param);
 		}
+		
+		if(checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
 	}
 
 	// 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001
@@ -1267,6 +1271,13 @@ public class SearchResultService {
 
 		List result = searchResultMapper.searchResult_PollLoad_Cat_Detail(param);
 		return result;
+	}
+
+	private boolean checkNull(List resultList) {
+		if (resultList == null || resultList.size()<=0 || (resultList.size()>0 && resultList.get(0) == null)) {
+			return true;
+		}
+		return false;
 	}
 
 	// 기타측정지점 - 수위관측소 GROUT CODE : D / LAYER CODE : D001
@@ -1373,468 +1384,21 @@ public class SearchResultService {
 
 		if ("1".equals(gubun)) {
 
-			for (int i = 0; i < srcList.size(); i++) {
-
-				HashMap rs = (HashMap) srcList.get(i);
-
-				if (!preSeq2.equals(String.valueOf(rs.get("RN")))) {
-					cnt++;
-					if (!preSeq.equals("") && !preSeq.equals(String.valueOf(rs.get("RN")))) {
-						cnt = 1;
-						jsonRecord = new HashMap();
-
-						jsonRecord.put("WS_NM", WS_NM);
-						jsonRecord.put("AM_NM", AM_NM);
-						jsonRecord.put("AS_NM", AS_NM);
-						jsonRecord.put("PT_NO", PT_NO);
-						jsonRecord.put("PT_NM", PT_NM);
-						jsonRecord.put("WMCYMD", WMCYMD);
-						jsonRecord.put("CHART_DATE", CHART_DATE);
-						jsonRecord.put("CURR_WL", CURR_WL);
-						jsonRecord.put("CHART_WL", CHART_WL);
-						jsonRecord.put("Chart_Data_tmp", Chart_Data_tmp);
-						jsonRecord.put("CURR_MXWL", CURR_MXWL);
-						jsonRecord.put("CHART_MXWL", CHART_MXWL);
-						jsonRecord.put("CURR_MNWL", CURR_MNWL);
-						jsonRecord.put("CHART_MNWL", CHART_MNWL);
-
-						jsonArr.add(jsonRecord);
-
-						CHART_WL = new ArrayList();
-						CHART_MXWL = new ArrayList();
-						CHART_MNWL = new ArrayList();
-
-					}
-
-					WS_NM = String.valueOf(rs.get("WS_NM"));
-					AM_NM = String.valueOf(rs.get("AM_NM"));
-					AS_NM = String.valueOf(rs.get("AS_NM"));
-					PT_NO = String.valueOf(rs.get("PT_NO"));
-					PT_NM = String.valueOf(rs.get("PT_NM"));
-					WMCYMD = String.valueOf(rs.get("WMCYMD"));
-
-					CURR_WL = String.valueOf(rs.get("CURR_WL"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_WL")).trim());
-					CHART_WL.add(Chart_Data_tmp);
-
-					CURR_MXWL = String.valueOf(rs.get("CURR_MXWL"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_MXWL")).trim());
-					CHART_MXWL.add(Chart_Data_tmp);
-
-					CURR_MNWL = String.valueOf(rs.get("CURR_MNWL"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_MNWL")).trim());
-					CHART_MNWL.add(Chart_Data_tmp);
-
-					if (!preSeq.equals(String.valueOf(rs.get("RN")))) {
-						preSeq = String.valueOf(rs.get("RN"));
-					}
-
-				} else {
-
-					check = preSeq2;
-					WMCYMD = String.valueOf(rs.get("WMCYMD"));
-				}
-			}
-
-			jsonRecord = new HashMap();
-			if (cnt > 0) {
-				jsonRecord.put("WS_NM", WS_NM);
-				jsonRecord.put("AM_NM", AM_NM);
-				jsonRecord.put("AS_NM", AS_NM);
-				jsonRecord.put("PT_NO", PT_NO);
-				jsonRecord.put("PT_NM", PT_NM);
-				jsonRecord.put("WMCYMD", WMCYMD);
-				jsonRecord.put("CURR_WL", CURR_WL);
-				jsonRecord.put("CHART_WL", CHART_WL);
-				jsonRecord.put("CURR_MXWL", CURR_MXWL);
-				jsonRecord.put("CHART_MXWL", CHART_MXWL);
-				jsonRecord.put("CURR_MNWL", CURR_MNWL);
-				jsonRecord.put("CHART_MNWL", CHART_MNWL);
-			} else if (cnt == 0 && "9999".equals(check)) {
-				jsonRecord.put("WMCYMD", WMCYMD);
-			} else {
-				jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
-			}
+			result.put("data", srcList);
+			return;
 		} else if ("2".equals(gubun)) {
-			for (int i = 0; i < srcList.size(); i++) {
-
-				HashMap rs = (HashMap) srcList.get(i);
-
-				cnt++;
-				if (!preSeq.equals("") && !preSeq.equals(String.valueOf(rs.get("RN")))) {
-
-					cnt = 1;
-					jsonRecord = new HashMap();
-					jsonRecord.put("WS_NM", WS_NM);
-					jsonRecord.put("AM_NM", AM_NM);
-					jsonRecord.put("AS_NM", AS_NM);
-					jsonRecord.put("PT_NO", PT_NO);
-					jsonRecord.put("PT_NM", PT_NM);
-					jsonRecord.put("WMCYMD", WMCYMD);
-					jsonRecord.put("CHART_DATE", CHART_DATE);
-					jsonRecord.put("CURR_RF", CURR_RF);
-					jsonRecord.put("CHART_RF", CHART_RF);
-					jsonRecord.put("Chart_Data_tmp", Chart_Data_tmp);
-
-					jsonArr.add(jsonRecord);
-
-					CHART_RF = new ArrayList();
-
-				}
-				WS_NM = String.valueOf(rs.get("WS_NM"));
-				AM_NM = String.valueOf(rs.get("AM_NM"));
-				AS_NM = String.valueOf(rs.get("AS_NM"));
-				PT_NO = String.valueOf(rs.get("PT_NO"));
-				PT_NM = String.valueOf(rs.get("PT_NM"));
-				WMCYMD = String.valueOf(rs.get("WMCYMD"));
-
-				CURR_RF = String.valueOf(rs.get("CURR_RF"));
-				Chart_Data_tmp = new ArrayList();
-				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RF")).trim());
-				CHART_RF.add(Chart_Data_tmp);
-
-				if (!preSeq.equals(String.valueOf(rs.get("RN"))))
-					preSeq = String.valueOf(rs.get("RN"));
-
-			}
-
-			jsonRecord = new HashMap();
-
-			if (cnt > 0) {
-				jsonRecord.put("WS_NM", WS_NM);
-				jsonRecord.put("AM_NM", AM_NM);
-				jsonRecord.put("AS_NM", AS_NM);
-				jsonRecord.put("PT_NO", PT_NO);
-				jsonRecord.put("PT_NM", PT_NM);
-				jsonRecord.put("WMCYMD", WMCYMD);
-				jsonRecord.put("CURR_RF", CURR_RF);
-				jsonRecord.put("CHART_RF", CHART_RF);
-			} else {
-				jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
-			}
+			result.put("data", srcList);
+			return;
 		} else if ("3".equals(gubun)) {
 
-			for (int i = 0; i < srcList.size(); i++) {
-				HashMap rs = (HashMap) srcList.get(i);
-				cnt++;
-				if (!"".equals(preSeq) && !preSeq.equals(rs.get("RN"))) {
-					cnt = 1;
-					jsonRecord = new HashMap();
-					jsonRecord.put("WS_NM", WS_NM);
-					jsonRecord.put("AM_NM", AM_NM);
-					jsonRecord.put("AS_NM", AS_NM);
-					jsonRecord.put("PT_NO", PT_NO);
-					jsonRecord.put("PT_NM", PT_NM);
-					jsonRecord.put("WMCYMD", WMCYMD);
-					jsonRecord.put("CHART_DATE", CHART_DATE);
-					jsonRecord.put("CURR_FW", CURR_FW);
-					jsonRecord.put("CHART_FW", CHART_FW);
-					jsonRecord.put("Chart_Data_tmp", Chart_Data_tmp);
-					jsonArr.add(jsonRecord);
-					CHART_FW = new ArrayList();
-				}
-				WS_NM = String.valueOf(rs.get("WS_NM"));
-				AM_NM = String.valueOf(rs.get("AM_NM"));
-				AS_NM = String.valueOf(rs.get("AS_NM"));
-				PT_NO = String.valueOf(rs.get("PT_NO"));
-				PT_NM = String.valueOf(rs.get("PT_NM"));
-				WMCYMD = String.valueOf(rs.get("WMCYMD"));
-
-				CURR_FW = String.valueOf(rs.get("CURR_FW"));
-				Chart_Data_tmp = new ArrayList();
-				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_FW")).trim());
-				CHART_FW.add(Chart_Data_tmp);
-
-				if (!preSeq.equals(rs.get("RN")))
-					preSeq = String.valueOf(rs.get("RN"));
-
-			}
-
-			jsonRecord = new HashMap();
-
-			if (cnt > 0) {
-				jsonRecord.put("WS_NM", WS_NM);
-				jsonRecord.put("AM_NM", AM_NM);
-				jsonRecord.put("AS_NM", AS_NM);
-				jsonRecord.put("PT_NO", PT_NO);
-				jsonRecord.put("PT_NM", PT_NM);
-				jsonRecord.put("WMCYMD", WMCYMD);
-				jsonRecord.put("CURR_FW", CURR_FW);
-				jsonRecord.put("CHART_FW", CHART_FW);
-			} else {
-				jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
-			}
+			result.put("data", srcList);
+			return;
 		} else if ("4".equals(gubun)) {
-			for (int i = 0; i < srcList.size(); i++) {
-				HashMap rs = (HashMap) srcList.get(i);
-				cnt++;
-				if (!preSeq.equals("") && !preSeq.equals(String.valueOf(rs.get("RN")))) {
-
-					cnt = 1;
-
-					jsonRecord = new HashMap();
-
-					// jsonRecord.put("parentId", parentId);
-					jsonRecord.put("WS_NM", WS_NM);
-					jsonRecord.put("AM_NM", AM_NM);
-					jsonRecord.put("AS_NM", AS_NM);
-					jsonRecord.put("PT_NO", PT_NO);
-					jsonRecord.put("PT_NM", PT_NM);
-					jsonRecord.put("WMCYMD", WMCYMD);
-					jsonRecord.put("CHART_DATE", CHART_DATE);
-					jsonRecord.put("CURR_SWL", CURR_SWL);
-					jsonRecord.put("CHART_SWL", CHART_SWL);
-					jsonRecord.put("CURR_INF", CURR_INF);
-					jsonRecord.put("CHART_INF", CHART_INF);
-					jsonRecord.put("CURR_OTF", CURR_OTF);
-					jsonRecord.put("CHART_OTF", CHART_OTF);
-					jsonRecord.put("CURR_SFW", CURR_SFW);
-					jsonRecord.put("CHART_SFW", CHART_SFW);
-					jsonRecord.put("CURR_ECPC", CURR_ECPC);
-					jsonRecord.put("CHART_ECPC", CHART_ECPC);
-					jsonRecord.put("Chart_Data_tmp", Chart_Data_tmp);
-
-					jsonArr.add(jsonRecord);
-
-					CHART_SWL = new ArrayList();
-					CHART_INF = new ArrayList();
-					CHART_OTF = new ArrayList();
-					CHART_SFW = new ArrayList();
-					CHART_ECPC = new ArrayList();
-
-				}
-				WS_NM = String.valueOf(rs.get("WS_NM"));
-				AM_NM = String.valueOf(rs.get("AM_NM"));
-				AS_NM = String.valueOf(rs.get("AS_NM"));
-				PT_NO = String.valueOf(rs.get("PT_NO"));
-				PT_NM = String.valueOf(rs.get("PT_NM"));
-				WMCYMD = String.valueOf(rs.get("WMCYMD"));
-
-				CURR_SWL = String.valueOf(rs.get("CURR_SWL"));
-				Chart_Data_tmp = new ArrayList();
-				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SWL")).trim());
-				CHART_SWL.add(Chart_Data_tmp);
-
-				CURR_INF = String.valueOf(rs.get("CURR_INF"));
-				Chart_Data_tmp = new ArrayList();
-				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_INF")).trim());
-				CHART_INF.add(Chart_Data_tmp);
-
-				CURR_OTF = String.valueOf(rs.get("CURR_OTF"));
-				Chart_Data_tmp = new ArrayList();
-				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_OTF")).trim());
-				CHART_OTF.add(Chart_Data_tmp);
-
-				CURR_SFW = String.valueOf(rs.get("CURR_SFW"));
-				Chart_Data_tmp = new ArrayList();
-				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_SFW")).trim());
-				CHART_SFW.add(Chart_Data_tmp);
-
-				CURR_ECPC = String.valueOf(rs.get("CURR_ECPC"));
-				Chart_Data_tmp = new ArrayList();
-				Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-				Chart_Data_tmp.add(String.valueOf(rs.get("CHART_ECPC")).trim());
-				CHART_ECPC.add(Chart_Data_tmp);
-
-				if (!preSeq.equals(String.valueOf(rs.get("RN"))))
-					preSeq = String.valueOf(rs.get("RN"));
-
-			}
-
-			jsonRecord = new HashMap();
-
-			if (cnt > 0) {
-				jsonRecord.put("WS_NM", WS_NM);
-				jsonRecord.put("AM_NM", AM_NM);
-				jsonRecord.put("AS_NM", AS_NM);
-				jsonRecord.put("PT_NO", PT_NO);
-				jsonRecord.put("PT_NM", PT_NM);
-				jsonRecord.put("WMCYMD", WMCYMD);
-				jsonRecord.put("CURR_SWL", CURR_SWL);
-				jsonRecord.put("CHART_SWL", CHART_SWL);
-				jsonRecord.put("CURR_INF", CURR_INF);
-				jsonRecord.put("CHART_INF", CHART_INF);
-				jsonRecord.put("CURR_OTF", CURR_OTF);
-				jsonRecord.put("CHART_OTF", CHART_OTF);
-				jsonRecord.put("CURR_SFW", CURR_SFW);
-				jsonRecord.put("CHART_SFW", CHART_SFW);
-				jsonRecord.put("CURR_ECPC", CURR_ECPC);
-				jsonRecord.put("CHART_ECPC", CHART_ECPC);
-			} else {
-				jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
-			}
+			result.put("data", srcList);
+			return;
 		} else if ("5".equals(gubun)) {
-			for (int i = 0; i < srcList.size(); i++) {
-				HashMap rs = (HashMap) srcList.get(i);
-
-				if (!preSeq2.equals(String.valueOf(rs.get("RN")))) {
-					cnt++;
-					if (!preSeq.equals("") && !preSeq.equals(String.valueOf(rs.get("RN")))) {
-
-						cnt = 1;
-						jsonRecord = new HashMap();
-
-						jsonRecord.put("WS_NM", WS_NM);
-						jsonRecord.put("AM_NM", AM_NM);
-						jsonRecord.put("AS_NM", AS_NM);
-						jsonRecord.put("PT_NO", PT_NO);
-						jsonRecord.put("PT_NM", PT_NM);
-						jsonRecord.put("WMCYMD", WMCYMD);
-						jsonRecord.put("CHART_DATE", CHART_DATE);
-						jsonRecord.put("CURR_WD", CURR_WD);
-						jsonRecord.put("CHART_WD", CHART_WD);
-						jsonRecord.put("Chart_Data_tmp", Chart_Data_tmp);
-						jsonRecord.put("CURR_WS", CURR_WS);
-						jsonRecord.put("CHART_WS", CHART_WS);
-						jsonRecord.put("CURR_TA", CURR_TA);
-						jsonRecord.put("CHART_TA", CHART_TA);
-						jsonRecord.put("CURR_HM", CURR_HM);
-						jsonRecord.put("CHART_HM", CHART_HM);
-						jsonRecord.put("CURR_PA", CURR_PA);
-						jsonRecord.put("CHART_PA", CHART_PA);
-						jsonRecord.put("CURR_PS", CURR_PS);
-						jsonRecord.put("CHART_PS", CHART_PS);
-						jsonRecord.put("CURR_RNYN", CURR_RNYN);
-						jsonRecord.put("CHART_RNYN", CHART_RNYN);
-						jsonRecord.put("CURR_RN1HR", CURR_RN1HR);
-						jsonRecord.put("CHART_RN1HR", CHART_RN1HR);
-						jsonRecord.put("CURR_RNDAY", CURR_RNDAY);
-						jsonRecord.put("CHART_RNDAY", CHART_RNDAY);
-
-						jsonArr.add(jsonRecord);
-
-						CHART_WD = new ArrayList();
-						CHART_WS = new ArrayList();
-						CHART_TA = new ArrayList();
-						CHART_HM = new ArrayList();
-						CHART_PA = new ArrayList();
-						CHART_PS = new ArrayList();
-						CHART_RNYN = new ArrayList();
-						CHART_RN1HR = new ArrayList();
-						CHART_RNDAY = new ArrayList();
-
-					}
-
-					WS_NM = String.valueOf(rs.get("WS_NM"));
-					AM_NM = String.valueOf(rs.get("AM_NM"));
-					AS_NM = String.valueOf(rs.get("AS_NM"));
-					PT_NO = String.valueOf(rs.get("PT_NO"));
-					PT_NM = String.valueOf(rs.get("PT_NM"));
-					WMCYMD = String.valueOf(rs.get("WMCYMD"));
-
-					CURR_WD = String.valueOf(rs.get("CURR_WD"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_WD")).trim());
-					CHART_WD.add(Chart_Data_tmp);
-
-					CURR_WS = String.valueOf(rs.get("CURR_WS"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_WS")).trim());
-					CHART_WS.add(Chart_Data_tmp);
-
-					CURR_TA = String.valueOf(rs.get("CURR_TA"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_TA")).trim());
-					CHART_TA.add(Chart_Data_tmp);
-
-					CURR_HM = String.valueOf(rs.get("CURR_HM"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_HM")).trim());
-					CHART_HM.add(Chart_Data_tmp);
-
-					CURR_PA = String.valueOf(rs.get("CURR_PA"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_PA")).trim());
-					CHART_PA.add(Chart_Data_tmp);
-
-					CURR_PS = String.valueOf(rs.get("CURR_PS"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_PS")).trim());
-					CHART_PS.add(Chart_Data_tmp);
-
-					CURR_RNYN = String.valueOf(rs.get("CURR_RNYN"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RNYN")).trim());
-					CHART_RNYN.add(Chart_Data_tmp);
-
-					CURR_RN1HR = String.valueOf(rs.get("CURR_RN1HR"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RN1HR")).trim());
-					CHART_RN1HR.add(Chart_Data_tmp);
-
-					CURR_RNDAY = String.valueOf(rs.get("CURR_RNDAY"));
-					Chart_Data_tmp = new ArrayList();
-					Chart_Data_tmp.add(cnt + String.valueOf(rs.get("CHART_DATE")).replace(".", ""));
-					Chart_Data_tmp.add(String.valueOf(rs.get("CHART_RNDAY")).trim());
-					CHART_RNDAY.add(Chart_Data_tmp);
-
-					if (!preSeq.equals(String.valueOf(rs.get("RN")))) {
-						preSeq = String.valueOf(rs.get("RN"));
-					}
-
-				} else {
-
-					check = preSeq2;
-					WMCYMD = String.valueOf(rs.get("WMCYMD"));
-
-				}
-
-			}
-
-			jsonRecord = new HashMap();
-
-			if (cnt > 0) {
-				jsonRecord.put("WS_NM", WS_NM);
-				jsonRecord.put("AM_NM", AM_NM);
-				jsonRecord.put("AS_NM", AS_NM);
-				jsonRecord.put("PT_NO", PT_NO);
-				jsonRecord.put("PT_NM", PT_NM);
-				jsonRecord.put("WMCYMD", WMCYMD);
-				jsonRecord.put("CURR_WD", CURR_WD);
-				jsonRecord.put("CHART_WD", CHART_WD);
-				jsonRecord.put("CURR_WS", CURR_WS);
-				jsonRecord.put("CHART_WS", CHART_WS);
-				jsonRecord.put("CURR_TA", CURR_TA);
-				jsonRecord.put("CHART_TA", CHART_TA);
-				jsonRecord.put("CURR_PS", CURR_PS);
-				jsonRecord.put("CHART_PS", CHART_PS);
-				jsonRecord.put("CURR_HM", CURR_HM);
-				jsonRecord.put("CHART_HM", CHART_HM);
-				jsonRecord.put("CURR_PA", CURR_PA);
-				jsonRecord.put("CHART_PA", CHART_PA);
-				jsonRecord.put("CURR_PS", CURR_PS);
-				jsonRecord.put("CHART_PS", CHART_PS);
-				jsonRecord.put("CURR_RNYN", CURR_RNYN);
-				jsonRecord.put("CHART_RNYN", CHART_RNYN);
-				jsonRecord.put("CURR_RN1HR", CURR_RN1HR);
-				jsonRecord.put("CHART_RN1HR", CHART_RN1HR);
-				jsonRecord.put("CURR_RNDAY", CURR_RNDAY);
-				jsonRecord.put("CHART_RNDAY", CHART_RNDAY);
-			} else if (cnt == 0 && "9999".equals(check)) {
-				jsonRecord.put("WMCYMD", WMCYMD);
-			} else {
-				jsonRecord.put("msg", "데이터가 존재하지 않습니다.");
-			}
+			result.put("data", srcList);
+			return;
 		} else if ("6".equals(gubun)) {
 			for (int i = 0; i < srcList.size(); i++) {
 				HashMap rs = (HashMap) srcList.get(i);
