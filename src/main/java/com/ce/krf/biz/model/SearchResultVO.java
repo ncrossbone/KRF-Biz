@@ -3,28 +3,30 @@ package com.ce.krf.biz.model;
 public class SearchResultVO {
 	
 	
-	private String catDid = null;
+	private String catDid = "";
 	private String[] catDids = null;
-	private String year = null;
+	private String year = "";
 	
 	//수질자동측정지점 미확정 / 확정 날짜
-	private String startFull = null;
-	private String endFull = null;
+	private String startFull = "";
+	private String endFull = "";
 	
-	private String gubun = null;
+	private String gubun = "";
 	
-	private String siteId = null;
+	private String siteId = "";
 	private String[] siteIds = null;
-	private String start = null;
-	private String end = null;
+	private String start = "";
+	private String end = "";
 	
-	private String startYear = null;
-	private String startMonth = null;
-	private String endYear = null;
-	private String endMonth = null;
+	private String startYear = "";
+	private String startMonth = "";
+	private String endYear = "";
+	private String endMonth = "";
 	
 	
-	private String firstSearch = null;
+	
+	
+	private String firstSearch = "";
 	
 	public String getCatDid() {
 		return catDid;
@@ -120,6 +122,12 @@ public class SearchResultVO {
 	public void setEndMonth(String endMonth) {
 		this.endMonth = endMonth;
 	}
-	
-	
+
+	public void setSiteIds () {
+		if (siteIds != null && siteIds.length > 0) {
+			for (int i = 0; i < siteIds.length; i++) {
+				siteIds[i] = siteIds[i].replaceAll("'", "");
+			}
+		}
+	}
 }
