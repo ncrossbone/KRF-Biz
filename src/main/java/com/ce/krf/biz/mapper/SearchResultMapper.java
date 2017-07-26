@@ -1,7 +1,6 @@
 package com.ce.krf.biz.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import com.ce.krf.biz.model.SearchResultVO;
 
@@ -21,6 +20,9 @@ public interface SearchResultMapper {
 	
 	//수질자동측정지점 - 사업장TMS
 	public List searchResult_B001_Fix(SearchResultVO param);
+	
+	//퇴적물 - 사업장TMS
+	public List searchResult_C_getDate(SearchResultVO param);
 	
 	//퇴적물 - 사업장TMS
 	public List searchResult_C(SearchResultVO param);

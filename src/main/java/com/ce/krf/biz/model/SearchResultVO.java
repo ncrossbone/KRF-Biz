@@ -24,6 +24,8 @@ public class SearchResultVO {
 	private String endMonth = "";
 	
 	
+	
+	
 	private String firstSearch = "";
 	
 	public String getCatDid() {
@@ -120,6 +122,12 @@ public class SearchResultVO {
 	public void setEndMonth(String endMonth) {
 		this.endMonth = endMonth;
 	}
-	
-	
+
+	public void setSiteIds () {
+		if (siteIds != null && siteIds.length > 0) {
+			for (int i = 0; i < siteIds.length; i++) {
+				siteIds[i] = siteIds[i].replaceAll("'", "");
+			}
+		}
+	}
 }

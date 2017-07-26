@@ -31,6 +31,9 @@ public class BaseController {
 				continue;
 			}
 			for(Object key : srcMap.keySet()) {
+				if(srcMap.get(key) instanceof List) {
+					continue;
+				}
 				String v = String.valueOf(srcMap.get(key));
 				if(((String) key).startsWith("CHART") &&  v.startsWith("[[") && v.endsWith("]]")) {
 					try {

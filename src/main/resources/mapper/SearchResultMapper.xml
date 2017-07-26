@@ -774,10 +774,7 @@
     </select>
     
     <select id="searchResult_B_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-	    SELECT /* KRF-BIZ.SearchResultMapper.searchResult_B_getDate */ 
-	           SUBSTR(MAX(BASE_TIME),0,4) AS YEAR , 
-	    	   SUBSTR(MAX(BASE_TIME),5,2) AS MONTH ,
-	    	   SUBSTR(MAX(BASE_TIME),7,2) AS DAY ,
+	    SELECT /* KRF-BIZ.SearchResultMapper.searchResult_B_getDate */
 	       	   MAX(BASE_TIME) AS WMCYMD 
 	      FROM TMS_HOURDATA 
 		 WHERE FACT_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
@@ -935,11 +932,11 @@
                                                  AND SUBSTR (A.WMCYMD, 1, 4)
                                                     || SUBSTR (A.WMCYMD,
                                                                5,
-                                                               2) >= #{start}
+                                                               2) >= #{startYear} || #{startMonth}
                                                  AND SUBSTR (A.WMCYMD, 1, 4)
                                                     || SUBSTR (A.WMCYMD,
                                                                5,
-                                                               2)  <![CDATA[ <= #{end} ]]>
+                                                               2)  <![CDATA[ <= #{endYear} || #{endMonth} ]]>
                                                  AND A.FACT_CODE IN
                                                           <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	
                                                           ) A,
@@ -1062,14 +1059,14 @@
                                                  AND SUBSTR (A.WMCYMD, 1, 4)|| SUBSTR (A.WMCYMD,5,2) >=
                                                        TO_CHAR (
                                                           TO_DATE (
-		                                                          #{start},
+		                                                          #{startYear} || #{startMonth},
 		                                                          'YYYYMM')
                                                           - 30,
                                                           'YYYYMM')
                                                  AND SUBSTR (A.WMCYMD, 1, 4)
                                                     || SUBSTR (A.WMCYMD,
                                                                5,
-                                                               2)   <![CDATA[ <= #{end} ]]>
+                                                               2)   <![CDATA[ <= #{endYear} || #{endMonth} ]]>
                                                  AND A.FACT_CODE IN
                                                           <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	
                                                           ) B
@@ -2369,24 +2366,27 @@ ORDER  BY RIVER_ID,
     
     </select>
     
+    <select id="searchResult_C_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	    SELECT MAX(WMYR || '.' || WMWK ) AS WMYR  
+		        FROM SDM_RWMDTI
+		     WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>  
+		   ORDER BY WMYR DESC , WMWK DESC
+    </select>
+    
     <!-- 퇴적물 -->
 	<select id="searchResult_C" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	
-	SELECT A_ROW_NUM
-     , A_PT_NO
-     , A_PT_NM
-     , A_WMYR
-     , A_WMWK
-     , A_WMOM
-     , A_WMOD
+	SELECT A_ROW_NUM	AS RN
+     , A_PT_NO  AS  PT_NO
+     , A_PT_NM	AS	PT_NM
+     , A_WMYR	AS	WMYR
+     , A_WMWK	AS	WMWK
+     , A_WMOM	AS	WMOM
+     , A_WMOD	AS	WMOD
      , (B_WMYR||'.'||B_WMOM||'.'||B_WMOD) AS CHART_DATE
-     , A_WMCTM
-     , A_POLL_STEP
-     , B_ROW_NUM
-     , B_WMYR
-     , B_WMWK
-     , B_WMOM
-     , B_WMOD
+     , A_WMCTM	AS	WMCTM
+     , A_POLL_STEP	AS	POLL_STEP
+     , B_ROW_NUM	AS	RN_1
      , A_ITEM_DOW                        AS       CURR_DOW                                        
      , B_ITEM_DOW                        AS       CHART_DOW                               
      , A_ITEM_DOW_SURF                   AS       CURR_DOW_SURF                           
@@ -2813,8 +2813,8 @@ ORDER  BY RIVER_ID,
                           FROM SDM_RWMDTI A
                              , SDM_RWMPT B
                          WHERE A.PT_NO = B.PT_NO
-                           AND WMYR || WMOD >= #{start} 
-               AND WMYR || WMOD <![CDATA[  <=   ]]> #{end} 
+                           AND WMYR || WMOD >= #{startYear} || #{startMonth} 
+               AND WMYR || WMOD <![CDATA[  <=   ]]> #{endYear} || #{endMonth} 
                            AND A.PT_NO IN 
                            <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	
                        )
@@ -2913,7 +2913,7 @@ ORDER  BY RIVER_ID,
                           FROM SDM_RWMDTI A
                              , SDM_RWMPT B   
                          WHERE A.PT_NO = B.PT_NO
-                 AND WMYR || WMOD  <![CDATA[ <= #{end}  ]]> 
+                 AND WMYR || WMOD  <![CDATA[ <= #{endYear} || #{endMonth}  ]]> 
                            AND A.PT_NO IN 
                            <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	
                        )
@@ -4074,7 +4074,7 @@ WHERE  A.FACI_CD = B.FACI_CD
        AND A.NO BETWEEN B.NO - 4 AND B.NO 
        AND A.FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
        AND SUBSTR(A.WORK_DT, 1, 4) 
-           || SUBSTR(A.WORK_DT, 6, 2) BETWEEN  #{start} AND  #{end} 
+           || SUBSTR(A.WORK_DT, 6, 2) BETWEEN  #{startYear} || #{startMonth} AND  #{endYear} || #{endMonth} 
 ORDER  BY A.FACI_NM, 
           A.DISCHARGE_NUM, 
           A.WORK_DT DESC, 
@@ -4156,7 +4156,7 @@ WHERE  A.FACI_CD = B.FACI_CD
        AND A.NO BETWEEN B.NO - 4 AND B.NO 
        AND A.FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
        AND SUBSTR(A.WORK_DT, 1, 4) 
-           || SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{start} AND #{end} 
+           || SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} 
 ORDER  BY A.FACI_NM, 
           A.IN_PL_TYPE, 
           A.WORK_DT DESC, 
@@ -4195,8 +4195,8 @@ ORDER  BY A.FACI_NM,
                  FROM   FWDY A,                                                                 
                         FWOBSIF D                                                               
                  WHERE  A.WLOBSCD = D.FWOBSCD                                                   
-                     AND    SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'),1,6) >=#{start}                     
-                     AND    SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'),1,6) <![CDATA[ <=  ]]> #{end}                     
+                     AND    SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'),1,6) >=#{startYear} || #{startMonth}                     
+                     AND    SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'),1,6) <![CDATA[ <=  ]]> #{endYear} || #{endMonth}                     
                  AND    A.WLOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	                                                  
                  GROUP BY TO_CHAR(YMDH, 'YYYY.MM.DD'), A.WLOBSCD , OBSNM ) A,                   
                 KESTI_WATER_ALL_MAP B,                                                          
@@ -4222,9 +4222,9 @@ ORDER  BY A.FACI_NM,
                  FROM   FWDY A,                                                                 
                         FWOBSIF D                                                               
                  WHERE  A.WLOBSCD = D.FWOBSCD                                                   
-                     AND    SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'),1,6) >= TO_CHAR(TO_DATE(#{start}    
+                     AND    SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'),1,6) >= TO_CHAR(TO_DATE(#{startYear} || #{startMonth}    
                            , 'YYYYMM') -35, 'YYYYMM')                                               
-                     AND    SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'),1,6) <![CDATA[ <= ]]> #{end}                    
+                     AND    SUBSTR(TO_CHAR(A.YMDH , 'YYYYMMDD'),1,6) <![CDATA[ <= ]]> #{endYear} || #{endMonth}                    
                  AND    A.WLOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	                                                 
                  GROUP BY A.WLOBSCD , TO_CHAR(YMDH, 'YYYY.MM.DD'), OBSNM ) A,                   
                 KESTI_WATER_ALL_MAP B,                                                          
@@ -4352,7 +4352,7 @@ WHERE  A.FACI_CD = B.FACI_CD
        AND A.NO BETWEEN B.NO - 4 AND B.NO 
        AND A.FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
        AND SUBSTR(A.WORK_DT, 1, 4) 
-           || SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{start} AND #{end} 
+           || SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} 
 ORDER  BY A.FACI_NM, 
           A.PIPE_NUM, 
           A.WORK_DT DESC, 
