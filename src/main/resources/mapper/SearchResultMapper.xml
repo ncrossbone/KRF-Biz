@@ -3795,7 +3795,7 @@ SELECT RN,
 		                FROM   BOMST A, 
 		                       BOOBSIF D 
 		                WHERE  A.BOOBSCD = D.BOOBSCD 
-		                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ >= ]]> TO_CHAR( TO_DATE(#{startYear} || #{startMonth}, 'YYYYMM') - 35, 'YYYYMM') 
+		                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ >= ]]> TO_CHAR( TO_DATE(#{startYear} || #{startMonth}||'01', 'YYYYMMDD') - 1, 'YYYYMMDD') 
 		                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth} 
 		                       AND A.BOOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
 		                GROUP  BY SUBSTR(A.YMDHM, 1, 6), 
