@@ -2315,21 +2315,17 @@ ORDER  BY RIVER_ID,
     <!-- 퇴적물 -->
 	<select id="searchResult_C" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	
-	SELECT A_ROW_NUM
-     , A_PT_NO
-     , A_PT_NM
-     , A_WMYR
-     , A_WMWK
-     , A_WMOM
-     , A_WMOD
+	SELECT A_ROW_NUM	AS RN
+     , A_PT_NO  AS  PT_NO
+     , A_PT_NM	AS	PT_NM
+     , A_WMYR	AS	WMYR
+     , A_WMWK	AS	WMWK
+     , A_WMOM	AS	WMOM
+     , A_WMOD	AS	WMOD
      , (B_WMYR||'.'||B_WMOM||'.'||B_WMOD) AS CHART_DATE
-     , A_WMCTM
-     , A_POLL_STEP
-     , B_ROW_NUM
-     , B_WMYR
-     , B_WMWK
-     , B_WMOM
-     , B_WMOD
+     , A_WMCTM	AS	WMCTM
+     , A_POLL_STEP	AS	POLL_STEP
+     , B_ROW_NUM	AS	RN_1
      , A_ITEM_DOW                        AS       CURR_DOW                                        
      , B_ITEM_DOW                        AS       CHART_DOW                               
      , A_ITEM_DOW_SURF                   AS       CURR_DOW_SURF                           
@@ -2756,8 +2752,8 @@ ORDER  BY RIVER_ID,
                           FROM SDM_RWMDTI A
                              , SDM_RWMPT B
                          WHERE A.PT_NO = B.PT_NO
-                           AND WMYR || WMOD >= #{start} 
-               AND WMYR || WMOD <![CDATA[  <=   ]]> #{end} 
+                           AND WMYR || WMOD >= #{startYear} || #{startMonth} 
+               AND WMYR || WMOD <![CDATA[  <=   ]]> #{endYear} || #{endMonth} 
                            AND A.PT_NO IN 
                            <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	
                        )
@@ -2856,7 +2852,7 @@ ORDER  BY RIVER_ID,
                           FROM SDM_RWMDTI A
                              , SDM_RWMPT B   
                          WHERE A.PT_NO = B.PT_NO
-                 AND WMYR || WMOD  <![CDATA[ <= #{end}  ]]> 
+                 AND WMYR || WMOD  <![CDATA[ <= #{endYear} || #{endMonth}  ]]> 
                            AND A.PT_NO IN 
                            <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	
                        )
