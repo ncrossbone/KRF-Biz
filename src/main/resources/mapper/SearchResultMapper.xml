@@ -2905,7 +2905,8 @@ ORDER  BY RIVER_ID,
     
 <!-- 기타측정지점 - 수위관측소 GROUT CODE : D / LAYER CODE : D001 -->
 <select id="searchResult_D_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-  SELECT RN,
+  SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_1 */
+         RN,
          WS_NM,
          AM_NM,
          AS_NM,
@@ -2932,7 +2933,7 @@ ORDER  BY RIVER_ID,
                    	 B.WL,
                      B.MNWL,
                      B.MXWL,
-                     RANK () OVER (PARTITION BY A.RN ORDER BY  B.WMCYMD ASC) AS RN2
+                     RANK () OVER (PARTITION BY A.RN, A.PT_NO ORDER BY  B.WMCYMD ASC) AS RN2
 			    FROM (SELECT RANK () OVER (PARTITION BY WLOBSCD ORDER BY WLOBSCD, WMCYMD DESC) AS RN,
 			                 SUBSTR (WMCYMD, 1, 4)|| '.'|| SUBSTR (WMCYMD, 5, 2)|| '.'|| SUBSTR (WMCYMD, 7, 2) AS WMCYMD,
 			                 WLOBSCD AS PT_NO,
@@ -3006,7 +3007,8 @@ ORDER BY PT_NO, WMCYMD DESC
 
 <!-- 기타측정지점 - 우량관측소 GROUT CODE : D / LAYER CODE : D002 -->
 <select id="searchResult_D_2" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-  SELECT RN,
+  SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_2 */
+         RN,
          WS_NM,
          AM_NM,
          AS_NM,
@@ -3025,7 +3027,7 @@ ORDER BY PT_NO, WMCYMD DESC
                    B.WMCYMD AS CHART_DATE,
                    A.RF AS CURR_RF,
                    B.RF AS CHART_RF,
-                   RANK () OVER (PARTITION BY A.RN ORDER BY B.WMCYMD ASC) AS RN2
+                   RANK () OVER (PARTITION BY A.RN, A.PT_NO ORDER BY B.WMCYMD ASC) AS RN2
               FROM (SELECT RANK ()
                            OVER (PARTITION BY RFOBSCD ORDER BY RFOBSCD, YMD DESC)
                               AS RN,
@@ -3098,7 +3100,8 @@ ORDER BY PT_NO, WMCYMD DESC
 
 <!-- 기타측정지점 - 유량관측소 GROUT CODE : D / LAYER CODE : D003 -->
 <select id="searchResult_D_3" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-SELECT RN,  
+SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_3 */
+       RN,  
        WS_NM,  
        AM_NM,  
        AS_NM,  
@@ -3118,7 +3121,7 @@ SELECT RN,
 				       B.WMCYMD AS CHART_DATE,  
 				       A.FW     AS CURR_FW,  
 				       B.FW     AS CHART_FW,  
-				       RANK () OVER (PARTITION BY A.RN ORDER BY B.WMCYMD ASC) AS RN2
+				       RANK () OVER (PARTITION BY A.RN, A.PT_NO ORDER BY B.WMCYMD ASC) AS RN2
 				FROM   (SELECT RANK() 
 				                 OVER( 
 				                   PARTITION BY WLOBSCD 
@@ -3193,7 +3196,8 @@ ORDER BY PT_NO, WMCYMD DESC
 
 <!-- 기타측정지점 - 댐관측소 GROUT CODE : D / LAYER CODE : D004 -->
 <select id="searchResult_D_4" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-SELECT RN,
+SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_4 */
+       RN,
        WS_NM, 
        AM_NM, 
        AS_NM, 
@@ -3228,7 +3232,7 @@ SELECT RN,
 				       B.SFW    AS CHART_SFW, 
 				       A.ECPC   AS CURR_ECPC, 
 				       B.ECPC   AS CHART_ECPC, 
-				       RANK () OVER (PARTITION BY A.RN ORDER BY B.WMCYMD ASC) AS RN2
+				       RANK () OVER (PARTITION BY A.RN, A.PT_NO ORDER BY B.WMCYMD ASC) AS RN2
 				FROM   (SELECT RANK() 
 				                 OVER( 
 				                   PARTITION BY DMOBSCD 
@@ -3340,7 +3344,8 @@ SELECT RN,
 
 <!-- 기타측정지점 - AWS기상관측소 GROUT CODE : D / LAYER CODE : D005 -->
 <select id="searchResult_D_5" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-SELECT RN, 
+SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_5 */
+       RN, 
        WS_NM, 
        AM_NM, 
        AS_NM, 
@@ -3391,7 +3396,7 @@ SELECT RN,
 				       B.RN1HR                  AS CHART_RN1HR, 
 				       A.RNDAY                  AS CURR_RNDAY, 
 				       B.RNDAY                  AS CHART_RNDAY,
-				       RANK () OVER (PARTITION BY A.RN ORDER BY B.WMCYMD ASC) AS RN2
+				       RANK () OVER (PARTITION BY A.RN, A.PT_NO ORDER BY B.WMCYMD ASC) AS RN2
 				FROM   (SELECT RANK() 
 				                 OVER( 
 				                   PARTITION BY STNID 
@@ -3517,7 +3522,8 @@ SELECT RN,
 
 <!-- 기타측정지점 - 지상기상관측소 GROUT CODE : D / LAYER CODE : D006 -->
 <select id="searchResult_D_6" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-SELECT RN, 
+SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_6 */
+       RN, 
        WS_NM, 
        AM_NM, 
        AS_NM, 
@@ -3544,7 +3550,7 @@ SELECT RN,
 			       B.TA     AS CHART_TA, 
 			       A.SIDAY  AS CURR_SIDAY, 
 			       B.SIDAY  AS CHART_SIDAY,
-			       RANK () OVER (PARTITION BY A.RN ORDER BY B.WMCYMD ASC) AS RN2
+			       RANK () OVER (PARTITION BY A.RN, A.PT_NO ORDER BY B.WMCYMD ASC) AS RN2
 			FROM   (SELECT RANK() 
 			                 OVER( 
 			                   PARTITION BY STNID 
@@ -3638,7 +3644,8 @@ SELECT RN,
 
 <!-- 기타측정지점 - 보관측소 GROUT CODE : D / LAYER CODE : D007 -->
 <select id="searchResult_D_7" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-SELECT RN, 
+SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_7 */
+       RN, 
        WS_NM, 
        AM_NM, 
        AS_NM, 
@@ -3697,7 +3704,7 @@ SELECT RN,
 		       B.FWOTF  AS CHART_FWOTF, 
 		       A.ETCOTF AS CURR_ETCOTF, 
 		       B.ETCOTF AS CHART_ETCOTF,
-		       RANK () OVER (PARTITION BY A.RN ORDER BY B.WMCYMD ASC) AS RN2 
+		       RANK () OVER (PARTITION BY A.RN, A.PT_NO ORDER BY B.WMCYMD ASC) AS RN2 
 		FROM   (SELECT RANK() 
 		                 OVER( 
 		                   PARTITION BY BOOBSCD 
