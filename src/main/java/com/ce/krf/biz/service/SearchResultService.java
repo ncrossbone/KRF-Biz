@@ -163,7 +163,6 @@ public class SearchResultService {
 			int cnt = 0;
 
 			for (int i = 0; i < searchResult.size(); i++) {
-
 				cnt++;
 
 				if (!preSeq.equals("")
@@ -349,15 +348,12 @@ public class SearchResultService {
 				WMOD = ((HashMap<String, String>) searchResult.get(i)).get("WMOD");
 				WMWK = ((HashMap<String, String>) searchResult.get(i)).get("WMWK");
 				WMDEP = String.valueOf(((HashMap<String, String>) searchResult.get(i)).get("WMDEP"));
-				if(WMDEP == null) {
-					WMDEP = "";
-				}
 
 				CURR_BOD = String.valueOf(((HashMap<String, String>) searchResult.get(i)).get("CURR_BOD"));
 				Chart_Data_tmp = new ArrayList();
 
 				Chart_Data_tmp.add(
-						cnt + ((HashMap<String, String>) searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
+						cnt+ ((HashMap<String, String>) searchResult.get(i)).get("CHART_DATE").replaceAll("\\.", ""));
 				Chart_Data_tmp.add(((HashMap<String, String>) searchResult.get(i)).get("CHART_BOD"));
 				if (((HashMap<String, String>) searchResult.get(i)).get("CHART_BOD") != null) {
 					CHART_BOD.add(Chart_Data_tmp);
