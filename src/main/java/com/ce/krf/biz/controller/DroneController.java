@@ -34,7 +34,7 @@ public class DroneController extends BaseController {
 			return om.writeValueAsString(result);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}

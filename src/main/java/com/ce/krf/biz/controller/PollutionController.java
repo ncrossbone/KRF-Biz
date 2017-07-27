@@ -33,9 +33,9 @@ public class PollutionController extends BaseController {
 			result.put("data", pollutionService.pollutionSelect(index, param));
 			return getEuckrString(result);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return e.getMessage();
+//			// TODO Auto-generated catch block
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
 		}
 	}
 }

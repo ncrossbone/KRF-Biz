@@ -2,8 +2,6 @@ package com.ce.krf.biz.controller;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +32,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -47,7 +45,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -63,7 +61,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -77,7 +75,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -90,7 +88,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -104,7 +102,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -118,7 +116,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -133,7 +131,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -148,7 +146,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -163,7 +161,7 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -178,11 +176,9 @@ public class SearchResultController extends BaseController{
 			return getEuckrString(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
-		
-		
 		
 }

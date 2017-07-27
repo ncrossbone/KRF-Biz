@@ -23,7 +23,6 @@ import com.ce.krf.biz.base.BaseController;
 import com.ce.krf.biz.model.ClickLogVO;
 import com.ce.krf.biz.model.ExcelDownloadVO;
 import com.ce.krf.biz.model.ImageVO;
-import com.ce.krf.biz.model.ResultVO;
 import com.ce.krf.biz.service.CommonService;
 
 /**
@@ -73,7 +72,8 @@ public class CommonController extends BaseController {
 		try {
 			return commonService.sha256(pwd);
 		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			logger.error(e.getMessage());
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 		return "";
 	}
@@ -118,6 +118,5 @@ public class CommonController extends BaseController {
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
 	}
 }
