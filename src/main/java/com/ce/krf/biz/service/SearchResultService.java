@@ -23,7 +23,7 @@ public class SearchResultService {
 	// 수질측정지점 LAYER CODE : A
 	public HashMap searchResult_A(SearchResultVO param) throws Exception {
 		
-		param.setSiteIds();
+		////param.setSiteIds();
 		HashMap result = new HashMap();
 		List resultList = null;
 		
@@ -45,7 +45,7 @@ public class SearchResultService {
 	// 수질측정지점 LAYER CODE : B
 	public HashMap searchResult_B(SearchResultVO param) throws Exception {
 		
-		param.setSiteIds();
+		//param.setSiteIds();
 		HashMap result = new HashMap();
 		List resultList = null;
 		
@@ -84,7 +84,7 @@ public class SearchResultService {
 	// 퇴적물 LAYER CODE : C
 	public HashMap searchResult_C(SearchResultVO param) throws Exception {
 		
-		param.setSiteIds();
+		//param.setSiteIds();
 		HashMap result = new HashMap();
 		List resultList = null;
 		
@@ -109,7 +109,7 @@ public class SearchResultService {
 		HashMap result = new HashMap();
 		List resultList = null;
 		
-		param.setSiteIds();
+		//param.setSiteIds();
 		
 		if ("noDate".equals(param.getFirstSearch())) {
 			param.setGubun(gubun);
@@ -135,7 +135,7 @@ public class SearchResultService {
 		HashMap result = new HashMap();
 		List resultList = null;
 		
-		param.setSiteIds();
+		//param.setSiteIds();
 		
 		if ("noDate".equals(param.getFirstSearch())) {
 			param.setGubun(gubun);

@@ -2,9 +2,6 @@ package com.ce.krf.biz.model;
 
 public class SearchResultVO {
 	
-	
-	private String catDid = "";
-	private String[] catDids = null;
 	private String year = "";
 	
 	//수질자동측정지점 미확정 / 확정 날짜
@@ -15,8 +12,6 @@ public class SearchResultVO {
 	
 	private String siteId = "";
 	private String[] siteIds = null;
-	private String start = "";
-	private String end = "";
 	
 	private String startYear = "";
 	private String startMonth = "";
@@ -28,23 +23,12 @@ public class SearchResultVO {
 	
 	private String firstSearch = "";
 	
-	public String getCatDid() {
-		return catDid;
-	}
-	public void setCatDid(String catDid) {
-		this.catDid = catDid;
-	}
+	
 	public String getYear() {
 		return year;
 	}
 	public void setYear(String year) {
 		this.year = year;
-	}
-	public String[] getCatDids() {
-		return catDids;
-	}
-	public void setCatDids(String[] catDids) {
-		this.catDids = catDids;
 	}
 	
 	
@@ -61,19 +45,9 @@ public class SearchResultVO {
 	}
 	public void setSiteIds(String[] siteIds) {
 		this.siteIds = siteIds;
+		setSiteIds();
 	}
-	public String getStart() {
-		return start;
-	}
-	public void setStart(String start) {
-		this.start = start;
-	}
-	public String getEnd() {
-		return end;
-	}
-	public void setEnd(String end) {
-		this.end = end;
-	}
+	
 	public String getStartFull() {
 		return startFull;
 	}
