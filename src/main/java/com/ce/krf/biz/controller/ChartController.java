@@ -32,7 +32,7 @@ public class ChartController extends BaseController {
 			return getEuckrString((HashMap) chartService.getRWMDT(param.getRecordId()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
@@ -44,7 +44,7 @@ public class ChartController extends BaseController {
 			return getEuckrString(chartService.getRWMDTSelect(index, param));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
