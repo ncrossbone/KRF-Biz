@@ -24,7 +24,6 @@
          WMYR,
          WMOD,
          WMWK,
-         SEQ,
          WMDEP,
          CURR_BOD,
          CURR_DO,
@@ -151,7 +150,6 @@
                  A.WMYR,
                  A.WMOD,
                  A.WMWK,
-                 B.WMWK AS SEQ,
                  A.WMDEP,
                  NVL (A.ITEM_BOD, 888888888) AS CURR_BOD,
                  CASE WHEN B.ITEM_BOD = '999999999' THEN 0 ELSE B.ITEM_BOD END
@@ -708,7 +706,6 @@
 	         WMYR,
 	         WMOD,
 	         WMWK,
-	         SEQ,
 	         WMDEP,
 	         CURR_BOD,
 	         CURR_DO,
