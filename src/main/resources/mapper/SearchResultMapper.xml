@@ -804,14 +804,14 @@
 			,CTY_NM
 			,DONG_NM
 			,RI_NM
-			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_BOD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) ,<![CDATA[  '&'||'QUOT;' ]]>, '"') ||']'  AS CHART_BOD
-			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_COD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) ,<![CDATA[  '&'||'QUOT;' ]]>, '"') ||']' AS CHART_COD
-			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_SS) || '"]') ORDER BY CHART_DATE).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'QUOT;' ]]>, '"') ||']' AS CHART_SS
-			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TN) || '"]') ORDER BY CHART_DATE).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'QUOT;' ]]>, '"') ||']' AS CHART_TN
-			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TP) || '"]') ORDER BY CHART_DATE).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'QUOT;' ]]>, '"') ||']' AS CHART_TP
-			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_PH) || '"]') ORDER BY CHART_DATE).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'QUOT;' ]]>, '"') ||']' AS CHART_PH
-			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_FLW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'QUOT;' ]]>, '"') ||']' AS CHART_FLW
-			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TOC) || '"]') ORDER BY CHART_DATE).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'QUOT;' ]]>, '"') ||']' AS CHART_TOC
+			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_COD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA['&'||'quot;' ]]> , '"') ||']' AS CHART_COD
+			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_COD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,<![CDATA[  '&'||'quot;' ]]>, '"') ||']' AS CHART_COD
+			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_SS) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'quot;' ]]>, '"') ||']' AS CHART_SS
+			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TN) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'quot;' ]]>, '"') ||']' AS CHART_TN
+			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TP) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'quot;' ]]>, '"') ||']' AS CHART_TP
+			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_PH) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'quot;' ]]>, '"') ||']' AS CHART_PH
+			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_FLW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'quot;' ]]>, '"') ||']' AS CHART_FLW
+			, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TOC) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[ '&'||'quot;' ]]>, '"') ||']' AS CHART_TOC
 			FROM (
 			SELECT A.RN,
 			        RANK () OVER (PARTITION BY A.RN, A.PT_NO ORDER BY  B.WMCYMD ASC) AS RN2, 
@@ -4343,8 +4343,8 @@ ORDER BY PT_NO,WMCYMD
 <!-- 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001 -->
 <select id="searchResult_F_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 
-		SELECT	/* KRF-BIZ.SearchResultMapper.searchResult_F_1 */
-	  		 FACI_CD,		
+	  SELECT 	/* KRF-BIZ.SearchResultMapper.searchResult_F_1 */
+	  		 FACI_CD,
 	         NO,
 	         FACI_NM,
 	         WORK_DT_VAL,
@@ -4361,15 +4361,15 @@ ORDER BY PT_NO,WMCYMD
 	         COLI_VAL,
 	         DISCHARGE_DISINFECT,
 	         DISCHARGE_FACI_NM
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   DISCHARGE_AMT_PHYS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS DISCHARGE_AMT_PHYS_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   DISCHARGE_AMT_BIO_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS DISCHARGE_AMT_BIO_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   DISCHARGE_AMT_HIGHTEC_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS DISCHARGE_AMT_HIGHTEC_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   BOD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS BOD_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   COD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS COD_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   SS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS SS_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   TN_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS TN_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   TP_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS TP_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   COLI_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS COLI_GRAPH
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   DISCHARGE_AMT_PHYS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS CHART_DISCHARGE_AMT_PHYS
+            , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   DISCHARGE_AMT_BIO_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_DISCHARGE_AMT_BIO
+            , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   DISCHARGE_AMT_HIGHTEC_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_DISCHARGE_AMT_HIGHTEC
+            , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   BOD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_BOD
+            , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   COD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_COD
+            , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   SS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_SS
+            , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   TN_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_TN
+            , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   TP_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_TP
+            , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   COLI_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_COLI
 	    FROM (  SELECT A.FACI_CD,
 	                   A.NO                                           /* 순번 참고용 */ ,
 	                   RANK ()
@@ -4391,7 +4391,7 @@ ORDER BY PT_NO,WMCYMD
 	                   A.COD AS COD_VAL                             /* COD(㎎/ℓ) */,
 	                   B.COD AS COD_GRAPH                           /* COD(㎎/ℓ) */,
 	                   A.SS AS SS_VAL                                /* SS(㎎/ℓ) */,
-	                   B.SS AS SS_GRAPH                              /* SS(㎎/ℓ) */
+	                   B.SS AS SS_GRAPH                              /* SS(㎎/ℓ) */,
 	                   A.TN AS TN_VAL                                /* TN(㎎/ℓ) */,
 	                   B.TN AS TN_GRAPH                              /* TN(㎎/ℓ) */,
 	                   A.TP AS TP_VAL                                /* TP(㎎/ℓ) */,
@@ -4513,7 +4513,7 @@ ORDER BY PT_NO,WMCYMD
 	                   AND A.ADM_CD = B.ADM_CD
 	                   AND A.NO BETWEEN B.NO - 4 AND B.NO
 	                   AND A.FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
-	                   AND SUBSTR (A.WORK_DT, 1, 4) || SUBSTR (A.WORK_DT, 6, 2) BETWEEN #{startYear} || #{startMonth}
+	                   AND SUBSTR (A.WORK_DT, 1, 4) || SUBSTR (A.WORK_DT, 6, 2) BETWEEN  #{startYear} || #{startMonth}
 	                                                                                AND  #{endYear} || #{endMonth}
 	          ORDER BY A.FACI_NM,
 	                   A.DISCHARGE_NUM,
@@ -4557,13 +4557,13 @@ ORDER BY PT_NO,WMCYMD
 		,TN_VAL        
 		,TP_VAL       
 		,COLI_VAL
-		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   AMT_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS AMT_GRAPH
-		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   BOD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS BOD_GRAPH
-		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   COD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS COD_GRAPH
-		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   SS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS SS_GRAPH
-		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   TN_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS TN_GRAPH
-		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   TP_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS TP_GRAPH
-		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   COLI_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS COLI_GRAPH
+		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   AMT_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_AMT
+		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   BOD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_BOD
+		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   COD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_COD
+		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   SS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_SS
+		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   TN_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_TN
+		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   TP_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_TP
+		, '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   COLI_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_COLI
 		FROM (
 		SELECT A.FACI_CD, 
 		       A.NO /* 순번 참고용 */, 
@@ -4637,7 +4637,7 @@ ORDER BY PT_NO,WMCYMD
 		       AND A.NO BETWEEN B.NO - 4 AND B.NO 
 		       AND A.FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> 
 		       AND SUBSTR(A.WORK_DT, 1, 4) 
-		           || SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth}
+		           || SUBSTR(A.WORK_DT, 6, 2) BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} 
 		ORDER  BY A.FACI_NM, 
 		          A.IN_PL_TYPE, 
 		          A.WORK_DT DESC, 
@@ -4675,13 +4675,13 @@ ORDER BY PT_NO,WMCYMD
 	         TN_VAL,
 	         TP_VAL,
 	         COLI_VAL, 
-	         '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   AMT_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS AMT_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   BOD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS BOD_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   COD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS COD_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   SS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS SS_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   TN_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS TN_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   TP_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS TP_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   COLI_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS COLI_GRAPH
+	         '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   AMT_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_AMT
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   BOD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_BOD
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   COD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_COD
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   SS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_SS
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   TN_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_TN
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   TP_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_TP
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   COLI_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_COLI
 	    FROM (  SELECT A.FACI_CD,
 	                   A.NO,
 	                   RANK ()
@@ -4814,14 +4814,14 @@ ORDER BY PT_NO,WMCYMD
 	         COLI_VAL,
 	         BYPASS_AMT_VAL,
 	         CONNECT_FACI_NM
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   AMT_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS AMT_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   BOD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS BOD_GRAPH         
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   COD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS COD_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   SS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS SS_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   TN_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS TN_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   TP_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS TP_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   COLI_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS COLI_GRAPH
-	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'.','') || '","',TRIM(' ' FROM   BYPASS_AMT_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//TEXT()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'QUOT;' ]]> , '"') ||']' AS BYPASS_AMT_GRAPH
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   AMT_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_AMT
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   BOD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_BOD         
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   COD_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_COD
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   SS_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_SS
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   TN_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_TN
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   TP_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_TP
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   COLI_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_COLI
+	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   BYPASS_AMT_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_BYPASS_AMT
 	    FROM (  SELECT A.FACI_CD,
 	                   RANK ()
 	                      OVER (PARTITION BY A.NO, A.FACI_CD ORDER BY B.WORK_DT ASC)
