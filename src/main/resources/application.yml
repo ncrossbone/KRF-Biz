@@ -1,8 +1,9 @@
-spring:
-  profiles:
-    active: local
-
----
+spring: 
+    main: 
+        banner-mode: "off"
+    profiles:
+      active: local
+    
 mybatis: 
   mapper-locations: classpath:mapper/**/*.xml
   configuration:
