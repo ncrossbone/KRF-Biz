@@ -31,7 +31,7 @@ public class PollutionController extends BaseController {
 		HashMap result = new HashMap();
 		try {
 			result.put("data", pollutionService.pollutionSelect(index, param));
-			return getEuckrString(result);
+			return getEuckrString(result, false);
 		} catch (Exception e) {
 //			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

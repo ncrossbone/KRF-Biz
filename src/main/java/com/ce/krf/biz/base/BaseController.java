@@ -73,11 +73,13 @@ public class BaseController {
 			}
 		}
 	}
-	public String getEuckrString(HashMap src) throws Exception {
-		for(Object key : src.keySet()) {
-			Object v = src.get(key);
-			if(v instanceof List) {
-				convertStringForMap((List)v);
+	public String getEuckrString(HashMap src, boolean encFlag) throws Exception {
+		if(encFlag) {
+			for(Object key : src.keySet()) {
+				Object v = src.get(key);
+				if(v instanceof List) {
+					convertStringForMap((List)v);
+				}
 			}
 		}
 		String res = om.writeValueAsString(src);

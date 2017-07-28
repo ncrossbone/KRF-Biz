@@ -29,7 +29,7 @@ public class SearchResultController extends BaseController{
 	public String searchResult_A(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_A(param);
-			return getEuckrString(result);
+			return getEuckrString(result, false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -42,7 +42,7 @@ public class SearchResultController extends BaseController{
 	public String searchResult_B(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = (searchResultService.searchResult_B(param));
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -58,7 +58,7 @@ public class SearchResultController extends BaseController{
 		HashMap result = new HashMap();
 		try {
 			result.put("data", searchResultService.searchResult_B001(param));
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -72,7 +72,7 @@ public class SearchResultController extends BaseController{
 		HashMap result = new HashMap();
 		try {
 			result.put("data", searchResultService.searchResult_B001_Fix(param));
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -85,7 +85,7 @@ public class SearchResultController extends BaseController{
 	public String searchResult_C(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_C(param);
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -99,7 +99,7 @@ public class SearchResultController extends BaseController{
 	public String searchResult_D_1(@PathVariable String gubun ,@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_D(gubun, param);
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -113,7 +113,7 @@ public class SearchResultController extends BaseController{
 		
 		try {
 			HashMap result = searchResultService.searchResult_F(gubun, param);
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -128,7 +128,7 @@ public class SearchResultController extends BaseController{
 		
 		try {
 			result.put("data", searchResultService.searchResult_PollLoad_Total(param));
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -143,7 +143,7 @@ public class SearchResultController extends BaseController{
 		
 		try {
 			result.put("data", searchResultService.searchResult_PollLoad_Standard(param));
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -158,7 +158,7 @@ public class SearchResultController extends BaseController{
 		
 		try {
 			result.put("data", searchResultService.searchResult_PollLoad_Cat(param));
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -173,7 +173,7 @@ public class SearchResultController extends BaseController{
 		
 		try {
 			result.put("data", searchResultService.searchResult_PollLoad_Cat_Detail(param));
-			return getEuckrString(result);
+			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
