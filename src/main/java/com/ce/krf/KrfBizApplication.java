@@ -13,6 +13,7 @@ public class KrfBizApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    	application.bannerMode(Banner.Mode.OFF);
         return application.sources(KrfBizApplication.class);
     }
 //    @Bean
@@ -36,8 +37,6 @@ public class KrfBizApplication extends SpringBootServletInitializer {
 //        };
 //    }
 	public static void main(String[] args) {
-		SpringApplication app = new SpringApplication(KrfBizApplication.class);
-	    app.setBannerMode(Banner.Mode.OFF);
-	    app.run(args);
+		SpringApplication.run(KrfBizApplication.class);
 	}
 }

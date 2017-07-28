@@ -1,7 +1,5 @@
 spring: 
-    main: 
-        banner-mode: "off"
-    profiles:
+    profiles: 
       active: local
     
 mybatis: 
