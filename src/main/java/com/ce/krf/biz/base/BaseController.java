@@ -52,6 +52,12 @@ public class BaseController {
 									Object value = cData.get(1);
 									if(value != null && !"".equals(value) && !"null".equals(value)) {
 										desList.add(cData);
+									}else {
+										if(vv.size() <=5) {
+											cData = cData.subList(0, 1);
+											cData.add(null);
+											desList.add(cData);
+										}
 									}
 								}
 							}
