@@ -60,12 +60,6 @@ public class BaseController {
 											desList.add(cData);
 										}
 									}
-									if(desList.size() < 5) {
-										if("".equals(value)) {
-											cData.set(1, null);
-											desList.add(cData);
-										}
-									}
 									
 									
 									
