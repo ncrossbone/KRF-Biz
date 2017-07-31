@@ -53,6 +53,12 @@ public class BaseController {
 									Object value = cData.get(1);
 									if(value != null && !"".equals(value) && !"null".equals(value)) {
 										desList.add(cData);
+									}else {
+										if(vv.size() <=5) {
+											cData = cData.subList(0, 1);
+											cData.add(null);
+											desList.add(cData);
+										}
 									}
 									if(desList.size() < 5) {
 										if("".equals(value)) {
@@ -78,11 +84,13 @@ public class BaseController {
 			}
 		}
 	}
-	public String getEuckrString(HashMap src) throws Exception {
-		for(Object key : src.keySet()) {
-			Object v = src.get(key);
-			if(v instanceof List) {
-				convertStringForMap((List)v);
+	public String getEuckrString(HashMap src, boolean encFlag) throws Exception {
+		if(encFlag) {
+			for(Object key : src.keySet()) {
+				Object v = src.get(key);
+				if(v instanceof List) {
+					convertStringForMap((List)v);
+				}
 			}
 		}
 		String res = om.writeValueAsString(src);
