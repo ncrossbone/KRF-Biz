@@ -265,29 +265,16 @@ UNION ALL
         , DECODE(WMWK,'1','상반기','2','하반기') AS WMWK
         , WMOM, WMOD, WMCTM 
         , MCNT
-        , #{selectItem} AS ITEM_NAME, #{selectItem} AS ITEM_VALUE -- COD 를 선택할 경우
---        , 'ITEM_TOC' AS ITEM_NAME, ITEM_TOC AS ITEM_VALUE -- TOC 를 선택할 경우
---        , 'ITEM_TN' AS ITEM_NAME, ITEM_TN AS ITEM_VALUE -- TN 를 선택할 경우
---        , 'ITEM_TP' AS ITEM_NAME, ITEM_TP AS ITEM_VALUE -- TP 를 선택할 경우
---        , 'ITEM_SRP' AS ITEM_NAME, ITEM_SRP AS ITEM_VALUE -- SRP를 선택할 경우
---        , 'ITEM_PB' AS ITEM_NAME, ITEM_PB AS ITEM_VALUE -- PB 를 선택할 경우
---        , 'ITEM_ZN' AS ITEM_NAME, ITEM_ZN AS ITEM_VALUE -- ZN 를 선택할 경우
---        , 'ITEM_CU' AS ITEM_NAME, ITEM_CU AS ITEM_VALUE -- CU 를 선택할 경우
---        , 'ITEM_CR' AS ITEM_NAME, ITEM_CR AS ITEM_VALUE -- CR 를 선택할 경우
---        , 'ITEM_NI' AS ITEM_NAME, ITEM_NI AS ITEM_VALUE -- NI 를 선택할 경우
---        , 'ITEM_AS' AS ITEM_NAME, ITEM_AS AS ITEM_VALUE -- AS 를 선택할 경우
---        , 'ITEM_CD' AS ITEM_NAME, ITEM_CD AS ITEM_VALUE -- CD 를 선택할 경우
---        , 'ITEM_HG' AS ITEM_NAME, ITEM_HG AS ITEM_VALUE -- HG 를 선택할 경우
---        , 'ITEM_AL' AS ITEM_NAME, ITEM_AL AS ITEM_VALUE -- AL 를 선택할 경우
---        , 'ITEM_LI' AS ITEM_NAME, ITEM_LI AS ITEM_VALUE -- LI 를 선택할 경우
+        , ${selectItem} AS ITEM_NAME
+        , ${selectItem} AS ITEM_VALUE
           FROM (		
                 SELECT * FROM(		
                         SELECT V.* 	
                           FROM CE_SDM_RWMDTI_DAY_DAE_V V	
                         WHERE V.VGBN='S'
-                        AND V.PT_NO = #{recordId} -- 지점코드
+                        AND V.PT_NO = #{recordId} 
                         <if test="defaultChart != null and defaultChart == 0">
-                        	AND V.WMYRWK BETWEEN #{preFullDate} AND #{nextFullDate} -- 검색기간
+                        	AND V.WMYRWK BETWEEN #{preFullDate} AND #{nextFullDate} 
                         </if>
                              )                                                                         
                  ORDER BY WMYR, WMWK, ORD_PT_NM, ORD_GBN 
