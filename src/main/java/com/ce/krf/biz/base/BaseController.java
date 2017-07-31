@@ -51,19 +51,23 @@ public class BaseController {
 								
 								if(cData != null || cData.size() == 2) {
 									Object value = cData.get(1);
-									if(value != null && !"".equals(value) && !"null".equals(value)) {
+									if(value == null || "".equals(value) || "null".equals(value)) {
+										cData = cData.subList(0, 1);
+										cData.add(null);
 										desList.add(cData);
 									}else {
-										if(vv.size() <=5) {
-											cData = cData.subList(0, 1);
-											cData.add(null);
-											desList.add(cData);
-										}
+										desList.add(cData);
 									}
-									
-									
-									
-									
+//									
+//									if(value != null && !"".equals(value) && !"null".equals(value)) {
+//										desList.add(cData);
+//									}else {
+//										if(vv.size() <=5) {
+//											cData = cData.subList(0, 1);
+//											cData.add(null);
+//											desList.add(cData);
+//										}
+//									}
 								}
 							}
 							// 차트 리스트가 5건 이상일때 뒤부터 5개만 자름
