@@ -4705,7 +4705,11 @@ ORDER BY PT_NO,WMCYMD
 	         COLI_VAL,
 	         DISCHARGE_DISINFECT,
 	         DISCHARGE_FACI_NM
-	ORDER BY NO
+	ORDER BY 
+		FACI_NM,
+        DISCHARGE_NUM,
+        WORK_DT_VAL DESC,
+        CHART_DATE
 
 </select>
 
@@ -4824,7 +4828,10 @@ ORDER BY PT_NO,WMCYMD
 		,TN_VAL        
 		,TP_VAL       
 		,COLI_VAL    
-		ORDER BY NO
+		ORDER BY FACI_NM, 
+		         IN_PL_TYPE, 
+		         CHART_DATE DESC, 
+		         WORK_DT_VAL
 </select>
 
 <!-- 환경기초시설 - 총유입량 GROUT CODE : F / LAYER CODE : F003 -->
@@ -4959,7 +4966,10 @@ ORDER BY PT_NO,WMCYMD
 	         TN_VAL,
 	         TP_VAL,
 	         COLI_VAL
-	ORDER BY NO                                                
+	ORDER BY FACI_NM,
+	         PIPE_NUM,
+	         CHART_DATE DESC,
+	         WORK_DT_VAL                                                
  
 </select>
 
@@ -5125,7 +5135,10 @@ ORDER BY PT_NO,WMCYMD
 	         COLI_VAL,
 	         BYPASS_AMT_VAL,
 	         CONNECT_FACI_NM
-	ORDER BY NO
+	ORDER BY FACI_NM,
+	         PIPE_NUM,
+	         CHART_DATE DESC,
+	         WORK_DT_VAL
 </select>
 
 <!-- 부하량 총괄표 -->
