@@ -2342,9 +2342,15 @@ ORDER  BY RIVER_ID,
     </select>
     
     <!-- 퇴적물 -->
+    <select id="searchResult_C_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+    	SELECT MAX (WMYR || '.' || WMWK) AS WMYR
+		  FROM SDM_RWMDTI
+		 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+    </select>
 	<select id="searchResult_C" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 
-  SELECT RN,		/* KRF-BIZ.SearchResultMapper.searchResult_C */
+  	
+  	    SELECT RN,
          PT_NO,
          PT_NM,
          WMYR,
@@ -2371,19 +2377,30 @@ ORDER  BY RIVER_ID,
          CURR_FCL,
          CURR_WTC,
          CURR_PCA,
+         PCA_CLASS, 
          CURR_COD,
          CURR_TOC,
          CURR_TN,
+         TN_CLASS, 
          CURR_TP,
+         TP_CLASS, 
          CURR_SRP,
          CURR_PB,
+         PB_CLASS, 
          CURR_ZN,
+         ZN_CLASS, 
          CURR_CU,
+         CU_CLASS, 
          CURR_CR,
+         CR_CLASS, 
          CURR_NI,
+         NI_CLASS, 
          CURR_AS,
+         AS_CLASS, 
          CURR_CD,
+         CD_CLASS, 
          CURR_HG,
+         HG_CLASS, 
          CURR_AL,
          CURR_LI,
          CURR_CL_2_PHENYL,
@@ -2433,85 +2450,244 @@ ORDER  BY RIVER_ID,
          CURR_TOLUENE,
          CURR_M_P_XYLENE,
          CURR_O_XYLENE
-       , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_DOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_DOW                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_DOW_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                            CHART_DOW_SURF                   
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TEMP_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                            CHART_TEMP_SURF                   
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_DO_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_DO_SURF                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_PH_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_PH_SURF                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_EC_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_EC_SURF                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_DOW_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_DOW_LOW                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TEMP_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                          CHART_TEMP_LOW                   
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_DO_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_DO_LOW                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_PH_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_PH_LOW                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_EC_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_EC_LOW                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TRANSPARENCY) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_TRANSPARENCY               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_FSD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_FSD                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_FST) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_FST                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_FCL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_FCL                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_WTC) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_WTC                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_PCA) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_PCA                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_COD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_COD                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TOC) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_TOC                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TN) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_TN                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TP) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_TP                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_SRP) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_SRP                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_PB) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_PB                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_ZN) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_ZN                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_CU) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_CU                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_CR) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_CR                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_NI) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_NI                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_AS) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_AS                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_CD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_CD                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_HG) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                    CHART_HG                           
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_AL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_AL                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_LI) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                                  CHART_LI                         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                          CHART_CL_2_PHENYL                 
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_2_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_2_CL_2_PHENYL               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_3_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_3_CL_2_PHENYL               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_4_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_4_CL_2_PHENYL               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_5_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_5_CL_2_PHENYL               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_6_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_6_CL_2_PHENYL               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_7_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_7_CL_2_PHENYL               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_8_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_8_CL_2_PHENYL               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_9_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_9_CL_2_PHENYL               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_10_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                      CHART_10_CL_2_PHENYL             
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TOT_PCBS) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                            CHART_TOT_PCBS                   
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_NAPTHALENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                          CHART_NAPTHALENE                 
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_ACENAPTHALENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_ACENAPTHALENE               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_ACENAPTHENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                          CHART_ACENAPTHENE                 
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_FLUORENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                            CHART_FLUORENE                   
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_PHENANTHRENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_PHENANTHRENE               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_ANTHRACENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                          CHART_ANTHRACENE                 
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_FLUORANTHENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_FLUORANTHENE               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_PYRENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_PYRENE                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_BENZO_A_ANTHRACENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                  CHART_BENZO_A_ANTHRACENE         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_CRYSENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_CRYSENE                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_BENZO_B_FLUORANTHENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                CHART_BENZO_B_FLUORANTHENE       
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_BENZO_F_FLUORANTHENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                CHART_BENZO_F_FLUORANTHENE       
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_BENZO_A_PYRENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                      CHART_BENZO_A_PYRENE             
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_INDENO_1_2_3_CD_PYRENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS            CHART_INDENO_1_2_3_CD_PYRENE     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_DIBENZO_A_H_ANTHRACENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS            CHART_DIBENZO_A_H_ANTHRACENE     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_BENZO_G_H_I_PERYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                CHART_BENZO_G_H_I_PERYLENE       
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TOTAL_PAHS) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                          CHART_TOTAL_PAHS                 
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_O_P_DDE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_O_P_DDE                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_P_P_DDE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_P_P_DDE                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_O_P_DDD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_O_P_DDD                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_P_P_DDD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_P_P_DDD                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_O_P_DDT) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_O_P_DDT                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_P_P_DDT) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_P_P_DDT                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TOTAL_DDT) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                            CHART_TOTAL_DDT                   
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_1_1_1_TRICHLOROETHANE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                CHART_1_1_1_TRICHLOROETHANE       
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_1_2_DICHLOROETHANE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                  CHART_1_2_DICHLOROETHANE         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_BENZENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_BENZENE                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_CARBON_TETRA_CHLORIDE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                CHART_CARBON_TETRA_CHLORIDE       
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_CHLOROFORM) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                          CHART_CHLOROFORM                 
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_ETHYL_BENZENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                        CHART_ETHYL_BENZENE               
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_METHYL_CHLORIDE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                      CHART_METHYL_CHLORIDE             
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TETRA_CHLORO_ETHYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                CHART_TETRA_CHLORO_ETHYLENE       
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TRI_CHLORO_ETHYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                  CHART_TRI_CHLORO_ETHYLENE         
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TOLUENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                              CHART_TOLUENE                     
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_M_P_XYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                          CHART_M_P_XYLENE                 
-        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_O_XYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS                          CHART_O_XYLENE                 
+         , CODE_CTN 
+       , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM
+(' ' FROM   CHART_DOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  , 
+'"') ||']' AS                                  CHART_DOW                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_DOW_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                            CHART_DOW_SURF                   
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TEMP_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                            CHART_TEMP_SURF                   
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_DO_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_DO_SURF                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_PH_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_PH_SURF                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_EC_SURF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_EC_SURF                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_DOW_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_DOW_LOW                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TEMP_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                          CHART_TEMP_LOW                   
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_DO_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_DO_LOW                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_PH_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_PH_LOW                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_EC_LOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_EC_LOW                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TRANSPARENCY) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , 
+ <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_TRANSPARENCY               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_FSD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                  CHART_FSD                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_FST) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                  CHART_FST                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_FCL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                  CHART_FCL                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_WTC) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                  CHART_WTC                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_PCA) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_PCA                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_COD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                  CHART_COD                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TOC) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                  CHART_TOC                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TN) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_TN                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TP) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_TP                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_SRP) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                  CHART_SRP                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_PB) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_PB                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_ZN) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_ZN                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_CU) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_CU                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_CR) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_CR                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_NI) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_NI                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_AS) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_AS                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_CD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_CD                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_HG) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                    CHART_HG                           
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_AL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                  CHART_AL                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_LI) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                                  CHART_LI                         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                          CHART_CL_2_PHENYL                 
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_2_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_2_CL_2_PHENYL               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_3_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_3_CL_2_PHENYL               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_4_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_4_CL_2_PHENYL               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_5_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_5_CL_2_PHENYL               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_6_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_6_CL_2_PHENYL               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_7_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_7_CL_2_PHENYL               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_8_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_8_CL_2_PHENYL               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_9_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_9_CL_2_PHENYL               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_10_CL_2_PHENYL) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                      CHART_10_CL_2_PHENYL             
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TOT_PCBS) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                            CHART_TOT_PCBS                   
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_NAPTHALENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                          CHART_NAPTHALENE                 
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_ACENAPTHALENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_ACENAPTHALENE               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_ACENAPTHENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                          CHART_ACENAPTHENE                 
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_FLUORENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                            CHART_FLUORENE                   
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_PHENANTHRENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , 
+ <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_PHENANTHRENE               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_ANTHRACENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                          CHART_ANTHRACENE                 
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_FLUORANTHENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) , 
+ <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_FLUORANTHENE               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_PYRENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_PYRENE                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_BENZO_A_ANTHRACENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL 
+(),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                  CHART_BENZO_A_ANTHRACENE         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_CRYSENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_CRYSENE                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_BENZO_B_FLUORANTHENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL 
+(),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                CHART_BENZO_B_FLUORANTHENE       
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_BENZO_F_FLUORANTHENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL 
+(),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                CHART_BENZO_F_FLUORANTHENE       
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_BENZO_A_PYRENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                      CHART_BENZO_A_PYRENE             
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_INDENO_1_2_3_CD_PYRENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text
+()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS            CHART_INDENO_1_2_3_CD_PYRENE     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_DIBENZO_A_H_ANTHRACENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text
+()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS            CHART_DIBENZO_A_H_ANTHRACENE     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_BENZO_G_H_I_PERYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL 
+(),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                CHART_BENZO_G_H_I_PERYLENE       
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TOTAL_PAHS) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                          CHART_TOTAL_PAHS                 
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_O_P_DDE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_O_P_DDE                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_P_P_DDE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_P_P_DDE                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_O_P_DDD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_O_P_DDD                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_P_P_DDD) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_P_P_DDD                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_O_P_DDT) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_O_P_DDT                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_P_P_DDT) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_P_P_DDT                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TOTAL_DDT) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                            CHART_TOTAL_DDT                   
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_1_1_1_TRICHLOROETHANE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text
+()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                CHART_1_1_1_TRICHLOROETHANE       
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_1_2_DICHLOROETHANE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL 
+(),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                  CHART_1_2_DICHLOROETHANE         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_BENZENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_BENZENE                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_CARBON_TETRA_CHLORIDE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text
+()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                CHART_CARBON_TETRA_CHLORIDE       
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_CHLOROFORM) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                          CHART_CHLOROFORM                 
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_ETHYL_BENZENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) 
+,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                        CHART_ETHYL_BENZENE               
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_METHYL_CHLORIDE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL 
+(),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                      CHART_METHYL_CHLORIDE             
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TETRA_CHLORO_ETHYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text
+()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                CHART_TETRA_CHLORO_ETHYLENE       
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TRI_CHLORO_ETHYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL 
+(),2) ,  <![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                  CHART_TRI_CHLORO_ETHYLENE         
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_TOLUENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                              CHART_TOLUENE                     
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_M_P_XYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                          CHART_M_P_XYLENE                 
+        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || 
+'","',TRIM(' ' FROM   CHART_O_XYLENE) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  
+<![CDATA[  '&'||'quot;' ]]>  , '"') ||']' AS                          CHART_O_XYLENE                 
     FROM (  SELECT A_RANK_NUM AS RN,
                    B_ROW_NUM AS RN_1,
                    A_PT_NO AS PT_NO,
@@ -2558,32 +2734,43 @@ ORDER  BY RIVER_ID,
                    B_ITEM_WTC AS CHART_WTC,
                    A_ITEM_PCA AS CURR_PCA,
                    B_ITEM_PCA AS CHART_PCA,
+                   A_ITEM_PCA_CLASS AS PCA_CLASS,
                    A_ITEM_COD AS CURR_COD,
                    B_ITEM_COD AS CHART_COD,
                    A_ITEM_TOC AS CURR_TOC,
                    B_ITEM_TOC AS CHART_TOC,
                    A_ITEM_TN AS CURR_TN,
                    B_ITEM_TN AS CHART_TN,
+                   A_ITEM_TN_CLASS AS TN_CLASS,
                    A_ITEM_TP AS CURR_TP,
                    B_ITEM_TP AS CHART_TP,
+                   A_ITEM_TP_CLASS AS TP_CLASS,
                    A_ITEM_SRP AS CURR_SRP,
                    B_ITEM_SRP AS CHART_SRP,
                    A_ITEM_PB AS CURR_PB,
                    B_ITEM_PB AS CHART_PB,
+                   A_ITEM_PB_CLASS AS PB_CLASS, 
                    A_ITEM_ZN AS CURR_ZN,
                    B_ITEM_ZN AS CHART_ZN,
+                   A_ITEM_ZN_CLASS AS ZN_CLASS, 
                    A_ITEM_CU AS CURR_CU,
                    B_ITEM_CU AS CHART_CU,
+                   A_ITEM_CU_CLASS AS CU_CLASS, 
                    A_ITEM_CR AS CURR_CR,
                    B_ITEM_CR AS CHART_CR,
+                   A_ITEM_CR_CLASS AS CR_CLASS, 
                    A_ITEM_NI AS CURR_NI,
                    B_ITEM_NI AS CHART_NI,
+                   A_ITEM_NI_CLASS AS NI_CLASS, 
                    A_ITEM_AS AS CURR_AS,
                    B_ITEM_AS AS CHART_AS,
+                   A_ITEM_AS_CLASS AS AS_CLASS, 
                    A_ITEM_CD AS CURR_CD,
                    B_ITEM_CD AS CHART_CD,
+                   A_ITEM_CD_CLASS AS CD_CLASS, 
                    A_ITEM_HG AS CURR_HG,
                    B_ITEM_HG AS CHART_HG,
+                   A_ITEM_HG_CLASS AS HG_CLASS, 
                    A_ITEM_AL AS CURR_AL,
                    B_ITEM_AL AS CHART_AL,
                    A_ITEM_LI AS CURR_LI,
@@ -2682,290 +2869,303 @@ ORDER  BY RIVER_ID,
                    B_ITEM_M_P_XYLENE AS CHART_M_P_XYLENE,
                    A_ITEM_O_XYLENE AS CURR_O_XYLENE,
                    B_ITEM_O_XYLENE AS CHART_O_XYLENE
-              FROM (SELECT A.RANK_NUM AS A_RANK_NUM                       --번호
+                   , A_CODE_CTN AS CODE_CTN 
+              FROM (SELECT A.RANK_NUM AS A_RANK_NUM       
                                                    ,
-                           A.PT_NO AS A_PT_NO                           --지점번호
+                           A.PT_NO AS A_PT_NO             
                                              ,
-                           A.PT_NM AS A_PT_NM                            --지점명
+                           A.PT_NM AS A_PT_NM             
                                              ,
-                           A.WMYR AS A_WMYR                             --채취년도
+                           A.WMYR AS A_WMYR               
                                            ,
                            DECODE (A.WMWK, '1', '상반기', '2', '하반기')
-                              AS A_WMWK                                   --반기
+                              AS A_WMWK                            
                                        ,
-                           A.WMOM AS A_WMOM                              --채취월
+                           A.WMOM AS A_WMOM                        
                                            ,
-                           A.WMOD AS A_WMOD                              --채취일
+                           A.WMOD AS A_WMOD                        
                                            ,
-                           A.WMCTM AS A_WMCTM                           --채취시간
+                           A.WMCTM AS A_WMCTM                      
                                              ,
-                           A.POLL_STEP AS A_POLL_STEP                   --오염단계
+                           A.POLL_STEP AS A_POLL_STEP              
                                                      ,
                            B.ROW_NUM AS B_ROW_NUM,
                            B.PT_NO AS B_PT_NO,
-                           B.WMYR AS B_WMYR                           --과거 채취년
+                           B.WMYR AS B_WMYR                        
                                            ,
                            DECODE (B.WMWK, '1', '상반기', '2', '하반기')
-                              AS B_WMWK                                --과거 반기
+                              AS B_WMWK                                
                                        ,
-                           B.WMOM AS B_WMOM                           --과거 채취월
+                           B.WMOM AS B_WMOM                         
                                            ,
-                           B.WMOD AS B_WMOD                           --과거 채취일
+                           B.WMOD AS B_WMOD                         
                                            ,
                            A.ITEM_DOW AS A_ITEM_DOW,
-                           B.ITEM_DOW AS B_ITEM_DOW                  --최고수심(m)
+                           B.ITEM_DOW AS B_ITEM_DOW                 
                                                    ,
                            A.ITEM_DOW_SURF AS A_ITEM_DOW_SURF,
-                           B.ITEM_DOW_SURF AS B_ITEM_DOW_SURF    --표층-측정 수심(m)
+                           B.ITEM_DOW_SURF AS B_ITEM_DOW_SURF    
                                                              ,
                            A.ITEM_TEMP_SURF AS A_ITEM_TEMP_SURF,
-                           B.ITEM_TEMP_SURF AS B_ITEM_TEMP_SURF     --표층-수온(℃)
+                           B.ITEM_TEMP_SURF AS B_ITEM_TEMP_SURF  
                                                                ,
                            A.ITEM_DO_SURF AS A_ITEM_DO_SURF,
-                           B.ITEM_DO_SURF AS B_ITEM_DO_SURF       --표층-DO(㎎/L)
+                           B.ITEM_DO_SURF AS B_ITEM_DO_SURF      
                                                            ,
                            A.ITEM_PH_SURF AS A_ITEM_PH_SURF,
-                           B.ITEM_PH_SURF AS B_ITEM_PH_SURF            --표층 pH
+                           B.ITEM_PH_SURF AS B_ITEM_PH_SURF      
                                                            ,
                            A.ITEM_EC_SURF AS A_ITEM_EC_SURF,
-                           B.ITEM_EC_SURF AS B_ITEM_EC_SURF --표층 전기전도도(25℃ μS/㎝)
+                           B.ITEM_EC_SURF AS B_ITEM_EC_SURF 
                                                            ,
                            A.ITEM_DOW_LOW AS A_ITEM_DOW_LOW,
-                           B.ITEM_DOW_LOW AS B_ITEM_DOW_LOW      --저층-측정 수심(m)
+                           B.ITEM_DOW_LOW AS B_ITEM_DOW_LOW      
                                                            ,
                            A.ITEM_TEMP_LOW AS A_ITEM_TEMP_LOW,
-                           B.ITEM_TEMP_LOW AS B_ITEM_TEMP_LOW       --저층 수온(℃)
+                           B.ITEM_TEMP_LOW AS B_ITEM_TEMP_LOW 
                                                              ,
                            A.ITEM_DO_LOW AS A_ITEM_DO_LOW,
-                           B.ITEM_DO_LOW AS B_ITEM_DO_LOW         --저층 DO(㎎/L)
+                           B.ITEM_DO_LOW AS B_ITEM_DO_LOW     
                                                          ,
                            A.ITEM_PH_LOW AS A_ITEM_PH_LOW,
-                           B.ITEM_PH_LOW AS B_ITEM_PH_LOW              --저층 pH
+                           B.ITEM_PH_LOW AS B_ITEM_PH_LOW     
                                                          ,
                            A.ITEM_EC_LOW AS A_ITEM_EC_LOW,
-                           B.ITEM_EC_LOW AS B_ITEM_EC_LOW --저층 전기전도도(25℃ μS/㎝)
+                           B.ITEM_EC_LOW AS B_ITEM_EC_LOW 
                                                          ,
                            A.ITEM_TRANSPARENCY AS A_ITEM_TRANSPARENCY,
-                           B.ITEM_TRANSPARENCY AS B_ITEM_TRANSPARENCY --투명도(m)
+                           B.ITEM_TRANSPARENCY AS B_ITEM_TRANSPARENCY 
                                                                      ,
                            A.ITEM_FSD AS A_ITEM_FSD,
-                           B.ITEM_FSD AS B_ITEM_FSD                 --입도-모래(%)
+                           B.ITEM_FSD AS B_ITEM_FSD                 
                                                    ,
                            A.ITEM_FST AS A_ITEM_FST,
-                           B.ITEM_FST AS B_ITEM_FST                 --입도-실트(%)
+                           B.ITEM_FST AS B_ITEM_FST                
                                                    ,
                            A.ITEM_FCL AS A_ITEM_FCL,
-                           B.ITEM_FCL AS B_ITEM_FCL                 --입도-점토(%)
+                           B.ITEM_FCL AS B_ITEM_FCL                
                                                    ,
                            A.ITEM_WTC AS A_ITEM_WTC,
-                           B.ITEM_WTC AS B_ITEM_WTC                   --함수율(%)
+                           B.ITEM_WTC AS B_ITEM_WTC                
                                                    ,
                            A.ITEM_PCA AS A_ITEM_PCA,
-                           B.ITEM_PCA AS B_ITEM_PCA               --완전연소가능량(%)
+                           B.ITEM_PCA AS B_ITEM_PCA              
                                                    ,
+                           A.ITEM_PCA_CLASS AS A_ITEM_PCA_CLASS, 
                            A.ITEM_COD AS A_ITEM_COD,
-                           B.ITEM_COD AS B_ITEM_COD                   --COD(%)
+                           B.ITEM_COD AS B_ITEM_COD                  
                                                    ,
                            A.ITEM_TOC AS A_ITEM_TOC,
-                           B.ITEM_TOC AS B_ITEM_TOC                   --TOC(%)
+                           B.ITEM_TOC AS B_ITEM_TOC                  
                                                    ,
                            A.ITEM_TN AS A_ITEM_TN,
-                           B.ITEM_TN AS B_ITEM_TN                   --T-N(㎎/㎏)
+                           B.ITEM_TN AS B_ITEM_TN                   
                                                  ,
+                           A.ITEM_TN_CLASS AS A_ITEM_TN_CLASS, 
                            A.ITEM_TP AS A_ITEM_TP,
-                           B.ITEM_TP AS B_ITEM_TP                   --T-P(㎎/㎏)
+                           B.ITEM_TP AS B_ITEM_TP              
                                                  ,
+                           A.ITEM_TP_CLASS AS A_ITEM_TP_CLASS, 
                            A.ITEM_SRP AS A_ITEM_SRP,
-                           B.ITEM_SRP AS B_ITEM_SRP                 --SRP(㎎/㎏)
+                           B.ITEM_SRP AS B_ITEM_SRP            
                                                    ,
                            A.ITEM_PB AS A_ITEM_PB,
-                           B.ITEM_PB AS B_ITEM_PB                    --Pb(㎎/㎏)
+                           B.ITEM_PB AS B_ITEM_PB              
                                                  ,
+                           A.ITEM_PB_CLASS AS A_ITEM_PB_CLASS, 
                            A.ITEM_ZN AS A_ITEM_ZN,
-                           B.ITEM_ZN AS B_ITEM_ZN                    --Zn(㎎/㎏)
+                           B.ITEM_ZN AS B_ITEM_ZN              
                                                  ,
+                           A.ITEM_ZN_CLASS AS A_ITEM_ZN_CLASS, 
                            A.ITEM_CU AS A_ITEM_CU,
-                           B.ITEM_CU AS B_ITEM_CU                    --Cu(㎎/㎏)
+                           B.ITEM_CU AS B_ITEM_CU              
                                                  ,
+                           A.ITEM_CU_CLASS AS A_ITEM_CU_CLASS,
                            A.ITEM_CR AS A_ITEM_CR,
-                           B.ITEM_CR AS B_ITEM_CR                    --Cr(㎎/㎏)
+                           B.ITEM_CR AS B_ITEM_CR             
                                                  ,
+                           A.ITEM_CR_CLASS AS A_ITEM_CR_CLASS,
                            A.ITEM_NI AS A_ITEM_NI,
-                           B.ITEM_NI AS B_ITEM_NI                    --Ni(㎎/㎏)
+                           B.ITEM_NI AS B_ITEM_NI                   
                                                  ,
+                           A.ITEM_NI_CLASS AS A_ITEM_NI_CLASS, 
                            A.ITEM_AS AS A_ITEM_AS,
-                           B.ITEM_AS AS B_ITEM_AS                    --As(㎎/㎏)
+                           B.ITEM_AS AS B_ITEM_AS              
                                                  ,
+                           A.ITEM_AS_CLASS AS A_ITEM_AS_CLASS, 
                            A.ITEM_CD AS A_ITEM_CD,
-                           B.ITEM_CD AS B_ITEM_CD                    --Cd(㎎/㎏)
+                           B.ITEM_CD AS B_ITEM_CD             
                                                  ,
+                           A.ITEM_CD_CLASS AS A_ITEM_CD_CLASS, 
                            A.ITEM_HG AS A_ITEM_HG,
-                           B.ITEM_HG AS B_ITEM_HG                    --Hg(㎎/㎏)
+                           B.ITEM_HG AS B_ITEM_HG              
                                                  ,
+                           A.ITEM_HG_CLASS AS A_ITEM_HG_CLASS, 
                            A.ITEM_AL AS A_ITEM_AL,
-                           B.ITEM_AL AS B_ITEM_AL                      --Al(%)
+                           B.ITEM_AL AS B_ITEM_AL                     
                                                  ,
                            A.ITEM_LI AS A_ITEM_LI,
-                           B.ITEM_LI AS B_ITEM_LI                    --Li(㎎/㎏)
+                           B.ITEM_LI AS B_ITEM_LI                   
                                                  ,
                            A.ITEM_CL_2_PHENYL AS A_ITEM_CL_2_PHENYL,
-                           B.ITEM_CL_2_PHENYL AS B_ITEM_CL_2_PHENYL --Chlorobiphenyl(㎍/㎏)
+                           B.ITEM_CL_2_PHENYL AS B_ITEM_CL_2_PHENYL 
                                                                    ,
                            A.ITEM_2_CL_2_PHENYL AS A_ITEM_2_CL_2_PHENYL,
-                           B.ITEM_2_CL_2_PHENYL AS B_ITEM_2_CL_2_PHENYL --Dichlorobiphenyl(㎍/㎏)
+                           B.ITEM_2_CL_2_PHENYL AS B_ITEM_2_CL_2_PHENYL 
                                                                        ,
                            A.ITEM_3_CL_2_PHENYL AS A_ITEM_3_CL_2_PHENYL,
-                           B.ITEM_3_CL_2_PHENYL AS B_ITEM_3_CL_2_PHENYL --Trichlorobiphenyl(㎍/㎏)
+                           B.ITEM_3_CL_2_PHENYL AS B_ITEM_3_CL_2_PHENYL 
                                                                        ,
                            A.ITEM_4_CL_2_PHENYL AS A_ITEM_4_CL_2_PHENYL,
-                           B.ITEM_4_CL_2_PHENYL AS B_ITEM_4_CL_2_PHENYL --Tetrachlorobiphenyl(㎍/㎏)
+                           B.ITEM_4_CL_2_PHENYL AS B_ITEM_4_CL_2_PHENYL 
                                                                        ,
                            A.ITEM_5_CL_2_PHENYL AS A_ITEM_5_CL_2_PHENYL,
-                           B.ITEM_5_CL_2_PHENYL AS B_ITEM_5_CL_2_PHENYL --Pentachlorobiphenyl(㎍/㎏)
+                           B.ITEM_5_CL_2_PHENYL AS B_ITEM_5_CL_2_PHENYL 
                                                                        ,
                            A.ITEM_6_CL_2_PHENYL AS A_ITEM_6_CL_2_PHENYL,
-                           B.ITEM_6_CL_2_PHENYL AS B_ITEM_6_CL_2_PHENYL --Hexachlorobiphenyl(㎍/㎏)
+                           B.ITEM_6_CL_2_PHENYL AS B_ITEM_6_CL_2_PHENYL 
                                                                        ,
                            A.ITEM_7_CL_2_PHENYL AS A_ITEM_7_CL_2_PHENYL,
-                           B.ITEM_7_CL_2_PHENYL AS B_ITEM_7_CL_2_PHENYL --Heptachlorobiphenyl(㎍/㎏)
+                           B.ITEM_7_CL_2_PHENYL AS B_ITEM_7_CL_2_PHENYL
                                                                        ,
                            A.ITEM_8_CL_2_PHENYL AS A_ITEM_8_CL_2_PHENYL,
-                           B.ITEM_8_CL_2_PHENYL AS B_ITEM_8_CL_2_PHENYL --Octachlorobiphenyl(㎍/㎏)
+                           B.ITEM_8_CL_2_PHENYL AS B_ITEM_8_CL_2_PHENYL 
                                                                        ,
                            A.ITEM_9_CL_2_PHENYL AS A_ITEM_9_CL_2_PHENYL,
-                           B.ITEM_9_CL_2_PHENYL AS B_ITEM_9_CL_2_PHENYL --Nonachlorobiphenyl(㎍/㎏)
+                           B.ITEM_9_CL_2_PHENYL AS B_ITEM_9_CL_2_PHENYL 
                                                                        ,
                            A.ITEM_10_CL_2_PHENYL AS A_ITEM_10_CL_2_PHENYL,
-                           B.ITEM_10_CL_2_PHENYL AS B_ITEM_10_CL_2_PHENYL --Decachlorobiphenyl(㎍/㎏)
+                           B.ITEM_10_CL_2_PHENYL AS B_ITEM_10_CL_2_PHENYL 
                                                                          ,
                            A.ITEM_TOT_PCBS AS A_ITEM_TOT_PCBS,
-                           B.ITEM_TOT_PCBS AS B_ITEM_TOT_PCBS --Total PCBs(㎍/㎏)
+                           B.ITEM_TOT_PCBS AS B_ITEM_TOT_PCBS 
                                                              ,
                            A.ITEM_NAPTHALENE AS A_ITEM_NAPTHALENE,
-                           B.ITEM_NAPTHALENE AS B_ITEM_NAPTHALENE --Naphthalene(㎍/㎏)
+                           B.ITEM_NAPTHALENE AS B_ITEM_NAPTHALENE 
                                                                  ,
                            A.ITEM_ACENAPTHALENE AS A_ITEM_ACENAPTHALENE,
-                           B.ITEM_ACENAPTHALENE AS B_ITEM_ACENAPTHALENE --Acenaphthylene(㎍/㎏)
+                           B.ITEM_ACENAPTHALENE AS B_ITEM_ACENAPTHALENE 
                                                                        ,
                            A.ITEM_ACENAPTHENE AS A_ITEM_ACENAPTHENE,
-                           B.ITEM_ACENAPTHENE AS B_ITEM_ACENAPTHENE --Acenaphthene(㎍/㎏)
+                           B.ITEM_ACENAPTHENE AS B_ITEM_ACENAPTHENE 
                                                                    ,
                            A.ITEM_FLUORENE AS A_ITEM_FLUORENE,
-                           B.ITEM_FLUORENE AS B_ITEM_FLUORENE  --Fluorene(㎍/㎏)
+                           B.ITEM_FLUORENE AS B_ITEM_FLUORENE  
                                                              ,
                            A.ITEM_PHENANTHRENE AS A_ITEM_PHENANTHRENE,
-                           B.ITEM_PHENANTHRENE AS B_ITEM_PHENANTHRENE --Phenanthrene(㎍/㎏)
+                           B.ITEM_PHENANTHRENE AS B_ITEM_PHENANTHRENE 
                                                                      ,
                            A.ITEM_ANTHRACENE AS A_ITEM_ANTHRACENE,
-                           B.ITEM_ANTHRACENE AS B_ITEM_ANTHRACENE --Anthracene(㎍/㎏)
+                           B.ITEM_ANTHRACENE AS B_ITEM_ANTHRACENE
                                                                  ,
                            A.ITEM_FLUORANTHENE AS A_ITEM_FLUORANTHENE,
-                           B.ITEM_FLUORANTHENE AS B_ITEM_FLUORANTHENE --Fluoranthene(㎍/㎏)
+                           B.ITEM_FLUORANTHENE AS B_ITEM_FLUORANTHENE 
                                                                      ,
                            A.ITEM_PYRENE AS A_ITEM_PYRENE,
-                           B.ITEM_PYRENE AS B_ITEM_PYRENE        --Pyrene(㎍/㎏)
+                           B.ITEM_PYRENE AS B_ITEM_PYRENE        
                                                          ,
                            A.ITEM_BENZO_A_ANTHRACENE AS A_ITEM_BENZO_A_ANTHRACENE,
-                           B.ITEM_BENZO_A_ANTHRACENE AS B_ITEM_BENZO_A_ANTHRACENE --Benzo[a]anthracene(㎍/㎏)
+                           B.ITEM_BENZO_A_ANTHRACENE AS B_ITEM_BENZO_A_ANTHRACENE 
                                                                                  ,
                            A.ITEM_CRYSENE AS A_ITEM_CRYSENE,
-                           B.ITEM_CRYSENE AS B_ITEM_CRYSENE    --Chrysene(㎍/㎏)
+                           B.ITEM_CRYSENE AS B_ITEM_CRYSENE    
                                                            ,
                            A.ITEM_BENZO_B_FLUORANTHENE
                               AS A_ITEM_BENZO_B_FLUORANTHENE,
                            B.ITEM_BENZO_B_FLUORANTHENE
-                              AS B_ITEM_BENZO_B_FLUORANTHENE --Benzo[b]fluoranthene(㎍/㎏)
+                              AS B_ITEM_BENZO_B_FLUORANTHENE
                                                             ,
                            A.ITEM_BENZO_F_FLUORANTHENE
                               AS A_ITEM_BENZO_F_FLUORANTHENE,
                            B.ITEM_BENZO_F_FLUORANTHENE
-                              AS B_ITEM_BENZO_F_FLUORANTHENE --Benzo[k]fluoranthene(㎍/㎏)
+                              AS B_ITEM_BENZO_F_FLUORANTHENE 
                                                             ,
                            A.ITEM_BENZO_A_PYRENE AS A_ITEM_BENZO_A_PYRENE,
-                           B.ITEM_BENZO_A_PYRENE AS B_ITEM_BENZO_A_PYRENE --Benzo[a]pyrene(㎍/㎏)
+                           B.ITEM_BENZO_A_PYRENE AS B_ITEM_BENZO_A_PYRENE 
                                                                          ,
                            A.ITEM_INDENO_1_2_3_CD_PYRENE
                               AS A_ITEM_INDENO_1_2_3_CD_PYRENE,
                            B.ITEM_INDENO_1_2_3_CD_PYRENE
-                              AS B_ITEM_INDENO_1_2_3_CD_PYRENE --Indeno[1,2,3-cd]pyrene(㎍/㎏)
+                              AS B_ITEM_INDENO_1_2_3_CD_PYRENE 
                                                               ,
                            A.ITEM_DIBENZO_A_H_ANTHRACENE
                               AS A_ITEM_DIBENZO_A_H_ANTHRACENE,
                            B.ITEM_DIBENZO_A_H_ANTHRACENE
-                              AS B_ITEM_DIBENZO_A_H_ANTHRACENE --Dibenzo[a,h]anthracene(㎍/㎏)
+                              AS B_ITEM_DIBENZO_A_H_ANTHRACENE
                                                               ,
                            A.ITEM_BENZO_G_H_I_PERYLENE
                               AS A_ITEM_BENZO_G_H_I_PERYLENE,
                            B.ITEM_BENZO_G_H_I_PERYLENE
-                              AS B_ITEM_BENZO_G_H_I_PERYLENE --Benzo[g,h,i]perylene(㎍/㎏)
+                              AS B_ITEM_BENZO_G_H_I_PERYLENE 
                                                             ,
                            A.ITEM_TOTAL_PAHS AS A_ITEM_TOTAL_PAHS,
-                           B.ITEM_TOTAL_PAHS AS B_ITEM_TOTAL_PAHS --Total PAHs(㎍/㎏)
+                           B.ITEM_TOTAL_PAHS AS B_ITEM_TOTAL_PAHS 
                                                                  ,
                            A.ITEM_O_P_DDE AS A_ITEM_O_P_DDE,
-                           B.ITEM_O_P_DDE AS B_ITEM_O_P_DDE    --o,p'-DDE(㎍/㎏)
+                           B.ITEM_O_P_DDE AS B_ITEM_O_P_DDE   
                                                            ,
                            A.ITEM_P_P_DDE AS A_ITEM_P_P_DDE,
-                           B.ITEM_P_P_DDE AS B_ITEM_P_P_DDE    --p,p'-DDE(㎍/㎏)
+                           B.ITEM_P_P_DDE AS B_ITEM_P_P_DDE   
                                                            ,
                            A.ITEM_O_P_DDD AS A_ITEM_O_P_DDD,
-                           B.ITEM_O_P_DDD AS B_ITEM_O_P_DDD    --o,p'-DDD(㎍/㎏)
+                           B.ITEM_O_P_DDD AS B_ITEM_O_P_DDD   
                                                            ,
                            A.ITEM_P_P_DDD AS A_ITEM_P_P_DDD,
-                           B.ITEM_P_P_DDD AS B_ITEM_P_P_DDD    --p,p'-DDD(㎍/㎏)
+                           B.ITEM_P_P_DDD AS B_ITEM_P_P_DDD    
                                                            ,
                            A.ITEM_O_P_DDT AS A_ITEM_O_P_DDT,
-                           B.ITEM_O_P_DDT AS B_ITEM_O_P_DDT    --o,p'-DDT(㎍/㎏)
+                           B.ITEM_O_P_DDT AS B_ITEM_O_P_DDT    
                                                            ,
                            A.ITEM_P_P_DDT AS A_ITEM_P_P_DDT,
-                           B.ITEM_P_P_DDT AS B_ITEM_P_P_DDT    --p,p'-DDT(㎍/㎏)
+                           B.ITEM_P_P_DDT AS B_ITEM_P_P_DDT   
                                                            ,
                            A.ITEM_TOTAL_DDT AS A_ITEM_TOTAL_DDT,
-                           B.ITEM_TOTAL_DDT AS B_ITEM_TOTAL_DDT --Total DDTs(㎍/㎏)
+                           B.ITEM_TOTAL_DDT AS B_ITEM_TOTAL_DDT 
                                                                ,
                            A.ITEM_1_1_1_TRICHLOROETHANE
                               AS A_ITEM_1_1_1_TRICHLOROETHANE,
                            B.ITEM_1_1_1_TRICHLOROETHANE
-                              AS B_ITEM_1_1_1_TRICHLOROETHANE --1,1,1-Trichloroethane(㎍/㎏)
+                              AS B_ITEM_1_1_1_TRICHLOROETHANE 
                                                              ,
                            A.ITEM_1_2_DICHLOROETHANE AS A_ITEM_1_2_DICHLOROETHANE,
-                           B.ITEM_1_2_DICHLOROETHANE AS B_ITEM_1_2_DICHLOROETHANE --1,2-Dichloroethane(㎍/㎏)
+                           B.ITEM_1_2_DICHLOROETHANE AS B_ITEM_1_2_DICHLOROETHANE 
                                                                                  ,
                            A.ITEM_BENZENE AS A_ITEM_BENZENE,
-                           B.ITEM_BENZENE AS B_ITEM_BENZENE     --Benzene(㎍/㎏)
+                           B.ITEM_BENZENE AS B_ITEM_BENZENE     
                                                            ,
                            A.ITEM_CARBON_TETRA_CHLORIDE
                               AS A_ITEM_CARBON_TETRA_CHLORIDE,
                            B.ITEM_CARBON_TETRA_CHLORIDE
-                              AS B_ITEM_CARBON_TETRA_CHLORIDE --Carbon tetrachloride(㎍/㎏)
+                              AS B_ITEM_CARBON_TETRA_CHLORIDE 
                                                              ,
                            A.ITEM_CHLOROFORM AS A_ITEM_CHLOROFORM,
-                           B.ITEM_CHLOROFORM AS B_ITEM_CHLOROFORM --Chloroform(㎍/㎏)
+                           B.ITEM_CHLOROFORM AS B_ITEM_CHLOROFORM
                                                                  ,
                            A.ITEM_ETHYL_BENZENE AS A_ITEM_ETHYL_BENZENE,
-                           B.ITEM_ETHYL_BENZENE AS B_ITEM_ETHYL_BENZENE --Ethylbenzene(㎍/㎏)
+                           B.ITEM_ETHYL_BENZENE AS B_ITEM_ETHYL_BENZENE 
                                                                        ,
                            A.ITEM_METHYL_CHLORIDE AS A_ITEM_METHYL_CHLORIDE,
-                           B.ITEM_METHYL_CHLORIDE AS B_ITEM_METHYL_CHLORIDE --Methyl Chloride(㎍/㎏)
+                           B.ITEM_METHYL_CHLORIDE AS B_ITEM_METHYL_CHLORIDE 
                                                                            ,
                            A.ITEM_TETRA_CHLORO_ETHYLENE
                               AS A_ITEM_TETRA_CHLORO_ETHYLENE,
                            B.ITEM_TETRA_CHLORO_ETHYLENE
-                              AS B_ITEM_TETRA_CHLORO_ETHYLENE --Tetrachloroethylene(㎍/㎏)
+                              AS B_ITEM_TETRA_CHLORO_ETHYLENE 
                                                              ,
                            A.ITEM_TRI_CHLORO_ETHYLENE
                               AS A_ITEM_TRI_CHLORO_ETHYLENE,
                            B.ITEM_TRI_CHLORO_ETHYLENE
-                              AS B_ITEM_TRI_CHLORO_ETHYLENE --Trichloroethylene(㎍/㎏)
+                              AS B_ITEM_TRI_CHLORO_ETHYLENE
                                                            ,
                            A.ITEM_TOLUENE AS A_ITEM_TOLUENE,
-                           B.ITEM_TOLUENE AS B_ITEM_TOLUENE     --Toluene(㎍/㎏)
+                           B.ITEM_TOLUENE AS B_ITEM_TOLUENE     
                                                            ,
                            A.ITEM_M_P_XYLENE AS A_ITEM_M_P_XYLENE,
-                           B.ITEM_M_P_XYLENE AS B_ITEM_M_P_XYLENE --m,p-Xylene(㎍/㎏)
+                           B.ITEM_M_P_XYLENE AS B_ITEM_M_P_XYLENE 
                                                                  ,
                            A.ITEM_O_XYLENE AS A_ITEM_O_XYLENE,
-                           B.ITEM_O_XYLENE AS B_ITEM_O_XYLENE  --o-Xylene(㎍/㎏)
+                           B.ITEM_O_XYLENE AS B_ITEM_O_XYLENE  
+                           , A.CODE_CTN AS A_CODE_CTN 
                       FROM (  SELECT RANK () OVER (ORDER BY PT_NO) AS RANK_NUM,
                                      AA.*
                                 FROM (SELECT ROW_NUMBER ()
@@ -3061,14 +3261,26 @@ ORDER  BY RIVER_ID,
                                              ITEM_TOLUENE,
                                              ITEM_M_P_XYLENE,
                                              ITEM_O_XYLENE
+                                            , ITEM_PCA_CLASS
+                                            , ITEM_TN_CLASS
+                                            , ITEM_TP_CLASS
+                                            , ITEM_PB_CLASS
+                                            , ITEM_ZN_CLASS
+                                            , ITEM_CU_CLASS
+                                            , ITEM_CR_CLASS
+                                            , ITEM_NI_CLASS
+                                            , ITEM_AS_CLASS
+                                            , ITEM_CD_CLASS
+                                            , ITEM_HG_CLASS
+                                            , (SELECT CODE_CTN FROM CODE Z WHERE CODE_ID = 'ORG001' AND Z.CODE = B.JOSACODE) CODE_CTN 
                                         FROM SDM_RWMDTI A, SDM_RWMPT B
                                        WHERE     A.PT_NO = B.PT_NO
                                              AND WMYR || WMOD >= #{startYear} || #{startMonth} 
-                                             AND WMYR || WMOD <![CDATA[  <= #{endYear} || #{endMonth}  ]]>
-                                             AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+                                             AND WMYR || WMOD <![CDATA[ <= ]]> #{endYear} || #{endMonth} 
+                                             AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> 
                                                                                   )
                                      AA
-                               WHERE ROW_NUM  <![CDATA[ <= 1  ]]>
+                               WHERE ROW_NUM <![CDATA[ <= ]]> 1
                             ORDER BY PT_NO, WMYR ASC, WMOM ASC) A,
                            (  SELECT *
                                 FROM (SELECT ROW_NUMBER ()
@@ -3083,171 +3295,172 @@ ORDER  BY RIVER_ID,
                                              WMWK,
                                              WMOM,
                                              WMOD,
-                                             ITEM_DOW                --최고수심(m)
+                                             ITEM_DOW                
                                                      ,
-                                             ITEM_DOW_SURF       --표층-측정 수심(m)
+                                             ITEM_DOW_SURF      
                                                           ,
-                                             ITEM_TEMP_SURF         --표층-수온(℃)
+                                             ITEM_TEMP_SURF     
                                                            ,
-                                             ITEM_DO_SURF         --표층-DO(㎎/L)
+                                             ITEM_DO_SURF       
                                                          ,
-                                             ITEM_PH_SURF              --표층 pH
+                                             ITEM_PH_SURF            
                                                          ,
-                                             ITEM_EC_SURF --표층 전기전도도(25℃ μS/㎝)
+                                             ITEM_EC_SURF 
                                                          ,
-                                             ITEM_DOW_LOW        --저층-측정 수심(m)
+                                             ITEM_DOW_LOW 
                                                          ,
-                                             ITEM_TEMP_LOW          --저층 수온(℃)
+                                             ITEM_TEMP_LOW
                                                           ,
-                                             ITEM_DO_LOW          --저층 DO(㎎/L)
+                                             ITEM_DO_LOW  
                                                         ,
-                                             ITEM_PH_LOW               --저층 pH
+                                             ITEM_PH_LOW  
                                                         ,
-                                             ITEM_EC_LOW  --저층 전기전도도(25℃ μS/㎝)
+                                             ITEM_EC_LOW  
                                                         ,
-                                             ITEM_TRANSPARENCY        --투명도(m)
+                                             ITEM_TRANSPARENCY  
                                                               ,
-                                             ITEM_FSD               --입도-모래(%)
+                                             ITEM_FSD           
                                                      ,
-                                             ITEM_FST               --입도-실트(%)
+                                             ITEM_FST           
                                                      ,
-                                             ITEM_FCL               --입도-점토(%)
+                                             ITEM_FCL           
                                                      ,
-                                             ITEM_WTC                 --함수율(%)
+                                             ITEM_WTC           
                                                      ,
-                                             ITEM_PCA             --완전연소가능량(%)
+                                             ITEM_PCA           
                                                      ,
-                                             ITEM_COD                 --COD(%)
+                                             ITEM_COD           
                                                      ,
-                                             ITEM_TOC                 --TOC(%)
+                                             ITEM_TOC           
                                                      ,
-                                             ITEM_TN                --T-N(㎎/㎏)
+                                             ITEM_TN            
                                                     ,
-                                             ITEM_TP                --T-P(㎎/㎏)
+                                             ITEM_TP            
                                                     ,
-                                             ITEM_SRP               --SRP(㎎/㎏)
+                                             ITEM_SRP           
                                                      ,
-                                             ITEM_PB                 --Pb(㎎/㎏)
+                                             ITEM_PB            
                                                     ,
-                                             ITEM_ZN                 --Zn(㎎/㎏)
+                                             ITEM_ZN            
                                                     ,
-                                             ITEM_CU                 --Cu(㎎/㎏)
+                                             ITEM_CU                
                                                     ,
-                                             ITEM_CR                 --Cr(㎎/㎏)
+                                             ITEM_CR                
                                                     ,
-                                             ITEM_NI                 --Ni(㎎/㎏)
+                                             ITEM_NI                
                                                     ,
-                                             ITEM_AS                 --As(㎎/㎏)
+                                             ITEM_AS                
                                                     ,
-                                             ITEM_CD                 --Cd(㎎/㎏)
+                                             ITEM_CD                
                                                     ,
-                                             ITEM_HG                 --Hg(㎎/㎏)
+                                             ITEM_HG                
                                                     ,
-                                             ITEM_AL                   --Al(%)
+                                             ITEM_AL                
                                                     ,
-                                             ITEM_LI                 --Li(㎎/㎏)
+                                             ITEM_LI                
                                                     ,
-                                             ITEM_CL_2_PHENYL --Chlorobiphenyl(㎍/㎏)
+                                             ITEM_CL_2_PHENYL 
                                                              ,
-                                             ITEM_2_CL_2_PHENYL --Dichlorobiphenyl(㎍/㎏)
+                                             ITEM_2_CL_2_PHENYL 
                                                                ,
-                                             ITEM_3_CL_2_PHENYL --Trichlorobiphenyl(㎍/㎏)
+                                             ITEM_3_CL_2_PHENYL 
                                                                ,
-                                             ITEM_4_CL_2_PHENYL --Tetrachlorobiphenyl(㎍/㎏)
+                                             ITEM_4_CL_2_PHENYL 
                                                                ,
-                                             ITEM_5_CL_2_PHENYL --Pentachlorobiphenyl(㎍/㎏)
+                                             ITEM_5_CL_2_PHENYL 
                                                                ,
-                                             ITEM_6_CL_2_PHENYL --Hexachlorobiphenyl(㎍/㎏)
+                                             ITEM_6_CL_2_PHENYL 
                                                                ,
-                                             ITEM_7_CL_2_PHENYL --Heptachlorobiphenyl(㎍/㎏)
+                                             ITEM_7_CL_2_PHENYL 
                                                                ,
-                                             ITEM_8_CL_2_PHENYL --Octachlorobiphenyl(㎍/㎏)
+                                             ITEM_8_CL_2_PHENYL 
                                                                ,
-                                             ITEM_9_CL_2_PHENYL --Nonachlorobiphenyl(㎍/㎏)
+                                             ITEM_9_CL_2_PHENYL 
                                                                ,
-                                             ITEM_10_CL_2_PHENYL --Decachlorobiphenyl(㎍/㎏)
+                                             ITEM_10_CL_2_PHENYL
                                                                 ,
-                                             ITEM_TOT_PCBS   --Total PCBs(㎍/㎏)
+                                             ITEM_TOT_PCBS   
                                                           ,
-                                             ITEM_NAPTHALENE --Naphthalene(㎍/㎏)
+                                             ITEM_NAPTHALENE 
                                                             ,
-                                             ITEM_ACENAPTHALENE --Acenaphthylene(㎍/㎏)
+                                             ITEM_ACENAPTHALENE 
                                                                ,
-                                             ITEM_ACENAPTHENE --Acenaphthene(㎍/㎏)
+                                             ITEM_ACENAPTHENE 
                                                              ,
-                                             ITEM_FLUORENE     --Fluorene(㎍/㎏)
+                                             ITEM_FLUORENE     
                                                           ,
-                                             ITEM_PHENANTHRENE --Phenanthrene(㎍/㎏)
+                                             ITEM_PHENANTHRENE 
                                                               ,
-                                             ITEM_ANTHRACENE --Anthracene(㎍/㎏)
+                                             ITEM_ANTHRACENE
                                                             ,
-                                             ITEM_FLUORANTHENE --Fluoranthene(㎍/㎏)
+                                             ITEM_FLUORANTHENE 
                                                               ,
-                                             ITEM_PYRENE         --Pyrene(㎍/㎏)
+                                             ITEM_PYRENE        
                                                         ,
-                                             ITEM_BENZO_A_ANTHRACENE --Benzo[a]anthracene(㎍/㎏)
+                                             ITEM_BENZO_A_ANTHRACENE 
                                                                     ,
-                                             ITEM_CRYSENE      --Chrysene(㎍/㎏)
+                                             ITEM_CRYSENE     
                                                          ,
-                                             ITEM_BENZO_B_FLUORANTHENE --Benzo[b]fluoranthene(㎍/㎏)
+                                             ITEM_BENZO_B_FLUORANTHENE 
                                                                       ,
-                                             ITEM_BENZO_F_FLUORANTHENE --Benzo[k]fluoranthene(㎍/㎏)
+                                             ITEM_BENZO_F_FLUORANTHENE
                                                                       ,
-                                             ITEM_BENZO_A_PYRENE --Benzo[a]pyrene(㎍/㎏)
+                                             ITEM_BENZO_A_PYRENE
                                                                 ,
-                                             ITEM_INDENO_1_2_3_CD_PYRENE --Indeno[1,2,3-cd]pyrene(㎍/㎏)
+                                             ITEM_INDENO_1_2_3_CD_PYRENE 
                                                                         ,
-                                             ITEM_DIBENZO_A_H_ANTHRACENE --Dibenzo[a,h]anthracene(㎍/㎏)
+                                             ITEM_DIBENZO_A_H_ANTHRACENE 
                                                                         ,
-                                             ITEM_BENZO_G_H_I_PERYLENE --Benzo[g,h,i]perylene(㎍/㎏)
+                                             ITEM_BENZO_G_H_I_PERYLENE
                                                                       ,
-                                             ITEM_TOTAL_PAHS --Total PAHs(㎍/㎏)
+                                             ITEM_TOTAL_PAHS 
                                                             ,
-                                             ITEM_O_P_DDE      --o,p'-DDE(㎍/㎏)
+                                             ITEM_O_P_DDE    
                                                          ,
-                                             ITEM_P_P_DDE      --p,p'-DDE(㎍/㎏)
+                                             ITEM_P_P_DDE    
                                                          ,
-                                             ITEM_O_P_DDD      --o,p'-DDD(㎍/㎏)
+                                             ITEM_O_P_DDD    
                                                          ,
-                                             ITEM_P_P_DDD      --p,p'-DDD(㎍/㎏)
+                                             ITEM_P_P_DDD    
                                                          ,
-                                             ITEM_O_P_DDT      --o,p'-DDT(㎍/㎏)
+                                             ITEM_O_P_DDT    
                                                          ,
-                                             ITEM_P_P_DDT      --p,p'-DDT(㎍/㎏)
+                                             ITEM_P_P_DDT    
                                                          ,
-                                             ITEM_TOTAL_DDT  --Total DDTs(㎍/㎏)
+                                             ITEM_TOTAL_DDT  
                                                            ,
-                                             ITEM_1_1_1_TRICHLOROETHANE --1,1,1-Trichloroethane(㎍/㎏)
+                                             ITEM_1_1_1_TRICHLOROETHANE 
                                                                        ,
-                                             ITEM_1_2_DICHLOROETHANE --1,2-Dichloroethane(㎍/㎏)
+                                             ITEM_1_2_DICHLOROETHANE 
                                                                     ,
-                                             ITEM_BENZENE       --Benzene(㎍/㎏)
+                                             ITEM_BENZENE      
                                                          ,
-                                             ITEM_CARBON_TETRA_CHLORIDE --Carbon tetrachloride(㎍/㎏)
+                                             ITEM_CARBON_TETRA_CHLORIDE 
                                                                        ,
-                                             ITEM_CHLOROFORM --Chloroform(㎍/㎏)
+                                             ITEM_CHLOROFORM
                                                             ,
-                                             ITEM_ETHYL_BENZENE --Ethylbenzene(㎍/㎏)
+                                             ITEM_ETHYL_BENZENE
                                                                ,
-                                             ITEM_METHYL_CHLORIDE --Methyl Chloride(㎍/㎏)
+                                             ITEM_METHYL_CHLORIDE 
                                                                  ,
-                                             ITEM_TETRA_CHLORO_ETHYLENE --Tetrachloroethylene(㎍/㎏)
+                                             ITEM_TETRA_CHLORO_ETHYLENE 
                                                                        ,
-                                             ITEM_TRI_CHLORO_ETHYLENE --Trichloroethylene(㎍/㎏)
+                                             ITEM_TRI_CHLORO_ETHYLENE 
                                                                      ,
-                                             ITEM_TOLUENE       --Toluene(㎍/㎏)
+                                             ITEM_TOLUENE       
                                                          ,
-                                             ITEM_M_P_XYLENE --m,p-Xylene(㎍/㎏)
+                                             ITEM_M_P_XYLENE 
                                                             ,
-                                             ITEM_O_XYLENE     --o-Xylene(㎍/㎏)
+                                             ITEM_O_XYLENE     
                                         FROM SDM_RWMDTI A, SDM_RWMPT B
                                        WHERE     A.PT_NO = B.PT_NO
-                                             AND WMYR || WMOD <![CDATA[ <= #{endYear} || #{endMonth} ]]> -- 종료일자
-                                             AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> -- 지점코드
+                                             AND WMYR || WMOD  <![CDATA[ <= ]]> #{endYear} || #{endMonth}
+                                             AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> 
                                                                                   )
-                               WHERE ROW_NUM <![CDATA[ <= 10 ]]>
+                               WHERE ROW_NUM <![CDATA[ <=  ]]> 10
                             ORDER BY PT_NO, WMYR ASC, WMOM ASC) B
                      WHERE A.PT_NO(+) = B.PT_NO) A
+                     WHERE A_PT_NO IS NOT NULL
           ORDER BY B_PT_NO, B_WMYR ASC, B_WMOM ASC)
 GROUP BY RN,
          PT_NO,
@@ -3276,19 +3489,30 @@ GROUP BY RN,
          CURR_FCL,
          CURR_WTC,
          CURR_PCA,
+         PCA_CLASS,
          CURR_COD,
          CURR_TOC,
          CURR_TN,
+         TN_CLASS,
          CURR_TP,
+         TP_CLASS,
          CURR_SRP,
          CURR_PB,
+         PB_CLASS,
          CURR_ZN,
+         ZN_CLASS,
          CURR_CU,
+         CU_CLASS,
          CURR_CR,
+         CR_CLASS,
          CURR_NI,
+         NI_CLASS,
          CURR_AS,
+         AS_CLASS,
          CURR_CD,
+         CD_CLASS,
          CURR_HG,
+         HG_CLASS,
          CURR_AL,
          CURR_LI,
          CURR_CL_2_PHENYL,
@@ -3337,10 +3561,12 @@ GROUP BY RN,
          CURR_TRI_CHLORO_ETHYLENE,
          CURR_TOLUENE,
          CURR_M_P_XYLENE,
-         CURR_O_XYLENE
+         CURR_O_XYLENE,
+         CODE_CTN
 ORDER BY RN
+  	
 	
-</select>    
+	</select>    
     
 <select id="searchResult_D_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	<if test="gubun == 1">
