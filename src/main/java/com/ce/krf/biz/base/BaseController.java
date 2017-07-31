@@ -48,11 +48,28 @@ public class BaseController {
 							// 리스트의 값을 확인하여 값이 있는 항목만 새로운 리스트로 만듬
 							for(int j=0; j<vv.size(); j++) {
 								List cData = (List)vv.get(j);
+								
 								if(cData != null || cData.size() == 2) {
 									Object value = cData.get(1);
 									if(value != null && !"".equals(value) && !"null".equals(value)) {
 										desList.add(cData);
+									}else {
+										if(vv.size() <=5) {
+											cData = cData.subList(0, 1);
+											cData.add(null);
+											desList.add(cData);
+										}
 									}
+									if(desList.size() < 5) {
+										if("".equals(value)) {
+											cData.set(1, null);
+											desList.add(cData);
+										}
+									}
+									
+									
+									
+									
 								}
 							}
 							// 차트 리스트가 5건 이상일때 뒤부터 5개만 자름
@@ -67,11 +84,13 @@ public class BaseController {
 			}
 		}
 	}
-	public String getEuckrString(HashMap src) throws Exception {
-		for(Object key : src.keySet()) {
-			Object v = src.get(key);
-			if(v instanceof List) {
-				convertStringForMap((List)v);
+	public String getEuckrString(HashMap src, boolean encFlag) throws Exception {
+		if(encFlag) {
+			for(Object key : src.keySet()) {
+				Object v = src.get(key);
+				if(v instanceof List) {
+					convertStringForMap((List)v);
+				}
 			}
 		}
 		String res = om.writeValueAsString(src);

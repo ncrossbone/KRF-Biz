@@ -1,8 +1,11 @@
-spring:
-  profiles:
-    active: local
-
----
+spring: 
+    profiles: 
+      active: local
+    
+server:
+  session:
+    timeout: 600 
+    
 mybatis: 
   mapper-locations: classpath:mapper/**/*.xml
   configuration:

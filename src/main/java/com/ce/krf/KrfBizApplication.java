@@ -1,16 +1,11 @@
 package com.ce.krf;
 
-import java.nio.charset.Charset;
-
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.filter.CharacterEncodingFilter;
  
 @SpringBootApplication
 @MapperScan("com.ce.krf.biz.mapper")
@@ -18,6 +13,7 @@ public class KrfBizApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    	application.bannerMode(Banner.Mode.OFF);
         return application.sources(KrfBizApplication.class);
     }
 //    @Bean
@@ -41,6 +37,6 @@ public class KrfBizApplication extends SpringBootServletInitializer {
 //        };
 //    }
 	public static void main(String[] args) {
-		SpringApplication.run(KrfBizApplication.class, args);
+		SpringApplication.run(KrfBizApplication.class);
 	}
 }
