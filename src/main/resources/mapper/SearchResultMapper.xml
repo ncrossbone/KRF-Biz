@@ -153,7 +153,7 @@
                  A.WMOD,
                  A.WMWK,
                  B.WMWK AS SEQ,
-                 A.WMDEP,
+                 NVL(A.WMDEP,'') AS WMDEP,
                  NVL (A.ITEM_BOD, 888888888) AS CURR_BOD,
                  CASE WHEN B.ITEM_BOD = '999999999' THEN 0 ELSE B.ITEM_BOD END
                     AS CHART_BOD,
@@ -698,9 +698,9 @@
                                              AND C.WMCYMD IS NOT NULL) B,
                  KESTI_WATER_ALL_MAP C
            WHERE     A.PT_NO = B.PT_NO
-                 AND A.ADMCODE = B.ADMCODE
-                 AND B.RN BETWEEN A.RN AND A.RN + 8
-                 AND SUBSTR (A.ADMCODE, 1, 10) = C.ADM_CD(+))
+             AND A.ADMCODE = B.ADMCODE
+             AND B.RN BETWEEN A.RN AND A.RN + 8
+             AND SUBSTR (A.ADMCODE, 1, 10) = C.ADM_CD(+))
 ORDER BY PT_NO, RN, RN_2 DESC
 
   
