@@ -4,7 +4,7 @@ spring:
     
 server:
   session:
-    timeout: 600 
+    timeout: 120 
     
 mybatis: 
   mapper-locations: classpath:mapper/**/*.xml

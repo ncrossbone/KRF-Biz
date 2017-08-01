@@ -338,7 +338,9 @@ public class SearchResultService {
 				WMOD = ((HashMap<String, String>) searchResult.get(i)).get("WMOD");
 				WMWK = ((HashMap<String, String>) searchResult.get(i)).get("WMWK");
 				WMDEP = String.valueOf(((HashMap<String, String>) searchResult.get(i)).get("WMDEP"));
-
+				if(WMDEP == null || "null".equals(WMDEP)) {
+					WMDEP = "";
+				}
 				CURR_BOD = String.valueOf(((HashMap<String, String>) searchResult.get(i)).get("CURR_BOD"));
 				Chart_Data_tmp = new ArrayList();
 
