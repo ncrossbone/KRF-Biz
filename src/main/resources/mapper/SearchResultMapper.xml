@@ -5190,7 +5190,7 @@ ORDER BY PT_NO,WMCYMD
                         OUT_TN_SUM, 
                         OUT_TP_SUM 
                  FROM   POLLULANT_LOAD_FOR_CAT) 
-         WHERE  CAT_DID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
+         WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
          ORDER  BY WS_CD, 
                    SW_CODE, 
                    CAT_DID, 
@@ -5445,7 +5445,7 @@ ORDER  BY NO_1,
                         OUT_TN_LANDFILL, 
                         OUT_TP_LANDFILL 
                  FROM   POLLULANT_LOAD_FOR_CAT) 
-         WHERE  CAT_DID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
+         WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
          ORDER  BY WS_CD, 
                    SW_CODE, 
                    CAT_DID, 
@@ -5696,7 +5696,7 @@ ORDER  BY NO_1,
                         OUT_TN_LANDFILL, 
                         OUT_TP_LANDFILL 
                  FROM   POLLULANT_LOAD_FOR_CAT) 
-         WHERE  CAT_DID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
+         WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
          ORDER  BY WS_CD, 
                    SW_CODE, 
                    CAT_DID, 
@@ -5952,7 +5952,7 @@ ORDER  BY NO_1,
                         OUT_TN_LANDFILL, 
                         OUT_TP_LANDFILL 
                  FROM   POLLULANT_LOAD_FOR_CAT) 
-         WHERE  CAT_DID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
+         WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
          ORDER  BY WS_CD, 
                    SW_CODE, 
                    CAT_DID, 

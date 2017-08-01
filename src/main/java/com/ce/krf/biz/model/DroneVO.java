@@ -12,6 +12,11 @@ public class DroneVO {
 		return siteCodes;
 	}
 	public void setSiteCodes(String[] siteCodes) {
+		if (siteCodes != null && siteCodes.length > 0) {
+			for (int i = 0; i < siteCodes.length; i++) {
+				siteCodes[i] = siteCodes[i].replaceAll("'", "").trim();
+			}
+		}
 		this.siteCodes = siteCodes;
 	}
 	public String getMeasureDate() {

@@ -1047,16 +1047,28 @@ public class SearchResultService {
 	}
 
 	// 부하량 - 총괄표
-	public List searchResult_PollLoad_Total(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
-
-		List result = searchResultMapper.searchResult_PollLoad_Total(param);
+	public HashMap searchResult_PollLoad(String gubun, SearchResultVO param) throws Exception {
+		HashMap result = new HashMap();
+		
+		param.setCatDids(param.getCatDid().replaceAll("'", "").split(","));
+		
+		List resultList = null;
+		Method method = searchResultMapper.getClass().getMethod("searchResult_PollLoad_" + gubun, SearchResultVO.class);
+		resultList = (List) method.invoke(searchResultMapper, param);
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
 		return result;
 	}
 
-	// 부하량 - 표준유역단위
+	/*// 부하량 - 표준유역단위
 	public List searchResult_PollLoad_Standard(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
+		param.setCatDids(param.getCatDid().replaceAll("'", "").split(","));
 
 		List result = searchResultMapper.searchResult_PollLoad_Standard(param);
 		return result;
@@ -1064,7 +1076,7 @@ public class SearchResultService {
 
 	// 부하량 - 집수구역단위
 	public List searchResult_PollLoad_Cat(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
+		param.setCatDids(param.getCatDid().replaceAll("'", "").split(","));
 
 		List result = searchResultMapper.searchResult_PollLoad_Cat(param);
 		return result;
@@ -1072,11 +1084,11 @@ public class SearchResultService {
 
 	// 부하량 - 집수구역단위_상세
 	public List searchResult_PollLoad_Cat_Detail(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
+		param.setCatDids(param.getCatDid().replaceAll("'", "").split(","));
 
 		List result = searchResultMapper.searchResult_PollLoad_Cat_Detail(param);
 		return result;
-	}
+	}*/
 
 	private boolean checkNull(List resultList) {
 		if (resultList == null || resultList.size() <= 0 || (resultList.size() > 0 && resultList.get(0) == null)) {

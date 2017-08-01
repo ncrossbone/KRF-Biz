@@ -122,12 +122,11 @@ public class SearchResultController extends BaseController{
 	}
 	
 	// 부하량 - 총괄표
-	@RequestMapping(value = "/searchResult_PollLoad_Total", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
-	public String searchResult_PollLoad_Total(@ModelAttribute SearchResultVO param) {
-		HashMap result = new HashMap();
+	@RequestMapping(value = "/searchResult_PollLoad_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	public String searchResult_PollLoad_Total(@PathVariable String gubun, SearchResultVO param) {
 		
 		try {
-			result.put("data", searchResultService.searchResult_PollLoad_Total(param));
+			HashMap result = searchResultService.searchResult_PollLoad(gubun, param);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -136,7 +135,7 @@ public class SearchResultController extends BaseController{
 		}
 	}
 	
-	// 부하량 - 표준유역단위
+	/*// 부하량 - 표준유역단위
 	@RequestMapping(value = "/searchResult_PollLoad_Standard", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
 	public String searchResult_PollLoad_Standard(@ModelAttribute SearchResultVO param) {
 		HashMap result = new HashMap();
@@ -179,6 +178,6 @@ public class SearchResultController extends BaseController{
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
-	}
+	}*/
 		
 }

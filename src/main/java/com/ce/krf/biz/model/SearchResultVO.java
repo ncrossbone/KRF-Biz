@@ -8,6 +8,10 @@ public class SearchResultVO {
 	private String startFull = "";
 	private String endFull = "";
 	
+	
+	private String catDid = "";
+	private String[] catDids = null;
+	
 	private String gubun = "";
 	
 	private String siteId = "";
@@ -24,6 +28,18 @@ public class SearchResultVO {
 	private String firstSearch = "";
 	
 	
+	public String getCatDid() {
+		return catDid;
+	}
+	public void setCatDid(String catDid) {
+		this.catDid = catDid;
+	}
+	public String[] getCatDids() {
+		return catDids;
+	}
+	public void setCatDids(String[] catDids) {
+		this.catDids = catDids;
+	}
 	public String getYear() {
 		return year;
 	}
@@ -104,4 +120,6 @@ public class SearchResultVO {
 			}
 		}
 	}
+	
+	
 }
