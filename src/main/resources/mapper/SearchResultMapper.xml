@@ -2292,8 +2292,7 @@ ORDER  BY RIVER_ID,
     </select>
 	<select id="searchResult_C" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 
-  	
-  	    SELECT RN,
+      SELECT RN,
          PT_NO,
          PT_NM,
          WMYR,
@@ -2320,30 +2319,30 @@ ORDER  BY RIVER_ID,
          CURR_FCL,
          CURR_WTC,
          CURR_PCA,
-         PCA_CLASS, 
+         PCA_CLASS, /* 완전연소가능량 등급 */ 
          CURR_COD,
          CURR_TOC,
          CURR_TN,
-         TN_CLASS, 
+         TN_CLASS, /* TN 등급 */
          CURR_TP,
-         TP_CLASS, 
+         TP_CLASS, /* TP 등급 */
          CURR_SRP,
          CURR_PB,
-         PB_CLASS, 
+         PB_CLASS, /* PB 등급 */
          CURR_ZN,
-         ZN_CLASS, 
+         ZN_CLASS, /* ZN 등급 */
          CURR_CU,
-         CU_CLASS, 
+         CU_CLASS, /* CU 등급 */
          CURR_CR,
-         CR_CLASS, 
+         CR_CLASS, /* CR 등급 */
          CURR_NI,
-         NI_CLASS, 
+         NI_CLASS, /* NI 등급 */
          CURR_AS,
-         AS_CLASS, 
+         AS_CLASS, /* AS 등급 */
          CURR_CD,
-         CD_CLASS, 
+         CD_CLASS, /* CD 등급 */
          CURR_HG,
-         HG_CLASS, 
+         HG_CLASS, /* HG 등급 */
          CURR_AL,
          CURR_LI,
          CURR_CL_2_PHENYL,
@@ -2393,7 +2392,7 @@ ORDER  BY RIVER_ID,
          CURR_TOLUENE,
          CURR_M_P_XYLENE,
          CURR_O_XYLENE
-         , CODE_CTN 
+         , CODE_CTN /* 조사기관 */
        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN_1 || REPLACE(CHART_DATE,'.','') || '","',TRIM
 (' ' FROM   CHART_DOW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  , 
 '"') ||']' AS                                  CHART_DOW                         
@@ -2677,43 +2676,43 @@ ORDER  BY RIVER_ID,
                    B_ITEM_WTC AS CHART_WTC,
                    A_ITEM_PCA AS CURR_PCA,
                    B_ITEM_PCA AS CHART_PCA,
-                   A_ITEM_PCA_CLASS AS PCA_CLASS,
+                   A_ITEM_PCA_CLASS AS PCA_CLASS, /* 완전연소가능량 등급 */
                    A_ITEM_COD AS CURR_COD,
                    B_ITEM_COD AS CHART_COD,
                    A_ITEM_TOC AS CURR_TOC,
                    B_ITEM_TOC AS CHART_TOC,
                    A_ITEM_TN AS CURR_TN,
                    B_ITEM_TN AS CHART_TN,
-                   A_ITEM_TN_CLASS AS TN_CLASS,
+                   A_ITEM_TN_CLASS AS TN_CLASS, /* TN 등급 */
                    A_ITEM_TP AS CURR_TP,
                    B_ITEM_TP AS CHART_TP,
-                   A_ITEM_TP_CLASS AS TP_CLASS,
+                   A_ITEM_TP_CLASS AS TP_CLASS, /* TP 등급 */
                    A_ITEM_SRP AS CURR_SRP,
                    B_ITEM_SRP AS CHART_SRP,
                    A_ITEM_PB AS CURR_PB,
                    B_ITEM_PB AS CHART_PB,
-                   A_ITEM_PB_CLASS AS PB_CLASS, 
+                   A_ITEM_PB_CLASS AS PB_CLASS, /* PB 등급 */
                    A_ITEM_ZN AS CURR_ZN,
                    B_ITEM_ZN AS CHART_ZN,
-                   A_ITEM_ZN_CLASS AS ZN_CLASS, 
+                   A_ITEM_ZN_CLASS AS ZN_CLASS, /* ZN 등급 */
                    A_ITEM_CU AS CURR_CU,
                    B_ITEM_CU AS CHART_CU,
-                   A_ITEM_CU_CLASS AS CU_CLASS, 
+                   A_ITEM_CU_CLASS AS CU_CLASS, /* CU 등급 */
                    A_ITEM_CR AS CURR_CR,
                    B_ITEM_CR AS CHART_CR,
-                   A_ITEM_CR_CLASS AS CR_CLASS, 
+                   A_ITEM_CR_CLASS AS CR_CLASS, /* CR 등급 */
                    A_ITEM_NI AS CURR_NI,
                    B_ITEM_NI AS CHART_NI,
-                   A_ITEM_NI_CLASS AS NI_CLASS, 
+                   A_ITEM_NI_CLASS AS NI_CLASS, /* NI 등급 */
                    A_ITEM_AS AS CURR_AS,
                    B_ITEM_AS AS CHART_AS,
-                   A_ITEM_AS_CLASS AS AS_CLASS, 
+                   A_ITEM_AS_CLASS AS AS_CLASS, /* AS 등급 */
                    A_ITEM_CD AS CURR_CD,
                    B_ITEM_CD AS CHART_CD,
-                   A_ITEM_CD_CLASS AS CD_CLASS, 
+                   A_ITEM_CD_CLASS AS CD_CLASS, /* CD 등급 */
                    A_ITEM_HG AS CURR_HG,
                    B_ITEM_HG AS CHART_HG,
-                   A_ITEM_HG_CLASS AS HG_CLASS, 
+                   A_ITEM_HG_CLASS AS HG_CLASS, /* HG 등급 */
                    A_ITEM_AL AS CURR_AL,
                    B_ITEM_AL AS CHART_AL,
                    A_ITEM_LI AS CURR_LI,
@@ -2812,303 +2811,303 @@ ORDER  BY RIVER_ID,
                    B_ITEM_M_P_XYLENE AS CHART_M_P_XYLENE,
                    A_ITEM_O_XYLENE AS CURR_O_XYLENE,
                    B_ITEM_O_XYLENE AS CHART_O_XYLENE
-                   , A_CODE_CTN AS CODE_CTN 
-              FROM (SELECT A.RANK_NUM AS A_RANK_NUM       
+                   , A_CODE_CTN AS CODE_CTN /* 조사기관 */
+              FROM (SELECT A.RANK_NUM AS A_RANK_NUM                       /*번호 */
                                                    ,
-                           A.PT_NO AS A_PT_NO             
+                           A.PT_NO AS A_PT_NO                           /*지점번호 */
                                              ,
-                           A.PT_NM AS A_PT_NM             
+                           A.PT_NM AS A_PT_NM                            /*지점명 */
                                              ,
-                           A.WMYR AS A_WMYR               
+                           A.WMYR AS A_WMYR                             /*채취년도 */
                                            ,
                            DECODE (A.WMWK, '1', '상반기', '2', '하반기')
-                              AS A_WMWK                            
+                              AS A_WMWK                                   /*반기 */
                                        ,
-                           A.WMOM AS A_WMOM                        
+                           A.WMOM AS A_WMOM                              /*채취월 */
                                            ,
-                           A.WMOD AS A_WMOD                        
+                           A.WMOD AS A_WMOD                              /*채취일 */
                                            ,
-                           A.WMCTM AS A_WMCTM                      
+                           A.WMCTM AS A_WMCTM                           /*채취시간 */
                                              ,
-                           A.POLL_STEP AS A_POLL_STEP              
+                           A.POLL_STEP AS A_POLL_STEP                   /*오염단계 */
                                                      ,
                            B.ROW_NUM AS B_ROW_NUM,
                            B.PT_NO AS B_PT_NO,
-                           B.WMYR AS B_WMYR                        
+                           B.WMYR AS B_WMYR                           /*과거 채취년 */
                                            ,
                            DECODE (B.WMWK, '1', '상반기', '2', '하반기')
-                              AS B_WMWK                                
+                              AS B_WMWK                                /*과거 반기 */
                                        ,
-                           B.WMOM AS B_WMOM                         
+                           B.WMOM AS B_WMOM                           /*과거 채취월 */
                                            ,
-                           B.WMOD AS B_WMOD                         
+                           B.WMOD AS B_WMOD                           /*과거 채취일 */
                                            ,
                            A.ITEM_DOW AS A_ITEM_DOW,
-                           B.ITEM_DOW AS B_ITEM_DOW                 
+                           B.ITEM_DOW AS B_ITEM_DOW                  /*최고수심(m) */
                                                    ,
                            A.ITEM_DOW_SURF AS A_ITEM_DOW_SURF,
-                           B.ITEM_DOW_SURF AS B_ITEM_DOW_SURF    
+                           B.ITEM_DOW_SURF AS B_ITEM_DOW_SURF    /*표층-측정 수심(m) */
                                                              ,
                            A.ITEM_TEMP_SURF AS A_ITEM_TEMP_SURF,
-                           B.ITEM_TEMP_SURF AS B_ITEM_TEMP_SURF  
+                           B.ITEM_TEMP_SURF AS B_ITEM_TEMP_SURF     /*표층-수온(℃) */
                                                                ,
                            A.ITEM_DO_SURF AS A_ITEM_DO_SURF,
-                           B.ITEM_DO_SURF AS B_ITEM_DO_SURF      
+                           B.ITEM_DO_SURF AS B_ITEM_DO_SURF       /*표층-DO(㎎/L) */
                                                            ,
                            A.ITEM_PH_SURF AS A_ITEM_PH_SURF,
-                           B.ITEM_PH_SURF AS B_ITEM_PH_SURF      
+                           B.ITEM_PH_SURF AS B_ITEM_PH_SURF            /*표층 pH */
                                                            ,
                            A.ITEM_EC_SURF AS A_ITEM_EC_SURF,
-                           B.ITEM_EC_SURF AS B_ITEM_EC_SURF 
+                           B.ITEM_EC_SURF AS B_ITEM_EC_SURF /*표층 전기전도도(25℃ μS/㎝) */
                                                            ,
                            A.ITEM_DOW_LOW AS A_ITEM_DOW_LOW,
-                           B.ITEM_DOW_LOW AS B_ITEM_DOW_LOW      
+                           B.ITEM_DOW_LOW AS B_ITEM_DOW_LOW      /*저층-측정 수심(m) */
                                                            ,
                            A.ITEM_TEMP_LOW AS A_ITEM_TEMP_LOW,
-                           B.ITEM_TEMP_LOW AS B_ITEM_TEMP_LOW 
+                           B.ITEM_TEMP_LOW AS B_ITEM_TEMP_LOW       /*저층 수온(℃) */
                                                              ,
                            A.ITEM_DO_LOW AS A_ITEM_DO_LOW,
-                           B.ITEM_DO_LOW AS B_ITEM_DO_LOW     
+                           B.ITEM_DO_LOW AS B_ITEM_DO_LOW         /*저층 DO(㎎/L) */
                                                          ,
                            A.ITEM_PH_LOW AS A_ITEM_PH_LOW,
-                           B.ITEM_PH_LOW AS B_ITEM_PH_LOW     
+                           B.ITEM_PH_LOW AS B_ITEM_PH_LOW              /*저층 pH */
                                                          ,
                            A.ITEM_EC_LOW AS A_ITEM_EC_LOW,
-                           B.ITEM_EC_LOW AS B_ITEM_EC_LOW 
+                           B.ITEM_EC_LOW AS B_ITEM_EC_LOW /*저층 전기전도도(25℃ μS/㎝) */
                                                          ,
                            A.ITEM_TRANSPARENCY AS A_ITEM_TRANSPARENCY,
-                           B.ITEM_TRANSPARENCY AS B_ITEM_TRANSPARENCY 
+                           B.ITEM_TRANSPARENCY AS B_ITEM_TRANSPARENCY /*투명도(m) */
                                                                      ,
                            A.ITEM_FSD AS A_ITEM_FSD,
-                           B.ITEM_FSD AS B_ITEM_FSD                 
+                           B.ITEM_FSD AS B_ITEM_FSD                 /*입도-모래(%) */
                                                    ,
                            A.ITEM_FST AS A_ITEM_FST,
-                           B.ITEM_FST AS B_ITEM_FST                
+                           B.ITEM_FST AS B_ITEM_FST                 /*입도-실트(%) */
                                                    ,
                            A.ITEM_FCL AS A_ITEM_FCL,
-                           B.ITEM_FCL AS B_ITEM_FCL                
+                           B.ITEM_FCL AS B_ITEM_FCL                 /*입도-점토(%) */
                                                    ,
                            A.ITEM_WTC AS A_ITEM_WTC,
-                           B.ITEM_WTC AS B_ITEM_WTC                
+                           B.ITEM_WTC AS B_ITEM_WTC                   /*함수율(%) */
                                                    ,
                            A.ITEM_PCA AS A_ITEM_PCA,
-                           B.ITEM_PCA AS B_ITEM_PCA              
+                           B.ITEM_PCA AS B_ITEM_PCA               /*완전연소가능량(%) */
                                                    ,
-                           A.ITEM_PCA_CLASS AS A_ITEM_PCA_CLASS, 
+                           A.ITEM_PCA_CLASS AS A_ITEM_PCA_CLASS, /* 완전연소가능량 등급 */
                            A.ITEM_COD AS A_ITEM_COD,
-                           B.ITEM_COD AS B_ITEM_COD                  
+                           B.ITEM_COD AS B_ITEM_COD                   /*COD(%) */
                                                    ,
                            A.ITEM_TOC AS A_ITEM_TOC,
-                           B.ITEM_TOC AS B_ITEM_TOC                  
+                           B.ITEM_TOC AS B_ITEM_TOC                   /*TOC(%) */
                                                    ,
                            A.ITEM_TN AS A_ITEM_TN,
-                           B.ITEM_TN AS B_ITEM_TN                   
+                           B.ITEM_TN AS B_ITEM_TN                   /*T-N(㎎/㎏) */
                                                  ,
-                           A.ITEM_TN_CLASS AS A_ITEM_TN_CLASS, 
+                           A.ITEM_TN_CLASS AS A_ITEM_TN_CLASS, /* TN 등급 */
                            A.ITEM_TP AS A_ITEM_TP,
-                           B.ITEM_TP AS B_ITEM_TP              
+                           B.ITEM_TP AS B_ITEM_TP                   /*T-P(㎎/㎏) */
                                                  ,
-                           A.ITEM_TP_CLASS AS A_ITEM_TP_CLASS, 
+                           A.ITEM_TP_CLASS AS A_ITEM_TP_CLASS, /* TP 등급 */
                            A.ITEM_SRP AS A_ITEM_SRP,
-                           B.ITEM_SRP AS B_ITEM_SRP            
+                           B.ITEM_SRP AS B_ITEM_SRP                 /*SRP(㎎/㎏) */
                                                    ,
                            A.ITEM_PB AS A_ITEM_PB,
-                           B.ITEM_PB AS B_ITEM_PB              
+                           B.ITEM_PB AS B_ITEM_PB                    /*Pb(㎎/㎏) */
                                                  ,
-                           A.ITEM_PB_CLASS AS A_ITEM_PB_CLASS, 
+                           A.ITEM_PB_CLASS AS A_ITEM_PB_CLASS, /* PB 등급 */
                            A.ITEM_ZN AS A_ITEM_ZN,
-                           B.ITEM_ZN AS B_ITEM_ZN              
+                           B.ITEM_ZN AS B_ITEM_ZN                    /*Zn(㎎/㎏) */
                                                  ,
-                           A.ITEM_ZN_CLASS AS A_ITEM_ZN_CLASS, 
+                           A.ITEM_ZN_CLASS AS A_ITEM_ZN_CLASS, /* ZN 등급 */
                            A.ITEM_CU AS A_ITEM_CU,
-                           B.ITEM_CU AS B_ITEM_CU              
+                           B.ITEM_CU AS B_ITEM_CU                    /*Cu(㎎/㎏) */
                                                  ,
-                           A.ITEM_CU_CLASS AS A_ITEM_CU_CLASS,
+                           A.ITEM_CU_CLASS AS A_ITEM_CU_CLASS, /* CU 등급 */
                            A.ITEM_CR AS A_ITEM_CR,
-                           B.ITEM_CR AS B_ITEM_CR             
+                           B.ITEM_CR AS B_ITEM_CR                    /*Cr(㎎/㎏) */
                                                  ,
-                           A.ITEM_CR_CLASS AS A_ITEM_CR_CLASS,
+                           A.ITEM_CR_CLASS AS A_ITEM_CR_CLASS, /* CR 등급 */
                            A.ITEM_NI AS A_ITEM_NI,
-                           B.ITEM_NI AS B_ITEM_NI                   
+                           B.ITEM_NI AS B_ITEM_NI                    /*Ni(㎎/㎏) */
                                                  ,
-                           A.ITEM_NI_CLASS AS A_ITEM_NI_CLASS, 
+                           A.ITEM_NI_CLASS AS A_ITEM_NI_CLASS, /* NI 등급 */
                            A.ITEM_AS AS A_ITEM_AS,
-                           B.ITEM_AS AS B_ITEM_AS              
+                           B.ITEM_AS AS B_ITEM_AS                    /*As(㎎/㎏) */
                                                  ,
-                           A.ITEM_AS_CLASS AS A_ITEM_AS_CLASS, 
+                           A.ITEM_AS_CLASS AS A_ITEM_AS_CLASS, /* AS 등급 */
                            A.ITEM_CD AS A_ITEM_CD,
-                           B.ITEM_CD AS B_ITEM_CD             
+                           B.ITEM_CD AS B_ITEM_CD                    /*Cd(㎎/㎏) */
                                                  ,
-                           A.ITEM_CD_CLASS AS A_ITEM_CD_CLASS, 
+                           A.ITEM_CD_CLASS AS A_ITEM_CD_CLASS, /* CD 등급 */
                            A.ITEM_HG AS A_ITEM_HG,
-                           B.ITEM_HG AS B_ITEM_HG              
+                           B.ITEM_HG AS B_ITEM_HG                    /*Hg(㎎/㎏) */
                                                  ,
-                           A.ITEM_HG_CLASS AS A_ITEM_HG_CLASS, 
+                           A.ITEM_HG_CLASS AS A_ITEM_HG_CLASS, /* HG 등급 */
                            A.ITEM_AL AS A_ITEM_AL,
-                           B.ITEM_AL AS B_ITEM_AL                     
+                           B.ITEM_AL AS B_ITEM_AL                      /*Al(%) */
                                                  ,
                            A.ITEM_LI AS A_ITEM_LI,
-                           B.ITEM_LI AS B_ITEM_LI                   
+                           B.ITEM_LI AS B_ITEM_LI                    /*Li(㎎/㎏) */
                                                  ,
                            A.ITEM_CL_2_PHENYL AS A_ITEM_CL_2_PHENYL,
-                           B.ITEM_CL_2_PHENYL AS B_ITEM_CL_2_PHENYL 
+                           B.ITEM_CL_2_PHENYL AS B_ITEM_CL_2_PHENYL /*Chlorobiphenyl(㎍/㎏) */
                                                                    ,
                            A.ITEM_2_CL_2_PHENYL AS A_ITEM_2_CL_2_PHENYL,
-                           B.ITEM_2_CL_2_PHENYL AS B_ITEM_2_CL_2_PHENYL 
+                           B.ITEM_2_CL_2_PHENYL AS B_ITEM_2_CL_2_PHENYL /*Dichlorobiphenyl(㎍/㎏) */
                                                                        ,
                            A.ITEM_3_CL_2_PHENYL AS A_ITEM_3_CL_2_PHENYL,
-                           B.ITEM_3_CL_2_PHENYL AS B_ITEM_3_CL_2_PHENYL 
+                           B.ITEM_3_CL_2_PHENYL AS B_ITEM_3_CL_2_PHENYL /*Trichlorobiphenyl(㎍/㎏) */
                                                                        ,
                            A.ITEM_4_CL_2_PHENYL AS A_ITEM_4_CL_2_PHENYL,
-                           B.ITEM_4_CL_2_PHENYL AS B_ITEM_4_CL_2_PHENYL 
+                           B.ITEM_4_CL_2_PHENYL AS B_ITEM_4_CL_2_PHENYL /*Tetrachlorobiphenyl(㎍/㎏) */
                                                                        ,
                            A.ITEM_5_CL_2_PHENYL AS A_ITEM_5_CL_2_PHENYL,
-                           B.ITEM_5_CL_2_PHENYL AS B_ITEM_5_CL_2_PHENYL 
+                           B.ITEM_5_CL_2_PHENYL AS B_ITEM_5_CL_2_PHENYL /*Pentachlorobiphenyl(㎍/㎏) */
                                                                        ,
                            A.ITEM_6_CL_2_PHENYL AS A_ITEM_6_CL_2_PHENYL,
-                           B.ITEM_6_CL_2_PHENYL AS B_ITEM_6_CL_2_PHENYL 
+                           B.ITEM_6_CL_2_PHENYL AS B_ITEM_6_CL_2_PHENYL /*Hexachlorobiphenyl(㎍/㎏) */
                                                                        ,
                            A.ITEM_7_CL_2_PHENYL AS A_ITEM_7_CL_2_PHENYL,
-                           B.ITEM_7_CL_2_PHENYL AS B_ITEM_7_CL_2_PHENYL
+                           B.ITEM_7_CL_2_PHENYL AS B_ITEM_7_CL_2_PHENYL /*Heptachlorobiphenyl(㎍/㎏) */
                                                                        ,
                            A.ITEM_8_CL_2_PHENYL AS A_ITEM_8_CL_2_PHENYL,
-                           B.ITEM_8_CL_2_PHENYL AS B_ITEM_8_CL_2_PHENYL 
+                           B.ITEM_8_CL_2_PHENYL AS B_ITEM_8_CL_2_PHENYL /*Octachlorobiphenyl(㎍/㎏) */
                                                                        ,
                            A.ITEM_9_CL_2_PHENYL AS A_ITEM_9_CL_2_PHENYL,
-                           B.ITEM_9_CL_2_PHENYL AS B_ITEM_9_CL_2_PHENYL 
+                           B.ITEM_9_CL_2_PHENYL AS B_ITEM_9_CL_2_PHENYL /*Nonachlorobiphenyl(㎍/㎏) */
                                                                        ,
                            A.ITEM_10_CL_2_PHENYL AS A_ITEM_10_CL_2_PHENYL,
-                           B.ITEM_10_CL_2_PHENYL AS B_ITEM_10_CL_2_PHENYL 
+                           B.ITEM_10_CL_2_PHENYL AS B_ITEM_10_CL_2_PHENYL /*Decachlorobiphenyl(㎍/㎏) */
                                                                          ,
                            A.ITEM_TOT_PCBS AS A_ITEM_TOT_PCBS,
-                           B.ITEM_TOT_PCBS AS B_ITEM_TOT_PCBS 
+                           B.ITEM_TOT_PCBS AS B_ITEM_TOT_PCBS /*Total PCBs(㎍/㎏) */
                                                              ,
                            A.ITEM_NAPTHALENE AS A_ITEM_NAPTHALENE,
-                           B.ITEM_NAPTHALENE AS B_ITEM_NAPTHALENE 
+                           B.ITEM_NAPTHALENE AS B_ITEM_NAPTHALENE /*Naphthalene(㎍/㎏) */
                                                                  ,
                            A.ITEM_ACENAPTHALENE AS A_ITEM_ACENAPTHALENE,
-                           B.ITEM_ACENAPTHALENE AS B_ITEM_ACENAPTHALENE 
+                           B.ITEM_ACENAPTHALENE AS B_ITEM_ACENAPTHALENE /*Acenaphthylene(㎍/㎏) */
                                                                        ,
                            A.ITEM_ACENAPTHENE AS A_ITEM_ACENAPTHENE,
-                           B.ITEM_ACENAPTHENE AS B_ITEM_ACENAPTHENE 
+                           B.ITEM_ACENAPTHENE AS B_ITEM_ACENAPTHENE /*Acenaphthene(㎍/㎏) */
                                                                    ,
                            A.ITEM_FLUORENE AS A_ITEM_FLUORENE,
-                           B.ITEM_FLUORENE AS B_ITEM_FLUORENE  
+                           B.ITEM_FLUORENE AS B_ITEM_FLUORENE  /*Fluorene(㎍/㎏) */
                                                              ,
                            A.ITEM_PHENANTHRENE AS A_ITEM_PHENANTHRENE,
-                           B.ITEM_PHENANTHRENE AS B_ITEM_PHENANTHRENE 
+                           B.ITEM_PHENANTHRENE AS B_ITEM_PHENANTHRENE /*Phenanthrene(㎍/㎏) */
                                                                      ,
                            A.ITEM_ANTHRACENE AS A_ITEM_ANTHRACENE,
-                           B.ITEM_ANTHRACENE AS B_ITEM_ANTHRACENE
+                           B.ITEM_ANTHRACENE AS B_ITEM_ANTHRACENE /*Anthracene(㎍/㎏) */
                                                                  ,
                            A.ITEM_FLUORANTHENE AS A_ITEM_FLUORANTHENE,
-                           B.ITEM_FLUORANTHENE AS B_ITEM_FLUORANTHENE 
+                           B.ITEM_FLUORANTHENE AS B_ITEM_FLUORANTHENE /*Fluoranthene(㎍/㎏) */
                                                                      ,
                            A.ITEM_PYRENE AS A_ITEM_PYRENE,
-                           B.ITEM_PYRENE AS B_ITEM_PYRENE        
+                           B.ITEM_PYRENE AS B_ITEM_PYRENE        /*Pyrene(㎍/㎏) */
                                                          ,
                            A.ITEM_BENZO_A_ANTHRACENE AS A_ITEM_BENZO_A_ANTHRACENE,
-                           B.ITEM_BENZO_A_ANTHRACENE AS B_ITEM_BENZO_A_ANTHRACENE 
+                           B.ITEM_BENZO_A_ANTHRACENE AS B_ITEM_BENZO_A_ANTHRACENE /*Benzo[a]anthracene(㎍/㎏) */
                                                                                  ,
                            A.ITEM_CRYSENE AS A_ITEM_CRYSENE,
-                           B.ITEM_CRYSENE AS B_ITEM_CRYSENE    
+                           B.ITEM_CRYSENE AS B_ITEM_CRYSENE    /*Chrysene(㎍/㎏) */
                                                            ,
                            A.ITEM_BENZO_B_FLUORANTHENE
                               AS A_ITEM_BENZO_B_FLUORANTHENE,
                            B.ITEM_BENZO_B_FLUORANTHENE
-                              AS B_ITEM_BENZO_B_FLUORANTHENE
+                              AS B_ITEM_BENZO_B_FLUORANTHENE /*Benzo[b]fluoranthene(㎍/㎏) */
                                                             ,
                            A.ITEM_BENZO_F_FLUORANTHENE
                               AS A_ITEM_BENZO_F_FLUORANTHENE,
                            B.ITEM_BENZO_F_FLUORANTHENE
-                              AS B_ITEM_BENZO_F_FLUORANTHENE 
+                              AS B_ITEM_BENZO_F_FLUORANTHENE /*Benzo[k]fluoranthene(㎍/㎏) */
                                                             ,
                            A.ITEM_BENZO_A_PYRENE AS A_ITEM_BENZO_A_PYRENE,
-                           B.ITEM_BENZO_A_PYRENE AS B_ITEM_BENZO_A_PYRENE 
+                           B.ITEM_BENZO_A_PYRENE AS B_ITEM_BENZO_A_PYRENE /*Benzo[a]pyrene(㎍/㎏) */
                                                                          ,
                            A.ITEM_INDENO_1_2_3_CD_PYRENE
                               AS A_ITEM_INDENO_1_2_3_CD_PYRENE,
                            B.ITEM_INDENO_1_2_3_CD_PYRENE
-                              AS B_ITEM_INDENO_1_2_3_CD_PYRENE 
+                              AS B_ITEM_INDENO_1_2_3_CD_PYRENE /*Indeno[1,2,3-cd]pyrene(㎍/㎏) */
                                                               ,
                            A.ITEM_DIBENZO_A_H_ANTHRACENE
                               AS A_ITEM_DIBENZO_A_H_ANTHRACENE,
                            B.ITEM_DIBENZO_A_H_ANTHRACENE
-                              AS B_ITEM_DIBENZO_A_H_ANTHRACENE
+                              AS B_ITEM_DIBENZO_A_H_ANTHRACENE /*Dibenzo[a,h]anthracene(㎍/㎏) */
                                                               ,
                            A.ITEM_BENZO_G_H_I_PERYLENE
                               AS A_ITEM_BENZO_G_H_I_PERYLENE,
                            B.ITEM_BENZO_G_H_I_PERYLENE
-                              AS B_ITEM_BENZO_G_H_I_PERYLENE 
+                              AS B_ITEM_BENZO_G_H_I_PERYLENE /*Benzo[g,h,i]perylene(㎍/㎏) */
                                                             ,
                            A.ITEM_TOTAL_PAHS AS A_ITEM_TOTAL_PAHS,
-                           B.ITEM_TOTAL_PAHS AS B_ITEM_TOTAL_PAHS 
+                           B.ITEM_TOTAL_PAHS AS B_ITEM_TOTAL_PAHS /*Total PAHs(㎍/㎏) */
                                                                  ,
                            A.ITEM_O_P_DDE AS A_ITEM_O_P_DDE,
-                           B.ITEM_O_P_DDE AS B_ITEM_O_P_DDE   
+                           B.ITEM_O_P_DDE AS B_ITEM_O_P_DDE    /*o,p'-DDE(㎍/㎏) */
                                                            ,
                            A.ITEM_P_P_DDE AS A_ITEM_P_P_DDE,
-                           B.ITEM_P_P_DDE AS B_ITEM_P_P_DDE   
+                           B.ITEM_P_P_DDE AS B_ITEM_P_P_DDE    /*p,p'-DDE(㎍/㎏) */
                                                            ,
                            A.ITEM_O_P_DDD AS A_ITEM_O_P_DDD,
-                           B.ITEM_O_P_DDD AS B_ITEM_O_P_DDD   
+                           B.ITEM_O_P_DDD AS B_ITEM_O_P_DDD    /*o,p'-DDD(㎍/㎏) */
                                                            ,
                            A.ITEM_P_P_DDD AS A_ITEM_P_P_DDD,
-                           B.ITEM_P_P_DDD AS B_ITEM_P_P_DDD    
+                           B.ITEM_P_P_DDD AS B_ITEM_P_P_DDD    /*p,p'-DDD(㎍/㎏) */
                                                            ,
                            A.ITEM_O_P_DDT AS A_ITEM_O_P_DDT,
-                           B.ITEM_O_P_DDT AS B_ITEM_O_P_DDT    
+                           B.ITEM_O_P_DDT AS B_ITEM_O_P_DDT    /*o,p'-DDT(㎍/㎏) */
                                                            ,
                            A.ITEM_P_P_DDT AS A_ITEM_P_P_DDT,
-                           B.ITEM_P_P_DDT AS B_ITEM_P_P_DDT   
+                           B.ITEM_P_P_DDT AS B_ITEM_P_P_DDT    /*p,p'-DDT(㎍/㎏) */
                                                            ,
                            A.ITEM_TOTAL_DDT AS A_ITEM_TOTAL_DDT,
-                           B.ITEM_TOTAL_DDT AS B_ITEM_TOTAL_DDT 
+                           B.ITEM_TOTAL_DDT AS B_ITEM_TOTAL_DDT /*Total DDTs(㎍/㎏) */
                                                                ,
                            A.ITEM_1_1_1_TRICHLOROETHANE
                               AS A_ITEM_1_1_1_TRICHLOROETHANE,
                            B.ITEM_1_1_1_TRICHLOROETHANE
-                              AS B_ITEM_1_1_1_TRICHLOROETHANE 
+                              AS B_ITEM_1_1_1_TRICHLOROETHANE /*1,1,1-Trichloroethane(㎍/㎏) */
                                                              ,
                            A.ITEM_1_2_DICHLOROETHANE AS A_ITEM_1_2_DICHLOROETHANE,
-                           B.ITEM_1_2_DICHLOROETHANE AS B_ITEM_1_2_DICHLOROETHANE 
+                           B.ITEM_1_2_DICHLOROETHANE AS B_ITEM_1_2_DICHLOROETHANE /*1,2-Dichloroethane(㎍/㎏) */
                                                                                  ,
                            A.ITEM_BENZENE AS A_ITEM_BENZENE,
-                           B.ITEM_BENZENE AS B_ITEM_BENZENE     
+                           B.ITEM_BENZENE AS B_ITEM_BENZENE     /*Benzene(㎍/㎏) */
                                                            ,
                            A.ITEM_CARBON_TETRA_CHLORIDE
                               AS A_ITEM_CARBON_TETRA_CHLORIDE,
                            B.ITEM_CARBON_TETRA_CHLORIDE
-                              AS B_ITEM_CARBON_TETRA_CHLORIDE 
+                              AS B_ITEM_CARBON_TETRA_CHLORIDE /*Carbon tetrachloride(㎍/㎏) */
                                                              ,
                            A.ITEM_CHLOROFORM AS A_ITEM_CHLOROFORM,
-                           B.ITEM_CHLOROFORM AS B_ITEM_CHLOROFORM
+                           B.ITEM_CHLOROFORM AS B_ITEM_CHLOROFORM /*Chloroform(㎍/㎏) */
                                                                  ,
                            A.ITEM_ETHYL_BENZENE AS A_ITEM_ETHYL_BENZENE,
-                           B.ITEM_ETHYL_BENZENE AS B_ITEM_ETHYL_BENZENE 
+                           B.ITEM_ETHYL_BENZENE AS B_ITEM_ETHYL_BENZENE /*Ethylbenzene(㎍/㎏) */
                                                                        ,
                            A.ITEM_METHYL_CHLORIDE AS A_ITEM_METHYL_CHLORIDE,
-                           B.ITEM_METHYL_CHLORIDE AS B_ITEM_METHYL_CHLORIDE 
+                           B.ITEM_METHYL_CHLORIDE AS B_ITEM_METHYL_CHLORIDE /*Methyl Chloride(㎍/㎏) */
                                                                            ,
                            A.ITEM_TETRA_CHLORO_ETHYLENE
                               AS A_ITEM_TETRA_CHLORO_ETHYLENE,
                            B.ITEM_TETRA_CHLORO_ETHYLENE
-                              AS B_ITEM_TETRA_CHLORO_ETHYLENE 
+                              AS B_ITEM_TETRA_CHLORO_ETHYLENE /*Tetrachloroethylene(㎍/㎏) */
                                                              ,
                            A.ITEM_TRI_CHLORO_ETHYLENE
                               AS A_ITEM_TRI_CHLORO_ETHYLENE,
                            B.ITEM_TRI_CHLORO_ETHYLENE
-                              AS B_ITEM_TRI_CHLORO_ETHYLENE
+                              AS B_ITEM_TRI_CHLORO_ETHYLENE /*Trichloroethylene(㎍/㎏) */
                                                            ,
                            A.ITEM_TOLUENE AS A_ITEM_TOLUENE,
-                           B.ITEM_TOLUENE AS B_ITEM_TOLUENE     
+                           B.ITEM_TOLUENE AS B_ITEM_TOLUENE     /*Toluene(㎍/㎏) */
                                                            ,
                            A.ITEM_M_P_XYLENE AS A_ITEM_M_P_XYLENE,
-                           B.ITEM_M_P_XYLENE AS B_ITEM_M_P_XYLENE 
+                           B.ITEM_M_P_XYLENE AS B_ITEM_M_P_XYLENE /*m,p-Xylene(㎍/㎏) */
                                                                  ,
                            A.ITEM_O_XYLENE AS A_ITEM_O_XYLENE,
-                           B.ITEM_O_XYLENE AS B_ITEM_O_XYLENE  
-                           , A.CODE_CTN AS A_CODE_CTN 
+                           B.ITEM_O_XYLENE AS B_ITEM_O_XYLENE  /*o-Xylene(㎍/㎏) */
+                           , A.CODE_CTN AS A_CODE_CTN /* 조사기관 */
                       FROM (  SELECT RANK () OVER (ORDER BY PT_NO) AS RANK_NUM,
                                      AA.*
                                 FROM (SELECT ROW_NUMBER ()
@@ -3204,26 +3203,26 @@ ORDER  BY RIVER_ID,
                                              ITEM_TOLUENE,
                                              ITEM_M_P_XYLENE,
                                              ITEM_O_XYLENE
-                                            , ITEM_PCA_CLASS
-                                            , ITEM_TN_CLASS
-                                            , ITEM_TP_CLASS
-                                            , ITEM_PB_CLASS
-                                            , ITEM_ZN_CLASS
-                                            , ITEM_CU_CLASS
-                                            , ITEM_CR_CLASS
-                                            , ITEM_NI_CLASS
-                                            , ITEM_AS_CLASS
-                                            , ITEM_CD_CLASS
-                                            , ITEM_HG_CLASS
-                                            , (SELECT CODE_CTN FROM CODE Z WHERE CODE_ID = 'ORG001' AND Z.CODE = B.JOSACODE) CODE_CTN 
+                                            , ITEM_PCA_CLASS /* 완전연소가능량 등급 */
+                                            , ITEM_TN_CLASS /* TN 등급 */
+                                            , ITEM_TP_CLASS /* TP 등급 */
+                                            , ITEM_PB_CLASS /* PB 등급 */
+                                            , ITEM_ZN_CLASS /* ZN 등급 */
+                                            , ITEM_CU_CLASS /* CU 등급 */
+                                            , ITEM_CR_CLASS /* CR 등급 */
+                                            , ITEM_NI_CLASS /* NI 등급 */
+                                            , ITEM_AS_CLASS /* AS 등급 */
+                                            , ITEM_CD_CLASS /* CD 등급 */
+                                            , ITEM_HG_CLASS /* HG 등급 */
+                                            , (SELECT CODE_CTN FROM CODE Z WHERE CODE_ID = 'ORG001' AND Z.CODE = B.JOSACODE) CODE_CTN /* 조사기관*/
                                         FROM SDM_RWMDTI A, SDM_RWMPT B
                                        WHERE     A.PT_NO = B.PT_NO
-                                             AND WMYR || WMOD >= #{startYear} || #{startMonth} 
-                                             AND WMYR || WMOD <![CDATA[ <= ]]> #{endYear} || #{endMonth} 
-                                             AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> 
+                                             AND WMYR || WMOD >= #{startYear} || #{startMonth}  /* 시작일자*/
+                                             AND WMYR || WMOD <![CDATA[ <= ]]> #{endYear} || #{endMonth}  /* 종료일자*/
+                                             AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>  /* 지점코드*/
                                                                                   )
                                      AA
-                               WHERE ROW_NUM <![CDATA[ <= ]]> 1
+                               WHERE 1=1
                             ORDER BY PT_NO, WMYR ASC, WMOM ASC) A,
                            (  SELECT *
                                 FROM (SELECT ROW_NUMBER ()
@@ -3238,171 +3237,172 @@ ORDER  BY RIVER_ID,
                                              WMWK,
                                              WMOM,
                                              WMOD,
-                                             ITEM_DOW                
+                                             ITEM_DOW                /*최고수심(m) */
                                                      ,
-                                             ITEM_DOW_SURF      
+                                             ITEM_DOW_SURF       /*표층-측정 수심(m) */
                                                           ,
-                                             ITEM_TEMP_SURF     
+                                             ITEM_TEMP_SURF         /*표층-수온(℃) */
                                                            ,
-                                             ITEM_DO_SURF       
+                                             ITEM_DO_SURF         /*표층-DO(㎎/L) */
                                                          ,
-                                             ITEM_PH_SURF            
+                                             ITEM_PH_SURF              /*표층 pH */
                                                          ,
-                                             ITEM_EC_SURF 
+                                             ITEM_EC_SURF /*표층 전기전도도(25℃ μS/㎝) */
                                                          ,
-                                             ITEM_DOW_LOW 
+                                             ITEM_DOW_LOW        /*저층-측정 수심(m) */
                                                          ,
-                                             ITEM_TEMP_LOW
+                                             ITEM_TEMP_LOW          /*저층 수온(℃) */
                                                           ,
-                                             ITEM_DO_LOW  
+                                             ITEM_DO_LOW          /*저층 DO(㎎/L) */
                                                         ,
-                                             ITEM_PH_LOW  
+                                             ITEM_PH_LOW               /*저층 pH */
                                                         ,
-                                             ITEM_EC_LOW  
+                                             ITEM_EC_LOW  /*저층 전기전도도(25℃ μS/㎝) */
                                                         ,
-                                             ITEM_TRANSPARENCY  
+                                             ITEM_TRANSPARENCY        /*투명도(m) */
                                                               ,
-                                             ITEM_FSD           
+                                             ITEM_FSD               /*입도-모래(%) */
                                                      ,
-                                             ITEM_FST           
+                                             ITEM_FST               /*입도-실트(%) */
                                                      ,
-                                             ITEM_FCL           
+                                             ITEM_FCL               /*입도-점토(%) */
                                                      ,
-                                             ITEM_WTC           
+                                             ITEM_WTC                 /*함수율(%) */
                                                      ,
-                                             ITEM_PCA           
+                                             ITEM_PCA             /*완전연소가능량(%) */
                                                      ,
-                                             ITEM_COD           
+                                             ITEM_COD                 /*COD(%) */
                                                      ,
-                                             ITEM_TOC           
+                                             ITEM_TOC                 /*TOC(%) */
                                                      ,
-                                             ITEM_TN            
+                                             ITEM_TN                /*T-N(㎎/㎏) */
                                                     ,
-                                             ITEM_TP            
+                                             ITEM_TP                /*T-P(㎎/㎏) */
                                                     ,
-                                             ITEM_SRP           
+                                             ITEM_SRP               /*SRP(㎎/㎏) */
                                                      ,
-                                             ITEM_PB            
+                                             ITEM_PB                 /*Pb(㎎/㎏) */
                                                     ,
-                                             ITEM_ZN            
+                                             ITEM_ZN                 /*Zn(㎎/㎏) */
                                                     ,
-                                             ITEM_CU                
+                                             ITEM_CU                 /*Cu(㎎/㎏) */
                                                     ,
-                                             ITEM_CR                
+                                             ITEM_CR                 /*Cr(㎎/㎏) */
                                                     ,
-                                             ITEM_NI                
+                                             ITEM_NI                 /*Ni(㎎/㎏) */
                                                     ,
-                                             ITEM_AS                
+                                             ITEM_AS                 /*As(㎎/㎏) */
                                                     ,
-                                             ITEM_CD                
+                                             ITEM_CD                 /*Cd(㎎/㎏) */
                                                     ,
-                                             ITEM_HG                
+                                             ITEM_HG                 /*Hg(㎎/㎏) */
                                                     ,
-                                             ITEM_AL                
+                                             ITEM_AL                   /*Al(%) */
                                                     ,
-                                             ITEM_LI                
+                                             ITEM_LI                 /*Li(㎎/㎏) */
                                                     ,
-                                             ITEM_CL_2_PHENYL 
+                                             ITEM_CL_2_PHENYL /*Chlorobiphenyl(㎍/㎏) */
                                                              ,
-                                             ITEM_2_CL_2_PHENYL 
+                                             ITEM_2_CL_2_PHENYL /*Dichlorobiphenyl(㎍/㎏) */
                                                                ,
-                                             ITEM_3_CL_2_PHENYL 
+                                             ITEM_3_CL_2_PHENYL /*Trichlorobiphenyl(㎍/㎏) */
                                                                ,
-                                             ITEM_4_CL_2_PHENYL 
+                                             ITEM_4_CL_2_PHENYL /*Tetrachlorobiphenyl(㎍/㎏) */
                                                                ,
-                                             ITEM_5_CL_2_PHENYL 
+                                             ITEM_5_CL_2_PHENYL /*Pentachlorobiphenyl(㎍/㎏) */
                                                                ,
-                                             ITEM_6_CL_2_PHENYL 
+                                             ITEM_6_CL_2_PHENYL /*Hexachlorobiphenyl(㎍/㎏) */
                                                                ,
-                                             ITEM_7_CL_2_PHENYL 
+                                             ITEM_7_CL_2_PHENYL /*Heptachlorobiphenyl(㎍/㎏) */
                                                                ,
-                                             ITEM_8_CL_2_PHENYL 
+                                             ITEM_8_CL_2_PHENYL /*Octachlorobiphenyl(㎍/㎏) */
                                                                ,
-                                             ITEM_9_CL_2_PHENYL 
+                                             ITEM_9_CL_2_PHENYL /*Nonachlorobiphenyl(㎍/㎏) */
                                                                ,
-                                             ITEM_10_CL_2_PHENYL
+                                             ITEM_10_CL_2_PHENYL /*Decachlorobiphenyl(㎍/㎏) */
                                                                 ,
-                                             ITEM_TOT_PCBS   
+                                             ITEM_TOT_PCBS   /*Total PCBs(㎍/㎏) */
                                                           ,
-                                             ITEM_NAPTHALENE 
+                                             ITEM_NAPTHALENE /*Naphthalene(㎍/㎏) */
                                                             ,
-                                             ITEM_ACENAPTHALENE 
+                                             ITEM_ACENAPTHALENE /*Acenaphthylene(㎍/㎏) */
                                                                ,
-                                             ITEM_ACENAPTHENE 
+                                             ITEM_ACENAPTHENE /*Acenaphthene(㎍/㎏) */
                                                              ,
-                                             ITEM_FLUORENE     
+                                             ITEM_FLUORENE     /*Fluorene(㎍/㎏) */
                                                           ,
-                                             ITEM_PHENANTHRENE 
+                                             ITEM_PHENANTHRENE /*Phenanthrene(㎍/㎏) */
                                                               ,
-                                             ITEM_ANTHRACENE
+                                             ITEM_ANTHRACENE /*Anthracene(㎍/㎏) */
                                                             ,
-                                             ITEM_FLUORANTHENE 
+                                             ITEM_FLUORANTHENE /*Fluoranthene(㎍/㎏) */
                                                               ,
-                                             ITEM_PYRENE        
+                                             ITEM_PYRENE         /*Pyrene(㎍/㎏) */
                                                         ,
-                                             ITEM_BENZO_A_ANTHRACENE 
+                                             ITEM_BENZO_A_ANTHRACENE /*Benzo[a]anthracene(㎍/㎏) */
                                                                     ,
-                                             ITEM_CRYSENE     
+                                             ITEM_CRYSENE      /*Chrysene(㎍/㎏) */
                                                          ,
-                                             ITEM_BENZO_B_FLUORANTHENE 
+                                             ITEM_BENZO_B_FLUORANTHENE /*Benzo[b]fluoranthene(㎍/㎏) */
                                                                       ,
-                                             ITEM_BENZO_F_FLUORANTHENE
+                                             ITEM_BENZO_F_FLUORANTHENE /*Benzo[k]fluoranthene(㎍/㎏) */
                                                                       ,
-                                             ITEM_BENZO_A_PYRENE
+                                             ITEM_BENZO_A_PYRENE /*Benzo[a]pyrene(㎍/㎏) */
                                                                 ,
-                                             ITEM_INDENO_1_2_3_CD_PYRENE 
+                                             ITEM_INDENO_1_2_3_CD_PYRENE /*Indeno[1,2,3-cd]pyrene(㎍/㎏) */
                                                                         ,
-                                             ITEM_DIBENZO_A_H_ANTHRACENE 
+                                             ITEM_DIBENZO_A_H_ANTHRACENE /*Dibenzo[a,h]anthracene(㎍/㎏) */
                                                                         ,
-                                             ITEM_BENZO_G_H_I_PERYLENE
+                                             ITEM_BENZO_G_H_I_PERYLENE /*Benzo[g,h,i]perylene(㎍/㎏) */
                                                                       ,
-                                             ITEM_TOTAL_PAHS 
+                                             ITEM_TOTAL_PAHS /*Total PAHs(㎍/㎏) */
                                                             ,
-                                             ITEM_O_P_DDE    
+                                             ITEM_O_P_DDE      /*o,p'-DDE(㎍/㎏) */
                                                          ,
-                                             ITEM_P_P_DDE    
+                                             ITEM_P_P_DDE      /*p,p'-DDE(㎍/㎏) */
                                                          ,
-                                             ITEM_O_P_DDD    
+                                             ITEM_O_P_DDD      /*o,p'-DDD(㎍/㎏) */
                                                          ,
-                                             ITEM_P_P_DDD    
+                                             ITEM_P_P_DDD      /*p,p'-DDD(㎍/㎏) */
                                                          ,
-                                             ITEM_O_P_DDT    
+                                             ITEM_O_P_DDT      /*o,p'-DDT(㎍/㎏) */
                                                          ,
-                                             ITEM_P_P_DDT    
+                                             ITEM_P_P_DDT      /*p,p'-DDT(㎍/㎏) */
                                                          ,
-                                             ITEM_TOTAL_DDT  
+                                             ITEM_TOTAL_DDT  /*Total DDTs(㎍/㎏) */
                                                            ,
-                                             ITEM_1_1_1_TRICHLOROETHANE 
+                                             ITEM_1_1_1_TRICHLOROETHANE /*1,1,1-Trichloroethane(㎍/㎏) */
                                                                        ,
-                                             ITEM_1_2_DICHLOROETHANE 
+                                             ITEM_1_2_DICHLOROETHANE /*1,2-Dichloroethane(㎍/㎏) */
                                                                     ,
-                                             ITEM_BENZENE      
+                                             ITEM_BENZENE       /*Benzene(㎍/㎏) */
                                                          ,
-                                             ITEM_CARBON_TETRA_CHLORIDE 
+                                             ITEM_CARBON_TETRA_CHLORIDE /*Carbon tetrachloride(㎍/㎏) */
                                                                        ,
-                                             ITEM_CHLOROFORM
+                                             ITEM_CHLOROFORM /*Chloroform(㎍/㎏) */
                                                             ,
-                                             ITEM_ETHYL_BENZENE
+                                             ITEM_ETHYL_BENZENE /*Ethylbenzene(㎍/㎏) */
                                                                ,
-                                             ITEM_METHYL_CHLORIDE 
+                                             ITEM_METHYL_CHLORIDE /*Methyl Chloride(㎍/㎏) */
                                                                  ,
-                                             ITEM_TETRA_CHLORO_ETHYLENE 
+                                             ITEM_TETRA_CHLORO_ETHYLENE /*Tetrachloroethylene(㎍/㎏) */
                                                                        ,
-                                             ITEM_TRI_CHLORO_ETHYLENE 
+                                             ITEM_TRI_CHLORO_ETHYLENE /*Trichloroethylene(㎍/㎏) */
                                                                      ,
-                                             ITEM_TOLUENE       
+                                             ITEM_TOLUENE       /*Toluene(㎍/㎏) */
                                                          ,
-                                             ITEM_M_P_XYLENE 
+                                             ITEM_M_P_XYLENE /*m,p-Xylene(㎍/㎏) */
                                                             ,
-                                             ITEM_O_XYLENE     
+                                             ITEM_O_XYLENE     /*o-Xylene(㎍/㎏) */
                                         FROM SDM_RWMDTI A, SDM_RWMPT B
                                        WHERE     A.PT_NO = B.PT_NO
-                                             AND WMYR || WMOD  <![CDATA[ <= ]]> #{endYear} || #{endMonth}
-                                             AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> 
+                                             AND WMYR || WMOD <![CDATA[  <= ]]> #{endYear} || #{endMonth} /* 종료일자 */
+                                             AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> /* 지점코드 */
                                                                                   )
-                               WHERE ROW_NUM <![CDATA[ <=  ]]> 10
+                               WHERE ROW_NUM <![CDATA[ <= ]]> 10
                             ORDER BY PT_NO, WMYR ASC, WMOM ASC) B
-                     WHERE A.PT_NO(+) = B.PT_NO) A
+                     WHERE A.PT_NO(+) = B.PT_NO
+                       AND A.WMYR||A.WMOM||A.WMOD >= B.WMYR||B.WMOM||B.WMOD) A
                      WHERE A_PT_NO IS NOT NULL
           ORDER BY B_PT_NO, B_WMYR ASC, B_WMOM ASC)
 GROUP BY RN,
@@ -3506,8 +3506,7 @@ GROUP BY RN,
          CURR_M_P_XYLENE,
          CURR_O_XYLENE,
          CODE_CTN
-ORDER BY RN
-  	
+ORDER BY PT_NO , WMYR DESC, WMOM DESC   	
 	
 	</select>    
     
