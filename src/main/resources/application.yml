@@ -13,6 +13,7 @@ mybatis:
     aggressiveLazyLoading: false
     mapUnderscoreToCamelCase: true
     
+    
 ---
 spring:
   profiles: local
@@ -27,6 +28,11 @@ spring:
     url: jdbc:oracle:thin:@112.217.167.123:31521:orcl
     username: WATER
     password: WATER
+    tomcat:
+      max-idle: 30
+      min-idle: 1
+      test-while-idle: true
+      validation-query: select 1 from dual
 logging: 
 #  config: classpath:logback.xml
   file: logs/spring-boot-logging.log
@@ -44,7 +50,7 @@ print:
      path: C:/arcgisserver/directories/arcgisoutput/customPrintTask/
 ---
 spring: 
-  profiles: prod
+  profiles: prod-in
   mvc:
     view: 
       prefix: /WEB-INF/jsp/
@@ -53,9 +59,48 @@ spring:
       request-timeout: 60000
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@112.217.167.123:31521:orcl
-    username: WATER
-    password: WATER
+    url: jdbc:oracle:thin:@10.101.95.15:31521:weis
+    username: water
+    password: water123
+    tomcat:
+      max-idle: 30
+      min-idle: 1
+      test-while-idle: true
+      validation-query: select 1 from dual
+logging: 
+#  config: classpath:logback.xml
+  pattern: 
+    file: "%d %-5level [%thread] %logger{0} : %msg%n"
+  level: 
+    org.springframework.web: ERROR
+  file: logs/spring-boot-logging.log 
+    
+server: 
+  context-path: /krf
+  
+print: 
+  img: 
+     path: C:/arcgisserver/directories/arcgisoutput/customPrintTask/prod
+
+---
+spring: 
+  profiles: prod-out
+  mvc:
+    view: 
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+    async:
+      request-timeout: 60000
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@2.2.2.69:1521:KRF_DB
+    username: water 
+    password: water123
+    tomcat:
+      max-idle: 30
+      min-idle: 1
+      test-while-idle: true
+      validation-query: select 1 from dual
 logging: 
 #  config: classpath:logback.xml
   pattern: 
