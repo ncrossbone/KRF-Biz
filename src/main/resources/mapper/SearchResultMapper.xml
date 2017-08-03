@@ -4314,7 +4314,7 @@ SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_7 */
        '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_SFW) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[ '&'||'quot;' ]]>  , '"') ||']' AS CHART_SFW,
        '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_ECPC) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[ '&'||'quot;' ]]>  , '"') ||']' AS CHART_ECPC,
        '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_INF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[ '&'||'quot;' ]]>  , '"') ||']' AS CHART_INF,
-       '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TOTOTF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[ '&'||'quot;' ]]>  , '"') ||']' ASCHART_TOTOTF,
+       '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_TOTOTF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[ '&'||'quot;' ]]>  , '"') ||']' AS CHART_TOTOTF,
        '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_EGOTF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[ '&'||'quot;' ]]>  , '"') ||']' AS CHART_EGOTF,
        '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_GTOTF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[ '&'||'quot;' ]]>  , '"') ||']' AS CHART_GTOTF,
        '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_DATE,'.','') || '","',TRIM(' ' FROM   CHART_CBOTF) || '"]') ORDER BY CHART_DATE).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[ '&'||'quot;' ]]>  , '"') ||']' AS CHART_CBOTF,
@@ -4325,7 +4325,7 @@ SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_7 */
 		       A.AM_NM, 
 		       A.AS_NM, 
 		       A.WMCYMD, 
-		       B.WMCYMD AS CHART_DATE, 
+		       REPLACE(REPLACE(B.WMCYMD, ':',''), ' ', '') AS CHART_DATE, 
 		       A.PT_NO, 
 		       A.PT_NM, 
 		       A.SWL    AS CURR_SWL, 
@@ -4394,8 +4394,8 @@ SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_7 */
 		                FROM   BOMST A, 
 		                       BOOBSIF D 
 		                WHERE  A.BOOBSCD = D.BOOBSCD 
-		                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ >= ]]> #{startYear} || #{startMonth}
-		                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth}
+		                       AND SUBSTR(A.YMDHM, 1, 8) <![CDATA[ >= ]]> #{startYear} || #{startMonth} || #{startDay}
+		                       AND SUBSTR(A.YMDHM, 1, 8) <![CDATA[ <= ]]> #{endYear} || #{endMonth} || #{endDay}
 		                       AND A.BOOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
 		                GROUP  BY SUBSTR(A.YMDHM, 1, 6), 
 		                          SUBSTR(A.YMDHM, 7, 6), 
@@ -4448,8 +4448,8 @@ SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_7 */
 		                FROM   BOMST A, 
 		                       BOOBSIF D 
 		                WHERE  A.BOOBSCD = D.BOOBSCD 
-		                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ >= ]]> TO_CHAR( TO_DATE(#{startYear} || #{startMonth}||'01', 'YYYYMMDD') - 1, 'YYYYMMDD') 
-		                       AND SUBSTR(A.YMDHM, 1, 6) <![CDATA[ <= ]]> #{endYear} || #{endMonth} 
+		                       AND SUBSTR(A.YMDHM, 1, 8) <![CDATA[ >= ]]> TO_CHAR( TO_DATE(#{startYear} || #{startMonth}|| #{startDay}, 'YYYYMMDD') - 1, 'YYYYMMDD') 
+		                       AND SUBSTR(A.YMDHM, 1, 8) <![CDATA[ <= ]]> #{endYear} || #{endMonth} || #{endDay}
 		                       AND A.BOOBSCD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
 		                GROUP  BY SUBSTR(A.YMDHM, 1, 6), 
 		                          SUBSTR(A.YMDHM, 7, 6), 
@@ -4480,7 +4480,7 @@ GROUP BY RN,
          CURR_CBOTF, 
          CURR_FWOTF, 
          CURR_ETCOTF
-ORDER BY PT_NO,WMCYMD
+ORDER BY PT_NO, WMCYMD DESC
 
 </select>
 

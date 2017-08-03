@@ -19,8 +19,10 @@ public class SearchResultVO {
 	
 	private String startYear = "";
 	private String startMonth = "";
+	private String startDay = "";
 	private String endYear = "";
 	private String endMonth = "";
+	private String endDay = "";
 	
 	
 	
@@ -28,6 +30,18 @@ public class SearchResultVO {
 	private String firstSearch = "";
 	
 	
+	public String getStartDay() {
+		return startDay;
+	}
+	public void setStartDay(String startDay) {
+		this.startDay = startDay;
+	}
+	public String getEndDay() {
+		return endDay;
+	}
+	public void setEndDay(String endDay) {
+		this.endDay = endDay;
+	}
 	public String getCatDid() {
 		return catDid;
 	}
