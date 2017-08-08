@@ -278,7 +278,7 @@ UNION ALL
                         </if>
                              )                                                                         
                  ORDER BY WMYR, WMWK, ORD_PT_NM, ORD_GBN 
-               )
+               )      ORDER BY WMYR ASC ,WMWK ASC
           )
 SELECT RN, PT_NO, PT_NM, TO_CHAR(WMYR) AS WMYR, WMWK AS WMWK, WMYR||' '||WMWK AS WMCYMD, ITEM_NAME
      , TO_CHAR(REPLACE (ITEM_VALUE, '정량한계미만',999999999)) AS ITEM_VALUE, TO_CHAR(ITEM_VALUE) AS ITEM_VALUE_1
@@ -872,8 +872,8 @@ SELECT 999 AS RN,
 	                BOOBSIF B 
 	         WHERE  A.BOOBSCD = B.BOOBSCD
 	         		<if test="defaultChart != null and defaultChart == 1"> 
-		                AND <![CDATA[ WMCYMD >= '201510' ]]>
-		                AND <![CDATA[ WMCYMD <= '201510' ]]> 
+		                AND <![CDATA[ WMCYMD >= '201512' ]]>
+		                AND <![CDATA[ WMCYMD <= '201512' ]]> 
 	                </if>
 	    			<if test="defaultChart != null and defaultChart == 0">
 						AND <![CDATA[ WMCYMD >= #{preFullDate} ]]>
