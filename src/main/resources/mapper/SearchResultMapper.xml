@@ -3217,8 +3217,8 @@ ORDER  BY RIVER_ID,
                                             , (SELECT CODE_CTN FROM CODE Z WHERE CODE_ID = 'ORG001' AND Z.CODE = B.JOSACODE) CODE_CTN /* 조사기관*/
                                         FROM SDM_RWMDTI A, SDM_RWMPT B
                                        WHERE     A.PT_NO = B.PT_NO
-                                             AND WMYR || WMOD >= #{startYear} || #{startMonth}  /* 시작일자*/
-                                             AND WMYR || WMOD <![CDATA[ <= ]]> #{endYear} || #{endMonth}  /* 종료일자*/
+                                             AND WMYR || WMWK >= #{startYear} || #{startMonth}  /* 시작일자*/
+                                             AND WMYR || WMWK <![CDATA[ <= ]]> #{endYear} || #{endMonth}  /* 종료일자*/
                                              AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>  /* 지점코드*/
                                                                                   )
                                      AA
@@ -3396,7 +3396,7 @@ ORDER  BY RIVER_ID,
                                              ITEM_O_XYLENE     /*o-Xylene(㎍/㎏) */
                                         FROM SDM_RWMDTI A, SDM_RWMPT B
                                        WHERE     A.PT_NO = B.PT_NO
-                                             AND WMYR || WMOD <![CDATA[  <= ]]> #{endYear} || #{endMonth} /* 종료일자 */
+                                             AND WMYR || WMWK <![CDATA[  <= ]]> #{endYear} || #{endMonth} /* 종료일자 */
                                              AND A.PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> /* 지점코드 */
                                                                                   )
                                WHERE ROW_NUM <![CDATA[ <= ]]> 10
