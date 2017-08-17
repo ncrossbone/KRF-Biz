@@ -44,6 +44,7 @@ public class ChartController extends BaseController {
 			return getEuckrString(chartService.getRWMDTSelect(index, param), false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			logger.error("[CHART]----------"+e.getStackTrace());
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
