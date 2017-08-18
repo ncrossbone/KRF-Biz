@@ -3,10 +3,12 @@ package com.ce.krf.biz.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ce.krf.biz.model.ChartVO;
 
 public interface ChartMapper {
-	public List<Map<String, Object>> getRWMDT(String recordId);
+	public List<Map<String, Object>> getRWMDT(@Param("recordId") String recordId ,@Param("parentId") String parentId);
 	
 	public List getRWMDTSelectA(ChartVO param);
 	public List getRWMDTSelectB(ChartVO param);
@@ -24,4 +26,6 @@ public interface ChartMapper {
 	public List getRWMDTSelectF_2(ChartVO param);
 	public List getRWMDTSelectF_3(ChartVO param);
 	public List getRWMDTSelectF_4(ChartVO param);
+	
+	public List getRWMDTSelectI(ChartVO param);
 }

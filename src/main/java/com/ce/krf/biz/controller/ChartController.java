@@ -29,7 +29,7 @@ public class ChartController extends BaseController {
 	@RequestMapping(value = "/getRWMDT", produces = "text/html; charset=euc-kr")
 	public String getRWMDT(@ModelAttribute ChartVO param) {
 		try {
-			return getEuckrString((HashMap) chartService.getRWMDT(param.getRecordId()), false);
+			return getEuckrString((HashMap) chartService.getRWMDT(param.getRecordId() , param.getParentId()), false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

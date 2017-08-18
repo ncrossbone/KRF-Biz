@@ -68,6 +68,13 @@ public interface SearchResultMapper {
 	//환경기초시설 - 관거이송량 GROUT CODE : F / LAYER CODE : F004
 	public List searchResult_F_4(SearchResultVO param);
 	
+	//조류모니터링 - 최근날짜
+	public List searchResult_I_getDate(SearchResultVO param);
+	
+	//조류모니터링
+	public List searchResult_I_1(SearchResultVO param);
+	
+	public List searchResult_I_2(SearchResultVO param);
 	
 	//부하량 - 총괄표
 	public List searchResult_PollLoad_Total(SearchResultVO param);

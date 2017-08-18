@@ -4508,6 +4508,9 @@ ORDER BY PT_NO, WMCYMD DESC
 	</if>
 </select>
 
+
+
+
 <!-- 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001 -->
 <select id="searchResult_F_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 
@@ -5140,6 +5143,351 @@ ORDER BY PT_NO, WMCYMD DESC
 	         WORK_DT_VAL
 </select>
 
+
+
+<select id="searchResult_I_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+
+	<if test="gubun == 1">
+		SELECT MAX (WMCYMD) AS WMCYMD
+		  FROM AG_RWMDTI_DAY_V_ALL_KRF
+		 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+	<if test="gubun == 2">
+		SELECT MAX (WMCYMD) AS WMCYMD
+		  FROM AG_RWMDTI_DAY_V_KRF
+		 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>		
+	</if>
+</select>
+
+
+<select id="searchResult_I_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT  
+	    RN
+	    ,PT_NO
+	    ,PT_NM
+	    ,CURR_WMCYMD
+	    ,CURR_ITEM_TEMP
+	    ,CURR_ITEM_PH
+	    ,CURR_ITEM_EC
+	    ,CURR_ITEM_DOC
+	    ,CURR_ITEM_BOD
+	    ,CURR_ITEM_COD
+	    ,CURR_ITEM_TP
+	    ,CURR_ITEM_AVERAGE_CLOA
+	    ,CURR_ITEM_SURFACE_CLOA
+	    ,CURR_ITEM_SURF_BL_GR_ALGAE
+	    ,CURR_ITEM_GEOSMIN
+	    ,CURR_ITEM_2MIB
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_TEMP) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_TEMP
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_PH) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_PH
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_EC) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_EC
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_DOC) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_DOC
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_BOD) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_BOD
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_COD) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_COD
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_TP) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_TP
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_AVERAGE_CLOA) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_AVERAGE_CLOA
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_SURF_BL_GR_ALGAE) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_SURF_BL_GR_ALGAE
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_GEOSMIN) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_GEOSMIN
+	    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_2MIB) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS        CHART_ITEM_2MIB
+	    FROM(
+	        SELECT A.RN
+	     , RANK() OVER (PARTITION BY A.RN, A.pt_no ORDER BY B.WMCYMD ASC) AS RN2
+	     , A.PT_NO /* 지점코드 */
+	     , A.PT_NM /* 지점명 */ 
+	     , A.WMCYMD AS CURR_WMCYMD /* 채수년월일 */ 
+	     , B.WMCYMD AS CHART_WMCYMD /* 채수년월일 */ 
+	     , A.ITEM_TEMP AS CURR_ITEM_TEMP /* 측정값(수온) */  
+	     , B.ITEM_TEMP AS CHART_ITEM_TEMP /* 측정값(수온) */  
+	     , A.ITEM_PH AS CURR_ITEM_PH /* 측정값(pH) */ 
+	     , B.ITEM_PH AS CHART_ITEM_PH /* 측정값(pH) */ 
+	     , A.ITEM_EC AS CURR_ITEM_EC /* 측정값(전기전도도) */ 
+	     , B.ITEM_EC AS CHART_ITEM_EC /* 측정값(전기전도도) */ 
+	     , A.ITEM_DOC AS CURR_ITEM_DOC /* 측정값(DO) */ 
+	     , B.ITEM_DOC AS CHART_ITEM_DOC /* 측정값(DO) */ 
+	     , A.ITEM_BOD AS CURR_ITEM_BOD /* 측정값(BOD) */ 
+	     , B.ITEM_BOD AS CHART_ITEM_BOD /* 측정값(BOD) */ 
+	     , A.ITEM_COD AS CURR_ITEM_COD /* 측정값(COD) */ 
+	     , B.ITEM_COD AS CHART_ITEM_COD /* 측정값(COD) */ 
+	     , A.ITEM_TP AS CURR_ITEM_TP /* 측정값(T-P) */ 
+	     , B.ITEM_TP AS CHART_ITEM_TP /* 측정값(T-P) */ 
+	     , A.ITEM_AVERAGE_CLOA AS CURR_ITEM_AVERAGE_CLOA /* 측정값(평균 chl-a) */ 
+	     , B.ITEM_AVERAGE_CLOA AS CHART_ITEM_AVERAGE_CLOA /* 측정값(평균 chl-a) */ 
+	     , A.ITEM_SURFACE_CLOA AS CURR_ITEM_SURFACE_CLOA /* 측정값(표층 chl-a) */ 
+	     , B.ITEM_SURFACE_CLOA AS CHART_ITEM_SURFACE_CLOA /* 측정값(표층 chl-a) */ 
+	     , A.ITEM_SURFACE_BLUE_GREEN_ALGAE AS CURR_ITEM_SURF_BL_GR_ALGAE /* 측정값(남조류세포수) */ 
+	     , B.ITEM_SURFACE_BLUE_GREEN_ALGAE AS CHART_ITEM_SURF_BL_GR_ALGAE /* 측정값(남조류세포수) */ 
+	     , A.ITEM_GEOSMIN AS CURR_ITEM_GEOSMIN /* 측정값(냄새물질-지오스민) */
+	     , B.ITEM_GEOSMIN AS CHART_ITEM_GEOSMIN /* 측정값(냄새물질-지오스민) */
+	     , A.ITEM_2MIB AS CURR_ITEM_2MIB /* 측정값(냄새물질-2MIB) */   
+	     , B.ITEM_2MIB AS CHART_ITEM_2MIB /* 측정값(냄새물질-2MIB) */  
+	  FROM (
+	        SELECT Rank () OVER ( partition BY A.PT_NO ORDER BY wmcymd DESC)  RN   /* 순번     */  
+	               , A.* 
+	           FROM ( SELECT ARD.PT_NO        /* 지점코드   */  
+	                        ,ARD.PT_NM        /* 지점명   */  
+	                        ,ARD.WMYR         /* 조사년도 */ 
+	                        ,ARD.WMOD         /* 조사월 */   
+	                        ,WMCYMD /* 채수년월일 */ 
+	                        ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
+	                        ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH)  AS ITEM_PH       /* 측정값(pH)       */ 
+	                        ,DECODE(ARD.ITEM_EC,'',' ',ARD.ITEM_EC)  AS ITEM_EC        /* 측정값(전기전도도)*/ 
+	                        ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC      /* 측정값(DO)       */ 
+	                        ,DECODE(ARD.ITEM_BOD,'',' ',ARD.ITEM_BOD) AS ITEM_BOD       /* 측정값(BOD)      */ 
+	                        ,DECODE(ARD.ITEM_COD,'',' ',ARD.ITEM_COD) AS ITEM_COD      /* 측정값(COD)      */ 
+	                        ,DECODE(ARD.ITEM_TP,'',' ',ARD.ITEM_TP)  AS ITEM_TP     /* 측정값(T-P)      */ 
+	                        ,DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA)     AS ITEM_AVERAGE_CLOA        /* 측정값(평균클로로필-a)  */ 
+	                        ,DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA)     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
+	                        ,DECODE(ARD.ITEM_SURFACE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_SURFACE_BLUE_GREEN_ALGAE) AS ITEM_SURFACE_BLUE_GREEN_ALGAE /* 측정값(남조류세포수) */ 
+	                        ,DECODE(ARD.ITEM_GEOSMIN,'', ' ',ARD.ITEM_GEOSMIN)          AS ITEM_GEOSMIN          /* 측정값(냄새물질-지오스민) */
+	                        ,DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB)             AS ITEM_2MIB             /* 측정값(냄새물질-2MIB) */   
+	                    FROM AG_RWMDTI_DAY_V_ALL_KRF ARD
+	               ) A
+	         WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> /* 지점코드 */
+	           AND WMYR||WMOD BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	        ) A
+	      , (
+	        SELECT Rank () OVER ( partition BY A.PT_NO ORDER BY wmcymd DESC)  RN   /* 순번     */  
+	               , A.* 
+	           FROM ( SELECT ARD.PT_NO        /* 지점코드   */  
+	                        ,ARD.PT_NM        /* 지점명   */  
+	                        ,ARD.WMYR         /* 조사년도 */ 
+	                        ,ARD.WMOD         /* 조사월 */   
+	                        ,WMCYMD /* 채수년월일 */ 
+	                        ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
+	                        ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH)  AS ITEM_PH       /* 측정값(pH)       */ 
+	                        ,DECODE(ARD.ITEM_EC,'',' ',ARD.ITEM_EC)  AS ITEM_EC        /* 측정값(전기전도도)*/ 
+	                        ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC      /* 측정값(DO)       */ 
+	                        ,DECODE(ARD.ITEM_BOD,'',' ',ARD.ITEM_BOD) AS ITEM_BOD       /* 측정값(BOD)      */ 
+	                        ,DECODE(ARD.ITEM_COD,'',' ',ARD.ITEM_COD) AS ITEM_COD      /* 측정값(COD)      */ 
+	                        ,DECODE(ARD.ITEM_TP,'',' ',ARD.ITEM_TP)  AS ITEM_TP     /* 측정값(T-P)      */ 
+	                        ,DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA)     AS ITEM_AVERAGE_CLOA        /* 측정값(평균클로로필-a)  */ 
+	                        ,DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA)     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
+	                        ,DECODE(ARD.ITEM_SURFACE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_SURFACE_BLUE_GREEN_ALGAE) AS ITEM_SURFACE_BLUE_GREEN_ALGAE /* 측정값(남조류세포수) */ 
+	                        ,DECODE(ARD.ITEM_GEOSMIN,'', ' ',ARD.ITEM_GEOSMIN)          AS ITEM_GEOSMIN          /* 측정값(냄새물질-지오스민) */
+	                        ,DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB)             AS ITEM_2MIB             /* 측정값(냄새물질-2MIB) */   
+	                    FROM AG_RWMDTI_DAY_V_ALL_KRF ARD
+	               ) A
+	         WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> /* 지점코드 */
+	           AND WMYR||WMOD <![CDATA[  <= ]]>  #{endYear} || #{endMonth} /* 종료일자 */
+	        ) B
+	 WHERE A.PT_NO = B.PT_NO 
+	   AND B.RN BETWEEN A.RN AND A.RN + 4 
+	 ORDER BY A.PT_NO, A.RN, B.RN DESC
+	    ) 
+	     GROUP BY
+	        RN
+	        ,PT_NO
+	        ,PT_NM
+	        ,CURR_WMCYMD
+	        ,CURR_ITEM_TEMP
+	        ,CURR_ITEM_PH
+	        ,CURR_ITEM_EC
+	        ,CURR_ITEM_DOC
+	        ,CURR_ITEM_BOD
+	        ,CURR_ITEM_COD
+	        ,CURR_ITEM_TP
+	        ,CURR_ITEM_AVERAGE_CLOA
+	        ,CURR_ITEM_SURFACE_CLOA
+	        ,CURR_ITEM_SURF_BL_GR_ALGAE
+	        ,CURR_ITEM_GEOSMIN
+	        ,CURR_ITEM_2MIB
+	    ORDER BY PT_NO
+</select>
+
+<select id="searchResult_I_2" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	
+
+
+SELECT      /* 2.상수원구간, 친수활동구간 */
+    RN
+    ,PT_NO
+    ,PT_NM
+    ,CURR_WMCYMD
+    ,CURR_ITEM_TEMP
+    ,CURR_ITEM_CLOA
+    ,CURR_ITEM_BL_GR_ALGAE
+    ,CURR_ITEM_MCYST_LR
+    ,CURR_ITEM_GEOSMIN
+    ,CURR_ITEM_2MIB
+    ,CURR_ITEM_PH
+    ,CURR_ITEM_DOC
+    ,CURR_ITEM_TRANSPARENCY
+    ,CURR_ITEM_TURBIDITY
+    ,CURR_ITEM_BGA_MICROCYSTIS
+    ,CURR_ITEM_BGA_ANABAENA
+    ,CURR_ITEM_BGA_OSILLATORIA
+    ,CURR_ITEM_BGA_APHANIZOMENON
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_WMCYMD                ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_WMCYMD                
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_TEMP             ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_TEMP             
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_CLOA             ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_CLOA             
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_BL_GR_ALGAE      ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_BL_GR_ALGAE      
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_MCYST_LR         ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_MCYST_LR         
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_GEOSMIN          ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_GEOSMIN          
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_2MIB             ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_2MIB             
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_PH               ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_PH               
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_DOC              ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_DOC              
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_TRANSPARENCY     ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_TRANSPARENCY     
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_TURBIDITY        ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_TURBIDITY        
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_BGA_MICROCYSTIS  ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_BGA_MICROCYSTIS  
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_BGA_ANABAENA     ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_BGA_ANABAENA     
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_BGA_OSILLATORIA  ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_BGA_OSILLATORIA  
+    ,'['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(CHART_WMCYMD,'.','') || '","',TRIM(' ' FROM   CHART_ITEM_BGA_APHANIZOMENON  ) || '"]') ORDER BY CHART_WMCYMD).EXTRACT ('//text()').GETSTRINGVAL (),2) ,  <![CDATA[  '&'||'quot;' ]]>  ,'"') ||']' AS   CHART_ITEM_BGA_APHANIZOMENON  
+    FROM (
+        SELECT A.RN
+             , RANK() OVER (PARTITION BY A.RN, A.pt_no ORDER BY B.WMCYMD ASC) AS RN2
+             , A.PT_NO /* 지점코드 */
+             , A.PT_NM /* 지점명 */ 
+             , A.WMCYMD AS CURR_WMCYMD /* 채수년월일 */ 
+             , B.WMCYMD AS CHART_WMCYMD /* 채수년월일 */ 
+             , A.ITEM_TEMP AS CURR_ITEM_TEMP /* 측정값(수온) */  
+             , B.ITEM_TEMP AS CHART_ITEM_TEMP /* 측정값(수온) */  
+             , A.ITEM_SURFACE_CLOA AS CURR_ITEM_CLOA /* 측정값(chl-a) */ 
+             , B.ITEM_SURFACE_CLOA AS CHART_ITEM_CLOA /* 측정값(chl-a) */ 
+             , A.ITEM_BLUE_GREEN_ALGAE AS CURR_ITEM_BL_GR_ALGAE /* 측정값(유해남조류세포수) */ 
+             , B.ITEM_BLUE_GREEN_ALGAE AS CHART_ITEM_BL_GR_ALGAE /* 측정값(유해남조류세포수) */ 
+             , A.ITEM_MCYST_LR AS CURR_ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */  
+             , B.ITEM_MCYST_LR AS CHART_ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */  
+             , A.ITEM_GEOSMIN AS CURR_ITEM_GEOSMIN /* 측정값(냄새물질-지오스민) */
+             , B.ITEM_GEOSMIN AS CHART_ITEM_GEOSMIN /* 측정값(냄새물질-지오스민) */
+             , A.ITEM_2MIB AS CURR_ITEM_2MIB /* 측정값(냄새물질-2MIB) */   
+             , B.ITEM_2MIB AS CHART_ITEM_2MIB /* 측정값(냄새물질-2MIB) */  
+             , A.ITEM_PH AS CURR_ITEM_PH /* 측정값(pH) */ 
+             , B.ITEM_PH AS CHART_ITEM_PH /* 측정값(pH) */ 
+             , A.ITEM_DOC AS CURR_ITEM_DOC /* 측정값(DO) */ 
+             , B.ITEM_DOC AS CHART_ITEM_DOC /* 측정값(DO) */ 
+             , A.ITEM_TRANSPARENCY AS CURR_ITEM_TRANSPARENCY /* 측정값(투명도) */ 
+             , B.ITEM_TRANSPARENCY AS CHART_ITEM_TRANSPARENCY /* 측정값(투명도) */ 
+             , A.ITEM_TURBIDITY AS CURR_ITEM_TURBIDITY /* 측정값(탁도) */ 
+             , B.ITEM_TURBIDITY AS CHART_ITEM_TURBIDITY /* 측정값(탁도) */ 
+             , A.ITEM_BGA_MICROCYSTIS AS CURR_ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+             , B.ITEM_BGA_MICROCYSTIS AS CHART_ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+             , A.ITEM_BGA_ANABAENA AS CURR_ITEM_BGA_ANABAENA /* 측정값(남조류 Anabaena) */ 
+             , B.ITEM_BGA_ANABAENA AS CHART_ITEM_BGA_ANABAENA /* 측정값(남조류 Anabaena) */ 
+             , A.ITEM_BGA_OSILLATORIA AS CURR_ITEM_BGA_OSILLATORIA /* 측정값(남조류 Osillatoria) */ 
+             , B.ITEM_BGA_OSILLATORIA AS CHART_ITEM_BGA_OSILLATORIA /* 측정값(남조류 Osillatoria) */ 
+             , A.ITEM_BGA_APHANIZOMENON AS CURR_ITEM_BGA_APHANIZOMENON /* 측정값(남조류 Aphanizomenon) */ 
+             , B.ITEM_BGA_APHANIZOMENON AS CHART_ITEM_BGA_APHANIZOMENON /* 측정값(남조류 Aphanizomenon) */ 
+          FROM (
+                SELECT Rank () OVER ( partition BY A.PT_NO ORDER BY wmcymd DESC)  RN   /* 순번     */  
+                     , A.* 
+                  FROM (
+                        SELECT ARD.PT_NO /* 지점코드   */  
+                                ,ARD.PT_NM /* 지점명   */  
+                                ,ARD.WMYR /* 조사년도 */ 
+                                ,ARD.WMOD /* 조사월 */   
+                                ,WMCYMD /* 채수년월일 */ 
+                                ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
+                                ,DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA)     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
+                                ,DECODE(ARD.ITEM_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_BLUE_GREEN_ALGAE) AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
+                                ,DECODE(ARD.ITEM_MCYST_LR,'',' ',ARD.ITEM_MCYST_LR) AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */  
+                                ,DECODE(ARD.ITEM_GEOSMIN,'',' ',ARD.ITEM_GEOSMIN) AS ITEM_GEOSMIN /* 측정값(지오스민) */  
+                                ,DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB) AS ITEM_2MIB /* 측정값(2MIB) */  
+                                ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH) AS ITEM_PH /* PH */ 
+                                ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC /* DO */ 
+                                ,DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY) AS ITEM_TRANSPARENCY /* 투명도 */ 
+                                ,DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY) AS ITEM_TURBIDITY /* 탁도 */ 
+                                ,DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS) AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+                                ,DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA) AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
+                                ,DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA) AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
+                                ,DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON) AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
+                            FROM AG_RWMDTI_DAY_V_KRF ARD /* 상수원구간 */
+                        UNION
+                        SELECT ARD.PT_NO /* 지점코드   */  
+                                ,ARD.PT_NM /* 지점명   */  
+                                ,ARD.WMYR /* 조사년도 */ 
+                                ,ARD.WMOD /* 조사월 */   
+                                ,WMCYMD /* 채수년월일 */ 
+                                ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
+                                ,DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA)     AS ITEM_AVERAGE_CLOA        /* 측정값(클로로필-a)  */ 
+                                ,DECODE(ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE) AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
+                                ,DECODE(ARD.ITEM_AVERAGE_MCYST_LR,'',' ',ARD.ITEM_AVERAGE_MCYST_LR) AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */   
+                                ,DECODE(ARD.ITEM_AVERAGE_GEOSMIN,'',' ',ARD.ITEM_AVERAGE_GEOSMIN) AS ITEM_GEOSMIN /* 측정값(지오스민) */   
+                                ,DECODE(ARD.ITEM_AVERAGE_2MIB,'',' ',ARD.ITEM_AVERAGE_2MIB) AS ITEM_2MIB /* 측정값(2MIB) */  
+                                ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH) AS ITEM_PH /* PH */ 
+                                ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC /* DO */ 
+                                ,DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY) AS ITEM_TRANSPARENCY /* 투명도 */ 
+                                ,DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY) AS ITEM_TURBIDITY /* 탁도 */ 
+                                ,DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS) AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+                                ,DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA) AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
+                                ,DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA) AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
+                                ,DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON) AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
+                            FROM AG_RWMDTI_DAY_V_C_KRF ARD /* 친수활동구간 */
+                       ) A
+                 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> /* 지점코드 */
+                   AND WMYR||WMOD BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+                ) A
+              , (
+                SELECT Rank () OVER ( partition BY A.PT_NO ORDER BY wmcymd DESC)  RN   /* 순번     */  
+                     , A.* 
+                  FROM (
+                        SELECT ARD.PT_NO /* 지점코드   */  
+                                ,ARD.PT_NM /* 지점명   */  
+                                ,ARD.WMYR /* 조사년도 */ 
+                                ,ARD.WMOD /* 조사월 */   
+                                ,WMCYMD /* 채수년월일 */ 
+                                ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
+                                ,DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA)     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
+                                ,DECODE(ARD.ITEM_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_BLUE_GREEN_ALGAE) AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
+                                ,DECODE(ARD.ITEM_MCYST_LR,'',' ',ARD.ITEM_MCYST_LR) AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */  
+                                ,DECODE(ARD.ITEM_GEOSMIN,'',' ',ARD.ITEM_GEOSMIN) AS ITEM_GEOSMIN /* 측정값(지오스민) */  
+                                ,DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB) AS ITEM_2MIB /* 측정값(2MIB) */  
+                                ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH) AS ITEM_PH /* PH */ 
+                                ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC /* DO */ 
+                                ,DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY) AS ITEM_TRANSPARENCY /* 투명도 */ 
+                                ,DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY) AS ITEM_TURBIDITY /* 탁도 */ 
+                                ,DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS) AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+                                ,DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA) AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
+                                ,DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA) AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
+                                ,DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON) AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
+                            FROM AG_RWMDTI_DAY_V_KRF ARD /* 상수원구간 */
+                        UNION
+                        SELECT ARD.PT_NO /* 지점코드   */  
+                                ,ARD.PT_NM /* 지점명   */  
+                                ,ARD.WMYR /* 조사년도 */ 
+                                ,ARD.WMOD /* 조사월 */   
+                                ,WMCYMD /* 채수년월일 */ 
+                                ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
+                                ,DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA)     AS ITEM_AVERAGE_CLOA        /* 측정값(클로로필-a)  */ 
+                                ,DECODE(ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE) AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
+                                ,DECODE(ARD.ITEM_AVERAGE_MCYST_LR,'',' ',ARD.ITEM_AVERAGE_MCYST_LR) AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */   
+                                ,DECODE(ARD.ITEM_AVERAGE_GEOSMIN,'',' ',ARD.ITEM_AVERAGE_GEOSMIN) AS ITEM_GEOSMIN /* 측정값(지오스민) */   
+                                ,DECODE(ARD.ITEM_AVERAGE_2MIB,'',' ',ARD.ITEM_AVERAGE_2MIB) AS ITEM_2MIB /* 측정값(2MIB) */  
+                                ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH) AS ITEM_PH /* PH */ 
+                                ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC /* DO */ 
+                                ,DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY) AS ITEM_TRANSPARENCY /* 투명도 */ 
+                                ,DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY) AS ITEM_TURBIDITY /* 탁도 */ 
+                                ,DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS) AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+                                ,DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA) AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
+                                ,DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA) AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
+                                ,DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON) AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
+                            FROM AG_RWMDTI_DAY_V_C_KRF ARD /* 친수활동구간 */
+                       ) A
+                 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> /* 지점코드 */
+                   AND WMYR||WMOD <![CDATA[  <= ]]> #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+                ) B
+         WHERE A.PT_NO = B.PT_NO 
+           AND B.RN BETWEEN A.RN AND A.RN + 4 
+         ORDER BY A.PT_NO, A.RN, B.RN DESC
+         )GROUP BY
+     RN
+    ,PT_NO
+    ,PT_NM
+    ,CURR_WMCYMD
+    ,CURR_ITEM_TEMP
+    ,CURR_ITEM_CLOA
+    ,CURR_ITEM_BL_GR_ALGAE
+    ,CURR_ITEM_MCYST_LR
+    ,CURR_ITEM_GEOSMIN
+    ,CURR_ITEM_2MIB
+    ,CURR_ITEM_PH
+    ,CURR_ITEM_DOC
+    ,CURR_ITEM_TRANSPARENCY
+    ,CURR_ITEM_TURBIDITY
+    ,CURR_ITEM_BGA_MICROCYSTIS
+    ,CURR_ITEM_BGA_ANABAENA
+    ,CURR_ITEM_BGA_OSILLATORIA
+    ,CURR_ITEM_BGA_APHANIZOMENON
+</select>
 <!-- 부하량 총괄표 -->
 <select id="searchResult_PollLoad_Total" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 

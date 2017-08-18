@@ -1050,6 +1050,32 @@ public class SearchResultService {
 		return result;
 
 	}
+	
+	// 조류모니터링 GROUP CODE : I
+	public HashMap searchResult_I(String gubun, SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		// param.setSiteIds();
+
+		if ("noDate".equals(param.getFirstSearch())) {
+			param.setGubun(gubun);
+			resultList = searchResultMapper.searchResult_I_getDate(param);
+		} else {
+			Method method = searchResultMapper.getClass().getMethod("searchResult_I_" + gubun, SearchResultVO.class);
+			resultList = (List) method.invoke(searchResultMapper, param);
+		}
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
 
 	// 부하량 - 총괄표
 	public HashMap searchResult_PollLoad(String gubun, SearchResultVO param) throws Exception {

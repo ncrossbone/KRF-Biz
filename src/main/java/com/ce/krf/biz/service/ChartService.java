@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class ChartService {
 	public ChartMapper chartMapper;
 	
 	
-	public HashMap getRWMDT(String recordId) {
+	public HashMap getRWMDT(String recordId,String parentId) {
 		HashMap res = new HashMap<String, Object>();
-		res.put("data", chartMapper.getRWMDT(recordId));
+		res.put("data", chartMapper.getRWMDT(recordId ,parentId));
 		return res;
 	}
 	

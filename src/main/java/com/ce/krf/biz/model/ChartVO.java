@@ -3,6 +3,8 @@ package com.ce.krf.biz.model;
 public class ChartVO {
 	private String recordId;
 	
+	private String parentId;
+	
 	private String recordYear;
 	private String recordYear2;
 	private String recordMonth;
@@ -69,6 +71,12 @@ public class ChartVO {
 	}
 	public void setSelectItem(String selectItem) {
 		this.selectItem = selectItem;
+	}
+	public String getParentId() {
+		return parentId;
+	}
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 	
 	

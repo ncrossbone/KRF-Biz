@@ -15,12 +15,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.ChartMapper">
-    <select id="getRWMDT" resultType="hashmap" parameterType="String">
+    <select id="getRWMDT" resultType="hashmap">
     	SELECT /* KRF-BIZ.ChartMapper.getRWMDT */
                COL_KOR AS "column",
        		   CONT  AS "cont"
     	  FROM KRF_SITEINFO 
-    	  WHERE SITE_CD = #{value}
+    	  WHERE SITE_CD = #{recordId}
+    	  <if test="parentId == 'I' ">
+    	  AND GUBUN = 'I'
+    	  </if>
     </select>
     
     <select id="getRWMDTSelectA" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
@@ -1378,5 +1381,83 @@ SELECT 999 AS RN,
 	<if test="defaultChart != null and defaultChart == 1"> 
 		WHERE  <![CDATA[ RN <= 10 ]]> 
 	</if>  
+	</select>
+	
+	<select id="getRWMDTSelectI" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+	/* 조류모니터링 차트쿼리*/
+	WITH TEMP_TBL AS (
+	SELECT ROWNUM RN
+	     , PT_NO
+	     , PT_NM
+	     , WMCYMD
+	     , '${selectItem}' AS ITEM_NAME
+	     , ${selectItem} AS ITEM_VALUE /* Chl-a(㎎/㎥)*/
+	  FROM (
+	        SELECT PT_NO
+	             , PT_NM
+	             , WMCYMD
+	             , TRIM(ITEM_TEMP) AS ITEM_TEMP
+	             , TRIM(ITEM_AVERAGE_CLOA) AS ITEM_AVERAGE_CLOA
+	             , TRIM(ITEM_SURFACE_BLUE_GREEN_ALGAE) AS ITEM_SURFACE_BLUE_GREEN_ALGAE
+	          FROM (
+	                SELECT ARD.PT_NO        /* 지점코드   */  
+	                        ,ARD.PT_NM        /* 지점명   */  
+	                        ,ARD.WMYR         /* 조사년도 */ 
+	                        ,ARD.WMOD         /* 조사월 */   
+	                        ,WMCYMD
+	                        ,NVL(ARD.ITEM_TEMP,' ') AS ITEM_TEMP     /* 측정값(수온) */  
+	                        ,NVL(ARD.ITEM_AVERAGE_CLOA,' ')     AS ITEM_AVERAGE_CLOA        /* 측정값(평균 클로로필-a)  */ 
+	                        ,NVL(ARD.ITEM_SURFACE_BLUE_GREEN_ALGAE,' ') AS ITEM_SURFACE_BLUE_GREEN_ALGAE /* 측정값(남조류세포수) */ 
+	                    FROM AG_RWMDTI_DAY_V_ALL_KRF ARD /* 보*/
+	                UNION ALL
+	                SELECT ARD.PT_NO        /* 지점코드   */  
+	                        ,ARD.PT_NM        /* 지점명   */  
+	                        ,ARD.WMYR         /* 조사년도 */ 
+	                        ,ARD.WMOD         /* 조사월 */   
+	                        ,WMCYMD
+	                        ,NVL(ARD.ITEM_TEMP,' ') AS ITEM_TEMP     /* 측정값(수온) */  
+	                        ,NVL(ARD.ITEM_SURFACE_CLOA,' ')     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
+	                        ,NVL(ARD.ITEM_BLUE_GREEN_ALGAE,' ') AS ITEM_BLUE_GREEN_ALGAE /* 측정값(남조류세포수) */
+	                    FROM AG_RWMDTI_DAY_V_KRF ARD /* 상수원구간*/
+	                UNION ALL
+	                SELECT ARD.PT_NO        /* 지점코드   */  
+	                        ,ARD.PT_NM        /* 지점명   */  
+	                        ,ARD.WMYR         /* 조사년도 */ 
+	                        ,ARD.WMOD         /* 조사월 */  
+	                        ,WMCYMD
+	                        ,NVL(ARD.ITEM_TEMP,' ') AS ITEM_TEMP     /* 측정값(수온) */  
+	                        ,NVL(ARD.ITEM_AVERAGE_CLOA,' ')     AS ITEM_AVERAGE_CLOA        /* 측정값(클로로필-a)  */ 
+	                        ,NVL(ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE,' ') AS ITEM_BLUE_GREEN_ALGAE /* 측정값(남조류세포수) */ 
+	                    FROM AG_RWMDTI_DAY_V_C_KRF ARD /* 친수활동구간*/
+	                )
+	         WHERE PT_NO = #{recordId} /* 지점코드*/
+	         <if test="defaultChart != null and defaultChart == 0">
+	           AND WMYR||WMOD BETWEEN #{preFullDate} AND #{nextFullDate} /* 날짜*/
+	         </if>
+	         ORDER BY WMCYMD DESC
+	       )
+	 <if test="defaultChart != null and defaultChart == 1">
+	 	WHERE ROWNUM  <![CDATA[ <= 10  ]]> /* 건수 제한*/
+	 </if>
+	)
+	SELECT *
+	  FROM (
+	        SELECT Rank() OVER(partition BY PT_NO ORDER BY WMCYMD DESC) RN
+	             , PT_NO
+	             , PT_NM
+	             , TO_CHAR(WMCYMD) AS WMCYMD
+	             , TO_CHAR(ITEM_NAME) AS ITEM_NAME
+	             , TO_CHAR(ITEM_VALUE) AS ITEM_VALUE
+	          FROM TEMP_TBL
+	        UNION
+	        SELECT TO_NUMBER('999') AS RN
+	             , '' AS PT_NO
+	             , '' AS PT_NM
+	             , '' AS WMCYMD
+	             , '' AS ITEM_NAME
+	             , TO_CHAR(MAX(TO_NUMBER(ITEM_VALUE)) * 1.1)
+	          FROM TEMP_TBL
+	       )
+	 ORDER BY CASE WHEN RN = '999' THEN 0 ELSE RN END DESC
 	</select>
 </mapper>

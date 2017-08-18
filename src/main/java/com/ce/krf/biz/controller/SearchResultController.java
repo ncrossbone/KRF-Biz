@@ -121,6 +121,19 @@ public class SearchResultController extends BaseController{
 		}
 	}
 	
+	// 조류모니터링 GROUP CODE : I
+	@RequestMapping(value = "/searchResult_I_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	public String searchResult_I(@PathVariable String gubun ,@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchResult_I(gubun, param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
 	// 부하량 - 총괄표
 	@RequestMapping(value = "/searchResult_PollLoad_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
 	public String searchResult_PollLoad_Total(@PathVariable String gubun, SearchResultVO param) {
