@@ -5214,8 +5214,8 @@ ORDER BY PT_NO, WMCYMD DESC
 	     , B.ITEM_AVERAGE_CLOA AS CHART_ITEM_AVERAGE_CLOA /* 측정값(평균 chl-a) */ 
 	     , A.ITEM_SURFACE_CLOA AS CURR_ITEM_SURFACE_CLOA /* 측정값(표층 chl-a) */ 
 	     , B.ITEM_SURFACE_CLOA AS CHART_ITEM_SURFACE_CLOA /* 측정값(표층 chl-a) */ 
-	     , A.ITEM_SURFACE_BLUE_GREEN_ALGAE AS CURR_ITEM_SURF_BL_GR_ALGAE /* 측정값(남조류세포수) */ 
-	     , B.ITEM_SURFACE_BLUE_GREEN_ALGAE AS CHART_ITEM_SURF_BL_GR_ALGAE /* 측정값(남조류세포수) */ 
+	     , replace(A.ITEM_SURFACE_BLUE_GREEN_ALGAE,',','') AS CURR_ITEM_SURF_BL_GR_ALGAE /* 측정값(남조류세포수) */ 
+	     , replace(B.ITEM_SURFACE_BLUE_GREEN_ALGAE,',','') AS CHART_ITEM_SURF_BL_GR_ALGAE /* 측정값(남조류세포수) */ 
 	     , A.ITEM_GEOSMIN AS CURR_ITEM_GEOSMIN /* 측정값(냄새물질-지오스민) */
 	     , B.ITEM_GEOSMIN AS CHART_ITEM_GEOSMIN /* 측정값(냄새물질-지오스민) */
 	     , A.ITEM_2MIB AS CURR_ITEM_2MIB /* 측정값(냄새물질-2MIB) */   
