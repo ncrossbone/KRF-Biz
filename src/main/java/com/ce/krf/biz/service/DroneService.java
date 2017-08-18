@@ -1,5 +1,6 @@
 package com.ce.krf.biz.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,16 +27,22 @@ public class DroneService {
 		param.setMeasureDate(measureDate);
 		param.setLayerDate(layerDate);
 		List<HashMap> rwmdtList = droneMapper.getRWMDT(param);
+		List<HashMap> rwmdtDes = new ArrayList<HashMap>();
+		
 		for(int i=0; i<rwmdtList.size(); i++) {
 			HashMap rwmdt = rwmdtList.get(i);
 			if("-".equals(rwmdt.get("WMCYMD"))) {
 				param.setPtNo((String)rwmdt.get("PT_NO"));
 				List<HashMap> rwmdtSubList = droneMapper.getSubRWMDT(param);
 				if(rwmdtSubList.size()>0) {
-					rwmdt = rwmdtSubList.get(rwmdtSubList.size()-1);
+					rwmdtDes.add(rwmdtSubList.get(rwmdtSubList.size()-1));
+				}else {
+					rwmdtDes.add(rwmdt);
 				}
+			}else {
+				rwmdtDes.add(rwmdt);
 			}
 		}
-		return rwmdtList;
+		return rwmdtDes;
 	}
 }
