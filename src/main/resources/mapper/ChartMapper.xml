@@ -21,8 +21,8 @@
        		   CONT  AS "cont"
     	  FROM KRF_SITEINFO 
     	  WHERE SITE_CD = #{recordId}
-    	  <if test="parentId == 'I' ">
-    	  AND GUBUN = 'I'
+    	  <if test="parentId != null and  (parentId eq 'I'.toString())">
+    	  AND GUBUN = #{parentId}
     	  </if>
     </select>
     
