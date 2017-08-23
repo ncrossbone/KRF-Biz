@@ -5253,18 +5253,18 @@ ORDER BY PT_NO, WMCYMD DESC
 	                        ,ARD.WMYR         /* 조사년도 */ 
 	                        ,ARD.WMOD         /* 조사월 */   
 	                        ,WMCYMD /* 채수년월일 */ 
-	                        ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
-	                        ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH)  AS ITEM_PH       /* 측정값(pH)       */ 
-	                        ,DECODE(ARD.ITEM_EC,'',' ',ARD.ITEM_EC)  AS ITEM_EC        /* 측정값(전기전도도)*/ 
-	                        ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC      /* 측정값(DO)       */ 
-	                        ,DECODE(ARD.ITEM_BOD,'',' ',ARD.ITEM_BOD) AS ITEM_BOD       /* 측정값(BOD)      */ 
-	                        ,DECODE(ARD.ITEM_COD,'',' ',ARD.ITEM_COD) AS ITEM_COD      /* 측정값(COD)      */ 
-	                        ,DECODE(ARD.ITEM_TP,'',' ',ARD.ITEM_TP)  AS ITEM_TP     /* 측정값(T-P)      */ 
-	                        ,DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA)     AS ITEM_AVERAGE_CLOA        /* 측정값(평균클로로필-a)  */ 
-	                        ,DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA)     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
-	                        ,DECODE(ARD.ITEM_SURFACE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_SURFACE_BLUE_GREEN_ALGAE) AS ITEM_SURFACE_BLUE_GREEN_ALGAE /* 측정값(남조류세포수) */ 
-	                        ,DECODE(ARD.ITEM_GEOSMIN,'', ' ',ARD.ITEM_GEOSMIN)          AS ITEM_GEOSMIN          /* 측정값(냄새물질-지오스민) */
-	                        ,DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB)             AS ITEM_2MIB             /* 측정값(냄새물질-2MIB) */   
+	                        ,REPLACE(DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP),',','') AS ITEM_TEMP     /* 측정값(수온) */  
+	                        ,REPLACE(DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH),',','')  AS ITEM_PH       /* 측정값(pH)       */ 
+	                        ,REPLACE(DECODE(ARD.ITEM_EC,'',' ',ARD.ITEM_EC),',','')  AS ITEM_EC        /* 측정값(전기전도도)*/ 
+	                        ,REPLACE(DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC),',','') AS ITEM_DOC      /* 측정값(DO)       */ 
+	                        ,REPLACE(DECODE(ARD.ITEM_BOD,'',' ',ARD.ITEM_BOD),',','') AS ITEM_BOD       /* 측정값(BOD)      */ 
+	                        ,REPLACE(DECODE(ARD.ITEM_COD,'',' ',ARD.ITEM_COD),',','') AS ITEM_COD      /* 측정값(COD)      */ 
+	                        ,REPLACE(DECODE(ARD.ITEM_TP,'',' ',ARD.ITEM_TP),',','')  AS ITEM_TP     /* 측정값(T-P)      */ 
+	                        ,REPLACE(DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA),',','')     AS ITEM_AVERAGE_CLOA        /* 측정값(평균클로로필-a)  */ 
+	                        ,REPLACE(DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA),',','')     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
+	                        ,REPLACE(DECODE(ARD.ITEM_SURFACE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_SURFACE_BLUE_GREEN_ALGAE),',','') AS ITEM_SURFACE_BLUE_GREEN_ALGAE /* 측정값(남조류세포수) */ 
+	                        ,REPLACE(DECODE(ARD.ITEM_GEOSMIN,'', ' ',ARD.ITEM_GEOSMIN),',','')          AS ITEM_GEOSMIN          /* 측정값(냄새물질-지오스민) */
+	                        ,REPLACE(DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB),',','')             AS ITEM_2MIB             /* 측정값(냄새물질-2MIB) */   
 	                    FROM AG_RWMDTI_DAY_V_ALL_KRF ARD
 	               ) A
 	         WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> /* 지점코드 */
@@ -5376,20 +5376,20 @@ SELECT      /* 2.상수원구간, 친수활동구간 */
                                 ,ARD.WMYR /* 조사년도 */ 
                                 ,ARD.WMOD /* 조사월 */   
                                 ,WMCYMD /* 채수년월일 */ 
-                                ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
-                                ,DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA)     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
-                                ,DECODE(ARD.ITEM_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_BLUE_GREEN_ALGAE) AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
-                                ,DECODE(ARD.ITEM_MCYST_LR,'',' ',ARD.ITEM_MCYST_LR) AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */  
-                                ,DECODE(ARD.ITEM_GEOSMIN,'',' ',ARD.ITEM_GEOSMIN) AS ITEM_GEOSMIN /* 측정값(지오스민) */  
-                                ,DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB) AS ITEM_2MIB /* 측정값(2MIB) */  
-                                ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH) AS ITEM_PH /* PH */ 
-                                ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC /* DO */ 
-                                ,DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY) AS ITEM_TRANSPARENCY /* 투명도 */ 
-                                ,DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY) AS ITEM_TURBIDITY /* 탁도 */ 
-                                ,DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS) AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
-                                ,DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA) AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
-                                ,DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA) AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
-                                ,DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON) AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP),',','') AS ITEM_TEMP     /* 측정값(수온) */  
+                                ,REPLACE(DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA),',','')     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_BLUE_GREEN_ALGAE),',','') AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
+                                ,REPLACE(DECODE(ARD.ITEM_MCYST_LR,'',' ',ARD.ITEM_MCYST_LR),',','') AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */  
+                                ,REPLACE(DECODE(ARD.ITEM_GEOSMIN,'',' ',ARD.ITEM_GEOSMIN),',','') AS ITEM_GEOSMIN /* 측정값(지오스민) */  
+                                ,REPLACE(DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB),',','') AS ITEM_2MIB /* 측정값(2MIB) */  
+                                ,REPLACE(DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH),',','') AS ITEM_PH /* PH */ 
+                                ,REPLACE(DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC),',','') AS ITEM_DOC /* DO */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY),',','') AS ITEM_TRANSPARENCY /* 투명도 */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY),',','') AS ITEM_TURBIDITY /* 탁도 */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS),',','') AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA),',','') AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA),',','') AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON),',','') AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
                             FROM AG_RWMDTI_DAY_V_KRF ARD /* 상수원구간 */
                         UNION
                         SELECT ARD.PT_NO /* 지점코드   */  
@@ -5397,20 +5397,20 @@ SELECT      /* 2.상수원구간, 친수활동구간 */
                                 ,ARD.WMYR /* 조사년도 */ 
                                 ,ARD.WMOD /* 조사월 */   
                                 ,WMCYMD /* 채수년월일 */ 
-                                ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
-                                ,DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA)     AS ITEM_AVERAGE_CLOA        /* 측정값(클로로필-a)  */ 
-                                ,DECODE(ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE) AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
-                                ,DECODE(ARD.ITEM_AVERAGE_MCYST_LR,'',' ',ARD.ITEM_AVERAGE_MCYST_LR) AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */   
-                                ,DECODE(ARD.ITEM_AVERAGE_GEOSMIN,'',' ',ARD.ITEM_AVERAGE_GEOSMIN) AS ITEM_GEOSMIN /* 측정값(지오스민) */   
-                                ,DECODE(ARD.ITEM_AVERAGE_2MIB,'',' ',ARD.ITEM_AVERAGE_2MIB) AS ITEM_2MIB /* 측정값(2MIB) */  
-                                ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH) AS ITEM_PH /* PH */ 
-                                ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC /* DO */ 
-                                ,DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY) AS ITEM_TRANSPARENCY /* 투명도 */ 
-                                ,DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY) AS ITEM_TURBIDITY /* 탁도 */ 
-                                ,DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS) AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
-                                ,DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA) AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
-                                ,DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA) AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
-                                ,DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON) AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP),',','') AS ITEM_TEMP     /* 측정값(수온) */  
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA),',','')     AS ITEM_AVERAGE_CLOA        /* 측정값(클로로필-a)  */ 
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE),',','') AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_MCYST_LR,'',' ',ARD.ITEM_AVERAGE_MCYST_LR),',','') AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */   
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_GEOSMIN,'',' ',ARD.ITEM_AVERAGE_GEOSMIN),',','') AS ITEM_GEOSMIN /* 측정값(지오스민) */   
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_2MIB,'',' ',ARD.ITEM_AVERAGE_2MIB),',','') AS ITEM_2MIB /* 측정값(2MIB) */  
+                                ,REPLACE(DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH),',','') AS ITEM_PH /* PH */ 
+                                ,REPLACE(DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC),',','') AS ITEM_DOC /* DO */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY),',','') AS ITEM_TRANSPARENCY /* 투명도 */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY),',','') AS ITEM_TURBIDITY /* 탁도 */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS),',','') AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA),',','') AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA),',','') AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON),',','') AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
                             FROM AG_RWMDTI_DAY_V_C_KRF ARD /* 친수활동구간 */
                        ) A
                  WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> /* 지점코드 */
@@ -5425,20 +5425,20 @@ SELECT      /* 2.상수원구간, 친수활동구간 */
                                 ,ARD.WMYR /* 조사년도 */ 
                                 ,ARD.WMOD /* 조사월 */   
                                 ,WMCYMD /* 채수년월일 */ 
-                                ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
-                                ,DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA)     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
-                                ,DECODE(ARD.ITEM_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_BLUE_GREEN_ALGAE) AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
-                                ,DECODE(ARD.ITEM_MCYST_LR,'',' ',ARD.ITEM_MCYST_LR) AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */  
-                                ,DECODE(ARD.ITEM_GEOSMIN,'',' ',ARD.ITEM_GEOSMIN) AS ITEM_GEOSMIN /* 측정값(지오스민) */  
-                                ,DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB) AS ITEM_2MIB /* 측정값(2MIB) */  
-                                ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH) AS ITEM_PH /* PH */ 
-                                ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC /* DO */ 
-                                ,DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY) AS ITEM_TRANSPARENCY /* 투명도 */ 
-                                ,DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY) AS ITEM_TURBIDITY /* 탁도 */ 
-                                ,DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS) AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
-                                ,DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA) AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
-                                ,DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA) AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
-                                ,DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON) AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP),',','') AS ITEM_TEMP     /* 측정값(수온) */  
+                                ,REPLACE(DECODE(ARD.ITEM_SURFACE_CLOA,'',' ',ARD.ITEM_SURFACE_CLOA),',','')     AS ITEM_SURFACE_CLOA        /* 측정값(클로로필-a)  */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_BLUE_GREEN_ALGAE),',','') AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
+                                ,REPLACE(DECODE(ARD.ITEM_MCYST_LR,'',' ',ARD.ITEM_MCYST_LR),',','') AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */  
+                                ,REPLACE(DECODE(ARD.ITEM_GEOSMIN,'',' ',ARD.ITEM_GEOSMIN),',','') AS ITEM_GEOSMIN /* 측정값(지오스민) */  
+                                ,REPLACE(DECODE(ARD.ITEM_2MIB,'',' ',ARD.ITEM_2MIB),',','') AS ITEM_2MIB /* 측정값(2MIB) */  
+                                ,REPLACE(DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH),',','') AS ITEM_PH /* PH */ 
+                                ,REPLACE(DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC),',','') AS ITEM_DOC /* DO */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY),',','') AS ITEM_TRANSPARENCY /* 투명도 */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY),',','') AS ITEM_TURBIDITY /* 탁도 */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS),',','') AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA),',','') AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA),',','') AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON),',','') AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
                             FROM AG_RWMDTI_DAY_V_KRF ARD /* 상수원구간 */
                         UNION
                         SELECT ARD.PT_NO /* 지점코드   */  
@@ -5446,20 +5446,20 @@ SELECT      /* 2.상수원구간, 친수활동구간 */
                                 ,ARD.WMYR /* 조사년도 */ 
                                 ,ARD.WMOD /* 조사월 */   
                                 ,WMCYMD /* 채수년월일 */ 
-                                ,DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP) AS ITEM_TEMP     /* 측정값(수온) */  
-                                ,DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA)     AS ITEM_AVERAGE_CLOA        /* 측정값(클로로필-a)  */ 
-                                ,DECODE(ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE) AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
-                                ,DECODE(ARD.ITEM_AVERAGE_MCYST_LR,'',' ',ARD.ITEM_AVERAGE_MCYST_LR) AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */   
-                                ,DECODE(ARD.ITEM_AVERAGE_GEOSMIN,'',' ',ARD.ITEM_AVERAGE_GEOSMIN) AS ITEM_GEOSMIN /* 측정값(지오스민) */   
-                                ,DECODE(ARD.ITEM_AVERAGE_2MIB,'',' ',ARD.ITEM_AVERAGE_2MIB) AS ITEM_2MIB /* 측정값(2MIB) */  
-                                ,DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH) AS ITEM_PH /* PH */ 
-                                ,DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC) AS ITEM_DOC /* DO */ 
-                                ,DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY) AS ITEM_TRANSPARENCY /* 투명도 */ 
-                                ,DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY) AS ITEM_TURBIDITY /* 탁도 */ 
-                                ,DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS) AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
-                                ,DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA) AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
-                                ,DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA) AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
-                                ,DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON) AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TEMP,'',' ',ARD.ITEM_TEMP),',','') AS ITEM_TEMP     /* 측정값(수온) */  
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_CLOA,'',' ',ARD.ITEM_AVERAGE_CLOA),',','')     AS ITEM_AVERAGE_CLOA        /* 측정값(클로로필-a)  */ 
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE,'',' ',ARD.ITEM_AVERAGE_BLUE_GREEN_ALGAE),',','') AS ITEM_BLUE_GREEN_ALGAE /* 측정값(유해남조류세포수) */ 
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_MCYST_LR,'',' ',ARD.ITEM_AVERAGE_MCYST_LR),',','') AS ITEM_MCYST_LR /* 측정값(마이크로시스틴-LR) */   
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_GEOSMIN,'',' ',ARD.ITEM_AVERAGE_GEOSMIN),',','') AS ITEM_GEOSMIN /* 측정값(지오스민) */   
+                                ,REPLACE(DECODE(ARD.ITEM_AVERAGE_2MIB,'',' ',ARD.ITEM_AVERAGE_2MIB),',','') AS ITEM_2MIB /* 측정값(2MIB) */  
+                                ,REPLACE(DECODE(ARD.ITEM_PH,'',' ',ARD.ITEM_PH),',','') AS ITEM_PH /* PH */ 
+                                ,REPLACE(DECODE(ARD.ITEM_DOC,'',' ',ARD.ITEM_DOC),',','') AS ITEM_DOC /* DO */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TRANSPARENCY,'',' ',ARD.ITEM_TRANSPARENCY),',','') AS ITEM_TRANSPARENCY /* 투명도 */ 
+                                ,REPLACE(DECODE(ARD.ITEM_TURBIDITY,'',' ',ARD.ITEM_TURBIDITY),',','') AS ITEM_TURBIDITY /* 탁도 */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_MICROCYSTIS,'',' ',ARD.ITEM_BGA_MICROCYSTIS),',','') AS ITEM_BGA_MICROCYSTIS /* 측정값(남조류 Microcystis) */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_ANABAENA,'',' ',ARD.ITEM_BGA_ANABAENA),',','') AS ITEM_BGA_ANABAENA /* 남조류 Anabaena */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_OSILLATORIA,'',' ',ARD.ITEM_BGA_OSILLATORIA),',','') AS ITEM_BGA_OSILLATORIA /* 남조류 Osillatoria */ 
+                                ,REPLACE(DECODE(ARD.ITEM_BGA_APHANIZOMENON,'',' ',ARD.ITEM_BGA_APHANIZOMENON),',','') AS ITEM_BGA_APHANIZOMENON /* 남조류 Aphanizomenon */ 
                             FROM AG_RWMDTI_DAY_V_C_KRF ARD /* 친수활동구간 */
                        ) A
                  WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> /* 지점코드 */
