@@ -268,7 +268,7 @@ UNION ALL
         , DECODE(WMWK,'1','상반기','2','하반기') AS WMWK
         , WMOM, WMOD, WMCTM 
         , MCNT
-        , ${selectItem} AS ITEM_NAME
+        , '${selectItem}' AS ITEM_NAME
         , ${selectItem} AS ITEM_VALUE
           FROM (		
                 SELECT * FROM(		
