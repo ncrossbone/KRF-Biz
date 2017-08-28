@@ -12,7 +12,13 @@ mybatis:
     lazyLoadingEnabled: true
     aggressiveLazyLoading: false
     mapUnderscoreToCamelCase: true
-    
+     
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.ce.krf.biz.controller: DEBUG
+    com.spring.mybatis : DEBUG
+    com.ce.krf : DEBUG
     
 ---
 spring:
@@ -59,9 +65,9 @@ spring:
       request-timeout: 60000
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@10.101.95.15:31521:weis
-    username: water
-    password: water123
+    url: jdbc:oracle:thin:@10.101.95.15:51521:weis
+    username: WATER
+    password: WATER123
     tomcat:
       max-idle: 30
       min-idle: 1
@@ -93,7 +99,7 @@ spring:
       request-timeout: 60000
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@2.2.2.69:1521:KRF_DB
+    url: jdbc:oracle:thin:@2.2.2.69:1521:KRFDB
     username: water 
     password: water123
     tomcat:
