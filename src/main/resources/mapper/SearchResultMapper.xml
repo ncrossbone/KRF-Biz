@@ -5153,9 +5153,11 @@ ORDER BY PT_NO, WMCYMD DESC
 		 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</if>
 	<if test="gubun == 2">
-		SELECT MAX (WMCYMD) AS WMCYMD
-		  FROM AG_RWMDTI_DAY_V_KRF
-		 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>		
+		SELECT MAX(WMCYMD) AS WMCYMD FROM (
+             SELECT WMCYMD , PT_NO FROM AG_RWMDTI_DAY_V_KRF
+             UNION
+             SELECT WMCYMD , PT_NO FROM AG_RWMDTI_DAY_V_C_KRF
+         ) WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>		
 	</if>
 </select>
 
