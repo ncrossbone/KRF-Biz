@@ -15,6 +15,7 @@ public interface SearchResultMapper {
 	//수질자동측정지점 - 사업장TMS 최근날짜
 	public List searchResult_B_getDate(SearchResultVO param);
 	
+	public List searchResult_B001_getDate(SearchResultVO param);
 	//수질자동측정지점 - 사업장TMS
 	public List searchResult_B001(SearchResultVO param);
 	

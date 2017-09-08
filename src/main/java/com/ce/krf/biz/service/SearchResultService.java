@@ -961,17 +961,30 @@ public class SearchResultService {
 	}
 
 	// 수질자동측정지점 - 수질자동측정지점 미확정 GROUP CODE : B
-	public List searchResult_B001(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
-
-		List result = searchResultMapper.searchResult_B001(param);
+	public HashMap searchResult_B001(SearchResultVO param) throws Exception {
+		HashMap result = new HashMap();
+		List resultList = null;
+		
+		if ("noDate".equals(param.getFirstSearch())) {
+			resultList = searchResultMapper.searchResult_B001_getDate(param);
+		}else {
+			resultList = searchResultMapper.searchResult_B001(param);
+		}
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		
 		return result;
 	}
 
 	// 수질자동측정지점 - 수질자동측정지점 확정 GROUP CODE : B
 	public List searchResult_B001_Fix(SearchResultVO param) throws Exception {
-		param.setSiteIds(param.getSiteId().replaceAll("'", "").split(","));
-
+		
 		List result = searchResultMapper.searchResult_B001_Fix(param);
 		return result;
 	}

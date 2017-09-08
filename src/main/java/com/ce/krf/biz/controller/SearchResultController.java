@@ -55,9 +55,8 @@ public class SearchResultController extends BaseController{
 	// 수질자동측정지점 - 수질자동측정지점 미확정 GROUP CODE : B
 	@RequestMapping(value = "/searchResult_B001", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
 	public String searchResult_B001(@ModelAttribute SearchResultVO param) {
-		HashMap result = new HashMap();
 		try {
-			result.put("data", searchResultService.searchResult_B001(param));
+			HashMap result = (searchResultService.searchResult_B001(param));
 			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

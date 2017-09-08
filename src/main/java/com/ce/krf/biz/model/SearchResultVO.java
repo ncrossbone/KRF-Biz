@@ -8,6 +8,7 @@ public class SearchResultVO {
 	private String startFull = "";
 	private String endFull = "";
 	
+	private String con = "";
 	
 	private String catDid = "";
 	private String[] catDids = null;
@@ -134,6 +135,13 @@ public class SearchResultVO {
 			}
 		}
 	}
+	public String getCon() {
+		return con;
+	}
+	public void setCon(String con) {
+		this.con = con;
+	}
+	
 	
 	
 }
