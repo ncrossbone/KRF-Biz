@@ -1000,13 +1000,15 @@ ORDER BY PT_NO, RN, RN_2 DESC
     
     <select id="searchResult_B001_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
     	<if test="con == 01">
-	    	SELECT MAX(SUBSTR(MSR_DATE,1,10)) AS WMCYMD 
-	    		FROM  FIVEDATA_TB 
-	    	  WHERE SITE_ID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    	SELECT  /*+ INDEX_DESC(FIVEDATA_TB, IDX_FIVEDATA_02) */ 
+                             SUBSTR(MAX(MSR_DATE), 1,10) AS WMCYMD 
+                    FROM   FIVEDATA_TB
+              WHERE SITE_ID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	    	  AND MSR_DATE IS NOT NULL
     	</if>
     	<if test="con == 02">
-    		SELECT MAX(SUBSTR(MSR_DATE,1,6)) AS WMCYMD 
+    		SELECT /*+ INDEX_DESC(MAN_FIVEDATA_TB, IDX_MAN_FIVEDATA_02) */ 
+                             SUBSTR(MAX(MSR_DATE), 1,10) AS WMCYMD 
     			FROM MAN_FIVEDATA_TB 
     		  WHERE SITE_ID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
     		  AND MSR_DATE IS NOT NULL
