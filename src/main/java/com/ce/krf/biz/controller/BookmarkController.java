@@ -38,7 +38,10 @@ public class BookmarkController extends BaseController {
 	
 	@RequestMapping(value = "/putBookmark", method = RequestMethod.POST)
 	public String putBookmark(@RequestParam String param, @RequestParam String userId) {
-		return bookmarkService.putBookmark(param,userId);
+		HashMap insertParam = new HashMap<String, Object>();
+		insertParam.put("param", param);
+		insertParam.put("userId", userId);
+		return bookmarkService.putBookmark(insertParam);
 	}
 	
 	@RequestMapping(value = "/deleteBookmark", method = RequestMethod.POST)

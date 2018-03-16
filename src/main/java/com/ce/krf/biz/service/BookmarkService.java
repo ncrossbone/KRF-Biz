@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ce.krf.biz.mapper.BookmarkMapper;
-import com.ce.krf.biz.model.BookmarkVO;
-
 
 @Component
 public class BookmarkService {
@@ -26,8 +24,8 @@ public class BookmarkService {
 		return res;
 	}
 	
-	public String putBookmark(String param, String userId) {
-		return bookmarkMapper.putBookmark(param,userId)+"";
+	public String putBookmark(HashMap<String, Object> param) {
+		return bookmarkMapper.putBookmark(param)+"";
 	}
 	
 	public String deleteBookmark(String userId, String sn) {
