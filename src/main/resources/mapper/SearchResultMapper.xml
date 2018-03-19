@@ -6388,4 +6388,35 @@ ORDER  BY NO_1,
 	
 </select>
 
+
+ <select id="searchMeasuredValue" parameterType="String" resultType="hashmap">
+        SELECT A.PT_NO AS "ptNo"
+		     , A.WMYMD AS "wmymd"
+		     , CASE WHEN SUBSTR(BOD ,1,1) = '.' THEN '0'||BOD  ELSE BOD  END AS "bod" 
+		     , CASE WHEN SUBSTR(DOC ,1,1) = '.' THEN '0'||DOC  ELSE DOC  END AS "doc 
+		     , CASE WHEN SUBSTR(COD ,1,1) = '.' THEN '0'||COD  ELSE COD  END AS "cod" 
+		     , CASE WHEN SUBSTR(TN  ,1,1) = '.' THEN '0'||TN   ELSE TN   END AS "tn"  
+		     , CASE WHEN SUBSTR(TP  ,1,1) = '.' THEN '0'||TP   ELSE TP   END AS "tp"  
+		     , CASE WHEN SUBSTR(TEMP,1,1) = '.' THEN '0'||TEMP ELSE TEMP END AS "temp"
+		     , CASE WHEN SUBSTR(PH  ,1,1) = '.' THEN '0'||PH   ELSE PH   END AS "ph"  
+		     , CASE WHEN SUBSTR(SS  ,1,1) = '.' THEN '0'||SS   ELSE SS   END AS "ss"  
+		     , CASE WHEN SUBSTR(CLOA,1,1) = '.' THEN '0'||CLOA ELSE CLOA END AS "cloa"
+		     , CASE WHEN SUBSTR(TOC ,1,1) = '.' THEN '0'||TOC  ELSE TOC  END AS "toc"  
+		  FROM (SELECT A.PT_NO, MAX(WMYMD) AS WMYMD
+		          FROM RWMDTD A
+		             , RWMDTI B
+		         WHERE A.PT_NO = B.PT_NO
+		           AND A.WMYR = B.WMYR
+		           AND A.WMOD = B.WMOD
+		           AND A.WMWK = B.WMWK
+		           AND B.ITEM_BOD||B.ITEM_COD IS NOT NULL
+		         GROUP BY A.PT_NO
+		       ) A
+		     , CE_RWMDTI_DAY_V B
+		 WHERE A.PT_NO = B.PT_NO
+		   AND A.WMYMD = B.WMYMD
+		   AND SUBSTR(A.PT_NO,5,1) = #{type}
+		 ORDER BY PT_NO, WMYMD;
+    </select>
+ 
 </mapper>
