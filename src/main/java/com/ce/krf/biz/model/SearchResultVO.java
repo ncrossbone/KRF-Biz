@@ -1,7 +1,14 @@
 package com.ce.krf.biz.model;
 
-public class SearchResultVO {
+import java.io.Serializable;
+
+public class SearchResultVO implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5947786358108450238L;
+
 	private String year = "";
 	
 	//수질자동측정지점 미확정 / 확정 날짜

@@ -1,5 +1,6 @@
 package com.ce.krf.biz.service;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +15,12 @@ import com.ce.krf.biz.mapper.SearchResultMapper;
 import com.ce.krf.biz.model.SearchResultVO;
 
 @Component
-public class SearchResultService {
+public class SearchResultService implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5081907690257345305L;
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
@@ -1109,6 +1115,22 @@ public class SearchResultService {
 		result.put("data", resultList);
 		return result;
 	}
+	public HashMap searchMeasuredValue(String type) throws Exception {
+		HashMap result = new HashMap();
+		
+		List resultList = searchResultMapper.searchMeasuredValue(type);
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
+	
+	
 
 	/*// 부하량 - 표준유역단위
 	public List searchResult_PollLoad_Standard(SearchResultVO param) throws Exception {

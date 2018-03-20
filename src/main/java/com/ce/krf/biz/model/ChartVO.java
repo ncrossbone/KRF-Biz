@@ -1,6 +1,13 @@
 package com.ce.krf.biz.model;
 
-public class ChartVO {
+import java.io.Serializable;
+
+public class ChartVO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5273705657731656135L;
+
 	private String recordId;
 	
 	private String parentId;

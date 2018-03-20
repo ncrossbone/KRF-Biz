@@ -1,5 +1,7 @@
 package com.ce.krf;
 
+import java.io.Serializable;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
@@ -9,11 +11,16 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  
 @SpringBootApplication
 @MapperScan("com.ce.krf.biz.mapper")
-public class KrfBizApplication extends SpringBootServletInitializer {
+public class KrfBizApplication extends SpringBootServletInitializer implements Serializable{
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4259370242342246524L;
+
+	@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-    	application.bannerMode(Banner.Mode.OFF);
+//    	application.bannerMode(Banner.Mode.OFF);
         return application.sources(KrfBizApplication.class);
     }
 //    @Bean

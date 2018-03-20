@@ -1,6 +1,7 @@
 package com.ce.krf.biz.service;
 
 import java.io.File;
+import java.io.Serializable;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -28,7 +29,12 @@ import com.ce.krf.biz.util.HTTPConnector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
-public class CommonService {
+public class CommonService implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8037636886071354336L;
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired

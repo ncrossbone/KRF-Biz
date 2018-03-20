@@ -1,7 +1,14 @@
 package com.ce.krf.biz.model;
 
-public class ClickLogVO {
+import java.io.Serializable;
 
+public class ClickLogVO implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7356550740333992167L;
+	
 	private String ip = null;
 	private String type = null;
 	private String node = null;

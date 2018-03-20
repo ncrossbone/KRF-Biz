@@ -1,10 +1,16 @@
 package com.ce.krf.biz.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SampleVO {
+public class SampleVO implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7467050765108665513L;
 
 	private String gubun = null;
 	

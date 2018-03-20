@@ -1,12 +1,11 @@
 package com.ce.krf.biz.service;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,13 @@ import com.ce.krf.biz.mapper.ChartMapper;
 import com.ce.krf.biz.model.ChartVO;
 
 @Component
-public class ChartService {
+public class ChartService implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5808553354195495995L;
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired

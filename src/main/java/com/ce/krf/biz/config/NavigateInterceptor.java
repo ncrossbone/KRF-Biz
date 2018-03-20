@@ -1,5 +1,7 @@
 package com.ce.krf.biz.config;
 
+import java.io.Serializable;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,8 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-public class NavigateInterceptor implements HandlerInterceptor {
+public class NavigateInterceptor implements HandlerInterceptor, Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3957522396041505606L;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
     @Override

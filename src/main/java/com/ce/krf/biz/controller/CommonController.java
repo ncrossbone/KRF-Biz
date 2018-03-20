@@ -1,5 +1,6 @@
 package com.ce.krf.biz.controller;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,12 @@ import com.ce.krf.biz.service.CommonService;
  */
 @RestController
 @RequestMapping("/common")
-public class CommonController extends BaseController {
+public class CommonController extends BaseController implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2560335239075758368L;
+
 	private final Logger logger = LoggerFactory.getLogger(KrfBizApplication.class);
 
 	@Autowired

@@ -1,8 +1,7 @@
 package com.ce.krf.biz.controller;
 
+import java.io.Serializable;
 import java.util.HashMap;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RestController
 @RequestMapping("/drone")
-public class DroneController extends BaseController {
+public class DroneController extends BaseController implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7817942448312951125L;
+
 	private final Logger logger = LoggerFactory.getLogger(KrfBizApplication.class);
 
 	@Autowired

@@ -1,13 +1,11 @@
 package com.ce.krf.biz.controller;
 
+import java.io.Serializable;
 import java.util.HashMap;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +18,12 @@ import com.ce.krf.biz.service.ChartService;
 
 @RestController
 @RequestMapping("/chart")
-public class ChartController extends BaseController {
+public class ChartController extends BaseController implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1194929585305909920L;
+
 	private final Logger logger = LoggerFactory.getLogger(KrfBizApplication.class);
 
 	@Autowired
@@ -32,8 +35,8 @@ public class ChartController extends BaseController {
 			return getEuckrString((HashMap) chartService.getRWMDT(param.getRecordId() , param.getParentId()), false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return "error";
+			logger.error("[CHART]----------"+e.getStackTrace());
+			return e.getMessage();
 		}
 	}
 
@@ -46,7 +49,7 @@ public class ChartController extends BaseController {
 			// TODO Auto-generated catch block
 			logger.error("[CHART]----------"+e.getStackTrace());
 //			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return "error";
+			return e.getMessage();
 		}
 	}
 }

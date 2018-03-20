@@ -1,5 +1,6 @@
 package com.ce.krf.biz.base;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class BaseController {
+public class BaseController implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3605564564425273399L;
 
 	@Autowired
 	public HttpServletRequest request;

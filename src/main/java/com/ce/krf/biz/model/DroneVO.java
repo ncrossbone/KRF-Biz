@@ -1,7 +1,14 @@
 package com.ce.krf.biz.model;
 
-public class DroneVO {
+import java.io.Serializable;
 
+public class DroneVO implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3206414062504522467L;
+	
 	private String[] siteCodes = null;
 	private String measureDate = null;
 	private String layerDate = null;
