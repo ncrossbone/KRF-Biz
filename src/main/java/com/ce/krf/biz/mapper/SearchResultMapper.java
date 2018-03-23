@@ -2,6 +2,8 @@ package com.ce.krf.biz.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ce.krf.biz.model.SearchResultVO;
 
 public interface SearchResultMapper {
@@ -90,5 +92,6 @@ public interface SearchResultMapper {
 	public List searchResult_PollLoad_Cat_Detail(SearchResultVO param);
 	
 	public List searchResult_A_getDate(SearchResultVO param);
-
+	
+	public List searchMeasuredValue(String type);
 }
