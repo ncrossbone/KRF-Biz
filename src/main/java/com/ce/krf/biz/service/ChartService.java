@@ -23,7 +23,6 @@ public class ChartService {
 	@Autowired
 	public ChartMapper chartMapper;
 	
-	
 	public HashMap getRWMDT(String recordId,String parentId) {
 		HashMap res = new HashMap<String, Object>();
 		res.put("data", chartMapper.getRWMDT(recordId ,parentId));

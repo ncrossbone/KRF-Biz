@@ -90,5 +90,26 @@ public interface SearchResultMapper {
 	public List searchResult_PollLoad_Cat_Detail(SearchResultVO param);
 	
 	public List searchResult_A_getDate(SearchResultVO param);
+	
+	public List sstg(SearchResultVO param);
+	
+	
+	
+	public List searchSstg_getDate(SearchResultVO param);
+	
+	//수생태계 하구
+	public List searchSstgHgAtalSe(SearchResultVO param); // 돌착말류
+	public List searchSstgHgBemaSe(SearchResultVO param); // 저서성대형무척추동물
+	public List searchSstgHgFishSe(SearchResultVO param); // 어류
+	public List searchSstgHgVtnSe(SearchResultVO param); // 식생
+	
+	//수생태계 하천
+	public List searchSstgHcAtalSe(SearchResultVO param); // 돌착말류
+	public List searchSstgHcBemaSe(SearchResultVO param); // 저서성대형무척추동물
+	public List searchSstgHcFishSe(SearchResultVO param); // 어류
+	public List searchSstgHcQltwtrSe(SearchResultVO param); // 서식 및 수변환경
+	public List searchSstgHcInhaSe(SearchResultVO param); // 수질
+	public List searchSstgHcVtnSe(SearchResultVO param); // 수변 식생
+	
 
 }

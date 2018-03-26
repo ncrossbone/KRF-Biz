@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.ce.krf.biz.mapper.SearchResultMapper;
 import com.ce.krf.biz.model.SearchResultVO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class SearchResultService {
@@ -20,6 +22,16 @@ public class SearchResultService {
 	@Autowired
 	public SearchResultMapper searchResultMapper;
 
+	
+	public HashMap searchSstg(SearchResultVO param) throws Exception{
+		
+		HashMap result = new HashMap();
+		List resultList = null;
+		resultList = searchResultMapper.sstg(param);
+		result.put("data", resultList);
+		return result;
+	}
+	
 	// 수질측정지점 LAYER CODE : A
 	public HashMap searchResult_A(SearchResultVO param) throws Exception {
 
@@ -967,6 +979,10 @@ public class SearchResultService {
 		
 		if ("noDate".equals(param.getFirstSearch())) {
 			resultList = searchResultMapper.searchResult_B001_getDate(param);
+			ObjectMapper om = new ObjectMapper(); 
+			String arrStr = om.writeValueAsString(resultList);
+			
+			logger.info(arrStr);
 		}else {
 			resultList = searchResultMapper.searchResult_B001(param);
 		}
@@ -1107,6 +1123,35 @@ public class SearchResultService {
 			resultList.add(nullMgs);
 		}
 		result.put("data", resultList);
+		return result;
+	}
+	
+	// 수생태계
+	public HashMap searchSstg(String gubun, SearchResultVO param) throws Exception {
+		HashMap result = new HashMap();
+		List resultList = null;
+		
+		if ("noDate".equals(param.getFirstSearch())) {
+			param.setGubun(gubun);
+			resultList = searchResultMapper.searchSstg_getDate(param);
+			ObjectMapper om = new ObjectMapper(); 
+			String arrStr = om.writeValueAsString(resultList);
+			
+			logger.info(arrStr);
+		}else {
+			Method method = searchResultMapper.getClass().getMethod("searchSstg" + gubun, SearchResultVO.class);
+			resultList = (List) method.invoke(searchResultMapper, param);
+			//resultList = searchResultMapper.searchSstgHgAtalSe(param);
+		}
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		
 		return result;
 	}
 

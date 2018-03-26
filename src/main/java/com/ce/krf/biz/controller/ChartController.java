@@ -25,7 +25,8 @@ public class ChartController extends BaseController {
 
 	@Autowired
 	public ChartService chartService;
-
+	
+	
 	@RequestMapping(value = "/getRWMDT", produces = "text/html; charset=euc-kr")
 	public String getRWMDT(@ModelAttribute ChartVO param) {
 		try {

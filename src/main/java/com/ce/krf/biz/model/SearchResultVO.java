@@ -25,6 +25,8 @@ public class SearchResultVO {
 	private String endMonth = "";
 	private String endDay = "";
 	
+	private String comboValue = "";
+	
 	
 	
 	
@@ -62,7 +64,12 @@ public class SearchResultVO {
 		this.year = year;
 	}
 	
-	
+	public String getComboValue() {
+		return comboValue;
+	}
+	public void setComboValue(String comboValue) {
+		this.comboValue = comboValue;
+	}
 	
 	
 	public String getSiteId() {

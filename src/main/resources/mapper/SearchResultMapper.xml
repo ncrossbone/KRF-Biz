@@ -15,6 +15,949 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.SearchResultMapper">
+
+	<select id="sstg" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT SE, SPOT_CODE ,SPOT_NM, ATAL_SE, BEMA_SE, FISH_SE, VTN_SE, INHA_SE, QLTWTR_SE 
+			FROM TAE_SPOT_SE
+		  WHERE SPOT_CODE IN 
+		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	
+	<select id="searchSstg_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	
+	<if test="gubun == 'HgAtalSe' ">
+		SELECT MAX(EXAMIN_YEAR||'.'||EXAMIN_TME) AS WMCYMD  
+			FROM V_AEMES_ATAL_ACPEXM
+		  WHERE EXBF_CD IN 
+		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+  	</if>
+  	<if test="gubun == 'HgBemaSe' ">
+	  	SELECT MAX(EXAMIN_YEAR||'.'||EXAMIN_TME) AS WMCYMD  
+			FROM V_AEMES_ATAL_ACPEXM
+		  WHERE EXBF_CD IN 
+		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+  	</if>
+  	<if test="gubun == 'HgFishSe' ">
+	  	SELECT MAX (EXAMIN_YEAR || '.' || EXAMIN_TME) AS WMCYMD
+  			FROM V_AEMES_FISH_ACPEXM
+		  WHERE EXBF_CD IN 
+		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+  	</if>
+  	<if test="gubun == 'HgVtnSe' ">
+	  	SELECT MAX(EXAMIN_YEAR||'.'||EXAMIN_TME) AS WMCYMD  
+			FROM V_AEMES_ATAL_ACPEXM
+		  WHERE EXBF_CD IN 
+		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+  	</if>
+  	
+  	<if test="gubun == 'HcAtalSe' ">
+  		<if test="comboValue == 1 ">
+  			SELECT MAX(A.YEAR||'.'||A.TME) AS WMCYMD 
+		    FROM V_AEMRV_ATAL_ACPEXM A, V_AEMRV_ATAL_ANALY B
+		  WHERE A.SPOT_CODE = B.SPOT_CODE
+		   AND A.YEAR = B.YEAR
+		   AND A.TME = B.TME
+		  AND A.SPOT_CODE IN 
+		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+  		</if>
+  		
+  		<if test="comboValue == 2 ">
+  			SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
+    			FROM V_AEMRV_ATAL_SPCS
+    		  WHERE SPOT_CODE IN
+  			<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+  		</if>
+	  	
+  	</if>
+  	
+  	<if test="gubun == 'HcBemaSe' ">
+  		<if test="comboValue == 1 ">
+	  		SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
+	    		FROM V_AEMRV_BEMA_ACPEXM
+	    	  WHERE SPOT_CODE IN
+	  		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+	    <if test="comboValue == 2 ">
+	    
+	    	SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
+   				 FROM V_AEMRV_BEMA_SPCS
+	    	  WHERE SPOT_CODE IN
+	  		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+  	</if>
+  	
+  	<if test="gubun == 'HcFishSe' ">
+  	
+  		<if test="comboValue == 1 ">
+  			SELECT MAX (A.YEAR || '.' || A.TME) AS WMCYMD
+			  FROM V_AEMRV_FISH_ACPEXM A, V_AEMRV_FISH_ANALY B
+			   WHERE A.SPOT_CODE = B.SPOT_CODE
+			  AND A.YEAR = B.YEAR
+			  AND A.TME = B.TME
+			  AND A.SPOT_CODE IN 
+		  	<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+	    <if test="comboValue == 2 ">
+	    	SELECT MAX(YEAR|'.'||TME) AS WMCYMD 
+    			FROM V_AEMRV_FISH_SPCS
+   			  AND SPOT_CODE IN 
+		  	<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+  	
+  	
+  	</if>
+  	
+  	<if test="gubun == 'HcInhaSe' ">
+	SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
+    	FROM V_AEMRV_INHA_ACPEXM
+   	  WHERE SPOT_CODE IN
+      <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+  	</if>
+  	
+  	<if test="gubun == 'HcQltwtrSe' ">
+  	  SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
+   		 FROM V_AEMRV_QLTWTR_DTA
+ 		WHERE SPOT_CODE IN
+        <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+  	</if>
+  	
+  	<if test="gubun == 'HcVtnSe' ">
+  		<if test="comboValue == 1 ">
+  			SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
+		    	FROM V_AEMRV_INHA_ACPEXM
+		   	  WHERE SPOT_CODE IN
+		      <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+	    <if test="comboValue == 2 ">
+	    	SELECT MAX(YEAR||','||TME) AS WMCYMD 
+    			FROM V_AEMRV_VTN_SPCS
+   			  WHERE SPOT_CODE IN
+	          <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+	    <if test="comboValue == 3 ">
+	    	SELECT MAX(YEAR||','||TME) AS WMCYMD 
+     	   FROM V_AEMRV_VTN_AREA
+     	   WHERE SPOT_CODE IN
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    	  
+	    </if>
+	    <if test="comboValue == 4 ">
+	   	   SELECT MAX(YEAR||','||TME) AS WMCYMD 
+	        	FROM V_AEMRV_VTN_SCTN
+	        WHERE SPOT_CODE IN
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+	    
+  		<if test="comboValue == 5 ">
+  		  SELECT MAX(YEAR||','||TME) AS WMCYMD 
+       		 FROM V_AEMRV_VTN_SCTNDTL
+   		  WHERE SPOT_CODE IN
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+	    
+	    <if test="comboValue == 6 ">
+	   	   SELECT MAX(YEAR||','||TME) AS WMCYMD 
+	        FROM V_AEMRV_VTN_SCTNDTL
+	        WHERE SPOT_CODE IN
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+  	
+  	
+  	</if>
+  	
+  	
+  	
+	</select>
+	
+	
+	<select id="searchSstgHgAtalSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT 
+		EXBF_NM
+		,EXBF_CD
+		,EXAMIN_TME
+		,EXAMIN_YEAR
+		,EST_SE_NM
+		,SAREA_NM
+		,AL_NM
+		,WRSSM_NM
+		,AM_CD
+		,AM_NM
+		,EST_NM
+		,EXMEN_CD
+		,EXMEN_NM
+		,EXMNR_NM
+		,EXAMIN_DE
+		,LA_CRDNT
+		,LO_CRDNT
+		,EXMIMP_PTCR_MATT
+		,EXMAT_PTCR_MATT
+		,EXAMIN_TRGET_SE_CD
+		,RIVST_CD
+		,HBTT_SAND_RT
+		,HBTT_PEBB_RT
+		,HBTT_ROCK_RT
+		,HBTT_LP_RT
+		,HBTT_BP_RT
+		,HBTT_ROOT_RT
+		,FLOW_RAPIDS_RT
+		,FLOW_FLOW_RT
+		,FLOW_SMALL_RT
+		,HBTT_CANOPY_RT
+		,HBTT_VECV_RT
+		,SPLORE_COLLT_CD
+		,SPLORE_COLLM_CD
+		,SMPLE_SAND_RT
+		,SMPLE_PEBB_RT
+		,SMPLE_ROCK_RT
+		,SMPLE_LP_RT
+		,SMPLE_BP_RT
+		,SMPLE_ROOT_RT
+		,DCOL_CD
+		,SMELL_CD
+		,SHVE_ABSTRCT_RT
+		,SHVE_SRB_RT
+		,LAD_CTY_RT
+		,LAD_FRT_RT
+		,LAD_FRLND_RT
+		,LAD_PBLCRP_RT
+		,LAD_DC_RT
+		,LAD_STALL_RT
+		,SAND_WASH_RT_CD
+		,BR_SE_CD
+		,BR_DSTNC
+		,BR_QLTWTR_AFFC_YN
+		,ENVRN_BTRV
+		,ENVRN_DPWT
+		,ENVRN_WT
+		,ENVRN_DO
+		,ENVRN_PH
+		,ENVRN_CONDT
+		,ENVRN_NTU
+		,ENVRN_SALT_DO_RT
+		,ENVRN_CHOXDM
+		,ENVRN_TN
+		,ENVRN_TP
+		,NTIPS_PTCR_MATT
+		,NTIPS_DETAIL_CN
+		,NOTI_POSS_PTCR_MATT
+		,LBDY_QY_CHLA
+		,LBDY_QY_AFDM
+		,TOT_INDVD_CO
+		,TDI_LVB_IDEX
+		,TDI_GRAD
+		FROM V_AEMES_ATAL_ACPEXM
+		WHERE EXBF_CD IN
+		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		  AND EXAMIN_YEAR||EXAMIN_TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	</select>
+	
+	<select id="searchSstgHgBemaSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT EXBF_NM,
+		       EXBF_CD,
+		       EXAMIN_TME,
+		       EXAMIN_YEAR,
+		       EST_SE_NM,
+		       SAREA_NM,
+		       AL_NM,
+		       WRSSM_NM,
+		       AM_CD,
+		       AM_NM,
+		       EST_NM,
+		       EXMEN_CD,
+		       EXMEN_NM,
+		       EXMNR_NM,
+		       EXAMIN_DE,
+		       LA_CRDNT,
+		       LO_CRDNT,
+		       EXMIMP_PTCR_MATT,
+		       EXMAT_PTCR_MATT,
+		       WETHER_TMPRT,
+		       WETHER_WT,
+		       SBN30_EXAMIN_CO,
+		       DR_EXAMIN_CO,
+		       POR20_EXAMIN_CO,
+		       SPCS_CO,
+		       INDVD_DN,
+		       SENSP_CO,
+		       SENSP_CO_RATE,
+		       SNTIND_DN_RT,
+		       SNTIND_DN_RATE,
+		       TOESP_CO_RT,
+		       TOESP_CO_RATE,
+		       TOE_INDVD_DN,
+		       TOE_INDVD_DN_RATE,
+		       SNTOSP_CO_RATE,
+		       SNTOIN_DN_RATE,
+		       BKPKSP_CO,
+		       BKPKSP_CO_RATE,
+		       HRSMN_INDDN,
+		       HRSMN_INDDN_RATE,
+		       CLUSTER_DOM_IDEX,
+		       CLUSTER_DIV_IDEX,
+		       CLUSTER_ABNDNC_IDEX,
+		       CLUSTER_EQLTY_IDEX,
+		       M1_SPCS_CO,
+		       M2_INDVD_DN,
+		       M3_SENSP_CO,
+		       M4_SENSP_DN,
+		       M5_BKPKSP_CO,
+		       M6_BKPKSP_DN,
+		       M7_DIV_IDEX,
+		       KEBI_TOTAL,
+		       KEBI_GRAD
+		  FROM V_AEMES_BEMA_ACPEXM
+  		WHERE EXBF_CD IN 
+		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		  AND EXAMIN_YEAR||EXAMIN_TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	</select>
+	
+	<select id="searchSstgHgFishSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT 
+		   EXBF_NM,
+	       EXBF_CD,
+	       EXAMIN_TME,
+	       EXAMIN_YEAR,
+	       EST_SE_NM,
+	       SAREA_NM,
+	       AL_NM,
+	       WRSSM_NM,
+	       AM_CD,
+	       AM_NM,
+	       EST_NM,
+	       EXMEN_CD,
+	       EXMEN_NM,
+	       EXMNR_NM,
+	       EXAMIN_DE,
+	       LA_CRDNT,
+	       LO_CRDNT,
+	       EXMIMP_PTCR_MATT,
+	       EXAMIN_PTCR_MATT,
+	       COLLT_CD,
+	       ABMIND_CO,
+	       M1_DIV_IDEX,
+	       M2_TTERE_CO,
+	       M3_MFERE_CO,
+	       M4_HRERE_CO,
+	       M5_ALERE_CO,
+	       M6_TEERE_RT,
+	       M7_LTRERE_RATE,
+	       M8_ABMIND_RATE,
+	       M1_GRAD,
+	       M2_GRAD,
+	       M3_GRAD,
+	       M4_GRAD,
+	       M5_GRAD,
+	       M6_GRAD,
+	       M7_GRAD,
+	       M8_GRAD,
+	       IBI_IDEX,
+	       IBI_GRAD
+	  FROM V_AEMES_FISH_ACPEXM
+	  	WHERE EXBF_CD IN 
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		AND EXAMIN_YEAR||EXAMIN_TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	</select>
+	
+	<select id="searchSstgHgVtnSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT 
+		   EXBF_NM,
+	       EXBF_CD,
+	       EXAMIN_TME,
+	       EXAMIN_YEAR,
+	       EST_SE_NM,
+	       SAREA_NM,
+	       AL_NM,
+	       WRSSM_NM,
+	       AM_CD,
+	       AM_NM,
+	       EST_NM,
+	       EXMEN_CD,
+	       EXMEN_NM,
+	       EXMNR_NM,
+	       EXAMIN_DE,
+	       LA_CRDNT,
+	       LO_CRDNT,
+	       EXMIMP_PTCR_MATT,
+	       EXAMIN_PTCR_MATT,
+	       EXAMIN_MTH_CD,
+	       M1_LCT_ENVRN,
+	       M5_VTN_DISTRB,
+	       M1_VTNTEL,
+	       M2_VTNTEL,
+	       M3_VTNTEL,
+	       M4_VTNTEL,
+	       M5_VTNTEL,
+	       VTNTEL_IDEX,
+	       VTNTEL_GRAD,
+	       VTSEAR_MV,
+	       VTSEAR_LDPLMY,
+	       VTSEAR_FNPLMY,
+	       VTSEAR_AS,
+	       VTSEAR_WATERS,
+	       VTSEAR_FMLND,
+	       VTSEAR_SM,
+	       VTSEAT_MV,
+	       VTSEAT_LDPLMY,
+	       VTSEAT_FNPLMY,
+	       VTSEAT_AS,
+	       VTSEAT_WATERS,
+	       VTSEAT_FMLND,
+	       VTSEAT_SM,
+	       VTALSE_DMCY_NM,
+	       VTALSE_DMCY_AR
+	  FROM V_AEMES_VTN_ACPEXM
+	  	WHERE EXBF_CD IN 
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		AND EXAMIN_YEAR||EXAMIN_TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	</select>
+	
+	<select id="searchSstgHcAtalSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	<if test="comboValue == 1 ">
+	SELECT
+		A.YEAR
+		, A.TME
+		, A.SPOT_CODE
+		, A.SPOT_NM
+		, A.WRSSM_NM
+		, A.WRSSM_CODE
+		, A.DETAIL_WRSSM_NM
+		, A.MDT_NM
+		, A.MDT_CODE
+		, A.SDT_NM
+		, A.RIVER_NM
+		, A.BSTRM_SE
+		, A.LA
+		, A.LO
+		, A.DE
+		, A.WETHR_SE
+		, A.EXAMIN_INSTT_NM
+		, A.EXMNR_NM
+		, A.RIVER_STLE_SE
+		, A.HBTT_SAND_RT
+		, A.HBTT_PEBB_RT
+		, A.HBTT_ROCK_RT
+		, A.HBTT_LP_RT
+		, A.HBTT_BP_RT
+		, A.HBTT_ROOT_RT
+		, A.HBTT_RAP_RT
+		, A.HBTT_FLOW_RT
+		, A.HBTT_POND_RT
+		, A.HBTT_CNPY_RT
+		, A.HBTT_VEGCOV_RT
+		, A.SMPLE_COLCT_UNT
+		, A.SMPLE_COLCT_MTH
+		, A.SMPLE_SAND_RT
+		, A.SMPLE_PEBB_RT
+		, A.SMPLE_ROCK_RT
+		, A.SMPLE_LP_RT
+		, A.SMPLE_BP_RT
+		, A.SMPLE_ROOT_RT
+		, A.RE_DCOL_SE
+		, A.RE_SMELL_SE
+		, A.RE_HRB_RT
+		, A.RE_SRB_RT
+		, A.RE_CTY_RT
+		, A.RE_FRT_RT
+		, A.RE_FRLND_RT
+		, A.RE_ISRLPX_RT
+		, A.RE_DRDG_RT
+		, A.RE_STALL_RT
+		, A.RE_WASH_SE
+		, A.BRRER_LC_SE
+		, A.BRRER_GAP_DSTNC
+		, A.BRRER_AFWQ_SE
+		, A.ENVFTR_BTRV
+		, A.ENVFTR_DPWT
+		, A.ENVFTR_WTRTP
+		, A.ENVFTR_DOC
+		, A.ENVFTR_PH
+		, A.ENVFTR_EC
+		, A.ENVFTR_TUR
+		, A.CLIMP_PARTCLR_MATTER
+		, A.CLIMP_DETAIL_CN
+		, A.CLPSS_PARTCLR_MATTER
+		, B.CHLA_QY
+		, B.AFDM_QY
+		, B.TOT_CELL_DN
+		, B.TOT_SPCS_CO
+		, B.DKPAR_SCNCENM
+		, B.DKPAR_CELL_DN
+		, B.DKPAR_PARTN_DN
+		, B.KSP_CO
+		, B.KSP_RT
+		, B.KSP_CELL_DN
+		, B.KSP_PARTN_DN
+		, B.PSP_CO
+		, B.PSP_RT
+		, B.PSP_CELL_DN
+		, B.PSP_PARTN_DN
+		, B.RIC_IDEX
+		, B.LPRSP_CN
+		, B.EXO_CN
+		, B.TDI
+		, B.HEALTH_GRAD
+		 FROM V_AEMRV_ATAL_ACPEXM A, V_AEMRV_ATAL_ANALY B
+		WHERE A.SPOT_CODE = B.SPOT_CODE
+            AND A.YEAR = B.YEAR
+            AND A.TME = B.TME
+            AND A.SPOT_CODE IN 
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		AND A.YEAR||A.TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	</if>
+	
+	<if test="comboValue == 2 ">
+		SELECT SPOT_CODE,
+	       SPOT_NM,
+	       YEAR,
+	       TME,
+	       SPCS_CODE,
+	       SCNCENM,
+	       KORNM,
+	       CELL_CO,
+	       KLYS_IDEX,
+	       KLYV_IDEX,
+	       WATX_IDEX,
+	       WATP_IDEX
+	  FROM V_AEMRV_ATAL_SPCS
+	WHERE SPOT_CODE IN
+	  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	</if>
+	
+	</select>
+	
+	
+	<select id="searchSstgHcBemaSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	    <if test="comboValue == 1 ">
+		    SELECT 
+		       YEAR,
+		       TME,
+		       SPOT_CODE,
+		       SPOT_NM,
+		       WRSSM_NM,
+		       WRSSM_CODE,
+		       DETAIL_WRSSM_NM,
+		       MDT_NM,
+		       MDT_CODE,
+		       SDT_NM,
+		       RIVER_NM,
+		       BSTRM_SE,
+		       LA,
+		       LO,
+		       DE,
+		       WETHR_SE,
+		       EXAMIN_INSTT_NM,
+		       EXMNR_NM,
+		       TMPRT,
+		       WTRTP,
+		       SBN30_EXAMIN_CO,
+		       SBN50_EXAMIN_CO,
+		       DR_EXAMIN_CO,
+		       EK_EXAMIN_CO,
+		       DRGUSE_MTST_AT,
+		       DRGUSE_FORAGE_AT,
+		       DRGUSE_VILAGE_AT,
+		       DRGUSE_SOPSRT_AT,
+		       DRGUSE_FRLND_AT,
+		       DRGUSE_FCTRY_AT,
+		       DRGUSE_RESIDE_AT,
+		       DRGUSE_ETC_AT,
+		       DRGUSE_ETC_CN,
+		       POLTNSRC_LVSEWG_AT,
+		       POLTNSRC_LSKR_AT,
+		       POLTNSRC_WSTR_AT,
+		       POLTNSRC_ETC_AT,
+		       POLTNSRC_ETC_CN,
+		       RE_VTN_TRE_RT,
+		       RE_VTN_SRB_RT,
+		       RE_VTN_HRB_RT,
+		       RE_CNPY_SE,
+		       RE_FLD_USE_SE,
+		       RE_LFTBNK_NATURE_AT,
+		       RE_LFTBNK_STON_AT,
+		       RE_LFTBNK_GABN_AT,
+		       RE_LFTBNK_CNCRT_AT,
+		       RE_LFTBNK_VERTCL_AT,
+		       RE_RHTBNK_NATURE_AT,
+		       RE_RHTBNK_STON_AT,
+		       RE_RHTBNK_GABN_AT,
+		       RE_RHTBNK_CNCRT_AT,
+		       RE_RHTBNK_VERTCL_AT,
+		       STR_MD_RT,
+		       STR_SAND_RT,
+		       STR_SBAL_RT,
+		       STR_PEBB_RT,
+		       STR_SS_RT,
+		       STR_LS_RT,
+		       RIVER_TY_SE,
+		       BTRV,
+		       WTRBT,
+		       AVRG_DPWT,
+		       AVRG_SPFLD,
+		       RIVER_RAP_RT,
+		       RIVER_FLOW_RT,
+		       RIVER_POND_RT,
+		       TRNSPRC_SE,
+		       SMELL_SE,
+		       CLIMP_PARTCLR_MATTER,
+		       CLIMP_DETAIL_CN,
+		       CLPSS_PARTCLR_MATTER
+		  FROM V_AEMRV_BEMA_ACPEXM
+				WHERE SPOT_CODE IN
+			<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	    </if>
+	    <if test="comboValue == 2 ">
+	    SELECT SPOT_CODE,
+	       SPOT_NM,
+	       YEAR,
+	       TME,
+	       SPCS_CODE,
+	       SCNCENM,
+	       KORNM,
+	       INDVD_CO,
+	       EXO_AT,
+	       ENSPC_1CLS_AT,
+	       ENSPC_2CLS_AT,
+	       OTKCSP_AT,
+	       EPT_AT
+	  FROM V_AEMRV_BEMA_SPCS
+	  WHERE SPOT_CODE IN 
+	    <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	    </if>
+		
+	</select>
+	
+	<select id="searchSstgHcFishSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		<if test="comboValue == 1 ">
+			SELECT
+				A.YEAR,
+				A.TME,
+				A.SPOT_CODE,
+				A.SPOT_NM,
+				A.WRSSM_NM,
+				A.WRSSM_CODE,
+				A.DETAIL_WRSSM_NM,
+				A.MDT_NM,
+				A.MDT_CODE,
+				A.SDT_NM,
+				A.RIVER_NM,
+				A.BSTRM_SE,
+				A.LA,
+				A.LO,
+				A.DE,
+				A.WETHR_SE,
+				A.EXAMIN_INSTT_NM,
+				A.EXMNR_NM,
+				A.RIVER_ODR,
+				A.COLCT_REQRE_TIME,
+				A.COLCT_UNT_SE,
+				A.FLOW_STTUS_SE,
+				A.STR_ROCK_RT,
+				A.STR_CNCRT_RT,
+				A.STR_MD_RT,
+				A.STR_SAND_RT,
+				A.STR_SBAL_RT,
+				A.STR_PEBB_RT,
+				A.STR_SS_RT,
+				A.STR_LS_RT,
+				A.RIVER_STLE_SE,
+				A.FLOW_VE_SE,
+				A.CLIMP_PARTCLR_MATTER,
+				A.CLIMP_DETAIL_CN,
+				A.CLPSS_PARTCLR_MATTER,
+				B.ABNRM_INDVD_CO,
+				B.ABNRM_INDVD_RT,
+				B.UNEVL_M1_PT,
+				B.UNEVL_M2_PT,
+				B.UNEVL_M3_PT,
+				B.UNEVL_M4_PT,
+				B.UNEVL_M5_PT,
+				B.UNEVL_M6_PT,
+				B.UNEVL_M7_PT,
+				B.UNEVL_M8_PT,
+				B.TOT_SPCS_CO,
+				B.TOT_INDVD_CO,
+				B.SSP_CO,
+				B.SSP_RT,
+				B.SSP_INDVD_CO,
+				B.SSP_INDVD_RT,
+				B.TSP_CO,
+				B.TSP_RT,
+				B.TSP_INDVD_CO,
+				B.TSP_INDVD_RT,
+				B.RIC_IDEX,
+				B.DKPAR_KORNM,
+				B.DKPAR_INDVD_CO,
+				B.DKPAR_POSSESN_RT,
+				B.DSP_INDVD_RT,
+				B.RSP_INDVD_RT,
+				B.PSP_INDVD_RT,
+				B.ASP_INDVD_RT,
+				B.FAI,
+				B.HEALTH_GRAD
+				FROM V_AEMRV_FISH_ACPEXM A, V_AEMRV_FISH_ANALY B
+				WHERE A.SPOT_CODE = B.SPOT_CODE
+				AND A.YEAR = B.YEAR
+				AND A.TME = B.TME
+				AND A.SPOT_CODE IN 
+					<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+					AND A.YEAR||A.TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	    </if>
+	    <if test="comboValue == 2 ">
+	    	SELECT SPOT_CODE,
+		       SPOT_NM,
+		       YEAR,
+		       TME,
+		       SPCS_CODE,
+		       SCNCENM,
+		       KORNM,
+		       INDVD_CO,
+		       TOE_CODE,
+		       FED_CODE,
+		       HBTT_CODE,
+		       EXO_AT,
+		       END_AT,
+		       ENSPC_1CLS_AT,
+		       ENSPC_2CLS_AT,
+		       NTRMN_AT
+		  FROM V_AEMRV_FISH_SPCS
+		  AND SPOT_CODE IN 
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    </if>
+	
+	</select>
+	
+	<select id="searchSstgHcInhaSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT 
+	       YEAR,
+	       TME,
+	       SPOT_CODE,
+	       SPOT_NM,
+	       WRSSM_NM,
+	       WRSSM_CODE,
+	       DETAIL_WRSSM_NM,
+	       MDT_NM,
+	       MDT_CODE,
+	       SDT_NM,
+	       RIVER_NM,
+	       BSTRM_SE,
+	       LA,
+	       LO,
+	       DE,
+	       WETHR_SE,
+	       EXAMIN_INSTT_NM,
+	       EXMNR_NM,
+	       RIVER_GRAD,
+	       ALTTD,
+	       RRSMLD_SE,
+	       FILE_NM,
+	       EXIMP_PARTCLR_MATTER,
+	       EXIMP_DETAIL_CN,
+	       EXPSS_PARTCLR_MATTER
+	  FROM V_AEMRV_INHA_ACPEXM
+	  WHERE SPOT_CODE IN
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	</select>
+	
+	<select id="searchSstgHcQltwtrSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT 
+	       YEAR,
+	       TME,
+	       SPOT_CODE,
+	       SPOT_NM,
+	       WTRTP,
+	       DOC,
+	       PH,
+	       EC,
+	       TUR,
+	       BOD,
+	       NH3N,
+	       NO3N,
+	       TN,
+	       PO4P,
+	       TP,
+	       CHLA,
+	       SS,
+	       RM,
+	       DETAIL_MATTER
+	  FROM V_AEMRV_QLTWTR_DTA
+	  WHERE SPOT_CODE IN
+		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	</select>
+	
+	<select id="searchSstgHcVtnSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		<if test="comboValue == 1 ">
+		SELECT 
+	       YEAR,
+	       TME,
+	       SPOT_CODE,
+	       SPOT_NM,
+	       WRSSM_NM,
+	       WRSSM_CODE,
+	       DETAIL_WRSSM_NM,
+	       MDT_NM,
+	       MDT_CODE,
+	       SDT_NM,
+	       RIVER_NM,
+	       BSTRM_SE,
+	       LA,
+	       LO,
+	       DE,
+	       WETHR_SE,
+	       EXAMIN_INSTT_NM,
+	       EXMNR_NM,
+	       RIVER_GRAD,
+	       ALTTD,
+	       RRSMLD_SE,
+	       FILE_NM,
+	       EXIMP_PARTCLR_MATTER,
+	       EXIMP_DETAIL_CN,
+	       EXPSS_PARTCLR_MATTER
+	  FROM V_AEMRV_INHA_ACPEXM
+	   WHERE SPOT_CODE IN
+	   <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	   AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+		
+		
+	    </if>
+	    <if test="comboValue == 2 ">
+	    SELECT SPOT_CODE,
+	       SPOT_NM,
+	       YEAR,
+	       TME,
+	       SPCS_CODE,
+	       SCNCENM,
+	       KORNM,
+	       ERE_AT,
+	       SMLD_ERE_CODE,
+	       GROWFRM_CODE,
+	       NATSPCS_AT,
+	       CULSP_AT,
+	       EXO_AT,
+	       APPN_1_AT,
+	       APPN_2_AT,
+	       TOE_AT,
+	       DIS_AT,
+	       RARSP_AT,
+	       END_AT,
+	       ENSPC_AT
+	  FROM V_AEMRV_VTN_SPCS
+	     WHERE SPOT_CODE IN
+	   <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	   AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+		
+	    
+	    </if>
+		<if test="comboValue == 3 ">
+	    	SELECT SPOT_CODE,
+		       SPOT_NM,
+		       YEAR,
+		       TME,
+		       SPCS_CODE,
+		       SCNCENM,
+		       KORNM,
+		       AR,
+		       SMLD_ERE_CODE,
+		       GROWFRM_CODE,
+		       NATSPCS_AT,
+		       CULSP_AT,
+		       EXO_AT,
+		       APPN_1_AT,
+		       APPN_2_AT,
+		       TOE_AT,
+		       DIS_AT,
+		       RARSP_AT,
+		       END_AT,
+		       ENSPC_AT
+		  FROM V_AEMRV_VTN_AREA
+		  WHERE SPOT_CODE IN
+          <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+          AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	 	  
+		
+	    </if>
+	    <if test="comboValue == 4 ">
+	    	SELECT SPOT_CODE,
+		       SPOT_NM,
+		       YEAR,
+		       TME,
+		       PNTTM_LA,
+		       PNTTM_LO,
+		       TMNL_LA,
+		       TMNL_LO,
+		       LC,
+		       PNTTM_ANGLE,
+		       PNTTM_TARGT,
+		       FRCE_RVSTRCT_SE,
+		       FRCE_DSTRB_SE,
+		       PRLL_LFTBNK_SE,
+		       PRLL_RHTBNK_SE,
+		       EXIMP_PARTCLR_MATTER
+		  FROM V_AEMRV_VTN_SCTN
+		  WHERE SPOT_CODE IN
+          <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	    
+	    </if>
+  		<if test="comboValue == 5 ">
+  		
+  		SELECT SPOT_CODE,
+	       SPOT_NM,
+	       YEAR,
+	       TME,
+	       SCTN_NO,
+	       DSTNC,
+	       ANGLE,
+	       PARTN_HG,
+	       DPWT,
+	       RVSHP_MTRQLT,
+	       BRGRD_SE,
+	       COMM,
+	       TRE_HG,
+	       TRE_CV,
+	       ARBSC_HG,
+	       ARBSC_CV,
+	       SRB_HG,
+	       SRB_CV,
+	       HRB_HG,
+	       HRB_CV
+	  FROM V_AEMRV_VTN_SCTNDTL
+	   WHERE SPOT_CODE IN
+          <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+  		
+	    </if>
+	    <if test="comboValue == 6 ">
+	    
+	    SELECT SPOT_CODE,
+		       SPOT_NM,
+		       YEAR,
+		       TME,
+		       SCTN_NO,
+		       SPCS_CODE,
+		       SCNCENM,
+		       KORNM,
+		       DOM_IDEX
+		  FROM V_AEMRV_VTN_SCTNDOM
+		  WHERE SPOT_CODE IN
+	          <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+  		
+	    
+	    </if>
+	
+	
+
+	</select>
+	
+	
+	
+	
     <select id="searchResult_A" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
     SELECT /* KRF-BIZ.SearchResultMapper.searchResult_A */
          RN,
@@ -1000,20 +1943,20 @@ ORDER BY PT_NO, RN, RN_2 DESC
     
     <select id="searchResult_B001_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
     	<if test="con == 01">
-	    	SELECT /*+ INDEX_DESC(F IDX_FIVEDATA_02) */ 
-                    SUBSTR(MAX(MSR_DATE), 1,10) AS WMCYMD 
+	    	 SELECT SUBSTR(MAX(MSR_DATE), 1,10) AS "WMCYMD" 
                FROM FIVEDATA_TB F
               WHERE SITE_ID  IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>              
-                AND MSR_DATE IS NOT NULL 
+                AND MSR_DATE IS NOT NULL
                 AND ROWNUM = 1
+           ORDER BY MSR_DATE DESC
     	</if>
     	<if test="con == 02">
-    		SELECT /*+ INDEX_DESC(MAN_FIVEDATA_TB, IDX_MAN_FIVEDATA_03) */ 
-                             SUBSTR(MAX(MSR_DATE), 1,10) AS WMCYMD 
-    			FROM MAN_FIVEDATA_TB 
+    		 SELECT SUBSTR(MAX(MSR_DATE), 1,10) AS "WMCYMD" 
+    	       FROM MAN_FIVEDATA_TB 
     		  WHERE SITE_ID IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
-    		  AND MSR_DATE IS NOT NULL
-    		  AND ROWNUM =  1
+    		    AND MSR_DATE IS NOT NULL
+    		    AND ROWNUM = 1
+    	   ORDER BY MSR_DATE DESC
     	</if>
     </select>
     

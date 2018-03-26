@@ -25,7 +25,7 @@
     	  AND GUBUN = #{parentId}
     	  </if>
     </select>
-    
+        
     <select id="getRWMDTSelectA" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
 	     WITH TMP_TBL AS (
 	    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelectA */
