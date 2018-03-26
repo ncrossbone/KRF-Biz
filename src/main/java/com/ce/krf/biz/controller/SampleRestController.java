@@ -1,6 +1,7 @@
 package com.ce.krf.biz.controller;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,12 @@ import com.ce.krf.biz.service.SampleService;
  */
 @RestController
 @RequestMapping("/biz")
-public class SampleRestController extends BaseController {
+public class SampleRestController extends BaseController implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3277995675859719821L;
 
 	private final Logger logger = LoggerFactory.getLogger(KrfBizApplication.class);
 

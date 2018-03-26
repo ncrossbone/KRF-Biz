@@ -3,6 +3,7 @@ package com.ce.krf.biz.service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -23,8 +24,13 @@ import com.ce.krf.biz.model.SampleVO;
 
 // @Component 어노테이션 해야 Autowired 를 하여 사용 할 수 있다.
 @Component
-public class SampleService {
+public class SampleService implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3275049531597082776L;
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired

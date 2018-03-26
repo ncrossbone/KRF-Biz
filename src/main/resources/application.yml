@@ -29,7 +29,8 @@ spring:
       suffix: .jsp
     async:
       request-timeout: 60000
-  datasource:
+  datasource: 
+  #jndi-name: krf_db 
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@112.217.167.123:31521:orcl
     username: WATER
@@ -65,7 +66,7 @@ spring:
       request-timeout: 60000
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@10.101.95.15:51521:weis
+    url: jdbc:oracle:thin:@10.101.95.15:weis
     username: WATER
     password: WATER123
     tomcat:

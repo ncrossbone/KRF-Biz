@@ -2,6 +2,8 @@ package com.ce.krf.biz.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ce.krf.biz.model.SearchResultVO;
 
 public interface SearchResultMapper {
@@ -112,4 +114,5 @@ public interface SearchResultMapper {
 	public List searchSstgHcVtnSe(SearchResultVO param); // 수변 식생
 	
 
+	public List searchMeasuredValue(String type);
 }

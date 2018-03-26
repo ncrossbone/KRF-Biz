@@ -1,7 +1,14 @@
 package com.ce.krf.biz.model;
 
-public class PollutionVO {
+import java.io.Serializable;
 
+public class PollutionVO implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3525947815694766420L;
+	
 	private String catDid = null;
 	private String[] catDids = null;
 	private String year = null;

@@ -1,8 +1,7 @@
 package com.ce.krf.biz.controller;
 
+import java.io.Serializable;
 import java.util.HashMap;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,12 @@ import com.ce.krf.biz.service.PollutionService;
 
 @RestController
 @RequestMapping("/pollution")
-public class PollutionController extends BaseController {
+public class PollutionController extends BaseController implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6017662081815039019L;
+
 	private final Logger logger = LoggerFactory.getLogger(KrfBizApplication.class);
 
 	@Autowired

@@ -1,6 +1,13 @@
 package com.ce.krf.biz.model;
 
-public class ImageVO {
+import java.io.Serializable;
+
+public class ImageVO implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1677490227358545887L;
 	
 	private String resultParam;
 	private String svgParam;

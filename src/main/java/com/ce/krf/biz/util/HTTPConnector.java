@@ -3,14 +3,19 @@ package com.ce.krf.biz.util;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class HTTPConnector {
+public class HTTPConnector implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7844509390173676876L;
 	public static final String USER_AGENT = "Mozilla/5.0";
 
 	// HTTP GET request

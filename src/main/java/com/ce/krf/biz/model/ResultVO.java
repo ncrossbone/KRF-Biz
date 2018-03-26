@@ -1,7 +1,14 @@
 package com.ce.krf.biz.model;
 
-public class ResultVO {
+import java.io.Serializable;
 
+public class ResultVO implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7846756755908819318L;
+	
 	// 1 = 성공, 0 = 실패
 	private int code = 0;
 	private String mgs = null;

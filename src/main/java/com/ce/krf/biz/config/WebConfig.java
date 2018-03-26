@@ -1,5 +1,7 @@
 package com.ce.krf.biz.config;
 
+import java.io.Serializable;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +14,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @EnableWebMvc
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8442384210371153696L;
 	@Value("${server.session.timeout}")
 	private Long sessionTimeOut;
 

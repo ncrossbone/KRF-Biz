@@ -1,7 +1,14 @@
 package com.ce.krf.biz.model;
 
-public class ExcelDownloadVO {
+import java.io.Serializable;
 
+public class ExcelDownloadVO implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6238849982103973938L;
+	
 	private String headName = null;
 	private String header = null;
 	private String datas = null;

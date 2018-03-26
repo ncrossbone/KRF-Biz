@@ -1,5 +1,7 @@
 package com.ce.krf.biz.controller;
 
+import java.io.Serializable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,12 @@ import com.ce.krf.biz.base.BaseController;
 import com.ce.krf.biz.service.SampleService;
 
 @Controller
-public class SamplePageController extends BaseController {
+public class SamplePageController extends BaseController implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4703328721991633740L;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	

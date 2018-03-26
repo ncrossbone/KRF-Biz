@@ -1,5 +1,6 @@
 package com.ce.krf.biz.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +14,13 @@ import com.ce.krf.biz.mapper.DroneMapper;
 import com.ce.krf.biz.model.DroneVO;
 
 @Component
-public class DroneService {
+public class DroneService implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4413378284002359669L;
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired

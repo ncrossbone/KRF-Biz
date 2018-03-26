@@ -1,5 +1,6 @@
 package com.ce.krf.biz.service;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,12 @@ import com.ce.krf.biz.model.SearchResultVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
-public class SearchResultService {
+public class SearchResultService implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5081907690257345305L;
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
@@ -1125,6 +1131,7 @@ public class SearchResultService {
 		result.put("data", resultList);
 		return result;
 	}
+
 	
 	// 수생태계
 	public HashMap searchSstg(String gubun, SearchResultVO param) throws Exception {
@@ -1143,6 +1150,23 @@ public class SearchResultService {
 			resultList = (List) method.invoke(searchResultMapper, param);
 			//resultList = searchResultMapper.searchSstgHgAtalSe(param);
 		}
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		
+		return result;
+	}
+	
+	
+	public HashMap searchMeasuredValue(String type) throws Exception {
+		HashMap result = new HashMap();
+		
+		List resultList = searchResultMapper.searchMeasuredValue(type);
 		
 		if (checkNull(resultList)) {
 			HashMap nullMgs = new HashMap();

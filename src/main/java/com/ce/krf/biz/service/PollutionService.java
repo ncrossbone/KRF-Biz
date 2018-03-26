@@ -1,5 +1,6 @@
 package com.ce.krf.biz.service;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -12,7 +13,12 @@ import com.ce.krf.biz.mapper.PollutionMapper;
 import com.ce.krf.biz.model.PollutionVO;
 
 @Component
-public class PollutionService {
+public class PollutionService implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -649679182977518123L;
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
