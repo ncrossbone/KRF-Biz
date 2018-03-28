@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+       Copyright 2015-2016 the original author or authors.
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ce.krf.biz.mapper.AdminConfigMapper">
+
+	<select id="selectLayerSetAll" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+    	SELECT /* KRF_BIZ.AdminConfigMapper.selectLayerSetAll  */
+    		   LAYER_SET_ID AS "layerSetId", 
+    		   LAYER_SET_NAME AS "layerSetName", 
+    		   LAYER_SET_IDS AS "layerSetIds"
+  		  FROM TBL_LAYER_SET
+  		  ORDER 
+  		     BY LAYER_SET_ID
+    </select>
+    <select id="selectLayerSetForUser" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+    	SELECT /* KRF_BIZ.AdminConfigMapper.selectLayerSetForUser  */
+    	       T3.USERID AS "userId",
+		       T3.LAYERSETID AS "layerSetId",
+		       T4.LAYER_SET_NAME AS "layerSetName",
+		       T4.LAYER_SET_IDS AS "layerSetIds"
+		  FROM (SELECT T1.USER_ID AS USERID, NVL (T2.LAYER_SET_ID, 1) AS LAYERSETID
+		          FROM TUSER T1, TBL_LAYER_SET_USER T2
+		         WHERE T1.USER_ID = T2.USER_ID(+) AND T1.USER_ID = #{userId}) T3,
+		       TBL_LAYER_SET T4
+		 WHERE T3.LAYERSETID = T4.LAYER_SET_ID
+    </select>
+    
+    <select id="selectUsers" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+    	SELECT /* KRF_BIZ.AdminConfigMapper.selectUsers  */
+    		   ZRN AS "zrn",
+    		   TOTCNT AS "totCnt",
+    		   USER_ID AS "userId",
+    		   USER_NM AS "userNm",
+    		   LEVEL_NM AS "levelNm",
+    		   ORG_NAME AS "orgName",
+    		   NVL((SELECT T1.LAYER_SET_ID FROM TBL_LAYER_SET_USER T1 WHERE T1.USER_ID = T2.USER_ID), 1) AS "layerSetId",
+    		   (SELECT LAYER_SET_NAME FROM TBL_LAYER_SET T3 WHERE T3.LAYER_SET_ID = NVL((SELECT T1.LAYER_SET_ID FROM TBL_LAYER_SET_USER T1 WHERE T1.USER_ID = T2.USER_ID), 1)) AS "layerSetName"
+		  FROM (  SELECT 1 AS ZRN,
+		                 (SELECT COUNT (*) FROM TUSER) AS TOTCNT,
+		                 USER_ID,
+		                 USER_NM,
+		                 (SELECT LEVEL_NM
+		                    FROM TLEVEL T2
+		                   WHERE TU.LEVEL_CD = T2.LEVEL_CD)
+		                    AS LEVEL_NM,
+		                 (SELECT CODE_CTN
+		                    FROM CODE CD
+		                   WHERE     CODE_ID = 'ORG001'
+		                         AND USE_YN = 'Y'
+		                         AND CD.CODE = TU.ORG_CD
+		                         AND ROWNUM = 1)
+		                    ORG_NAME
+		            FROM TUSER TU
+		           WHERE CONFIRM_YN = 'N'
+		        ORDER BY CREATE_DT) T2
+		UNION ALL
+		SELECT ZRN AS "zrn",
+    		   TOTCNT AS "totCnt",
+    		   USER_ID AS "userId",
+    		   USER_NM AS "userNm",
+    		   LEVEL_NM AS "levelNm",
+    		   ORG_NAME AS "orgName",
+    		   NVL((SELECT T1.LAYER_SET_ID FROM TBL_LAYER_SET_USER T1 WHERE T1.USER_ID = T2.USER_ID), 1) AS "layerSetId",
+    		   (SELECT LAYER_SET_NAME FROM TBL_LAYER_SET T3 WHERE T3.LAYER_SET_ID = NVL((SELECT T1.LAYER_SET_ID FROM TBL_LAYER_SET_USER T1 WHERE T1.USER_ID = T2.USER_ID), 1)) AS "layerSetName"
+		  FROM (SELECT ROWNUM AS ZRN, A.*
+		          FROM (  SELECT COUNT (*) OVER () AS TOTCNT,
+		                         USER_ID,
+		                         USER_NM,
+		                         (SELECT LEVEL_NM
+		                            FROM TLEVEL T2
+		                           WHERE TU.LEVEL_CD = T2.LEVEL_CD)
+		                            AS LEVEL_NM,
+		                         (SELECT CODE_CTN
+		                            FROM CODE CD
+		                           WHERE     CODE_ID = 'ORG001'
+		                                 AND USE_YN = 'Y'
+		                                 AND CD.CODE = TU.ORG_CD
+		                                 AND ROWNUM = 1)
+		                            ORG_NAME
+		                    FROM TUSER TU
+		                   WHERE 1 = 1 AND CONFIRM_YN = 'Y'
+		                ORDER BY CONFIRM_YN DESC,
+		                         TO_NUMBER (LEVEL_CD),
+		                         EFIS_LEVEL_CD,
+		                         CREATE_DT) A
+		         WHERE 1=1) T2
+		 WHERE 1=1
+    </select>
+    
+    <insert id="insertLayerSet" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+        INSERT INTO TBL_LAYER_SET(LAYER_SET_ID, LAYER_SET_NAME, LAYER_SET_IDS) 
+        VALUES((SELECT NVL(MAX(LAYER_SET_ID), 0)+1 AS LAYER_SET_ID FROM TBL_LAYER_SET), #{layerSetName}, #{layerSetIds})
+    </insert>	
+    <insert id="insertLayerSetByUser" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+        INSERT INTO TBL_LAYER_SET_USER(USER_ID, LAYER_SET_ID) 
+        VALUES(#{userId}, #{layerSetId})
+    </insert>	
+    <update id="updateLayerSet" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+   		UPDATE TBL_LAYER_SET
+     	   SET LAYER_SET_NAME = #{layerSetName},
+     	       LAYER_SET_IDS = #{layerSetIds}
+     	 WHERE LAYER_SET_ID = #{layerSetId}
+    </update>
+    <delete id="deleteLayerSet" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+        DELETE 
+          FROM TBL_LAYER_SET
+         WHERE LAYER_SET_ID = #{layerSetId}
+    </delete>
+    <delete id="deleteLayerSetByUser" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+        DELETE 
+          FROM TBL_LAYER_SET_USER 
+         WHERE USER_ID = #{userId}
+    </delete>
+    <delete id="deleteLayerSetByLayerSetId" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+        DELETE 
+          FROM TBL_LAYER_SET_USER 
+         WHERE LAYER_SET_ID = #{layerSetId}
+    </delete>
+    
+</mapper>
