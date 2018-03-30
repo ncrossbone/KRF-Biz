@@ -7508,4 +7508,56 @@ ORDER  BY NO_1,
 	
 </select>
 
+<select id="searchMeasuredValue" parameterType="String" resultType="hashmap">
+    SELECT A.PT_NO AS "ptNo"
+	     , B.WMYMD AS "wmymd"
+	     , MAX(CASE WHEN B.ITCD = '1052' THEN WMVL ELSE NULL END) AS "bod" 
+	     , MAX(CASE WHEN B.ITCD = '1054' THEN WMVL ELSE NULL END) AS "doc"
+	     , MAX(CASE WHEN B.ITCD = '1049' THEN WMVL ELSE NULL END) AS "cod" 
+	     , MAX(CASE WHEN B.ITCD = '1055' THEN WMVL ELSE NULL END) AS "tn"  
+	     , MAX(CASE WHEN B.ITCD = '1056' THEN WMVL ELSE NULL END) AS "tp"
+	     , MAX(CASE WHEN B.ITCD = '1060' THEN WMVL ELSE NULL END) AS "temp"
+	     , MAX(CASE WHEN B.ITCD = '1039' THEN WMVL ELSE NULL END) AS "ph" 
+	     , MAX(CASE WHEN B.ITCD = '1053' THEN WMVL ELSE NULL END) AS "ss"  
+	     , MAX(CASE WHEN B.ITCD = '1063' THEN WMVL ELSE NULL END) AS "cloa"
+	     , MAX(CASE WHEN B.ITCD = '1073' THEN WMVL ELSE NULL END) AS "toc" 
+	  FROM (SELECT SUBSTR(PT_NO, 5, 1) AS GUBUN 
+	             , PT_NO
+	          FROM RWMPT
+	         WHERE SUBSTR(PT_NO, 5, 1) IN ('A','B','D','E','F')
+	        UNION ALL
+	        SELECT 'G' AS GUBUN 
+	             , PT_NO
+	          FROM TB_AW_PTCD_RWMPT_PTCHAR
+	         WHERE SUBSTR(PT_NO, 5, 1) IN ('A','B','D','E','F')
+	           AND PTCHAR_A = 'Y'
+	        UNION ALL
+	        SELECT 'H' AS GUBUN 
+	             , PT_NO
+	          FROM RWMPT
+	         WHERE PT_NO IN ('1007A20', '1007A27', '1007A60', '2007A25', '2009A05', '2009A30', '2011A25', '2011A55', '2014A25', '2014A70', '2020A32', '3012A07', '3012A32', '3012A42', '5004A10', '5004A35')
+	       ) A
+	     , (SELECT PT_NO, ITCD, WMVL, WMYMD
+	          FROM (
+	                SELECT RANK() OVER(PARTITION BY A.PT_NO ORDER BY WMYMD DESC) AS RNK
+	                     , A.*
+	                     , B.WMYMD
+	                  FROM TW_RWMDT A 
+	                     , (SELECT DISTINCT PT_NO, WMYR, WMOD, SUBSTR(WMWK,1,1) AS WMWK, WMYMD
+	                          FROM RWMDTD
+	                       ) B
+	                 WHERE A.PT_NO = B.PT_NO
+	                   AND A.WMYR = B.WMYR
+	                   AND A.WMOD = B.WMOD
+	                   AND A.WMCD = B.WMWK
+	                   AND ITCD IN ('1052', '1054', '1049', '1055', '1056', '1060', '1039', '1053', '1063', '1073')
+	                   AND TRIM(A.WMYR) >= '2015' 
+	               )
+	         WHERE RNK = '1'
+	       ) B
+	 WHERE A.PT_NO = B.PT_NO
+	   AND A.GUBUN = #{type}
+	 GROUP BY A.PT_NO, B.WMYMD
+	 ORDER BY "ptNo", "wmymd"
+    </select>
 </mapper>

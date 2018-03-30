@@ -31,8 +31,7 @@ public class SearchResultController extends BaseController implements Serializab
 
 	@Autowired
 	public SearchResultService searchResultService;
-	
-	
+
 	@RequestMapping(value = "/searchSstg", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
 	public String searchSstg(@ModelAttribute SearchResultVO param) {
 		try {
@@ -40,11 +39,11 @@ public class SearchResultController extends BaseController implements Serializab
 			return getEuckrString(result, false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-//				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}
-	
+
 	// 수질측정지점 LAYER CODE : A
 	@RequestMapping(value = "/searchResult_A", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
 	public String searchResult_A(@ModelAttribute SearchResultVO param) {
@@ -178,20 +177,19 @@ public class SearchResultController extends BaseController implements Serializab
 			return "error";
 		}
 	}
-	
+
 	// 부하량 - 총괄표
-		@RequestMapping(value = "/Esstg{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
-		public String searchSstg(@PathVariable String gubun, SearchResultVO param) {
-			
-			try {
-				HashMap result = searchResultService.searchSstg(gubun, param);
-				return getEuckrString(result, true);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-//				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				return "error";
-			}
+	@RequestMapping(value = "/Esstg{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	public String searchSstg(@PathVariable String gubun, SearchResultVO param) {
+
+		try {
+			HashMap result = searchResultService.searchSstg(gubun, param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
 		}
-		
+	}
 
 }
