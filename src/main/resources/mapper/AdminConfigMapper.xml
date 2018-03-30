@@ -17,25 +17,25 @@
 <mapper namespace="com.ce.krf.biz.mapper.AdminConfigMapper">
 
 	<select id="selectLayerSetAll" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
-    	SELECT /* KRF_BIZ.AdminConfigMapper.selectLayerSetAll  */
-    		   LAYER_SET_ID AS "layerSetId", 
-    		   LAYER_SET_NAME AS "layerSetName", 
-    		   LAYER_SET_IDS AS "layerSetIds"
-  		  FROM TBL_LAYER_SET
+		SELECT /* KRF_BIZ.AdminConfigMapper.selectLayerSetAll  */
+				MAPSVC_AUTHOR_SN AS "layerSetId",
+  		        MAPSVC_NM AS "layerSetName",
+  		        MAPSVC_ID AS "layerSetIds"
+  		   FROM TGS_AUTHOR_MAPSVC
   		  ORDER 
-  		     BY LAYER_SET_ID
+  		     BY MAPSVC_AUTHOR_SN
     </select>
     <select id="selectLayerSetForUser" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
     	SELECT /* KRF_BIZ.AdminConfigMapper.selectLayerSetForUser  */
     	       T3.USERID AS "userId",
 		       T3.LAYERSETID AS "layerSetId",
-		       T4.LAYER_SET_NAME AS "layerSetName",
-		       T4.LAYER_SET_IDS AS "layerSetIds"
-		  FROM (SELECT T1.USER_ID AS USERID, NVL (T2.LAYER_SET_ID, 1) AS LAYERSETID
-		          FROM TUSER T1, TBL_LAYER_SET_USER T2
+		       T4.MAPSVC_NM AS "layerSetName",
+		       T4.MAPSVC_ID AS "layerSetIds"
+		  FROM (SELECT T1.USER_ID AS USERID, NVL (T2.MAPSVC_AUTHOR_SN, 1) AS LAYERSETID
+		          FROM TUSER T1, TGS_AUTHOR T2
 		         WHERE T1.USER_ID = T2.USER_ID(+) AND T1.USER_ID = #{userId}) T3,
-		       TBL_LAYER_SET T4
-		 WHERE T3.LAYERSETID = T4.LAYER_SET_ID
+		       TGS_AUTHOR_MAPSVC T4
+		 WHERE T3.LAYERSETID = T4.MAPSVC_AUTHOR_SN
     </select>
     
     <select id="selectUsers" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
@@ -46,8 +46,8 @@
     		   USER_NM AS "userNm",
     		   LEVEL_NM AS "levelNm",
     		   ORG_NAME AS "orgName",
-    		   NVL((SELECT T1.LAYER_SET_ID FROM TBL_LAYER_SET_USER T1 WHERE T1.USER_ID = T2.USER_ID), 1) AS "layerSetId",
-    		   (SELECT LAYER_SET_NAME FROM TBL_LAYER_SET T3 WHERE T3.LAYER_SET_ID = NVL((SELECT T1.LAYER_SET_ID FROM TBL_LAYER_SET_USER T1 WHERE T1.USER_ID = T2.USER_ID), 1)) AS "layerSetName"
+    		   NVL((SELECT T1.MAPSVC_AUTHOR_SN FROM TGS_AUTHOR T1 WHERE T1.USER_ID = T2.USER_ID), 1) AS "layerSetId",
+    		   (SELECT MAPSVC_NM FROM TGS_AUTHOR_MAPSVC T3 WHERE T3.MAPSVC_AUTHOR_SN = NVL((SELECT T1.MAPSVC_AUTHOR_SN FROM TGS_AUTHOR T1 WHERE T1.USER_ID = T2.USER_ID), 1)) AS "layerSetName"
 		  FROM (  SELECT 1 AS ZRN,
 		                 (SELECT COUNT (*) FROM TUSER) AS TOTCNT,
 		                 USER_ID,
@@ -73,8 +73,8 @@
     		   USER_NM AS "userNm",
     		   LEVEL_NM AS "levelNm",
     		   ORG_NAME AS "orgName",
-    		   NVL((SELECT T1.LAYER_SET_ID FROM TBL_LAYER_SET_USER T1 WHERE T1.USER_ID = T2.USER_ID), 1) AS "layerSetId",
-    		   (SELECT LAYER_SET_NAME FROM TBL_LAYER_SET T3 WHERE T3.LAYER_SET_ID = NVL((SELECT T1.LAYER_SET_ID FROM TBL_LAYER_SET_USER T1 WHERE T1.USER_ID = T2.USER_ID), 1)) AS "layerSetName"
+    		   NVL((SELECT T1.MAPSVC_AUTHOR_SN FROM TGS_AUTHOR T1 WHERE T1.USER_ID = T2.USER_ID), 1) AS "layerSetId",
+    		   (SELECT MAPSVC_NM FROM TGS_AUTHOR_MAPSVC T3 WHERE T3.MAPSVC_AUTHOR_SN = NVL((SELECT T1.MAPSVC_AUTHOR_SN FROM TGS_AUTHOR T1 WHERE T1.USER_ID = T2.USER_ID), 1)) AS "layerSetName"
 		  FROM (SELECT ROWNUM AS ZRN, A.*
 		          FROM (  SELECT COUNT (*) OVER () AS TOTCNT,
 		                         USER_ID,
@@ -101,33 +101,35 @@
     </select>
     
     <insert id="insertLayerSet" parameterType="com.ce.krf.biz.model.AdminConfigVO">
-        INSERT INTO TBL_LAYER_SET(LAYER_SET_ID, LAYER_SET_NAME, LAYER_SET_IDS) 
-        VALUES((SELECT NVL(MAX(LAYER_SET_ID), 0)+1 AS LAYER_SET_ID FROM TBL_LAYER_SET), #{layerSetName}, #{layerSetIds})
+        INSERT INTO TGS_AUTHOR_MAPSVC(MAPSVC_AUTHOR_SN, MAPSVC_NM, MAPSVC_ID,REGISTER_ID, REGIST_DT) 
+        VALUES((SELECT NVL(MAX(MAPSVC_AUTHOR_SN), 0)+1 AS MAPSVC_AUTHOR_SN FROM TGS_AUTHOR_MAPSVC), #{layerSetName}, #{layerSetIds}, #{userId}, SYSDATE)
     </insert>	
     <insert id="insertLayerSetByUser" parameterType="com.ce.krf.biz.model.AdminConfigVO">
-        INSERT INTO TBL_LAYER_SET_USER(USER_ID, LAYER_SET_ID) 
-        VALUES(#{userId}, #{layerSetId})
+            INSERT INTO TGS_AUTHOR(SN,USER_ID, MAPSVC_AUTHOR_SN, REGISTER_ID, REGIST_DT) 
+        VALUES((SELECT NVL(MAX(SN), 0)+1 AS SN FROM TGS_AUTHOR), #{userId}, #{layerSetId}, #{regUserId}, SYSDATE)
     </insert>	
     <update id="updateLayerSet" parameterType="com.ce.krf.biz.model.AdminConfigVO">
-   		UPDATE TBL_LAYER_SET
-     	   SET LAYER_SET_NAME = #{layerSetName},
-     	       LAYER_SET_IDS = #{layerSetIds}
-     	 WHERE LAYER_SET_ID = #{layerSetId}
+   		UPDATE TGS_AUTHOR_MAPSVC
+     	   SET MAPSVC_NM = #{layerSetName},
+     	       MAPSVC_ID = #{layerSetIds},
+     	       CHANGER_ID = #{userId},
+			   CHANGE_DT = SYSDATE  
+     	 WHERE MAPSVC_AUTHOR_SN = #{layerSetId}
     </update>
     <delete id="deleteLayerSet" parameterType="com.ce.krf.biz.model.AdminConfigVO">
         DELETE 
-          FROM TBL_LAYER_SET
-         WHERE LAYER_SET_ID = #{layerSetId}
+          FROM TGS_AUTHOR_MAPSVC
+         WHERE MAPSVC_AUTHOR_SN = #{layerSetId}
     </delete>
     <delete id="deleteLayerSetByUser" parameterType="com.ce.krf.biz.model.AdminConfigVO">
         DELETE 
-          FROM TBL_LAYER_SET_USER 
+          FROM TGS_AUTHOR 
          WHERE USER_ID = #{userId}
     </delete>
     <delete id="deleteLayerSetByLayerSetId" parameterType="com.ce.krf.biz.model.AdminConfigVO">
         DELETE 
-          FROM TBL_LAYER_SET_USER 
-         WHERE LAYER_SET_ID = #{layerSetId}
+          FROM TGS_AUTHOR 
+         WHERE MAPSVC_AUTHOR_SN = #{layerSetId}
     </delete>
     
 </mapper>
