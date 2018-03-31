@@ -7560,4 +7560,32 @@ ORDER  BY NO_1,
 	 GROUP BY A.PT_NO, B.WMYMD
 	 ORDER BY "ptNo", "wmymd"
     </select>
+    
+    
+    <select id="searchResult_H_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_H_getDate */
+			   MAX(DE) AS DE
+   		  FROM HSPF_MODEL_RESULT 
+  		 WHERE SPOT_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	 <select id="searchResult_H" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_H */ 
+			   REPLACE(SPOT_CODE,'Reach','RCH') as SPOT_CODE,
+			   DE,
+			   TO_CHAR(PREDICT_DT,'YYYY-MM-DD HH24')||'시' AS PREDICT_DT,
+			   ROUND(BOD,1) AS BOD,
+			   ROUND(CHLA,1) AS CHLA,
+			   ROUND(DOC,1) AS DOC,
+			   ROUND(FLUX,3) AS FLUX,
+			   ROUND(WTRTP,1) AS WTRTP,
+			   ROUND(NH3,3) AS NH3,
+			   ROUND(NO3,4) AS NO3,
+			   ROUND(OP4,3) AS OP4
+  		  FROM HSPF_MODEL_RESULT
+ 		 WHERE SPOT_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+   		   AND REPLACE(DE,'-','') BETWEEN #{startYear} || #{startMonth} || #{startDay} AND #{endYear} || #{endMonth} || #{endDay}
+ 	  ORDER BY SPOT_CODE, DE DESC, PREDICT_DT ASC
+	</select>
+	
 </mapper>
