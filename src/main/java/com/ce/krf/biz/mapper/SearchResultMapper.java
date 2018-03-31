@@ -115,4 +115,7 @@ public interface SearchResultMapper {
 	
 
 	public List searchMeasuredValue(String type);
+	
+	public List searchResult_H_getDate(SearchResultVO param);
+	public List searchResult_H(SearchResultVO param);
 }

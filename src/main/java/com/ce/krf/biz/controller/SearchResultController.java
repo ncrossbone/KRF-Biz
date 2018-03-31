@@ -191,5 +191,16 @@ public class SearchResultController extends BaseController implements Serializab
 			return "error";
 		}
 	}
+	
+	// HSPF GROUP CODE : H
+		@RequestMapping(value = "/searchResult_H", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+		public String searchResult_H(@ModelAttribute SearchResultVO param) {
+			try {
+				HashMap result = searchResultService.searchResult_H(param);
+				return getEuckrString(result, true);
+			} catch (Exception e) {
+				return "error";
+			}
+		}
 
 }
