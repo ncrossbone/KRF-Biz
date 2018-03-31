@@ -12,6 +12,8 @@ public class ChartVO implements Serializable{
 	
 	private String parentId;
 	
+	private String hMaxDate;
+	
 	private String recordYear;
 	private String recordYear2;
 	private String recordMonth;
@@ -84,6 +86,12 @@ public class ChartVO implements Serializable{
 	}
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
+	}
+	public String gethMaxDate() {
+		return hMaxDate;
+	}
+	public void sethMaxDate(String hMaxDate) {
+		this.hMaxDate = hMaxDate;
 	}
 	
 	
