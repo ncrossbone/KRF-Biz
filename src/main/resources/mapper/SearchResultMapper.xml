@@ -7589,4 +7589,95 @@ ORDER  BY NO_1,
  	  ORDER BY SPOT_CODE, DE DESC, PREDICT_DT ASC
 	</select>
 	
+	
+	<select id="searchResult_J001" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		/*취수장*/
+		SELECT FCLTS_NO
+		     , FCLTY_NM
+		     , ADRES_DETAIL
+		     , CASE WHEN WATSRC_STLE_CODE = '1' THEN '강변여과수'
+		            WHEN WATSRC_STLE_CODE = '2' THEN '계곡수'
+		            WHEN WATSRC_STLE_CODE = '3' THEN '복류수'
+		            WHEN WATSRC_STLE_CODE = '4' THEN '용천수'
+		            WHEN WATSRC_STLE_CODE = '5' THEN '지하수'
+		            WHEN WATSRC_STLE_CODE = '6' THEN '하천수'
+		            WHEN WATSRC_STLE_CODE = '7' THEN '해수'
+		        ELSE '호소수'
+		        END WATSRC_STLE_CODE
+		     , TELNO
+		     , COMPET_DE
+		     , CASE WHEN WDR_LCLTY_SE_CODE = '1' THEN '지방상수도'
+		            WHEN WDR_LCLTY_SE_CODE = '2' THEN '공업용수도'
+		            WHEN WDR_LCLTY_SE_CODE = '3' THEN '광역상수도'
+		       ELSE '지방상수도(위탁운영)'
+		       END WDR_LCLTY_SE_CODE
+		     , FCLTY_CPCTY
+		     , WIPLT_INFO
+		     , SRCWTSUP_PRTCAREA_AT
+		     , USE_AT
+		  FROM (
+		        SELECT A.FCLTS_NO /* 시설물번호*/
+		             , A.FCLTY_NM /* 시설명*/
+		             , A.ADRES_DETAIL /* 주소 상세*/
+		             , A.WDR_LCLTY_SE_CODE /* 광역_지방_구분_코드  업데이트 예정*/
+		             , A.COMPET_DE /* 준공일자*/
+		             , A.STRWRK_DE /* 착공일자*/
+		             , A.OPR_DE /* 가동일자*/
+		             , A.STDR_DE /* 기준일자*/
+		             , A.TELNO /* 전화번호*/
+		             , A.USE_AT /* 사용여부*/
+		             , A.RM /* 비고*/
+		             , B.FCLTY_CPCTY /* 시설용량*/
+		             , B.WIPLT_INFO /* 취수원*/
+		             , B.SRCWTSUP_PRTCAREA_AT /* 상수원보호구역 여부*/
+		             , B.WATSRC_STLE_CODE /* 수원*/
+		          FROM FCLTS_FCLTY_INFO A
+		             , WIFCLT_FCLTY_INFO B
+		         WHERE A.FCLTS_NO = B.FCLTS_NO
+		       )
+		 WHERE FCLTS_NO IN 
+		 <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<select id="searchResult_J002" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	 /*정수장 검색결과 쿼리*/
+		SELECT FCLTS_NO
+		     , FCLTY_NM
+		     , ADRES_DETAIL
+		     , WATSRC_CODE
+		     , WTM_PROCESS_MTH
+		     , TELNO
+		     , COMPET_DE
+		     , CASE WHEN WDR_LCLTY_SE_CODE = '1' THEN '지방상수도'
+		            WHEN WDR_LCLTY_SE_CODE = '2' THEN '공업용수도'
+		            WHEN WDR_LCLTY_SE_CODE = '3' THEN '광역상수도'
+		       ELSE '지방상수도(위탁운영)'
+		       END WDR_LCLTY_SE_CODE
+		     , DISCHA_KND
+		     , FCLTY_CPCTY
+		     , USE_AT
+		  FROM (
+		        SELECT A.FCLTS_NO /* 시설물번호*/
+		             , A.FCLTY_NM /* 시설명*/
+		             , A.ADRES_DETAIL /* 주소 상세*/
+		             , A.WDR_LCLTY_SE_CODE /* 광역_지방_구분_코드 */ 
+		             , A.COMPET_DE /* 준공일자*/
+		             , A.STRWRK_DE /* 착공일자*/
+		             , A.OPR_DE /* 가동일자*/
+		             , A.STDR_DE /* 기준일자*/
+		             , A.TELNO /* 전화번호*/
+		             , A.USE_AT /* 사용여부*/
+		             , A.RM /* 비고*/
+		             , B.FCLTY_CPCTY /* 시설용량*/
+		             , B.WATSRC_CODE /* 수원*/
+		             , B.WTM_PROCESS_MTH /* 정수처리방법*/
+		             , B.DISCHA_KND /* 소독제*/
+		          FROM FCLTS_FCLTY_INFO A
+		             , CWPL_FCLTY_INFO B
+		         WHERE A.FCLTS_NO = B.FCLTS_NO
+		       )
+		 WHERE FCLTS_NO	IN
+		 <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
 </mapper>

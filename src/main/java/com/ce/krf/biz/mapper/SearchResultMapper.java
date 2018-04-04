@@ -79,6 +79,12 @@ public interface SearchResultMapper {
 	
 	public List searchResult_I_2(SearchResultVO param);
 	
+	
+	
+	public List searchResult_J001(SearchResultVO param);
+	public List searchResult_J002(SearchResultVO param);
+	
+	
 	//부하량 - 총괄표
 	public List searchResult_PollLoad_Total(SearchResultVO param);
 	

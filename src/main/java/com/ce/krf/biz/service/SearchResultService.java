@@ -1111,6 +1111,25 @@ public class SearchResultService implements Serializable{
 		result.put("data", resultList);
 		return result;
 	}
+	
+	// 취정수장 GROUP CODE : J
+	public HashMap searchResult_J(String gubun, SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		Method method = searchResultMapper.getClass().getMethod("searchResult_J" + gubun, SearchResultVO.class);
+		resultList = (List) method.invoke(searchResultMapper, param);
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
 
 	// 부하량 - 총괄표
 	public HashMap searchResult_PollLoad(String gubun, SearchResultVO param) throws Exception {
@@ -1161,6 +1180,8 @@ public class SearchResultService implements Serializable{
 		
 		return result;
 	}
+	
+	
 	
 	
 	public HashMap searchMeasuredValue(String type) throws Exception {

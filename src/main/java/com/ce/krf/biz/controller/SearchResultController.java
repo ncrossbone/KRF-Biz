@@ -202,5 +202,18 @@ public class SearchResultController extends BaseController implements Serializab
 				return "error";
 			}
 		}
+		
+	// 취정수장 GROUP CODE : E
+	@RequestMapping(value = "/searchResult_J{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	public String searchResult_J(@PathVariable String gubun, @ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchResult_J(gubun, param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
 
 }
