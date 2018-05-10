@@ -30,7 +30,7 @@ public class PollutionController extends BaseController implements Serializable{
 	@Autowired
 	public PollutionService pollutionService;
 
-	@RequestMapping(value = "/pollutionSelect_{index}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/pollutionSelect_{index}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String pollutionSelect(@PathVariable String index, @ModelAttribute PollutionVO param) {
 		HashMap result = new HashMap();
 		try {

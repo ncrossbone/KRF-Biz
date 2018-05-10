@@ -30,7 +30,7 @@ public class ChartController extends BaseController implements Serializable{
 	public ChartService chartService;
 	
 	
-	@RequestMapping(value = "/getRWMDT", produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/getRWMDT", produces = "text/html; charset=utf-8")
 	public String getRWMDT(@ModelAttribute ChartVO param) {
 		try {
 			return getEuckrString((HashMap) chartService.getRWMDT(param.getRecordId() , param.getParentId()), false);
@@ -41,7 +41,7 @@ public class ChartController extends BaseController implements Serializable{
 		}
 	}
 
-	@RequestMapping(value = "/getRWMDT_{index}", produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/getRWMDT_{index}", produces = "text/html; charset=utf-8")
 	public String pollutionSelect(@PathVariable String index, @ModelAttribute ChartVO param) {
 		HashMap result = new HashMap();
 		try {

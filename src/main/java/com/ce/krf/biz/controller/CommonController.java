@@ -85,7 +85,7 @@ public class CommonController extends BaseController implements Serializable{
 	}
 	
 	
-	@PostMapping(value = "/clickSession",  produces = "text/html; charset=euc-kr")
+	@PostMapping(value = "/clickSession",  produces = "text/html; charset=utf-8")
 	public String clickSession(@ModelAttribute ClickLogVO clickLogVO) {
 		
 		clickLogVO.setIp(request.getRemoteAddr());
@@ -105,7 +105,7 @@ public class CommonController extends BaseController implements Serializable{
 	 * @Method Name : sessionData
 	 * @return
 	 */
-	@RequestMapping(value = "/sessionData", method= RequestMethod.POST,  produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/sessionData", method= RequestMethod.POST,  produces = "text/html; charset=utf-8")
 	public String sessionData() {
 		String ip = request.getRemoteAddr();
 		int cnt = commonService.sessionData(ip);

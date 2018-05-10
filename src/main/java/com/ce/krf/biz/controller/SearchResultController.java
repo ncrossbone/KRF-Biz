@@ -32,7 +32,7 @@ public class SearchResultController extends BaseController implements Serializab
 	@Autowired
 	public SearchResultService searchResultService;
 
-	@RequestMapping(value = "/searchSstg", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchSstg", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchSstg(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchSstg(param);
@@ -45,7 +45,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 수질측정지점 LAYER CODE : A
-	@RequestMapping(value = "/searchResult_A", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_A", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_A(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_A(param);
@@ -58,7 +58,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 수질자동측정지점 - 사업장TMS GROUP CODE : B
-	@RequestMapping(value = "/searchResult_B", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_B", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_B(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = (searchResultService.searchResult_B(param));
@@ -71,7 +71,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 수질자동측정지점 - 수질자동측정지점 미확정 GROUP CODE : B
-	@RequestMapping(value = "/searchResult_B001", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_B001", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_B001(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = (searchResultService.searchResult_B001(param));
@@ -84,7 +84,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 수질자동측정지점 - 수질자동측정지점 확정 GROUP CODE : B
-	@RequestMapping(value = "/searchResult_B001_Fix", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_B001_Fix", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_B001_Fix(@ModelAttribute SearchResultVO param) {
 		HashMap result = new HashMap();
 		try {
@@ -98,7 +98,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 퇴적물 LAYER CODE : C
-	@RequestMapping(value = "/searchResult_C", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_C", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_C(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_C(param);
@@ -111,7 +111,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 기타측정지점 - 수위관측소 GROUT CODE : D / LAYER CODE : D001
-	@RequestMapping(value = "/searchResult_D_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_D_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_D_1(@PathVariable String gubun, @ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_D(gubun, param);
@@ -124,7 +124,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001
-	@RequestMapping(value = "/searchResult_F_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_F_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_F_1(@PathVariable String gubun, @ModelAttribute SearchResultVO param) {
 
 		try {
@@ -138,7 +138,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 조류모니터링 GROUP CODE : I
-	@RequestMapping(value = "/searchResult_I_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_I_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_I(@PathVariable String gubun, @ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_I(gubun, param);
@@ -151,7 +151,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 부하량 - 총괄표
-	@RequestMapping(value = "/searchResult_PollLoad_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_PollLoad_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_PollLoad_Total(@PathVariable String gubun, SearchResultVO param) {
 
 		try {
@@ -165,7 +165,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 부하량 - 총괄표
-	@RequestMapping(value = "/searchMeasuredValue", method = RequestMethod.GET, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchMeasuredValue", method = RequestMethod.GET, produces = "text/html; charset=utf-8")
 	public String searchMeasuredValue(@QueryParam("type") String type) {
 
 		try {
@@ -179,7 +179,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 
 	// 부하량 - 총괄표
-	@RequestMapping(value = "/Esstg{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/Esstg{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchSstg(@PathVariable String gubun, SearchResultVO param) {
 
 		try {
@@ -193,7 +193,7 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 	
 	// HSPF GROUP CODE : H
-		@RequestMapping(value = "/searchResult_H", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+		@RequestMapping(value = "/searchResult_H", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 		public String searchResult_H(@ModelAttribute SearchResultVO param) {
 			try {
 				HashMap result = searchResultService.searchResult_H(param);
@@ -204,7 +204,7 @@ public class SearchResultController extends BaseController implements Serializab
 		}
 		
 	// 취정수장 GROUP CODE : E
-	@RequestMapping(value = "/searchResult_J{gubun}", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/searchResult_J{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_J(@PathVariable String gubun, @ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_J(gubun, param);

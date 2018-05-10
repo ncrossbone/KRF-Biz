@@ -27,7 +27,7 @@ public class BookmarkController extends BaseController {
 	@Autowired
 	public BookmarkService bookmarkService;
 
-	@RequestMapping(value = "/getBookmark", produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/getBookmark", produces = "text/html; charset=utf-8")
 	public String getBookmark(@ModelAttribute BookmarkVO param) {
 		try {
 			return getEuckrString((HashMap) bookmarkService.getBookmark(param.getUserId()), false);

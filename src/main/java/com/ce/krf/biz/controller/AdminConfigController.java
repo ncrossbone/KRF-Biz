@@ -3,7 +3,6 @@ package com.ce.krf.biz.controller;
 import java.io.Serializable;
 import java.util.HashMap;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 	@Autowired
 	public AdminConfigService adminConfigService;
 
-	@RequestMapping(value = "/getLayerSetAll", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/getLayerSetAll", method = RequestMethod.POST, produces = "text/html")
 	public String getLayerSetAll(@ModelAttribute AdminConfigVO param) {
 		try {
 			HashMap result = adminConfigService.selectLayerSetAll(param);
@@ -41,7 +40,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
-	@RequestMapping(value = "/getLayerSetForUser", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/getLayerSetForUser", method = RequestMethod.POST, produces = "text/html")
 	public String getLayerSetForUser(@ModelAttribute AdminConfigVO param) {
 		try {
 			HashMap result = adminConfigService.selectLayerSetForUser(param);
@@ -52,7 +51,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
-	@RequestMapping(value = "/getUsers", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/getUsers", method = RequestMethod.POST, produces = "text/html")
 	public String getUsers(@ModelAttribute AdminConfigVO param) {
 		try {
 			HashMap result = adminConfigService.selectUsers(param);
@@ -63,7 +62,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
-	@RequestMapping(value = "/putLayerSet", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/putLayerSet", method = RequestMethod.POST, produces = "text/html")
 	public String putLayerSet(@ModelAttribute AdminConfigVO param) {
 		try {
 			HashMap result = adminConfigService.insertLayerSet(param);
@@ -75,7 +74,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 	}
 
 	
-	@RequestMapping(value = "/putLayerSetByUser", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/putLayerSetByUser", method = RequestMethod.POST, produces = "text/html")
 	public String putLayerSetByUser(@ModelAttribute AdminConfigVO param) {
 		try {
 			HashMap result = adminConfigService.insertLayerSetByUser(param);
@@ -86,7 +85,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
-	@RequestMapping(value = "/updateLayerSet", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/updateLayerSet", method = RequestMethod.POST, produces = "text/html")
 	public String updateLayerSet(@ModelAttribute AdminConfigVO param) {
 		try {
 			HashMap result = adminConfigService.updateLayerSet(param);
@@ -97,7 +96,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 
-	@RequestMapping(value = "/delLayerSet", method = RequestMethod.POST, produces = "text/html; charset=euc-kr")
+	@RequestMapping(value = "/delLayerSet", method = RequestMethod.POST, produces = "text/html")
 	public String delLayerSet(@ModelAttribute AdminConfigVO param) {
 		try {
 			HashMap result = adminConfigService.deleteLayerSet(param);

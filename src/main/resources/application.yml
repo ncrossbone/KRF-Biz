@@ -39,7 +39,7 @@ spring:
       max-idle: 30
       min-idle: 1
       test-while-idle: true
-      validation-query: select 1 from dual
+      validation-query2: select 1 from dual
 logging: 
 #  config: classpath:logback.xml
   file: logs/spring-boot-logging.log
@@ -66,7 +66,7 @@ spring:
       request-timeout: 60000
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@10.101.95.15:weis
+    url: jdbc:oracle:thin:@10.101.95.15:51521:weis
     username: WATER
     password: WATER123
     tomcat:
