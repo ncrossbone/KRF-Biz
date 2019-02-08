@@ -98,7 +98,6 @@ public class BaseController implements Serializable{
 			}
 		}
 		String res = om.writeValueAsString(src);
-		
 		return res; //new String(res.getBytes(), "EUC-KR");
 	}
 

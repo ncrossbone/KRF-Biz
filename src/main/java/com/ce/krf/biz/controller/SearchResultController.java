@@ -215,5 +215,32 @@ public class SearchResultController extends BaseController implements Serializab
 			return "error";
 		}
 	}
+	
+	
+	// 보고서 : 보고서
+	@RequestMapping(value = "/searchResult_File", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_File(@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchResult_File(param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	// 경관
+	@RequestMapping(value = "/searchResult_View", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_View(@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchResult_View(param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
 
 }

@@ -15,7 +15,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.AdminConfigMapper">
-
 	<select id="selectLayerSetAll" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
 		SELECT /* KRF_BIZ.AdminConfigMapper.selectLayerSetAll  */
 				MAPSVC_AUTHOR_SN AS "layerSetId",
@@ -131,5 +130,23 @@
           FROM TGS_AUTHOR 
          WHERE MAPSVC_AUTHOR_SN = #{layerSetId}
     </delete>
+    
+    
+    <select id="selectDroneLayer" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+		SELECT 
+		    RIVER,DRONELAYERID,DRONEDATE,MEASUREDATE,CHLALAYERID,CHLADATE,PHYLAYERID,PHYDATE,ETC
+		  FROM KRF_DRONE_LAYER_INFO
+  	</select>
+  	
+  	<delete id="deleteDroneLayer" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+  		delete from KRF_DRONE_LAYER_INFO
+  	</delete>
+  	
+  	<insert id="insertDroneLayer" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+		INSERT INTO KRF_DRONE_LAYER_INFO (RIVER,DRONELAYERID,DRONEDATE,MEASUREDATE,CHLALAYERID,CHLADATE,PHYLAYERID,PHYDATE,ETC)
+            VALUES (#{river},#{droneLayerId},#{droneDate},#{measureDate},#{chlaLayerId},#{chlaDate},#{phyLayerId},#{phyDate},#{etc})
+  	</insert>
+
+    
     
 </mapper>

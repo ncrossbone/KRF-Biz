@@ -19,5 +19,9 @@ public interface AdminConfigMapper {
 	public int deleteLayerSetByUser(AdminConfigVO param);
 	public int deleteLayerSetByLayerSetId(AdminConfigVO param);
 	
+	public List selectDroneLayer(AdminConfigVO param);
+	public int deleteDroneLayer(AdminConfigVO param);
+	public int insertDroneLayer(AdminConfigVO param);
+	
 	
 }

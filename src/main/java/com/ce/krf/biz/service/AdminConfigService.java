@@ -102,4 +102,37 @@ public class AdminConfigService implements Serializable {
 		result.put("result", adminConfigMapper.deleteLayerSetByUser(param));
 		return result;
 	}
+	
+	
+	public HashMap selectDroneLayer(AdminConfigVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		result.put("data", adminConfigMapper.selectDroneLayer(param));
+		return result;
+	}
+	
+	public HashMap deleteDroneLayer(AdminConfigVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		result.put("data", adminConfigMapper.deleteDroneLayer(param));
+		return result;
+		
+	}
+	
+	public HashMap insertDroneLayer(AdminConfigVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		result.put("result", adminConfigMapper.insertDroneLayer(param));
+		return result;
+		
+	}
+	
+	public HashMap testDroneLayer(AdminConfigVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		
+		return result;
+		
+	}
+	
 }

@@ -1,7 +1,7 @@
 package com.ce.krf.biz.controller;
 
 import java.util.HashMap;
-
+import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,12 @@ import com.ce.krf.biz.service.BookmarkService;
 
 @RestController
 @RequestMapping("/bookmark")
-public class BookmarkController extends BaseController {
+public class BookmarkController extends BaseController implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5961428269914771868L;
+
 	private final Logger logger = LoggerFactory.getLogger(KrfBizApplication.class);
 
 	@Autowired

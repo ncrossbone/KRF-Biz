@@ -1,7 +1,13 @@
 package com.ce.krf.biz.model;
 
-public class BookmarkVO {
+import java.io.Serializable;
 
+public class BookmarkVO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4257095621276351792L;
 	private String userId;
 	private String data;
 	

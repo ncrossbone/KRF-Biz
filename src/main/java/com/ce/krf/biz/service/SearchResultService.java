@@ -1223,7 +1223,43 @@ public class SearchResultService implements Serializable{
 		result.put("data", resultList);
 		return result;
 	}
+	
+	// 보고서
+	public HashMap searchResult_File(SearchResultVO param) throws Exception {
 
+		HashMap result = new HashMap();
+		List resultList = null;
+		
+		resultList = searchResultMapper.searchResult_File(param);
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
+	
+	// 경관
+	public HashMap searchResult_View(SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+		
+		resultList = searchResultMapper.searchResult_View(param);
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
+	
 	/*// 부하량 - 표준유역단위
 	public List searchResult_PollLoad_Standard(SearchResultVO param) throws Exception {
 		param.setCatDids(param.getCatDid().replaceAll("'", "").split(","));

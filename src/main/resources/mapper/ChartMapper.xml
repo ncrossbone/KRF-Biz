@@ -875,10 +875,6 @@ SELECT 999 AS RN,
 	                           SUBSTR(YMDHM, 7, 6)) A, 
 	                BOOBSIF B 
 	         WHERE  A.BOOBSCD = B.BOOBSCD
-	         		<if test="defaultChart != null and defaultChart == 1"> 
-		                AND <![CDATA[ WMCYMD >= '201512' ]]>
-		                AND <![CDATA[ WMCYMD <= '201512' ]]> 
-	                </if>
 	    			<if test="defaultChart != null and defaultChart == 0">
 						AND <![CDATA[ WMCYMD >= #{preFullDate} ]]>
 						AND <![CDATA[ WMCYMD <= #{nextFullDate} ]]>

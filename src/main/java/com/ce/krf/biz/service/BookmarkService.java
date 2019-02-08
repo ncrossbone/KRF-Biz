@@ -1,6 +1,8 @@
 package com.ce.krf.biz.service;
 
+import java.io.Serializable;
 import java.util.HashMap;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +12,14 @@ import org.springframework.stereotype.Component;
 import com.ce.krf.biz.mapper.BookmarkMapper;
 
 @Component
-public class BookmarkService {
-	
+public class BookmarkService implements Serializable{
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8190592946817068162L;
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired

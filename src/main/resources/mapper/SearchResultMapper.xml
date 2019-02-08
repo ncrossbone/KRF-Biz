@@ -111,9 +111,10 @@
   	
   	<if test="gubun == 'HcBemaSe' ">
   		<if test="comboValue == 1 ">
-	  		SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
-	    		FROM V_AEMRV_BEMA_ACPEXM
-	    	  WHERE SPOT_CODE IN
+	  		SELECT MAX (A.YEAR || '.' || A.TME) AS WMCYMD 
+	    		FROM V_AEMRV_BEMA_ACPEXM A, V_AEMRV_BEMA_ANALY B
+			 WHERE A.YEAR = B.YEAR AND A.TME = B.TME AND A.SPOT_NM = B.SPOT_NM
+				AND A.SPOT_CODE IN
 	  		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	    </if>
 	    <if test="comboValue == 2 ">
@@ -137,9 +138,9 @@
 		  	<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	    </if>
 	    <if test="comboValue == 2 ">
-	    	SELECT MAX(YEAR|'.'||TME) AS WMCYMD 
+	    	SELECT MAX(YEAR||'.'||TME) AS WMCYMD 
     			FROM V_AEMRV_FISH_SPCS
-   			  AND SPOT_CODE IN 
+   			  WHERE SPOT_CODE IN 
 		  	<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	    </if>
   	
@@ -147,9 +148,12 @@
   	</if>
   	
   	<if test="gubun == 'HcInhaSe' ">
-	SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
-    	FROM V_AEMRV_INHA_ACPEXM
-   	  WHERE SPOT_CODE IN
+	SELECT MAX (A.YEAR || '.' || A.TME) AS WMCYMD 
+    	FROM V_AEMRV_INHA_ACPEXM A , V_AEMRV_INHA_ANALY B
+        WHERE A.SPOT_CODE = B.SPOT_CODE
+					AND A.YEAR = B.YEAR
+					AND A.TME = B.TME
+					AND A.SPOT_CODE IN
       <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
   	</if>
   	
@@ -162,9 +166,12 @@
   	
   	<if test="gubun == 'HcVtnSe' ">
   		<if test="comboValue == 1 ">
-  			SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
-		    	FROM V_AEMRV_INHA_ACPEXM
-		   	  WHERE SPOT_CODE IN
+  			SELECT MAX (A.YEAR || '.' || A.TME) AS WMCYMD 
+		    	FROM V_AEMRV_VTN_ACPEXM A, V_AEMRV_VTN_ANALY B
+				 WHERE A.SPOT_CODE = B.SPOT_CODE 
+				 AND A.YEAR = B.YEAR 
+				 AND A.TME = B.TME
+			   	 AND A.SPOT_CODE IN
 		      <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	    </if>
 	    <if test="comboValue == 2 ">
@@ -873,42 +880,58 @@
 		  FROM V_AEMRV_FISH_SPCS
 		  WHERE SPOT_CODE IN 
 		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
-		AND A.YEAR||A.TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+		AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
 	    </if>
 	
 	</select>
 	
 	<select id="searchSstgHcInhaSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		SELECT 
-	       YEAR,
-	       TME,
-	       SPOT_CODE,
-	       SPOT_NM,
-	       WRSSM_NM,
-	       WRSSM_CODE,
-	       DETAIL_WRSSM_NM,
-	       MDT_NM,
-	       MDT_CODE,
-	       SDT_NM,
-	       RIVER_NM,
-	       BSTRM_SE,
-	       LA,
-	       LO,
-	       DE,
-	       WETHR_SE,
-	       EXAMIN_INSTT_NM,
-	       EXMNR_NM,
-	       RIVER_GRAD,
-	       ALTTD,
-	       RRSMLD_SE,
-	       FILE_NM,
-	       EXIMP_PARTCLR_MATTER,
-	       EXIMP_DETAIL_CN,
-	       EXPSS_PARTCLR_MATTER
-	  FROM V_AEMRV_INHA_ACPEXM
-	  WHERE SPOT_CODE IN
+	       A.YEAR,
+	       A.TME,
+	       A.SPOT_CODE,
+	       A.SPOT_NM,
+	       A.WRSSM_NM,
+	       A.WRSSM_CODE,
+	       A.DETAIL_WRSSM_NM,
+	       A.MDT_NM,
+	       A.MDT_CODE,
+	       A.SDT_NM,
+	       A.RIVER_NM,
+	       A.BSTRM_SE,
+	       A.LA,
+	       A.LO,
+	       A.DE,
+	       A.WETHR_SE,
+	       A.EXAMIN_INSTT_NM,
+	       A.EXMNR_NM,
+	       A.RIVER_GRAD,
+	       A.ALTTD,
+	       A.RRSMLD_SE,
+	       A.FILE_NM,
+	       A.EXIMP_PARTCLR_MATTER,
+	       A.EXIMP_DETAIL_CN,
+	       A.EXPSS_PARTCLR_MATTER,
+	       B.LBSB_CO_EVL ,
+		   B.NTRLTY_DGREE_EVL ,
+		   B.SPFLD_DVRSTY_EVL ,
+			B.RVS_BT_EVL ,
+			B.RSV_ARV_EVL ,
+			B.ARV_MATRL_EVL ,
+			B.SEDM_STTUS_EVL ,
+			B.WDSTRCTU_DSTRBNC_EVL ,
+			B.FRCE_LANDUSE_EVL ,
+			B.PRLL_LANDUSE_EVL ,
+			B.HRI ,
+			B.HEALTH_GRAD ,
+			B.INPUT_TY
+		  FROM V_AEMRV_INHA_ACPEXM A , V_AEMRV_INHA_ANALY B
+		  WHERE A.SPOT_CODE = B.SPOT_CODE
+					AND A.YEAR = B.YEAR
+					AND A.TME = B.TME
+					AND A.SPOT_CODE IN 
 		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
-		AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+		AND A.YEAR||A.TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
 	</select>
 	
 	<select id="searchSstgHcQltwtrSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
@@ -7694,5 +7717,155 @@ ORDER  BY NO_1,
 		 WHERE FCLTS_NO	IN
 		 <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</select>
+	
+	<select id="searchResult_File" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	/* 보고서 파일 */
+	SELECT BRRER_CODE,
+          BO_CODE,
+          OBSNM,
+          DTA_CODE,
+          DTA_NM,
+          DOC_SJ,
+          FILE_VIRTL_NM ,
+          FILE_REAL_NM, 
+          FILE_SIZE, 
+          FILE_COURS, 
+          YYYY,
+          MM,
+          YM,
+          DOC_PBLICTE_DE,
+          DOC_PBLICTE_INSTT_NM
+     FROM (SELECT BRRER_CODE,
+                  DECODE(BRRER_CODE,'1007801'    ,'1007A20','1007802'    ,'1007A27','1007803'    ,'1007A60','2007801'    ,'2007A25','2009801'    ,'2009A05','2009802'    ,'2009A30','2011801'    ,'2011A25','2011802','2011A55','2014801'    ,'2014A25','2014802','2014A70','2017801','2020A32','3010801'    ,'3012A07','3012801'    ,'3012A32','3012802'    ,'3012A42','5004801'    ,'5004A10','5004802'    ,'5004A35') AS BO_CODE,
+                  D.OBSNM,
+                  A.DTA_CODE,
+                  DTA_NM,
+                  DOC_SJ,
+                  FILE_VIRTL_NM,
+                  FILE_REAL_NM, 
+                  FILE_SIZE, 
+                  FILE_COURS, 
+                  SUBSTR(DOC_PBLICTE_DE, 1, 4) AS YYYY,
+                  SUBSTR(DOC_PBLICTE_DE, 6, 2) AS MM,
+                  TO_NUMBER(SUBSTR(DOC_PBLICTE_DE, 1, 4)||SUBSTR(DOC_PBLICTE_DE, 6, 2)) AS YM,
+                  DOC_PBLICTE_DE,
+                  DOC_PBLICTE_INSTT_NM
+             FROM BOMNT.TCM_DOC_INFO A,
+                  BOMNT.TCM_DTA_MASTR B,
+                  BOMNT.BRRER_UPPSTRIM_DTA_MAPNG C ,
+                  BOMNT.BOOBSIF D,
+                  BOMNT.TCM_ATCHMNFL E
+            WHERE A.DTA_CODE = B.DTA_CODE
+              AND A.ATCHMNFL_ID = MAPNG_DTA_NO
+              AND C.BRRER_CODE = D.BOOBSCD
+              AND A.ATCHMNFL_ID = E.FILE_ID
+            GROUP BY BRRER_CODE,
+                  D.OBSNM,
+                  A.DTA_CODE,
+                  DTA_NM,
+                  DOC_SJ,
+                  FILE_VIRTL_NM,
+                  FILE_REAL_NM, 
+                  FILE_SIZE, 
+                  FILE_COURS, 
+                  DOC_PBLICTE_DE,
+                  DOC_PBLICTE_INSTT_NM ) A
+                  WHERE 1=1
+               <if test="textField != '' ">
+                     AND A.DTA_NM LIKE '%'||#{textField}||'%'
+                </if>
+	           <if test="boCode != '' ">
+	                   AND A.BO_CODE = #{boCode}
+	            </if>
+	            <if test="startYear != '' and startMonth != ''">
+	                  AND A.YM >= #{startYear} || #{startMonth}
+	            </if>  
+	            <if test="endYear != '' and endMonth != ''">
+	                  AND A.YM <![CDATA[ <=  ]]> #{endYear} || #{endMonth}
+	            </if>
+            ORDER BY DOC_PBLICTE_DE DESC
+	</select>
+	
+	<select id="searchResult_View" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	 /*경관 파일*/
+		 SELECT SE, WRSSM_CODE,WRSSM_NM,SPOT_CODE,BRRER_CODE,BO_CODE,OBSNM,SPOT_NM,DTA_NM,YYYY,MM,YM,POTOGRF_DE,FILE_ID,FILE_SN,FILE_VIRTL_NM,FILE_REAL_NM,FILE_SIZE,FILE_COURS,PARTCLR_MATTER FROM 
+   (
+           SELECT '드론촬영' AS SE, 
+                  A.WRSSM_CODE,
+                  DECODE (A.WRSSM_CODE,'R01','한강','R02','낙동강','R03','금강','R04','영산강') AS WRSSM_NM,
+                  A.SPOT_CODE, 
+                  A.BRRER_CODE,
+                  DECODE(A.BRRER_CODE,'1007801'    ,'1007A20','1007802'    ,'1007A27','1007803'    ,'1007A60','2007801'    ,'2007A25','2009801'    ,'2009A05','2009802'    ,'2009A30','2011801'    ,'2011A25','2011802','2011A55','2014801'    ,'2014A25','2014802','2014A70','2017801','2020A32','3010801'    ,'3012A07','3012801'    ,'3012A32','3012802'    ,'3012A42','5004801'    ,'5004A10','5004802'    ,'5004A35') AS BO_CODE,
+                  D.OBSNM,
+                  A.SPOT_NM,
+                  A.SPOT_NM AS DTA_NM,
+                  SUBSTR(B.POTOGRF_DE,1,4) YYYY,
+                  SUBSTR(B.POTOGRF_DE,6,2) MM,
+                  TO_NUMBER(SUBSTR(B.POTOGRF_DE,1,4)||SUBSTR(B.POTOGRF_DE,6,2)) AS YM ,
+                  B.POTOGRF_DE,
+                  B.FILE_ID,
+                  C.FILE_SN,     
+                  C.FILE_VIRTL_NM,   /* 파일 가상 명칭*/
+                  C.FILE_REAL_NM,
+                  C.FILE_SIZE,       /* 파일 사이즈*/
+                  C.FILE_COURS,      /* 파일 경로*/
+                  B.PARTCLR_MATTER
+             FROM BOMNT.DRONE_PHOSPOT A,
+                  BOMNT.DRONE_PHODTA B,
+                  TCM_ATCHMNFL C,
+                  BOOBSIF D
+            WHERE A.SPOT_CODE = B.SPOT_CODE
+              AND B.FILE_ID = C.FILE_ID
+              AND A.BRRER_CODE = D.BOOBSCD 
+           UNION ALL   
+           SELECT '항공촬영' AS SE, 
+                  A.WRSSM_CODE,
+                  DECODE (A.WRSSM_CODE,'R01','한강','R02','낙동강','R03','금강','R04','영산강') AS WRSSM_NM,
+                  A.SPOT_CODE, 
+                  A.BRRER_CODE,
+                  DECODE(A.BRRER_CODE,'1007801'    ,'1007A20','1007802'    ,'1007A27','1007803'    ,'1007A60','2007801'    ,'2007A25','2009801'    ,'2009A05','2009802'    ,'2009A30','2011801'    ,'2011A25','2011802','2011A55','2014801'    ,'2014A25','2014802','2014A70','2017801','2020A32','3010801'    ,'3012A07','3012801'    ,'3012A32','3012802'    ,'3012A42','5004801'    ,'5004A10','5004802'    ,'5004A35') AS BO_CODE,
+                  D.OBSNM,
+                  A.SPOT_NM,
+                  A.SPOT_NM AS DTA_NM,
+                  SUBSTR(B.POTOGRF_DE,1,4) YYYY,
+                  SUBSTR(B.POTOGRF_DE,6,2) MM,
+                  TO_NUMBER(SUBSTR(B.POTOGRF_DE,1,4)||SUBSTR(B.POTOGRF_DE,6,2)) AS YM ,
+                  B.POTOGRF_DE,
+                  B.FILE_ID,
+                  C.FILE_SN,
+                  C.FILE_VIRTL_NM,   /* 파일 가상 명칭*/
+                  C.FILE_REAL_NM,
+                  C.FILE_SIZE,       /* 파일 사이즈*/
+                  C.FILE_COURS,      /* 파일 경로*/
+                  B.PARTCLR_MATTER
+             FROM BOMNT.FLIGHT_PHOSPOT A,
+                  BOMNT.FLIGHT_PHODTA B,
+                  BOMNT.TCM_ATCHMNFL C,
+                  BOMNT.BOOBSIF D
+            WHERE A.SPOT_CODE = B.SPOT_CODE
+              AND B.FILE_ID = C.FILE_ID
+              AND A.BRRER_CODE = D.BOOBSCD ) A
+                 WHERE 1=1
+              <if test="textField != '' ">
+               		AND A.FILE_REAL_NM LIKE '%'||#{textField}||'%'
+               </if>
+	           <if test="fileGubun != '' ">
+	           		AND A.SE = #{fileGubun}
+	           </if>
+               <if test="spotCode != '' ">
+	       			AND A.SPOT_CODE = #{spotCode}
+			   </if>
+		       <if test="boCode != '' ">
+		       		AND A.BO_CODE = #{boCode}
+			   </if>
+			   <if test="startYear != '' and startMonth != ''">
+			   		AND A.YM >= #{startYear} || #{startMonth}
+			   </if>  
+			   <if test="endYear != '' and endMonth != ''">
+			   		AND A.YM <![CDATA[ <=  ]]> #{endYear} || #{endMonth}
+			   </if>
+			   ORDER BY POTOGRF_DE DESC
+	</select>
+	
 	
 </mapper>

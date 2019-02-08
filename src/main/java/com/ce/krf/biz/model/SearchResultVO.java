@@ -34,6 +34,14 @@ public class SearchResultVO implements Serializable{
 	
 	private String comboValue = "";
 	
+	private String boCode = "";
+	private String spotCode = "";
+	private String brrerCode = "";
+	
+	private String fileGubun = "";
+	private String textField = "";
+	
+	
 	
 	
 	
@@ -154,6 +162,36 @@ public class SearchResultVO implements Serializable{
 	}
 	public void setCon(String con) {
 		this.con = con;
+	}
+	public String getBoCode() {
+		return boCode;
+	}
+	public void setBoCode(String boCode) {
+		this.boCode = boCode;
+	}
+	public String getSpotCode() {
+		return spotCode;
+	}
+	public void setSpotCode(String spotCode) {
+		this.spotCode = spotCode;
+	}
+	public String getBrrerCode() {
+		return brrerCode;
+	}
+	public void setBrrerCode(String brrerCode) {
+		this.brrerCode = brrerCode;
+	}
+	public String getFileGubun() {
+		return fileGubun;
+	}
+	public void setFileGubun(String fileGubun) {
+		this.fileGubun = fileGubun;
+	}
+	public String getTextField() {
+		return textField;
+	}
+	public void setTextField(String textField) {
+		this.textField = textField;
 	}
 	
 	
