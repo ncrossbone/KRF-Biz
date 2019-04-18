@@ -1,6 +1,7 @@
 package com.ce.krf.biz.controller;
 
 import java.awt.Menu;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,9 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Result;
 
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +44,12 @@ public class AdminConfigController extends BaseController implements Serializabl
 	private static final long serialVersionUID = 8694821545355394058L;
 
 	private final Logger logger = LoggerFactory.getLogger(KrfBizApplication.class);
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
+	@Autowired
+	private DataSourceTransactionManager transactionManager;
 
 	@Autowired
 	public AdminConfigService adminConfigService;
@@ -52,10 +65,21 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	@RequestMapping(value="/getBoInfo", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String getBoInfo(@ModelAttribute AdminConfigVO param) {
+		try {
+			HashMap result = adminConfigService.getBoInfo(param);
+			return getEuckrString(result, false);
+		}catch (Exception e) {
+			return "error";
+		}
+	}
+	
 	@RequestMapping(value = "/getLayerSetForUser", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
-	public String getLayerSetForUser(@ModelAttribute AdminConfigVO param) {
+	public String getLayerSetForUser(@ModelAttribute AdminConfigVO param) {		
 		try {
 			HashMap result = adminConfigService.selectLayerSetForUser(param);
+			
 			return getEuckrString(result, false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -70,6 +94,26 @@ public class AdminConfigController extends BaseController implements Serializabl
 			return getEuckrString(result, false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			return "error";
+		}
+	}
+	
+	@RequestMapping(value = "/getUserLayerInfo", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String getUserLayerInfo(@ModelAttribute AdminConfigVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = adminConfigService.getUserLayerInfo(param);
+			transactionManager.commit(status);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			transactionManager.rollback(status);
 			return "error";
 		}
 	}

@@ -985,10 +985,10 @@ public class SearchResultService implements Serializable{
 		
 		if ("noDate".equals(param.getFirstSearch())) {
 			resultList = searchResultMapper.searchResult_B001_getDate(param);
-			ObjectMapper om = new ObjectMapper(); 
-			String arrStr = om.writeValueAsString(resultList);
-			
-			logger.info(arrStr);
+//			ObjectMapper om = new ObjectMapper(); 
+//			String arrStr = om.writeValueAsString(resultList);
+//			
+//			logger.info(arrStr);
 		}else {
 			resultList = searchResultMapper.searchResult_B001(param);
 		}

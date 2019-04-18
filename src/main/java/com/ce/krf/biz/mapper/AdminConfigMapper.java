@@ -10,6 +10,9 @@ public interface AdminConfigMapper {
 	public List selectLayerSetForUser(AdminConfigVO param);
 	public List selectUsers(AdminConfigVO param);
 	
+	public int setUserLayerInfo(AdminConfigVO param);
+	public List getUserLayerInfo(AdminConfigVO param);	
+	
 	public int insertLayerSet(AdminConfigVO param);
 	public int insertLayerSetByUser(AdminConfigVO param);
 	
@@ -22,6 +25,9 @@ public interface AdminConfigMapper {
 	public List selectDroneLayer(AdminConfigVO param);
 	public int deleteDroneLayer(AdminConfigVO param);
 	public int insertDroneLayer(AdminConfigVO param);
+	
+	public List selectBoInfo(AdminConfigVO param);
+	
 	
 	
 }

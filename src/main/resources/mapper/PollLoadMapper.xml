@@ -15,5 +15,75 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.PollLoadMapper">
+
+	<select id="PollLoadSelect" parameterType="com.ce.krf.biz.model.PollutionVO" resultType="hashmap">
+		WITH POLLULANT_LOAD_FOR_CAT_TBL AS (SELECT WS_CD,
+		               SW_CODE,
+		               ADM_CD,
+		               WS_NM,
+		               AM_NM,
+		               SW_NAME,
+		               CAT_DID,
+		               DO_NM || ' ' || CTY_NM || ' ' || DONG_NM || ' ' || RI_NM AS ADDR,
+		               PERCENTAGE,
+		               GNR_BOD_SUM,
+		               GNR_TN_SUM,
+		               GNR_TP_SUM,
+		               OUT_BOD_SUM,
+		               OUT_TN_SUM,
+		               OUT_TP_SUM
+		        FROM   (SELECT 
+		                       WS_NM,
+		                       WS_CD,
+		                       AM_NM,
+		                       AM_CD,
+		                       SW_NAME,
+		                       SW_CODE,
+		                       DO_NM,
+		                       CTY_NM,
+		                       DONG_NM,
+		                       RI_NM,
+		                       ADM_CD,
+		                       CAT_DID,
+		                       '' AS PERCENTAGE,
+		                       GNR_BOD_SUM,
+		                       GNR_TN_SUM,
+		                       GNR_TP_SUM,
+		                       OUT_BOD_SUM,
+		                       OUT_TN_SUM,
+		                       OUT_TP_SUM
+		                FROM   POLLULANT_LOAD_FOR_CAT 
+		                WHERE YYYY = #{year} )
+		        WHERE  CAT_DID IN  <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		        ORDER BY WS_CD, SW_CODE, CAT_DID, ADM_CD)
+		SELECT WS_NM,
+		       AM_NM,
+		       SW_NAME,
+		       CAT_DID,
+		       
+		       GNR_BOD_SUM,
+		       GNR_TN_SUM,
+		       GNR_TP_SUM,
+		       OUT_BOD_SUM,
+		       OUT_TN_SUM,
+		       OUT_TP_SUM
+		FROM   (
+		SELECT 
+		               WS_CD,
+		               SW_CODE,
+		               WS_NM,
+		               AM_NM,
+		               SW_NAME,
+		               CAT_DID,
+		               SUM(GNR_BOD_SUM) AS GNR_BOD_SUM,
+		               SUM(GNR_TN_SUM) AS GNR_TN_SUM,
+		               SUM(GNR_TP_SUM) AS GNR_TP_SUM,
+		               SUM(OUT_BOD_SUM) AS OUT_BOD_SUM,
+		               SUM(OUT_TN_SUM) AS OUT_TN_SUM,
+		               SUM(OUT_TP_SUM) AS OUT_TP_SUM
+		        FROM   POLLULANT_LOAD_FOR_CAT_TBL
+		        GROUP BY WS_CD, SW_CODE, WS_NM, AM_NM, SW_NAME, CAT_DID)
+		ORDER BY WS_CD, SW_CODE
+	</select>
     
 </mapper>

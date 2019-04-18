@@ -99,6 +99,19 @@
 		 WHERE 1=1
     </select>
     
+    <insert id="setUserLayerInfo" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+    
+    	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE) VALUES ( 1446 )
+    	
+    </insert>
+    
+    <select id="getUserLayerInfo" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+    
+    	SELECT SN, LYR_CODE, LYR_USE_AT, INQIRE_USE_AT, LYR_NM, LYR_LEVEL, LYR_DC, SORT_ORDR, UPPER_LYR_CODE FROM V_COM_GISLYR_AUTHOR
+    
+    </select>
+    
+    
     <insert id="insertLayerSet" parameterType="com.ce.krf.biz.model.AdminConfigVO">
         INSERT INTO TGS_AUTHOR_MAPSVC(MAPSVC_AUTHOR_SN, MAPSVC_NM, MAPSVC_ID,REGISTER_ID, REGIST_DT) 
         VALUES((SELECT NVL(MAX(MAPSVC_AUTHOR_SN), 0)+1 AS MAPSVC_AUTHOR_SN FROM TGS_AUTHOR_MAPSVC), #{layerSetName}, #{layerSetIds}, #{userId}, SYSDATE)
@@ -146,6 +159,23 @@
 		INSERT INTO KRF_DRONE_LAYER_INFO (RIVER,DRONELAYERID,DRONEDATE,MEASUREDATE,CHLALAYERID,CHLADATE,PHYLAYERID,PHYDATE,ETC)
             VALUES (#{river},#{droneLayerId},#{droneDate},#{measureDate},#{chlaLayerId},#{chlaDate},#{phyLayerId},#{phyDate},#{etc})
   	</insert>
+  	
+  	<select id="selectBoInfo" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+  	/*KRF_BIZ.AdminConfigMapper.selectBoInfo*/
+	SELECT BRRER_REPRSNT_SPOT_CODE AS SPOT_CODE, 
+	      CASE OPN_AT
+	        WHEN '01' THEN 'true'
+	        WHEN '02' THEN 'true'
+	        WHEN '03' THEN 'false'
+	        ELSE 'false' 
+	      END AS OPN_AT
+	      ,OBSNM
+	    FROM BOMNT.TCM_BRRER_MAPNG A,
+	         BOMNT.BOOBSIF B
+	  WHERE A.BRRER_CODE = B.BOOBSCD
+	    AND DTA_CODE = '010101'
+  	
+  	</select>
 
     
     

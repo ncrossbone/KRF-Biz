@@ -1311,28 +1311,28 @@
                  B.WMWK AS SEQ,
                  NVL(A.WMDEP,'') AS WMDEP,
                  NVL (A.ITEM_BOD, 888888888) AS CURR_BOD,
-                 CASE WHEN B.ITEM_BOD = '999999999' THEN 0 ELSE B.ITEM_BOD END
+                 CASE WHEN B.ITEM_BOD = '999999999' THEN 0.000000001 ELSE B.ITEM_BOD END
                     AS CHART_BOD,
                  NVL (A.ITEM_DOC, 888888888) AS CURR_DO,
-                 CASE WHEN B.ITEM_DOC = '999999999' THEN 0 ELSE B.ITEM_DOC END
+                 CASE WHEN B.ITEM_DOC = '999999999' THEN 0.000000001 ELSE B.ITEM_DOC END
                     AS CHART_DO,
                  NVL (A.ITEM_COD, 888888888) AS CURR_COD,
-                 CASE WHEN B.ITEM_COD = '999999999' THEN 0 ELSE B.ITEM_COD END
+                 CASE WHEN B.ITEM_COD = '999999999' THEN 0.000000001 ELSE B.ITEM_COD END
                     AS CHART_COD,
                  NVL (A.ITEM_TN, 888888888) AS CURR_TN,
-                 CASE WHEN B.ITEM_TN = '999999999' THEN 0 ELSE B.ITEM_TN END
+                 CASE WHEN B.ITEM_TN = '999999999' THEN 0.000000001 ELSE B.ITEM_TN END
                     AS CHART_TN,
                  NVL (A.ITEM_TP, 888888888) AS CURR_TP,
-                 CASE WHEN B.ITEM_TP = '999999999' THEN 0 ELSE B.ITEM_TP END
+                 CASE WHEN B.ITEM_TP = '999999999' THEN 0.000000001 ELSE B.ITEM_TP END
                     AS CHART_TP,
                  NVL (A.ITEM_TEMP, 888888888) AS CURR_TEMP,
                  CASE
-                    WHEN B.ITEM_TEMP = '999999999' THEN 0
+                    WHEN B.ITEM_TEMP = '999999999' THEN 0.000000001
                     ELSE B.ITEM_TEMP
                  END
                     AS CHART_TEMP,
                  NVL (A.ITEM_PH, 888888888) AS CURR_PH,
-                 CASE WHEN B.ITEM_PH = '999999999' THEN 0 ELSE B.ITEM_PH END
+                 CASE WHEN B.ITEM_PH = '999999999' THEN 0.000000001 ELSE B.ITEM_PH END
                     AS CHART_PH,
                  NVL (A.ITEM_SS, 888888888) AS CURR_SS,
                  CASE
@@ -1340,190 +1340,190 @@
                     ELSE NULL
                  END
                     CURR_SS_NEW,
-                 CASE WHEN B.ITEM_SS = '999999999' THEN 0 ELSE B.ITEM_SS END
+                 CASE WHEN B.ITEM_SS = '999999999' THEN 0.000000001 ELSE B.ITEM_SS END
                     AS CHART_SS,
                  NVL (A.ITEM_CLOA, 888888888) AS CURR_CLOA,
                  CASE
-                    WHEN B.ITEM_CLOA = '999999999' THEN 0
+                    WHEN B.ITEM_CLOA = '999999999' THEN 0.000000001
                     ELSE B.ITEM_CLOA
                  END
                     AS CHART_CLOA,
                  NVL (A.ITEM_TOC, 888888888) AS CURR_TOC,
-                 CASE WHEN B.ITEM_TOC = '999999999' THEN 0 ELSE B.ITEM_TOC END
+                 CASE WHEN B.ITEM_TOC = '999999999' THEN 0.000000001 ELSE B.ITEM_TOC END
                     AS CHART_TOC,
                  NVL (A.ITEM_AMNT, 888888888) AS CURR_AMNT,
                  CASE
-                    WHEN B.ITEM_AMNT = '999999999' THEN 0
+                    WHEN B.ITEM_AMNT = '999999999' THEN 0.000000001
                     ELSE B.ITEM_AMNT
                  END
                     AS CHART_AMNT,
                  NVL (A.ITEM_DTN, 888888888) AS CURR_DTN,
-                 CASE WHEN B.ITEM_DTN = '999999999' THEN 0 ELSE B.ITEM_DTN END
+                 CASE WHEN B.ITEM_DTN = '999999999' THEN 0.000000001 ELSE B.ITEM_DTN END
                     AS CHART_DTN,
                  NVL (A.ITEM_NO3N, 888888888) AS CURR_NO3N,
                  CASE
-                    WHEN B.ITEM_NO3N = '999999999' THEN 0
+                    WHEN B.ITEM_NO3N = '999999999' THEN 0.000000001
                     ELSE B.ITEM_NO3N
                  END
                     AS CHART_NO3N,
                  NVL (A.ITEM_NH3N, 888888888) AS CURR_NH3N,
                  CASE
-                    WHEN B.ITEM_NH3N = '999999999' THEN 0
+                    WHEN B.ITEM_NH3N = '999999999' THEN 0.000000001
                     ELSE B.ITEM_NH3N
                  END
                     AS CHART_NH3N,
                  NVL (A.ITEM_DTP, 888888888) AS CURR_DTP,
-                 CASE WHEN B.ITEM_DTP = '999999999' THEN 0 ELSE B.ITEM_DTP END
+                 CASE WHEN B.ITEM_DTP = '999999999' THEN 0.000000001 ELSE B.ITEM_DTP END
                     AS CHART_DTP,
                  NVL (A.ITEM_POP, 888888888) AS CURR_POP,
-                 CASE WHEN B.ITEM_POP = '999999999' THEN 0 ELSE B.ITEM_POP END
+                 CASE WHEN B.ITEM_POP = '999999999' THEN 0.000000001 ELSE B.ITEM_POP END
                     AS CHART_POP,
                  NVL (A.ITEM_TRANS, 888888888) AS CURR_TRANS,
                  CASE
-                    WHEN B.ITEM_TRANS = '999999999' THEN 0
+                    WHEN B.ITEM_TRANS = '999999999' THEN 0.000000001
                     ELSE B.ITEM_TRANS
                  END
                     AS CHART_TRANS,
                  NVL (A.ITEM_ALGOL, 888888888) AS CURR_ALGOL,
                  CASE
-                    WHEN B.ITEM_ALGOL = '999999999' THEN 0
+                    WHEN B.ITEM_ALGOL = '999999999' THEN 0.000000001
                     ELSE B.ITEM_ALGOL
                  END
                     AS CHART_ALGOL,
                  NVL (A.ITEM_TCOLI, 888888888) AS CURR_TCOLI,
                  CASE
-                    WHEN B.ITEM_TCOLI = '999999999' THEN 0
+                    WHEN B.ITEM_TCOLI = '999999999' THEN 0.000000001
                     ELSE B.ITEM_TCOLI
                  END
                     AS CHART_TCOLI,
                  NVL (A.ITEM_ECOLI, 888888888) AS CURR_ECOLI,
                  CASE
-                    WHEN B.ITEM_ECOLI = '999999999' THEN 0
+                    WHEN B.ITEM_ECOLI = '999999999' THEN 0.000000001
                     ELSE B.ITEM_ECOLI
                  END
                     AS CHART_ECOLI,
                  NVL (A.ITEM_ANTIMON, 888888888) AS CURR_ANTIMON,
                  CASE
-                    WHEN B.ITEM_ANTIMON = '999999999' THEN 0
+                    WHEN B.ITEM_ANTIMON = '999999999' THEN 0.000000001
                     ELSE B.ITEM_ANTIMON
                  END
                     AS CHART_ANTIMON,
                  NVL (A.ITEM_PHENOL, 888888888) AS CURR_PHENOL,
                  CASE
-                    WHEN B.ITEM_PHENOL = '999999999' THEN 0
+                    WHEN B.ITEM_PHENOL = '999999999' THEN 0.000000001
                     ELSE B.ITEM_PHENOL
                  END
                     AS CHART_PHENOL,
                  NVL (A.ITEM_COL, 888888888) AS CURR_COL,
-                 CASE WHEN B.ITEM_COL = '999999999' THEN 0 ELSE B.ITEM_COL END
+                 CASE WHEN B.ITEM_COL = '999999999' THEN 0.000000001 ELSE B.ITEM_COL END
                     AS CHART_COL,
                  NVL (A.ITEM_NHEX, 888888888) AS CURR_NHEX,
                  CASE
-                    WHEN B.ITEM_NHEX = '999999999' THEN 0
+                    WHEN B.ITEM_NHEX = '999999999' THEN 0.000000001
                     ELSE B.ITEM_NHEX
                  END
                     AS CHART_NHEX,
                  NVL (A.ITEM_MN, 888888888) AS CURR_MN,
-                 CASE WHEN B.ITEM_MN = '999999999' THEN 0 ELSE B.ITEM_MN END
+                 CASE WHEN B.ITEM_MN = '999999999' THEN 0.000000001 ELSE B.ITEM_MN END
                     AS CHART_MN,
                  NVL (A.ITEM_FE, 888888888) AS CURR_FE,
-                 CASE WHEN B.ITEM_FE = '999999999' THEN 0 ELSE B.ITEM_FE END
+                 CASE WHEN B.ITEM_FE = '999999999' THEN 0.000000001 ELSE B.ITEM_FE END
                     AS CHART_FE,
                  NVL (A.ITEM_CD, 888888888) AS CURR_CD,
-                 CASE WHEN B.ITEM_CD = '999999999' THEN 0 ELSE B.ITEM_CD END
+                 CASE WHEN B.ITEM_CD = '999999999' THEN 0.000000001 ELSE B.ITEM_CD END
                     AS CHART_CD,
                  NVL (A.ITEM_CN, 888888888) AS CURR_CN,
-                 CASE WHEN B.ITEM_CN = '999999999' THEN 0 ELSE B.ITEM_CN END
+                 CASE WHEN B.ITEM_CN = '999999999' THEN 0.000000001 ELSE B.ITEM_CN END
                     AS CHART_CN,
                  NVL (A.ITEM_PB, 888888888) AS CURR_PB,
-                 CASE WHEN B.ITEM_PB = '999999999' THEN 0 ELSE B.ITEM_PB END
+                 CASE WHEN B.ITEM_PB = '999999999' THEN 0.000000001 ELSE B.ITEM_PB END
                     AS CHART_PB,
                  NVL (A.ITEM_CR6, 888888888) AS CURR_CR6,
-                 CASE WHEN B.ITEM_CR6 = '999999999' THEN 0 ELSE B.ITEM_CR6 END
+                 CASE WHEN B.ITEM_CR6 = '999999999' THEN 0.000000001 ELSE B.ITEM_CR6 END
                     AS CHART_CR6,
                  NVL (A.ITEM_CR, 888888888) AS CURR_CR,
-                 CASE WHEN B.ITEM_CR = '999999999' THEN 0 ELSE B.ITEM_CR END
+                 CASE WHEN B.ITEM_CR = '999999999' THEN 0.000000001 ELSE B.ITEM_CR END
                     AS CHART_CR,
                  NVL (A.ITEM_AS, 888888888) AS CURR_AS,
-                 CASE WHEN B.ITEM_AS = '999999999' THEN 0 ELSE B.ITEM_AS END
+                 CASE WHEN B.ITEM_AS = '999999999' THEN 0.000000001 ELSE B.ITEM_AS END
                     AS CHART_AS,
                  NVL (A.ITEM_HG, 888888888) AS CURR_HG,
-                 CASE WHEN B.ITEM_HG = '999999999' THEN 0 ELSE B.ITEM_HG END
+                 CASE WHEN B.ITEM_HG = '999999999' THEN 0.000000001 ELSE B.ITEM_HG END
                     AS CHART_HG,
                  NVL (A.ITEM_CU, 888888888) AS CURR_CU,
-                 CASE WHEN B.ITEM_CU = '999999999' THEN 0 ELSE B.ITEM_CU END
+                 CASE WHEN B.ITEM_CU = '999999999' THEN 0.000000001 ELSE B.ITEM_CU END
                     AS CHART_CU,
                  NVL (A.ITEM_ZN, 888888888) AS CURR_ZN,
-                 CASE WHEN B.ITEM_ZN = '999999999' THEN 0 ELSE B.ITEM_ZN END
+                 CASE WHEN B.ITEM_ZN = '999999999' THEN 0.000000001 ELSE B.ITEM_ZN END
                     AS CHART_ZN,
                  NVL (A.ITEM_FL, 888888888) AS CURR_FL,
-                 CASE WHEN B.ITEM_FL = '999999999' THEN 0 ELSE B.ITEM_FL END
+                 CASE WHEN B.ITEM_FL = '999999999' THEN 0.000000001 ELSE B.ITEM_FL END
                     AS CHART_FL,
                  NVL (A.ITEM_ABS, 888888888) AS CURR_ABS,
-                 CASE WHEN B.ITEM_ABS = '999999999' THEN 0 ELSE B.ITEM_ABS END
+                 CASE WHEN B.ITEM_ABS = '999999999' THEN 0.000000001 ELSE B.ITEM_ABS END
                     AS CHART_ABS,
                  NVL (A.ITEM_CL, 888888888) AS CURR_CL,
-                 CASE WHEN B.ITEM_CL = '999999999' THEN 0 ELSE B.ITEM_CL END
+                 CASE WHEN B.ITEM_CL = '999999999' THEN 0.000000001 ELSE B.ITEM_CL END
                     AS CHART_CL,
                  NVL (A.ITEM_TCE, 888888888) AS CURR_TCE,
-                 CASE WHEN B.ITEM_TCE = '999999999' THEN 0 ELSE B.ITEM_TCE END
+                 CASE WHEN B.ITEM_TCE = '999999999' THEN 0.000000001 ELSE B.ITEM_TCE END
                     AS CHART_TCE,
                  NVL (A.ITEM_PCE, 888888888) AS CURR_PCE,
-                 CASE WHEN B.ITEM_PCE = '999999999' THEN 0 ELSE B.ITEM_PCE END
+                 CASE WHEN B.ITEM_PCE = '999999999' THEN 0.000000001 ELSE B.ITEM_PCE END
                     AS CHART_PCE,
                  NVL (A.ITEM_CCL4, 888888888) AS CURR_CCL4,
                  CASE
-                    WHEN B.ITEM_CCL4 = '999999999' THEN 0
+                    WHEN B.ITEM_CCL4 = '999999999' THEN 0.000000001
                     ELSE B.ITEM_CCL4
                  END
                     AS CHART_CCL4,
                  NVL (A.ITEM_DCETH, 888888888) AS CURR_DCETH,
                  CASE
-                    WHEN B.ITEM_DCETH = '999999999' THEN 0
+                    WHEN B.ITEM_DCETH = '999999999' THEN 0.000000001
                     ELSE B.ITEM_DCETH
                  END
                     AS CHART_DCETH,
                  NVL (A.ITEM_DCM, 888888888) AS CURR_DCM,
-                 CASE WHEN B.ITEM_DCM = '999999999' THEN 0 ELSE B.ITEM_DCM END
+                 CASE WHEN B.ITEM_DCM = '999999999' THEN 0.000000001 ELSE B.ITEM_DCM END
                     AS CHART_DCM,
                  NVL (A.ITEM_BENZENE, 888888888) AS CURR_BENZENE,
                  CASE
-                    WHEN B.ITEM_BENZENE = '999999999' THEN 0
+                    WHEN B.ITEM_BENZENE = '999999999' THEN 0.000000001
                     ELSE B.ITEM_BENZENE
                  END
                     AS CHART_BENZENE,
                  NVL (A.ITEM_CHCL3, 888888888) AS CURR_CHCL3,
                  CASE
-                    WHEN B.ITEM_CHCL3 = '999999999' THEN 0
+                    WHEN B.ITEM_CHCL3 = '999999999' THEN 0.000000001
                     ELSE B.ITEM_CHCL3
                  END
                     AS CHART_CHCL3,
                  NVL (A.ITEM_OP, 888888888) AS CURR_OP,
-                 CASE WHEN B.ITEM_OP = '999999999' THEN 0 ELSE B.ITEM_OP END
+                 CASE WHEN B.ITEM_OP = '999999999' THEN 0.000000001 ELSE B.ITEM_OP END
                     AS CHART_OP,
                  NVL (A.ITEM_PCB, 888888888) AS CURR_PCB,
-                 CASE WHEN B.ITEM_PCB = '999999999' THEN 0 ELSE B.ITEM_PCB END
+                 CASE WHEN B.ITEM_PCB = '999999999' THEN 0.000000001 ELSE B.ITEM_PCB END
                     AS CHART_PCB,
                  NVL (A.ITEM_DEHP, 888888888) AS CURR_DEHP,
                  CASE
-                    WHEN B.ITEM_DEHP = '999999999' THEN 0
+                    WHEN B.ITEM_DEHP = '999999999' THEN 0.000000001
                     ELSE B.ITEM_DEHP
                  END
                     AS CHART_DEHP,
                  NVL (A.ITEM_DIOX, 888888888) AS CURR_DIOX,
                  CASE
-                    WHEN B.ITEM_DIOX = '999999999' THEN 0
+                    WHEN B.ITEM_DIOX = '999999999' THEN 0.000000001
                     ELSE B.ITEM_DIOX
                  END
                     AS CHART_DIOX,
                  NVL (A.ITEM_HCHO, 888888888) AS CURR_HCHO,
                  CASE
-                    WHEN B.ITEM_HCHO = '999999999' THEN 0
+                    WHEN B.ITEM_HCHO = '999999999' THEN 0.000000001
                     ELSE B.ITEM_HCHO
                  END
                     AS CHART_HCHO,
                  NVL (A.ITEM_HCB, 888888888) AS CURR_HCB,
-                 CASE WHEN B.ITEM_HCB = '999999999' THEN 0 ELSE B.ITEM_HCB END
+                 CASE WHEN B.ITEM_HCB = '999999999' THEN 0.000000001 ELSE B.ITEM_HCB END
                     AS CHART_HCB
             FROM (                    SELECT RANK ()
                                                 OVER (PARTITION BY A.PT_NO || SUBSTR (C.WMWK, -1)
@@ -2156,12 +2156,11 @@ ORDER BY PT_NO, RN, RN_2 DESC
     
     <select id="searchResult_B001_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
     	<if test="con == 01">
-	    	 SELECT SUBSTR(MAX(MSR_DATE), 1,10) AS "WMCYMD" 
-               FROM FIVEDATA_TB F
-              WHERE SITE_ID  IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>              
-                AND MSR_DATE IS NOT NULL
-                AND ROWNUM = 1
-           ORDER BY MSR_DATE DESC
+	    	 SELECT SUBSTR(MAX(MSR_DATE), 1,10) AS WMCYMD 
+               FROM FIVEDATA_TB
+              WHERE SITE_ID  IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+    		    AND MSR_DATE IS NOT NULL
+    	   ORDER BY MSR_DATE DESC
     	</if>
     	<if test="con == 02">
     		 SELECT SUBSTR(MAX(MSR_DATE), 1,10) AS "WMCYMD" 
@@ -7812,8 +7811,8 @@ ORDER  BY NO_1,
                   B.PARTCLR_MATTER
              FROM BOMNT.DRONE_PHOSPOT A,
                   BOMNT.DRONE_PHODTA B,
-                  TCM_ATCHMNFL C,
-                  BOOBSIF D
+                  BOMNT.TCM_ATCHMNFL C,
+                  BOMNT.BOOBSIF D
             WHERE A.SPOT_CODE = B.SPOT_CODE
               AND B.FILE_ID = C.FILE_ID
               AND A.BRRER_CODE = D.BOOBSCD 

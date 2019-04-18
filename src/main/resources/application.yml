@@ -39,7 +39,7 @@ spring:
       max-idle: 30
       min-idle: 1
       test-while-idle: true
-      validation-query2: select 1 from dual
+      validation-query2: select 1 from dual      default-auto-commit: false
 logging: 
 #  config: classpath:logback.xml
   file: logs/spring-boot-logging.log

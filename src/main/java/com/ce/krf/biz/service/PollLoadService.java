@@ -1,6 +1,9 @@
 package com.ce.krf.biz.service;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ce.krf.biz.mapper.PollLoadMapper;
+import com.ce.krf.biz.model.PollutionVO;
 
 @Component
 public class PollLoadService implements Serializable{
@@ -21,4 +25,14 @@ public class PollLoadService implements Serializable{
 	
 	@Autowired
 	public PollLoadMapper pollLoadMapper;
+	
+	
+	public HashMap pollLoadSelect(PollutionVO param) throws Exception{
+		
+		HashMap result = new HashMap();
+		List resultList = null;
+		resultList = pollLoadMapper.PollLoadSelect(param);
+		result.put("data", resultList);
+		return result;
+	}
 }

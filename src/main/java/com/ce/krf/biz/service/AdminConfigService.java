@@ -8,10 +8,17 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DeadlockLoserDataAccessException;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.ce.krf.biz.mapper.AdminConfigMapper;
 import com.ce.krf.biz.model.AdminConfigVO;
+
+
 
 @Component
 public class AdminConfigService implements Serializable {
@@ -24,6 +31,9 @@ public class AdminConfigService implements Serializable {
 
 	@Autowired
 	public AdminConfigMapper adminConfigMapper;
+	
+	
+	
 
 	public HashMap selectLayerSetAll(AdminConfigVO param) throws Exception {
 
@@ -63,6 +73,18 @@ public class AdminConfigService implements Serializable {
 		result.put("data", adminConfigMapper.selectUsers(param));
 		return result;
 	}
+	
+	public HashMap getUserLayerInfo(AdminConfigVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		//adminConfigMapper.setUserLayerInfo(param);
+		int dataList = adminConfigMapper.setUserLayerInfo(param);
+		
+		if(dataList == 1) {
+			result.put("result", adminConfigMapper.getUserLayerInfo(param));	
+		}
+		return result;
+	}
 
 	public HashMap insertLayerSet(AdminConfigVO param) throws Exception {
 
@@ -87,8 +109,11 @@ public class AdminConfigService implements Serializable {
 		return result;
 	}
 
+	//권한별 레이어 목록가져오기 2019-04-15
 	public HashMap deleteLayerSet(AdminConfigVO param) throws Exception {
-
+		
+		
+		
 		HashMap result = new HashMap();
 		adminConfigMapper.deleteLayerSetByLayerSetId(param);
 		
@@ -133,6 +158,15 @@ public class AdminConfigService implements Serializable {
 		
 		return result;
 		
+	}
+
+	public HashMap getBoInfo(AdminConfigVO param) {
+		// TODO Auto-generated method stub
+		
+		HashMap result = new HashMap();
+		result.put("result", adminConfigMapper.selectBoInfo(param));
+		
+		return result;
 	}
 	
 }
