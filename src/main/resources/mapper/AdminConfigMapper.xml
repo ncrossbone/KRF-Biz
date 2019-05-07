@@ -37,6 +37,7 @@
 		 WHERE T3.LAYERSETID = T4.MAPSVC_AUTHOR_SN
     </select>
     
+    
     <select id="selectUsers" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
     	SELECT /* KRF_BIZ.AdminConfigMapper.selectUsers  */
     		   ZRN AS "zrn",
@@ -99,9 +100,64 @@
 		 WHERE 1=1
     </select>
     
+    <select id="selectSessionId" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+    	SELECT USER_ID as "userId" ,
+		       USER_NM ,
+		       PASSWORD ,
+		       AUTHOR_CODE ,
+		       GIS_AUTHOR_CODE ,
+		       JOB_CODE ,
+		       JOB_DETAIL_CN ,
+		       BRTHDY ,
+		       TELNO ,
+		       MBTLNUM ,
+		       EMAIL ,
+		       USE_AT ,
+		       RETURN_RESN ,
+		       SESION_ID ,
+		       LOGIN_FAILR_CO ,
+		       INSTT_CODE ,
+		       USER_IP ,
+		       REGIST_DT ,
+		       REGISTER_ID ,
+		       CHANGE_DT ,
+		       CHANGER_ID
+			FROM   COM_USER
+		  WHERE SESION_ID = #{userId}
+    </select>
+    
+    
+    
+    <select id="selectIdPass" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+    	SELECT USER_ID as "userId",
+		       USER_NM ,
+		       PASSWORD ,
+		       AUTHOR_CODE ,
+		       GIS_AUTHOR_CODE ,
+		       JOB_CODE ,
+		       JOB_DETAIL_CN ,
+		       BRTHDY ,
+		       TELNO ,
+		       MBTLNUM ,
+		       EMAIL ,
+		       USE_AT ,
+		       RETURN_RESN ,
+		       SESION_ID ,
+		       LOGIN_FAILR_CO ,
+		       INSTT_CODE ,
+		       USER_IP ,
+		       REGIST_DT ,
+		       REGISTER_ID ,
+		       CHANGE_DT ,
+		       CHANGER_ID
+		from   COM_USER
+		where  USER_ID = #{userId}
+		AND    PASSWORD = #{userPass}
+    </select>
+    
     <insert id="setUserLayerInfo" parameterType="com.ce.krf.biz.model.AdminConfigVO">
     
-    	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE) VALUES ( 1446 )
+    	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE) VALUES ( #{userId} )
     	
     </insert>
     

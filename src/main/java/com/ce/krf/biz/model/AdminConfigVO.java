@@ -10,6 +10,7 @@ public class AdminConfigVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 7522913074271097058L;
 	private String userId;
+	private String userPass;
 	private String regUserId;
 	
 	private int layerSetId;
@@ -117,6 +118,12 @@ public class AdminConfigVO implements Serializable {
 	}
 	public void setData(List<AdminConfigVO> data) {
 		this.data = data;
+	}
+	public String getUserPass() {
+		return userPass;
+	}
+	public void setUserPass(String userPass) {
+		this.userPass = userPass;
 	}
 	
 	

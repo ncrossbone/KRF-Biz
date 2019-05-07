@@ -10,6 +10,9 @@ public interface AdminConfigMapper {
 	public List selectLayerSetForUser(AdminConfigVO param);
 	public List selectUsers(AdminConfigVO param);
 	
+	public List selectSessionId(AdminConfigVO param);
+	public List selectIdPass(AdminConfigVO param);
+	
 	public int setUserLayerInfo(AdminConfigVO param);
 	public List getUserLayerInfo(AdminConfigVO param);	
 	

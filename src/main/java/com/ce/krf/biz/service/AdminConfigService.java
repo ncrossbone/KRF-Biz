@@ -1,10 +1,13 @@
 package com.ce.krf.biz.service;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +76,75 @@ public class AdminConfigService implements Serializable {
 		result.put("data", adminConfigMapper.selectUsers(param));
 		return result;
 	}
+	
+	public HashMap loginSession(AdminConfigVO param) throws Exception {
+		HashMap result = new HashMap();
+		
+		List sessionresult = adminConfigMapper.selectSessionId(param);
+		if(sessionresult.size() >= 1) {
+			result.put("data", sessionresult);
+		}else {
+			result.put("data", "");
+		}
+		
+		return result;
+	}
+	
+	public HashMap selectIdPass(AdminConfigVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		
+		String encodingPass = encryptPassword(param.getUserPass(),param.getUserId());
+		param.setUserPass(encodingPass);
+		List loginUser = adminConfigMapper.selectIdPass(param);
+		if(loginUser.size() >= 1) {
+			result.put("data", loginUser);
+		}else {
+			result.put("error", "아이디 패스워드가 틀립니다");
+		}
+		
+		return result;
+	}
+	
+	/**
+	  * <pre>
+	  * 내용 : 비밀번호 암호화
+	  * </pre>
+	  * @Method Name : encryptPassword
+	  * @param password 비밀번호
+	  * @param id 아이디
+	  * @return
+	  * @throws NoSuchAlgorithmException
+	  */
+	 public static String encryptPassword(String password, String id) throws NoSuchAlgorithmException
+	 {
+	  if (password == null)
+	  {
+	   return "";
+	  }
+
+		/*
+		 * MessageDigest sh = MessageDigest.getInstance("SHA-256");
+		 * sh.update(password.getBytes()); byte byteData[] = sh.digest(); StringBuffer
+		 * sb = new StringBuffer();
+		 * 
+		 * for (int i = 0; i < byteData.length; i++) {
+		 * sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1)); }
+		 * return sb.toString();
+		 */
+		
+	  
+	  byte[] hashValue = null; // 해쉬값
+
+	  MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+	  md.reset();
+	  md.update(id.getBytes());
+
+	  hashValue = md.digest(password.getBytes());
+
+	  return new String(Base64.encodeBase64(hashValue));
+	 }
 	
 	public HashMap getUserLayerInfo(AdminConfigVO param) throws Exception {
 
