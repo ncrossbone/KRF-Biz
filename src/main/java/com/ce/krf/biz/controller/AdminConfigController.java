@@ -98,6 +98,28 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	@RequestMapping(value = "/loginSession", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String loginSession(@ModelAttribute AdminConfigVO param) {
+		try {
+			HashMap result = adminConfigService.loginSession(param);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return "error";
+		}
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String selectIdPass(@ModelAttribute AdminConfigVO param) {
+		try {
+			HashMap result = adminConfigService.selectIdPass(param);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return "error";
+		}
+	}
+	
 	@RequestMapping(value = "/getUserLayerInfo", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String getUserLayerInfo(@ModelAttribute AdminConfigVO param) {
 		

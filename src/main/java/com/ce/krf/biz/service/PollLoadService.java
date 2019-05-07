@@ -31,6 +31,7 @@ public class PollLoadService implements Serializable{
 		
 		HashMap result = new HashMap();
 		List resultList = null;
+		param.setCatDids(param.getCatDid().split(","));
 		resultList = pollLoadMapper.PollLoadSelect(param);
 		result.put("data", resultList);
 		return result;
