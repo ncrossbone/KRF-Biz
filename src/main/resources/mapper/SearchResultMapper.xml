@@ -7866,5 +7866,14 @@ ORDER  BY NO_1,
 			   ORDER BY POTOGRF_DE DESC
 	</select>
 	
+	<select id="getSedimentItemValue" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT PT_NO AS PT_NO,
+			   ${item} AS ITEM,
+			   #{item} AS ITEM_NM
+		  FROM WATER_2.SDM_RWMDTI
+		 WHERE WMYR || WMWK = #{year}
+    	   AND PT_NO IN <foreach collection="siteIds" item="arr" separator="," open="(" close=")"> #{arr}</foreach>
+	</select>
+	
 	
 </mapper>

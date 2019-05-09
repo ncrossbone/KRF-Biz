@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import com.ce.krf.biz.mapper.SearchResultMapper;
 import com.ce.krf.biz.model.SearchResultVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -1290,5 +1291,15 @@ public class SearchResultService implements Serializable{
 		}
 		//((HashMap<String, String>) resultList.get(0)).get("NO") == null
 		return false;
+	}
+	
+	public HashMap getSedimentItemValue(SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		resultList = searchResultMapper.getSedimentItemValue(param);
+		result.put("data", resultList);
+		return result;
 	}
 }
