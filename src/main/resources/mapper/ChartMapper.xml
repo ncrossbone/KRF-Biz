@@ -86,6 +86,28 @@
     			'' AS WMCYMD
 		   FROM MSR_NPMN_ATMC
        ORDER BY MESURE_DT
+      </select>
+    <insert id="insertChartPram" parameterType="com.ce.krf.biz.model.ChartVO">
+    	INSERT
+		  INTO COM_VRIABL_TMPR(VRIABL_1_VALUE, VRIABL_2_VALUE, VRIABL_3_VALUE, VRIABL_4_VALUE)
+		VALUES(#{recordId},
+               #{selectItem}, 
+               #{preFullDate},
+               #{nextFullDate})
+    </insert>
+    
+    <select id="getRWMDTSelect2018A" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT RN,
+		       WMYR,
+		       WMOD,
+		       WMWK,
+		       PT_NO,
+		       PT_NM,
+		       WMCYMD,
+		       ITEM_NAME,
+		       ITEM_VALUE,
+		       ITEM_VALUE_1
+		  FROM V_MSR_WQMN_DAY_DCSN_GIS_CHART
     </select>
         
     <select id="getRWMDTSelectA" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">

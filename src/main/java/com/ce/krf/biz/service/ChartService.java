@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.TransactionStatus;
 
 import com.ce.krf.biz.mapper.ChartMapper;
 import com.ce.krf.biz.model.ChartVO;
@@ -51,6 +52,24 @@ public class ChartService implements Serializable{
 		HashMap reMap = new HashMap();
 		reMap.put("data", (result.size()>1)? result.subList(0, result.size()-1) : new ArrayList());
 		reMap.put("maxdata", result.subList(result.size()-1, result.size()));
+		return reMap;
+	}
+	
+	public HashMap getRWMDTSelect2018(String index,ChartVO param) throws Exception {
+		
+		param.setPreFullDate(param.getRecordYear() + param.getRecordMonth());
+		param.setNextFullDate(param.getRecordYear2() + param.getRecordMonth2());
+		
+		int chartParam = chartMapper.insertChartPram(param);
+		
+		Method method = chartMapper.getClass().getMethod("getRWMDTSelect2018" + index,ChartVO.class);
+		List result = (List) method.invoke(chartMapper,param);
+		HashMap reMap = new HashMap();
+		reMap.put("data", (result.size()>1)? result.subList(0, result.size()-1) : new ArrayList());
+		reMap.put("maxdata", result.subList(result.size()-1, result.size()));
+		
+
+		
 		return reMap;
 	}
 	

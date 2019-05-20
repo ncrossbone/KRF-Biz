@@ -15,6 +15,8 @@ public class ClickLogVO implements Serializable{
 	private String parentId = null;
 	private String data = null;
 	private String id = null;
+	private String system = null;
+	private String userId = null;
 	
 	public String getIp() {
 		return ip;
@@ -51,5 +53,17 @@ public class ClickLogVO implements Serializable{
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getSystem() {
+		return system;
+	}
+	public void setSystem(String system) {
+		this.system = system;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 }

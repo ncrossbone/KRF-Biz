@@ -10,6 +10,10 @@ import javax.ws.rs.QueryParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +40,9 @@ public class SearchResultController extends BaseController implements Serializab
 
 	@Autowired
 	public SearchResultService searchResultService;
+	
+	@Autowired
+	private DataSourceTransactionManager transactionManager;
 
 	@RequestMapping(value = "/searchSstg", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchSstg(@ModelAttribute SearchResultVO param) {
@@ -56,6 +63,28 @@ public class SearchResultController extends BaseController implements Serializab
 			HashMap result = searchResultService.searchResult_A(param);
 			return getEuckrString(result, false);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	// 수질측정지점 LAYER CODE : A
+	@RequestMapping(value = "/searchResult_A2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_A2018(@ModelAttribute SearchResultVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = searchResultService.searchResult_A2018(param);
+			transactionManager.commit(status);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
 			// TODO Auto-generated catch block
 			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";

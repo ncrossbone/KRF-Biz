@@ -24,6 +24,7 @@ public class SearchResultVO implements Serializable{
 	
 	private String siteId = "";
 	private String[] siteIds = null;
+	private String siteId2 = "";
 	
 	private String startYear = "";
 	private String startMonth = "";
@@ -196,6 +197,12 @@ public class SearchResultVO implements Serializable{
 	}
 	public void setTextField(String textField) {
 		this.textField = textField;
+	}
+	public String getSiteId2() {
+		return siteId2;
+	}
+	public void setSiteId2(String siteId2) {
+		this.siteId2 = siteId2;
 	}
 	
 	

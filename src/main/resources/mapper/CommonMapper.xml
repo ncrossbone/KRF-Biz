@@ -15,7 +15,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.CommonMapper">
-    <insert id="clickSession" parameterType="com.ce.krf.biz.model.ClickLogVO">
+    <!-- insert id="clickSession" parameterType="com.ce.krf.biz.model.ClickLogVO">
     	INSERT INTO SEARCHLOGTB (USER_IP
     	 						,TYPE
     	 						,SEARCH_DATE 
@@ -29,6 +29,18 @@
     	 		              ,#{parentId}
     	 		              ,#{data}
     	 		              ,#{id})
+    </insert-->
+    
+    <insert id="clickSession" parameterType="com.ce.krf.biz.model.ClickLogVO">
+    	INSERT INTO COM_GIS_ACCES_LOG (GIS_ACCES_LOG_SN,SYS_SE,ACCES_SE,LYR_CODE,MSRSTN_CODE,LOGIN_ID,ACCES_IP,ACCES_DT) 
+    	 		        VALUES(NVL((SELECT MAX(GIS_ACCES_LOG_SN) FROM COM_GIS_ACCES_LOG),0)+1
+    	 		        	  ,#{system}
+    	 		              ,#{type} 
+    	 		              ,#{node}
+    	 		              ,#{id}
+    	 		              ,#{userId}
+    	 		              ,#{ip}
+    	 		              ,SYSDATE)
     </insert>
     
     <select id="getLabelLayerAdmin" parameterType="String" resultType="hashmap">
