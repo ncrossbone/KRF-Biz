@@ -43,12 +43,16 @@ public class SearchResultVO implements Serializable{
 	private String textField = "";
 	
 	
-	
-	
+	private String item = "";
 	
 	private String firstSearch = "";
 	
-	
+	public String getItem() {
+		return item;
+	}
+	public void setItem(String item) {
+		this.item = item;
+	}
 	public String getStartDay() {
 		return startDay;
 	}

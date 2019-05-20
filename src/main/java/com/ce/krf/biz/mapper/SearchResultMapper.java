@@ -1,6 +1,8 @@
 package com.ce.krf.biz.mapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -136,4 +138,5 @@ public interface SearchResultMapper {
 	public List searchResult_File(SearchResultVO param);
 	public List searchResult_View(SearchResultVO param);
 	
+	public List getSedimentItemValue(SearchResultVO param);
 }

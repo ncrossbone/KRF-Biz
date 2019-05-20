@@ -2,6 +2,8 @@ package com.ce.krf.biz.controller;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 
 import javax.ws.rs.QueryParam;
 
@@ -12,14 +14,17 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ce.krf.KrfBizApplication;
 import com.ce.krf.biz.base.BaseController;
+import com.ce.krf.biz.model.SampleVO;
 import com.ce.krf.biz.model.SearchResultVO;
 import com.ce.krf.biz.service.SearchResultService;
 
@@ -268,6 +273,16 @@ public class SearchResultController extends BaseController implements Serializab
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+
+	@RequestMapping(value = "/getSedimentItemValue", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String getSedimentItemValue(@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.getSedimentItemValue(param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
 			return "error";
 		}
 	}
