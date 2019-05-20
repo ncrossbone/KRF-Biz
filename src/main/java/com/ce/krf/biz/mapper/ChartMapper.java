@@ -11,7 +11,12 @@ public interface ChartMapper {
 	public List<Map<String, Object>> getRWMDT(@Param("recordId") String recordId ,@Param("parentId") String parentId);
 	
 	
+	public int insertChartPram(ChartVO param);
+	
 	public List getRWMDTSelectA(ChartVO param);
+	public List getRWMDTSelect2018A(ChartVO param);
+	
+	
 	public List getRWMDTSelectB(ChartVO param);
 	public List getRWMDTSelectC(ChartVO param);
 	

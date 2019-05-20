@@ -954,6 +954,40 @@ public class SearchResultService implements Serializable{
 		result.put("data", resultList);
 		return result;
 	}
+	
+	// 수질측정지점 LAYER CODE : A _ 2018 ( 표준화테이블 )
+	public HashMap searchResult_A2018(SearchResultVO param) throws Exception {
+
+		// param.setSiteIds();
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		if ("noDate".equals(param.getFirstSearch())) {
+			//resultList = searchResultMapper.searchResult_A_getDate(param);
+			resultList = searchResultMapper.searchResult_A_getDate2018(param);
+		} else {
+			
+			// 지점코드 하나씩 insert 하기 (검색조건)
+			for(int i = 0 ; i < param.getSiteIds().length; i++) {
+				param.setSiteId2(param.getSiteIds()[i]);
+				int dataList = searchResultMapper.searchResult_A2018(param);				
+			}
+			
+			// 수질측정지점 표준화 검색 쿼리
+			resultList = searchResultMapper.searchResult_A_RESULT_2018(param);
+			          
+		}
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+
+	}
 
 	// 수질측정지점 LAYER CODE : B
 	public HashMap searchResult_B(SearchResultVO param) throws Exception {

@@ -1169,6 +1169,130 @@
 	</select>
 	
 	
+	<insert id="searchResult_A2018" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	
+			INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES 
+				(#{startYear} || #{startMonth}, #{endYear} || #{endMonth}, #{siteId2})
+	
+	</insert>
+	
+		
+	
+	<select id="searchResult_A_RESULT_2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	
+		SELECT WQMN_CODE,
+			    WQMN_NM,
+			    YEAR,
+			    MT,
+			    TME,
+			    CHCK_DE,
+			    WTRSMPLE_DE,
+			    MESURE_DP,
+			    CURR_1059,
+			    CHART_1059,
+			    CURR_1052,
+			    CHART_1052,
+			    CURR_1054,
+			    CHART_1054,
+			    CURR_1050,
+			    CHART_1050,
+			    CURR_1055,
+			    CHART_1055,
+			    CURR_1066,
+			    CHART_1066,
+			    CURR_1013,
+			    CHART_1013,
+			    CURR_1012,
+			    CHART_1012,
+			    CURR_1056,
+			    CHART_1056,
+			    CURR_1060,
+			    CHART_1060,
+			    CURR_1039,
+			    CHART_1039,
+			    CURR_1053,
+			    CHART_1053,
+			    CURR_1067,
+			    CHART_1067,
+			    CURR_1065,
+			    CHART_1065,
+			    CURR_1063,
+			    CHART_1063,
+			    CURR_1073,
+			    CHART_1073,
+			    CURR_1062,
+			    CHART_1062,
+			    CURR_1070,
+			    CHART_1070,
+			    CURR_1002,
+			    CHART_1002,
+			    CURR_1004,
+			    CHART_1004,
+			    CURR_1083,
+			    CHART_1083,
+			    CURR_1016,
+			    CHART_1016,
+			    CURR_1037,
+			    CHART_1037,
+			    CURR_1064,
+			    CHART_1064,
+			    CURR_1044,
+			    CHART_1044,
+			    CURR_1043,
+			    CHART_1043,
+			    CURR_1014,
+			    CHART_1014,
+			    CURR_1010,
+			    CHART_1010,
+			    CURR_1005,
+			    CHART_1005,
+			    CURR_1011,
+			    CHART_1011,
+			    CURR_1057,
+			    CHART_1057,
+			    CURR_1007,
+			    CHART_1007,
+			    CURR_1009,
+			    CHART_1009,
+			    CURR_1061,
+			    CHART_1061,
+			    CURR_1040,
+			    CHART_1040,
+			    CURR_1006,
+			    CHART_1006,
+			    CURR_1038,
+			    CHART_1038,
+			    CURR_1041,
+			    CHART_1041,
+			    CURR_1023,
+			    CHART_1023,
+			    CURR_1022,
+			    CHART_1022,
+			    CURR_1030,
+			    CHART_1030,
+			    CURR_1071,
+			    CHART_1071,
+			    CURR_1024,
+			    CHART_1024,
+			    CURR_1025,
+			    CHART_1025,
+			    CURR_1072,
+			    CHART_1072,
+			    CURR_1048,
+			    CHART_1048,
+			    CURR_1051,
+			    CHART_1051,
+			    CURR_1082,
+			    CHART_1082,
+			    CURR_1086,
+			    CHART_1086,
+			    CURR_1093,
+			    CHART_1093,
+			    CURR_1094,
+			    CHART_1094 
+       FROM V_MSR_WQMN_DAY_DCSN_GIS   
+	
+	</select>
 	
 	
     <select id="searchResult_A" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
@@ -1862,6 +1986,15 @@ ORDER BY PT_NO, RN, RN_2 DESC
   
     	
     </select>
+    
+    <select id="searchResult_A_getDate2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+    
+    	SELECT MAX(YEAR||'.'||MT) AS WMCYMD   FROM MSR_WQMN_META
+			WHERE WQMN_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		  AND YEAR>=TO_CHAR(ADD_MONTHS(SYSDATE,-12),'YYYY')
+    
+    </select>
+    
     <select id="searchResult_A_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
     	SELECT /* KRF-BIZ.SearchResultMapper.searchResult_A_getDate */ 
     	       MAX(WMYR||'.'||WMOD) AS WMCYMD  

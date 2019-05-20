@@ -1,6 +1,7 @@
 package com.ce.krf.biz.controller;
 
 import java.io.Serializable;
+import java.net.Inet4Address;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -88,6 +89,8 @@ public class CommonController extends BaseController implements Serializable{
 	@PostMapping(value = "/clickSession",  produces = "text/html; charset=utf-8")
 	public String clickSession(@ModelAttribute ClickLogVO clickLogVO) {
 		
+		
+		//clickLogVO.setIp(request.getRemoteAddr());
 		clickLogVO.setIp(request.getRemoteAddr());
 		
 		int cnt = commonService.clickSession(clickLogVO);

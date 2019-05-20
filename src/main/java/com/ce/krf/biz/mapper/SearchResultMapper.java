@@ -8,8 +8,16 @@ import com.ce.krf.biz.model.SearchResultVO;
 
 public interface SearchResultMapper {
 	
+	
+	public List searchResult_A_getDate(SearchResultVO param);
+	public List searchResult_A_getDate2018(SearchResultVO param);
+	
 	//수질측정지점
 	public List searchResult_A(SearchResultVO param);
+	public List searchResult_A_RESULT_2018(SearchResultVO param);
+	
+	//수질측정지점
+	public int searchResult_A2018(SearchResultVO param);
 	
 	//수질자동측정지점 - 사업장TMS
 	public List searchResult_B(SearchResultVO param);
@@ -97,8 +105,7 @@ public interface SearchResultMapper {
 	//부하량 - 집수구역단위_상세
 	public List searchResult_PollLoad_Cat_Detail(SearchResultVO param);
 	
-	public List searchResult_A_getDate(SearchResultVO param);
-	
+		
 	public List sstg(SearchResultVO param);
 	
 	
