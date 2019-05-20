@@ -32,4 +32,7 @@ public interface ChartMapper {
 	
 	public List getRWMDTSelectH(ChartVO param);
 	public List getRWMDTSelectHDate(ChartVO param);
+	
+	public List getRWMDTSelectM001(ChartVO param);
+	public List getRWMDTSelectM002(ChartVO param);
 }

@@ -40,6 +40,12 @@ public class ChartService implements Serializable{
 			param.setNextFullDate(param.getRecordYear2() + param.getRecordMonth2());
 		}
 		
+		if("M".equals(index)) {
+			String [] splitParam = param.getRecordId().split("_");
+			index = splitParam[0];
+			param.setRecordId(splitParam[1]);
+		}
+		
 		Method method = chartMapper.getClass().getMethod("getRWMDTSelect" + index,ChartVO.class);
 		List result = (List) method.invoke(chartMapper,param);
 		HashMap reMap = new HashMap();

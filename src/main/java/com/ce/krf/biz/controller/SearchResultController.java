@@ -198,15 +198,15 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 	
 	// HSPF GROUP CODE : H
-		@RequestMapping(value = "/searchResult_H", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
-		public String searchResult_H(@ModelAttribute SearchResultVO param) {
-			try {
-				HashMap result = searchResultService.searchResult_H(param);
-				return getEuckrString(result, true);
-			} catch (Exception e) {
-				return "error";
-			}
+	@RequestMapping(value = "/searchResult_H", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_H(@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchResult_H(param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			return "error";
 		}
+	}
 		
 	// 취정수장 GROUP CODE : E
 	@RequestMapping(value = "/searchResult_J{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
@@ -217,6 +217,16 @@ public class SearchResultController extends BaseController implements Serializab
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	@RequestMapping(value = "/searchResult_M", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_M(@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchResult_M(param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
 			return "error";
 		}
 	}

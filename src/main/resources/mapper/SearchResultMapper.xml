@@ -7626,6 +7626,50 @@ ORDER  BY NO_1,
  	  ORDER BY SPOT_CODE, DE DESC, PREDICT_DT ASC
 	</select>
 	
+	<select id="searchResult_M001_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_M001_getDate */ SUBSTR(MAX(MESURE_DT),0,4) ||'.'||  SUBSTR(MAX(MESURE_DT), 5, 2)||'.'||  SUBSTR(MAX(MESURE_DT), 7, 2) AS WMCYMD  
+		  FROM MSR_NPMN_ATMC 
+	</select>
+	
+	 <select id="searchResult_M001" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_M001 */
+			   NPMN_NM,
+    		   SUBSTR(MESURE_DT,0,4) AS YEARS,
+    		   SUBSTR(MESURE_DT,5,2) AS MONTHS,
+    		   SUBSTR(MESURE_DT,0,4) || '년' || SUBSTR(MESURE_DT,5,2) || '월' || SUBSTR(MESURE_DT,7,2) || '일' || SUBSTR(MESURE_DT,9,2) || '시' || SUBSTR(MESURE_DT,11,2) || '분' || SUBSTR(MESURE_DT,13,2) || '초' AS TIMES,
+    		   WTRTP_VALUE,
+    		   PH_VALUE,
+    		   EC_VALUE,
+    		   DOC_VALUE,
+    		   TUR_VALUE
+		  FROM WATER2018.MSR_NPMN_ATMC A,
+    		   WATER2018.FCL_NPMN B
+		 WHERE A.NPMN_CODE = B.NPMN_CODE
+		   AND ROWNUM <![CDATA[ <=  ]]> 10
+		   AND A.NPMN_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<select id="searchResult_M002_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_M002_getDate */ SUBSTR(MAX(MESURE_DT),0,4) ||'.'||  SUBSTR(MAX(MESURE_DT), 5, 2)||'.'||  SUBSTR(MAX(MESURE_DT), 7, 2) AS WMCYMD  
+		  FROM MSR_NPMN_ATMC 
+	</select>
+	
+	 <select id="searchResult_M002" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_M002 */
+			   NPMN_NM,
+    		   SUBSTR(MESURE_DT,0,4) AS YEARS,
+    		   SUBSTR(MESURE_DT,5,2) AS MONTHS,
+    		   SUBSTR(MESURE_DT,0,4) || '년' || SUBSTR(MESURE_DT,5,2) || '월' || SUBSTR(MESURE_DT,7,2) || '일' || SUBSTR(MESURE_DT,9,2) || '시' || SUBSTR(MESURE_DT,11,2) || '분' || SUBSTR(MESURE_DT,13,2) || '초' AS TIMES,
+    		   WTRTP_VALUE,
+    		   PH_VALUE,
+    		   EC_VALUE,
+    		   DOC_VALUE,
+    		   TUR_VALUE
+		  FROM WATER2018.MSR_NPMN_ATMC A,
+    		   WATER2018.FCL_NPMN B
+		 WHERE A.NPMN_CODE = B.NPMN_CODE
+		   AND ROWNUM <![CDATA[ <=  ]]> 10
+	</select>
 	
 	<select id="searchResult_J001" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		/*취수장*/
@@ -7868,7 +7912,13 @@ ORDER  BY NO_1,
 	
 	<select id="getSedimentItemValue" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		SELECT PT_NO AS PT_NO,
-			   ${item} AS ITEM,
+	           CASE WHEN ${item} = 'Ⅰ' THEN '1'
+      			    WHEN ${item} = 'Ⅱ' THEN '2'
+      			    WHEN ${item} = 'Ⅲ' THEN '3'
+        			WHEN ${item} = 'Ⅳ' THEN '4'
+        			WHEN ${item} = 'Ⅳ등급 이내' THEN '4'
+        	   ELSE NULL
+    			END AS ITEM,
 			   #{item} AS ITEM_NM
 		  FROM WATER_2.SDM_RWMDTI
 		 WHERE WMYR || WMWK = #{year}

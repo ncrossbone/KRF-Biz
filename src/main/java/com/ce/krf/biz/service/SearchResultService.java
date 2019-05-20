@@ -1225,6 +1225,44 @@ public class SearchResultService implements Serializable{
 		return result;
 	}
 	
+	public HashMap searchResult_M(SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+		
+		String[] siteId = param.getSiteIds();
+		String[] split = siteId[0].split("_");
+		
+		for(int i = 0; i < siteId.length; i++) {
+			siteId[i] = siteId[i].split("_")[1];
+		}
+		
+		param.setSiteIds(siteId);
+		
+		if ("noDate".equals(param.getFirstSearch())) {
+			if("M001".equals(split[0])) {
+				resultList = searchResultMapper.searchResult_M001_getDate(param);
+			}else {
+				resultList = searchResultMapper.searchResult_M002_getDate(param);
+			}
+		} else {
+			if("M001".equals(split[0])) {
+				resultList = searchResultMapper.searchResult_M001(param);
+			}else {
+				resultList = searchResultMapper.searchResult_M002(param);
+			}
+		}
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
+	
 	// 보고서
 	public HashMap searchResult_File(SearchResultVO param) throws Exception {
 

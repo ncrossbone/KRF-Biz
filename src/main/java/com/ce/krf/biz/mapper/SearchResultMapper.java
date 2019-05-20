@@ -127,6 +127,11 @@ public interface SearchResultMapper {
 	public List searchResult_H_getDate(SearchResultVO param);
 	public List searchResult_H(SearchResultVO param);
 	
+	public List searchResult_M001_getDate(SearchResultVO param);
+	public List searchResult_M001(SearchResultVO param);
+	public List searchResult_M002_getDate(SearchResultVO param);
+	public List searchResult_M002(SearchResultVO param);
+	
 	public int searchResult_File_Param(SearchResultVO param);
 	public List searchResult_File(SearchResultVO param);
 	public List searchResult_View(SearchResultVO param);

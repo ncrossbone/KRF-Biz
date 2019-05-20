@@ -25,6 +25,68 @@
     	  AND GUBUN = #{parentId}
     	  </if>
     </select>
+    
+    <select id="getRWMDTSelectM001" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelectM001 */ PT_NO,
+    	       ITEM_VALUE,
+    	       ITEM_NAME,
+    	       MESURE_DT,
+    	       WMCYMD
+  		  FROM ( SELECT NPMN_CODE AS PT_NO,
+    					WTRTP_VALUE AS ITEM_VALUE,
+    					'WTRTP_VALUE' AS ITEM_NAME,
+    					MESURE_DT,
+    					SUBSTR(MESURE_DT,0,4) || '.' || SUBSTR(MESURE_DT,5,2) || '.' || SUBSTR(MESURE_DT,7,2) || ' ' || SUBSTR(MESURE_DT,9,2) || '시' AS WMCYMD
+				   FROM MSR_NPMN_ATMC
+				  WHERE NPMN_CODE = #{recordId}
+			   ORDER BY MESURE_DT DESC
+			    )
+          <if test="defaultChart != null and defaultChart == 1">
+   		       	  WHERE <![CDATA[ ROWNUM <= 10]]>
+  		  </if>
+  		   <if test="defaultChart != null and defaultChart == 0">
+   		       	  WHERE MESURE_DT BETWEEN #{preFullDate} || '0000' AND #{nextFullDate} || '2359' 
+		  </if>
+	  UNION ALL
+		 SELECT '' AS PT_NO,
+    			MAX(WTRTP_VALUE) AS ITEM_VALUE,
+    			'' AS ITEM_NAME,
+    			'9999' AS MESURE_DT,
+    			'' AS WMCYMD
+		   FROM MSR_NPMN_ATMC
+       ORDER BY MESURE_DT
+    </select>
+    
+    <select id="getRWMDTSelectM002" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelectM002 */ PT_NO,
+    	       ITEM_VALUE,
+    	       ITEM_NAME,
+    	       MESURE_DT,
+    	       WMCYMD
+  		  FROM ( SELECT NPMN_CODE AS PT_NO,
+    					WTRTP_VALUE AS ITEM_VALUE,
+    					'WTRTP_VALUE' AS ITEM_NAME,
+    					MESURE_DT,
+    					SUBSTR(MESURE_DT,0,4) || '.' || SUBSTR(MESURE_DT,5,2) || '.' || SUBSTR(MESURE_DT,7,2) || ' ' || SUBSTR(MESURE_DT,9,2) || '시' AS WMCYMD
+				   FROM MSR_NPMN_ATMC
+				  WHERE NPMN_CODE = #{recordId}
+			   ORDER BY MESURE_DT DESC
+			    )
+          <if test="defaultChart != null and defaultChart == 1">
+   		       	  WHERE <![CDATA[ ROWNUM <= 10]]>
+  		  </if>
+  		   <if test="defaultChart != null and defaultChart == 0">
+   		       	  WHERE MESURE_DT BETWEEN #{preFullDate} AND #{nextFullDate} 
+		  </if>
+	  UNION ALL
+		 SELECT '' AS PT_NO,
+    			MAX(WTRTP_VALUE) AS ITEM_VALUE,
+    			'' AS ITEM_NAME,
+    			'9999' AS MESURE_DT,
+    			'' AS WMCYMD
+		   FROM MSR_NPMN_ATMC
+       ORDER BY MESURE_DT
+    </select>
         
     <select id="getRWMDTSelectA" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
 	     WITH TMP_TBL AS (
