@@ -60,6 +60,12 @@ public class ChartService implements Serializable{
 		param.setPreFullDate(param.getRecordYear() + param.getRecordMonth());
 		param.setNextFullDate(param.getRecordYear2() + param.getRecordMonth2());
 		
+		if("M".equals(index)) {
+			String [] splitParam = param.getRecordId().split("_");
+			index = splitParam[0];
+			param.setRecordId(splitParam[1]);
+		}
+		
 		int chartParam = chartMapper.insertChartPram(param);
 		
 		Method method = chartMapper.getClass().getMethod("getRWMDTSelect2018" + index,ChartVO.class);
@@ -67,8 +73,6 @@ public class ChartService implements Serializable{
 		HashMap reMap = new HashMap();
 		reMap.put("data", (result.size()>1)? result.subList(0, result.size()-1) : new ArrayList());
 		reMap.put("maxdata", result.subList(result.size()-1, result.size()));
-		
-
 		
 		return reMap;
 	}

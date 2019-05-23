@@ -7762,6 +7762,7 @@ ORDER  BY NO_1,
 	<select id="searchResult_M001_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_M001_getDate */ SUBSTR(MAX(MESURE_DT),0,4) ||'.'||  SUBSTR(MAX(MESURE_DT), 5, 2)||'.'||  SUBSTR(MAX(MESURE_DT), 7, 2) AS WMCYMD  
 		  FROM MSR_NPMN_ATMC 
+		 WHERE NPMN_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</select>
 	
 	 <select id="searchResult_M001" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
@@ -7769,39 +7770,40 @@ ORDER  BY NO_1,
 			   NPMN_NM,
     		   SUBSTR(MESURE_DT,0,4) AS YEARS,
     		   SUBSTR(MESURE_DT,5,2) AS MONTHS,
-    		   SUBSTR(MESURE_DT,0,4) || '년' || SUBSTR(MESURE_DT,5,2) || '월' || SUBSTR(MESURE_DT,7,2) || '일' || SUBSTR(MESURE_DT,9,2) || '시' || SUBSTR(MESURE_DT,11,2) || '분' || SUBSTR(MESURE_DT,13,2) || '초' AS TIMES,
+    		   SUBSTR(MESURE_DT,0,4) || '년 ' || SUBSTR(MESURE_DT,5,2) || '월 ' || SUBSTR(MESURE_DT,7,2) || '일 ' || SUBSTR(MESURE_DT,9,2) || '시' AS TIMES,
     		   WTRTP_VALUE,
     		   PH_VALUE,
     		   EC_VALUE,
     		   DOC_VALUE,
     		   TUR_VALUE
-		  FROM WATER2018.MSR_NPMN_ATMC A,
-    		   WATER2018.FCL_NPMN B
+		  FROM MSR_NPMN_ATMC A,
+    		   FCL_NPMN B
 		 WHERE A.NPMN_CODE = B.NPMN_CODE
-		   AND ROWNUM <![CDATA[ <=  ]]> 10
+		   AND A.MESURE_DT BETWEEN #{startYear} || #{startMonth} || '000000' AND #{endYear} || #{endMonth} || '235959'
 		   AND A.NPMN_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</select>
 	
 	<select id="searchResult_M002_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_M002_getDate */ SUBSTR(MAX(MESURE_DT),0,4) ||'.'||  SUBSTR(MAX(MESURE_DT), 5, 2)||'.'||  SUBSTR(MAX(MESURE_DT), 7, 2) AS WMCYMD  
-		  FROM MSR_NPMN_ATMC 
+		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_M002_getDate */ SUBSTR(MAX(MESURE_DE),0,4) ||'.'||  SUBSTR(MAX(MESURE_DE), 5, 2) || '.' || SUBSTR(MAX(MESURE_DE),7,2) AS WMCYMD  
+		  FROM MSR_NPMN_PASSIV 
+		 WHERE NPMN_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</select>
 	
 	 <select id="searchResult_M002" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_M002 */
-			   NPMN_NM,
-    		   SUBSTR(MESURE_DT,0,4) AS YEARS,
-    		   SUBSTR(MESURE_DT,5,2) AS MONTHS,
-    		   SUBSTR(MESURE_DT,0,4) || '년' || SUBSTR(MESURE_DT,5,2) || '월' || SUBSTR(MESURE_DT,7,2) || '일' || SUBSTR(MESURE_DT,9,2) || '시' || SUBSTR(MESURE_DT,11,2) || '분' || SUBSTR(MESURE_DT,13,2) || '초' AS TIMES,
-    		   WTRTP_VALUE,
-    		   PH_VALUE,
-    		   EC_VALUE,
-    		   DOC_VALUE,
-    		   TUR_VALUE
-		  FROM WATER2018.MSR_NPMN_ATMC A,
-    		   WATER2018.FCL_NPMN B
+		SELECT NPMN_NM,
+       		   SUBSTR(MESURE_DE,0,4) || '년' || SUBSTR(MESURE_DE,5,2) || '월' || SUBSTR(MESURE_DE,7,2) || '일' AS MESURE_DE,
+		       ODR,
+		       NO,
+		       BOD_VALUE,
+		       TOC_VALUE,
+		       SS_VALUE,
+		       TP_VALUE,
+		       TN_VALUE
+  		  FROM MSR_NPMN_PASSIV A,
+       		   FCL_NPMN B
 		 WHERE A.NPMN_CODE = B.NPMN_CODE
-		   AND ROWNUM <![CDATA[ <=  ]]> 10
+		   AND A.NPMN_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		   AND A.MESURE_DE BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth}
 	</select>
 	
 	<select id="searchResult_J001" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
