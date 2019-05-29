@@ -971,7 +971,7 @@ public class SearchResultService implements Serializable{
 			// 지점코드 하나씩 insert 하기 (검색조건)
 			for(int i = 0 ; i < param.getSiteIds().length; i++) {
 				param.setSiteId2(param.getSiteIds()[i]);
-				int dataList = searchResultMapper.searchResult_A2018(param);				
+				int dataList = searchResultMapper.searchResult_A2018_setParam(param);				
 			}
 			
 			// 수질측정지점 표준화 검색 쿼리
@@ -1012,6 +1012,40 @@ public class SearchResultService implements Serializable{
 		return result;
 
 	}
+	
+	// 수질측정지점 LAYER CODE : B
+	public HashMap searchResult_B2018(SearchResultVO param) throws Exception {
+
+		// param.setSiteIds();
+				HashMap result = new HashMap();
+				List resultList = null;
+
+				if ("noDate".equals(param.getFirstSearch())) {
+					//resultList = searchResultMapper.searchResult_A_getDate(param);
+					resultList = searchResultMapper.searchResult_B_getDate2018(param);
+				} else {
+					
+					// 지점코드 하나씩 insert 하기 (검색조건)
+					for(int i = 0 ; i < param.getSiteIds().length; i++) {
+						param.setSiteId2(param.getSiteIds()[i]);
+						int dataList = searchResultMapper.searchResult_B2018_setParam(param);				
+					}
+					
+					// 수질측정지점 표준화 검색 쿼리
+					resultList = searchResultMapper.searchResult_B_RESULT_2018(param);
+					          
+				}
+				
+				if (checkNull(resultList)) {
+					HashMap nullMgs = new HashMap();
+					nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+					resultList = new ArrayList();
+					resultList.add(nullMgs);
+				}
+				result.put("data", resultList);
+				return result;
+
+	}
 
 	// 수질자동측정지점 - 수질자동측정지점 미확정 GROUP CODE : B
 	public HashMap searchResult_B001(SearchResultVO param) throws Exception {
@@ -1040,12 +1074,31 @@ public class SearchResultService implements Serializable{
 	}
 
 	// 수질자동측정지점 - 수질자동측정지점 확정 GROUP CODE : B
-	public List searchResult_B001_Fix(SearchResultVO param) throws Exception {
+	public HashMap searchResult_B001_Fix(SearchResultVO param) throws Exception {
+		HashMap result = new HashMap();
+		List resultList = null;
 		
-		List result = searchResultMapper.searchResult_B001_Fix(param);
+		if ("noDate".equals(param.getFirstSearch())) {
+			resultList = searchResultMapper.searchResult_B001_getDate(param);
+//			ObjectMapper om = new ObjectMapper(); 
+//			String arrStr = om.writeValueAsString(resultList);
+//			
+//			logger.info(arrStr);
+		}else {
+			resultList = searchResultMapper.searchResult_B001_Fix(param);
+		}
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		
 		return result;
 	}
-
+	
 	// 퇴적물 LAYER CODE : C
 	public HashMap searchResult_C(SearchResultVO param) throws Exception {
 
@@ -1295,6 +1348,40 @@ public class SearchResultService implements Serializable{
 		}
 		result.put("data", resultList);
 		return result;
+	}
+	
+	
+	// 한기조  LAYER CODE : L _ 2018 ( 표준화테이블 )
+	public HashMap searchResult_L2018(SearchResultVO param) throws Exception {
+
+		// param.setSiteIds();
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		if ("noDate".equals(param.getFirstSearch())) {
+			resultList = searchResultMapper.searchResult_L_getDate2018(param);
+		} else {
+			
+			// 지점코드 하나씩 insert 하기 (검색조건)
+			for(int i = 0 ; i < param.getSiteIds().length; i++) {
+				param.setSiteId2(param.getSiteIds()[i]);
+				int dataList = searchResultMapper.searchResult_L2018_setParam(param);				
+			}
+			
+			// 수질측정지점 표준화 검색 쿼리
+			resultList = searchResultMapper.searchResult_L_RESULT_2018(param);
+			          
+		}
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+
 	}
 	
 	// 보고서

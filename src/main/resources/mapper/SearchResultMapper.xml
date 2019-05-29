@@ -1169,7 +1169,7 @@
 	</select>
 	
 	
-	<insert id="searchResult_A2018" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	<insert id="searchResult_A2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
 	
 			INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES 
 				(#{startYear} || #{startMonth}, #{endYear} || #{endMonth}, #{siteId2})
@@ -2003,13 +2003,56 @@ ORDER BY PT_NO, RN, RN_2 DESC
     </select>
     
     <select id="searchResult_B_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-	    SELECT /* KRF-BIZ.SearchResultMapper.searchResult_B_getDate */ 
+    	SELECT /* KRF-BIZ.SearchResultMapper.searchResult_B_getDate */ 
 	           SUBSTR(MAX(BASE_TIME),0,4) AS YEAR , 
 	    	   SUBSTR(MAX(BASE_TIME),5,2) AS MONTH ,
 	    	   SUBSTR(MAX(BASE_TIME),7,2) AS DAY ,
 	       	   MAX(BASE_TIME) AS WMCYMD 
 	      FROM TMS_HOURDATA 
 		 WHERE FACT_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	 </select>
+    
+    <select id="searchResult_B_getDate2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	    SELECT MAX(STDR_DE) AS WMCYMD 
+	    	FROM ANL_TMS_DAYAVG 
+	      WHERE BPLC_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> 
+	      ORDER BY STDR_DE
+    </select>
+    
+    <insert id="searchResult_B2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+    	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear} || #{startMonth} ,#{endYear} || #{endMonth}, #{siteId2})
+    </insert>
+    
+    <select id="searchResult_B_RESULT_2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	    SELECT RN,
+		       BPLC_CODE,
+		       DCWTRH_NO,
+		       BPLC_NM,
+		       STDR_DE,
+		       LDT_CODE_NM,
+		       MDT_CODE_NM,
+		       SDT_CODE_NM,
+		       BPLC_KND_NM,
+		       PROCESS_CPCTY,
+		       CHCK_DE,
+		       CURR_1052,
+		       CHART_1052,
+		       CURR_1049,
+		       CHART_1049,
+		       CURR_1053,
+		       CHART_1053,
+		       CURR_1055,
+		       CHART_1055,
+		       CURR_1056,
+		       CHART_1056,
+		       CURR_1039,
+		       CHART_1039,
+		       CURR_1098,
+		       CHART_1098,
+		       CURR_1073,
+		       CHART_1073
+		  FROM V_ANL_TMS_DAYAVG_GIS
+		  
     </select>
     
     <select id="searchResult_B" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
@@ -2293,6 +2336,7 @@ ORDER BY PT_NO, RN, RN_2 DESC
                FROM FIVEDATA_TB
               WHERE SITE_ID  IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
     		    AND MSR_DATE IS NOT NULL
+    		    AND ROWNUM = 1
     	   ORDER BY MSR_DATE DESC
     	</if>
     	<if test="con == 02">
@@ -7894,6 +7938,34 @@ ORDER  BY NO_1,
 		       )
 		 WHERE FCLTS_NO	IN
 		 <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	
+	<select id="searchResult_L_getDate2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT MAX(MESURE_DE) AS MESURE_DE
+		  FROM EXM_ENVBSIS_MNTRNG
+		 WHERE ENVBSIS_SITE_MANAGE_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+
+	<insert id="searchResult_L2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR(VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) 
+			VALUES ( #{startYear}||#{startMonth}, #{endYear}||#{endMonth}, #{siteId2})
+	</insert>
+	
+	<select id="searchResult_L_RESULT_2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT ENVBSIS_SITE_MANAGE_NO,
+		       BSNS_NM,
+		       MESURE_DE,
+		       BOD,
+		       COD,
+		       TOC,
+		       TN,
+		       TP,
+		       SS,
+		       SEAWEED,
+		       BEMA,
+		       FISHES
+		  FROM V_EXM_ENVBSIS_GIS
 	</select>
 	
 	<select id="searchResult_File" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
