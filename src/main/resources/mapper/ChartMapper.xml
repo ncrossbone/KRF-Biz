@@ -87,6 +87,19 @@
 		   FROM MSR_NPMN_ATMC
        ORDER BY MESURE_DT
       </select>
+      
+      <select id="getRWMDTSelect2018L" resultType="hashmap">
+      
+      	SELECT RN,
+		       PT_NO,
+		       PT_NM,
+		       WMCYMD,
+		       ITEM_NAME,
+		       ITEM_VALUE
+		  FROM V_EXM_ENVBSIS_GIS_CHART
+      
+      </select>
+      
     <insert id="insertChartPram" parameterType="com.ce.krf.biz.model.ChartVO">
     	INSERT
 		  INTO COM_VRIABL_TMPR(VRIABL_1_VALUE, VRIABL_2_VALUE, VRIABL_3_VALUE, VRIABL_4_VALUE)
@@ -212,6 +225,19 @@
    		WHERE <![CDATA[ RN <= 10 ]]> 
   	</if>
    
+    
+    </select>
+    
+    <select id="getRWMDTSelect2018B" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    
+	    SELECT RN,
+		       PT_NO,
+		       DCWTRH_NO,
+		       PT_NM,
+		       WMCYMD,
+		       ITEM_NAME,
+		       ITEM_VALUE
+		  FROM V_ANL_TMS_DAYAVG_GIS_CHART
     
     </select>
     

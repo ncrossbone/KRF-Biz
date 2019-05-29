@@ -10,22 +10,29 @@ import com.ce.krf.biz.model.SearchResultVO;
 
 public interface SearchResultMapper {
 	
+	//view param
+	public int searchResult_setParam_2018(SearchResultVO param);
 	
-	public List searchResult_A_getDate(SearchResultVO param);
-	public List searchResult_A_getDate2018(SearchResultVO param);
+	
+	
 	
 	//수질측정지점
+	public List searchResult_A_getDate(SearchResultVO param);
 	public List searchResult_A(SearchResultVO param);
+	
+	public List searchResult_A_getDate2018(SearchResultVO param);
+	public int searchResult_A2018_setParam(SearchResultVO param);
 	public List searchResult_A_RESULT_2018(SearchResultVO param);
 	
-	//수질측정지점
-	public int searchResult_A2018(SearchResultVO param);
-	
-	//수질자동측정지점 - 사업장TMS
-	public List searchResult_B(SearchResultVO param);
 	
 	//수질자동측정지점 - 사업장TMS 최근날짜
+	public List searchResult_B(SearchResultVO param);
 	public List searchResult_B_getDate(SearchResultVO param);
+	
+	public List searchResult_B_getDate2018(SearchResultVO param);
+	public int searchResult_B2018_setParam(SearchResultVO param);
+	public List searchResult_B_RESULT_2018(SearchResultVO param);
+	
 	
 	public List searchResult_B001_getDate(SearchResultVO param);
 	//수질자동측정지점 - 사업장TMS
@@ -138,6 +145,13 @@ public interface SearchResultMapper {
 	public List searchResult_M001(SearchResultVO param);
 	public List searchResult_M002_getDate(SearchResultVO param);
 	public List searchResult_M002(SearchResultVO param);
+	
+	
+	//한기조
+	public List searchResult_L_getDate2018(SearchResultVO param);
+	public int searchResult_L2018_setParam(SearchResultVO param);
+	public List searchResult_L_RESULT_2018(SearchResultVO param);
+	
 	
 	public int searchResult_File_Param(SearchResultVO param);
 	public List searchResult_File(SearchResultVO param);
