@@ -8046,18 +8046,11 @@ ORDER  BY NO_1,
 	</select>
 	
 	<select id="getSedimentItemValue" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-		SELECT PT_NO AS PT_NO,
-	           CASE WHEN ${item} = 'Ⅰ' THEN '1'
-      			    WHEN ${item} = 'Ⅱ' THEN '2'
-      			    WHEN ${item} = 'Ⅲ' THEN '3'
-        			WHEN ${item} = 'Ⅳ' THEN '4'
-        			WHEN ${item} = 'Ⅳ등급 이내' THEN '4'
-        	   ELSE NULL
-    			END AS ITEM,
-			   #{item} AS ITEM_NM
-		  FROM WATER_2.SDM_RWMDTI
-		 WHERE WMYR || WMWK = #{year}
-    	   AND PT_NO IN <foreach collection="siteIds" item="arr" separator="," open="(" close=")"> #{arr}</foreach>
+	SELECT DPMN_CODE AS PT_NO,
+		   (SELECT CODE_NM FROM COM_CODE WHERE ( UPPER_CODE_NO = '1768' OR UPPER_CODE_NO = '1800' ) AND CODE = A.GRAD_CODE) AS ITEM
+	  FROM MSR_DPMN_GRAD A
+	 WHERE YEAR || MT || TME = '201705H01'
+       AND DPMN_CODE IN <foreach collection="siteIds" item="arr" separator="," open="(" close=")"> #{arr}</foreach>
 	</select>
 	
 	
