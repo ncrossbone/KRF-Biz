@@ -27,14 +27,14 @@
     </select>
     
     <select id="getRWMDTSelectM001" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
-    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelectM001 */ PT_NO,
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018M001 */ PT_NO,
     	       ITEM_VALUE,
     	       ITEM_NAME,
     	       MESURE_DT,
     	       WMCYMD
   		  FROM ( SELECT NPMN_CODE AS PT_NO,
-    					WTRTP_VALUE AS ITEM_VALUE,
-    					'WTRTP_VALUE' AS ITEM_NAME,
+    					${selectItem} AS ITEM_VALUE,
+    					#{selectItem} AS ITEM_NAME,
     					MESURE_DT,
     					SUBSTR(MESURE_DT,0,4) || '.' || SUBSTR(MESURE_DT,5,2) || '.' || SUBSTR(MESURE_DT,7,2) || ' ' || SUBSTR(MESURE_DT,9,2) || '시' AS WMCYMD
 				   FROM MSR_NPMN_ATMC
@@ -45,11 +45,11 @@
    		       	  WHERE <![CDATA[ ROWNUM <= 10]]>
   		  </if>
   		   <if test="defaultChart != null and defaultChart == 0">
-   		       	  WHERE MESURE_DT BETWEEN #{preFullDate} || '0000' AND #{nextFullDate} || '2359' 
+   		       	  WHERE MESURE_DT BETWEEN #{preFullDate} || '000000' AND #{nextFullDate} || '235959'
 		  </if>
 	  UNION ALL
 		 SELECT '' AS PT_NO,
-    			MAX(WTRTP_VALUE) AS ITEM_VALUE,
+    			MAX(${selectItem}) AS ITEM_VALUE,
     			'' AS ITEM_NAME,
     			'9999' AS MESURE_DT,
     			'' AS WMCYMD
@@ -58,34 +58,34 @@
     </select>
     
     <select id="getRWMDTSelectM002" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
-    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelectM002 */ PT_NO,
+    	     SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018M002 */ PT_NO,
     	       ITEM_VALUE,
     	       ITEM_NAME,
-    	       MESURE_DT,
+    	       MESURE_DE,
     	       WMCYMD
-  		  FROM ( SELECT NPMN_CODE AS PT_NO,
-    					WTRTP_VALUE AS ITEM_VALUE,
-    					'WTRTP_VALUE' AS ITEM_NAME,
-    					MESURE_DT,
-    					SUBSTR(MESURE_DT,0,4) || '.' || SUBSTR(MESURE_DT,5,2) || '.' || SUBSTR(MESURE_DT,7,2) || ' ' || SUBSTR(MESURE_DT,9,2) || '시' AS WMCYMD
-				   FROM MSR_NPMN_ATMC
-				  WHERE NPMN_CODE = #{recordId}
-			   ORDER BY MESURE_DT DESC
+  		  FROM (
+       SELECT NPMN_CODE AS PT_NO,
+    					${selectItem} AS ITEM_VALUE,
+    					#{selectItem} AS ITEM_NAME,
+    					MESURE_DE,
+    					MESURE_DE || ' ' || NO || '회차(' || ODR || ')' AS WMCYMD
+				   FROM MSR_NPMN_PASSIV
+                    ORDER BY MESURE_DE DESC, WMCYMD
 			    )
-          <if test="defaultChart != null and defaultChart == 1">
+			    <if test="defaultChart != null and defaultChart == 1">
    		       	  WHERE <![CDATA[ ROWNUM <= 10]]>
   		  </if>
   		   <if test="defaultChart != null and defaultChart == 0">
-   		       	  WHERE MESURE_DT BETWEEN #{preFullDate} AND #{nextFullDate} 
+   		       	  WHERE MESURE_DE BETWEEN #{preFullDate} AND #{nextFullDate}
 		  </if>
-	  UNION ALL
-		 SELECT '' AS PT_NO,
-    			MAX(WTRTP_VALUE) AS ITEM_VALUE,
-    			'' AS ITEM_NAME,
-    			'9999' AS MESURE_DT,
+              UNION ALL
+                  SELECT '' AS PT_NO,
+                         MAX(${selectItem}) AS ITEM_VALUE,
+                        '' AS ITEM_NAME,
+    			'9999' AS MESURE_DE,
     			'' AS WMCYMD
-		   FROM MSR_NPMN_ATMC
-       ORDER BY MESURE_DT
+		   FROM MSR_NPMN_PASSIV
+           ORDER BY MESURE_DE, WMCYMD
       </select>
       
       <select id="getRWMDTSelect2018L" resultType="hashmap">
