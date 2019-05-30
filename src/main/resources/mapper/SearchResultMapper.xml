@@ -8121,7 +8121,8 @@ ORDER  BY NO_1,
 	SELECT DPMN_CODE AS PT_NO,
 		   (SELECT CODE_NM FROM COM_CODE WHERE ( UPPER_CODE_NO = '1768' OR UPPER_CODE_NO = '1800' ) AND CODE = A.GRAD_CODE) AS ITEM
 	  FROM MSR_DPMN_GRAD A
-	 WHERE YEAR || MT || TME = '201705H01'
+	 WHERE YEAR || TME = #{year}
+	   AND IEM_CODE = #{item} 
        AND DPMN_CODE IN <foreach collection="siteIds" item="arr" separator="," open="(" close=")"> #{arr}</foreach>
 	</select>
 	
