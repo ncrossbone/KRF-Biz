@@ -13,9 +13,6 @@ public interface SearchResultMapper {
 	//view param
 	public int searchResult_setParam_2018(SearchResultVO param);
 	
-	
-	
-	
 	//수질측정지점
 	public List searchResult_A_getDate(SearchResultVO param);
 	public List searchResult_A(SearchResultVO param);
@@ -146,6 +143,8 @@ public interface SearchResultMapper {
 	public List searchResult_M002_getDate(SearchResultVO param);
 	public List searchResult_M002(SearchResultVO param);
 	
+	public List searchResult_Q_getDate(SearchResultVO param);
+	public List searchResult_Q(SearchResultVO param);
 	
 	//한기조
 	public List searchResult_L_getDate2018(SearchResultVO param);

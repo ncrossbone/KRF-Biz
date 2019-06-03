@@ -26,6 +26,61 @@
     	  </if>
     </select>
     
+    <select id="getInfo_Q" resultType="hashmap">
+    	SELECT /* KRF-BIZ.ChartMapper.getInfo_Q */
+    		   DECODE(ROWNUM,1,SWGDSPT_NM ,2,FCLTY_CPCTY ,3,DE_AVRG_INFLOW_QY,4,FYER_INFLOW_QY,5,DE_AVRG_PHYTRMT_QY,6,DE_AVRG_BIOTRMT_QY,
+			   7,DE_AVRG_ADVTRMT_QY,8,FYER_WASTTRMT_QY,9,OPR_PREARNGE_DE,10,PROCESS_ZONE,11,PROCESS_MTH,12,DCWTR_WATERS) AS "cont",
+			   DECODE(ROWNUM,1,'시설명' ,2,'시설용량' ,3,'하수유입량-일평균',4,'하수유입량-연간',5,'하수처리량-일평균-물리적',6,'하수처리량-일평균-생물학적',
+			   7,'하수처리량-일평균-고도',8,'하수처리량-연간',9,'가동예정일',10,'처리구역',11,'처리방법',12,'방류수역') AS "column"
+		  FROM ( SELECT SWGDSPT_NM,
+						FCLTY_CPCTY,
+						DE_AVRG_INFLOW_QY,
+						FYER_INFLOW_QY,
+						DE_AVRG_PHYTRMT_QY,
+						DE_AVRG_BIOTRMT_QY,
+						DE_AVRG_ADVTRMT_QY,
+						FYER_WASTTRMT_QY,
+						OPR_PREARNGE_DE,
+						PROCESS_ZONE,
+						PROCESS_MTH,
+						DCWTR_WATERS    
+ 				   FROM FCL_SWGDSPT
+				  WHERE SWGDSPT_CODE = #{recordId})
+	CONNECT BY LEVEL <![CDATA[<=]]> 12
+    </select>
+    
+    <select id="getRWMDTSelectQ" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelectQ */ 
+    	   PT_NO,
+    	   ITEM_VALUE,
+    	   ITEM_NAME,
+    	   MESURE_DT,
+    	   WMCYMD
+  	  FROM ( SELECT SWGDSPT_CODE AS PT_NO,
+       			    ${selectItem} AS ITEM_VALUE,
+       				#{selectItem} AS ITEM_NAME,
+       				MESURE_DE AS MESURE_DT,
+       				SUBSTR(MESURE_DE,0,4) || '.' || SUBSTR(MESURE_DE,5,2)|| '.' || SUBSTR(MESURE_DE,7,2) AS WMCYMD
+  			  FROM MSR_SWGDSPT_INFLOW_DAY
+			 WHERE SWGDSPT_CODE =  #{recordId}
+		  ORDER BY MESURE_DE DESC
+			)
+	<if test="defaultChart != null and defaultChart == 1">
+		WHERE <![CDATA[ ROWNUM <= 5]]>
+  	</if>
+	<if test="defaultChart != null and defaultChart == 0">
+   		WHERE MESURE_DT BETWEEN #{preFullDate} || '00' AND #{nextFullDate} || '31'
+	</if>
+ UNION ALL
+		 SELECT '' AS PT_NO,
+    			MAX(${selectItem}) AS ITEM_VALUE,
+    			'' AS ITEM_NAME,
+    			'9999' AS MESURE_DT,
+    			'' AS WMCYMD
+		   FROM MSR_SWGDSPT_INFLOW_DAY
+           ORDER BY MESURE_DT
+    </select>
+    
     <select id="getRWMDTSelectM001" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
     	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018M001 */ PT_NO,
     	       ITEM_VALUE,

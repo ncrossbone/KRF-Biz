@@ -34,6 +34,14 @@ public class ChartService implements Serializable{
 		return res;
 	}
 	
+	public HashMap getInfo(String index,ChartVO param) throws Exception {
+		Method method = chartMapper.getClass().getMethod("getInfo_" + index,ChartVO.class);
+		List result = (List) method.invoke(chartMapper,param);
+		HashMap reMap = new HashMap();
+		reMap.put("data",result);
+		return reMap;
+	}
+	
 	public HashMap getRWMDTSelect(String index,ChartVO param) throws Exception {
 		
 		if(param.getDefaultChart()!=null && param.getDefaultChart().equals("0")) {

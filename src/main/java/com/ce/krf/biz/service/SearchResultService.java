@@ -1350,6 +1350,27 @@ public class SearchResultService implements Serializable{
 		return result;
 	}
 	
+	public HashMap searchResult_Q(SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		if ("noDate".equals(param.getFirstSearch())) {
+			resultList = searchResultMapper.searchResult_Q_getDate(param);
+		} else {
+			resultList = searchResultMapper.searchResult_Q(param);
+		}
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
+	
 	
 	// 한기조  LAYER CODE : L _ 2018 ( 표준화테이블 )
 	public HashMap searchResult_L2018(SearchResultVO param) throws Exception {

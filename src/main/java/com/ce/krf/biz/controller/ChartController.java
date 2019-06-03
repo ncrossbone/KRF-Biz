@@ -47,6 +47,17 @@ public class ChartController extends BaseController implements Serializable{
 			return e.getMessage();
 		}
 	}
+	
+	@RequestMapping(value = "/getInfo_{index}", produces = "text/html; charset=utf-8")
+	public String getInfo(@PathVariable String index, @ModelAttribute ChartVO param) {
+		try {
+			return getEuckrString(chartService.getInfo(index,param), false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("[CHART]----------"+e.getStackTrace());
+			return e.getMessage();
+		}
+	}
 
 	@RequestMapping(value = "/getRWMDT_{index}", produces = "text/html; charset=utf-8")
 	public String pollutionSelect(@PathVariable String index, @ModelAttribute ChartVO param) {

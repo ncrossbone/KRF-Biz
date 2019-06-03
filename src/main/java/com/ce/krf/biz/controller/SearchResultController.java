@@ -281,6 +281,16 @@ public class SearchResultController extends BaseController implements Serializab
 		}
 	}
 	
+	@RequestMapping(value = "/searchResult_Q", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_Q(@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchResult_Q(param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			return "error";
+		}
+	}
+	
 	// 한기조 GROUP_CODE : L
 	@RequestMapping(value = "/searchResult_L2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_L2018(@ModelAttribute SearchResultVO param) {
