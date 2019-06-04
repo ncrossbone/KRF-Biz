@@ -8172,6 +8172,11 @@ ORDER  BY NO_1,
 		  FROM V_EXM_HRLK_FISH_GIS
 	</select>
 	
+	<select id="searchResultWindow_Z_Z003_joInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "EXAMIN_UNT", "EXAMIN_DP", "EXAMIN_INSTT_NM", "EXMNR_NM"
+		  FROM V_EXM_HRLK_BEMA_GIS
+	</select>
+	
 	<select id="searchResult_File" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	/* 보고서 파일 */
 	SELECT BRRER_CODE,
