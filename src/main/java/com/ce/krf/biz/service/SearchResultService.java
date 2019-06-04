@@ -956,6 +956,37 @@ public class SearchResultService implements Serializable{
 		return result;
 	}
 	
+	
+	//detialSearchResult
+	public HashMap detailSearchResult(SearchResultVO param) throws Exception {
+		//getDetailSiteIds
+		// param.setSiteIds();
+		// getGroupCode()
+		HashMap result = new HashMap();
+		List resultList = null;
+		
+		for(int i = 0 ; i < param.getDetailSiteIds().length; i++) {
+			
+			String[] detailValue = param.getDetailSiteIds()[i].split("_");
+			param.setGroupCode(detailValue[0]);
+			param.setDetailSiteIds2(detailValue[1]);
+			int dataList = searchResultMapper.detailSearchSetParam(param);				
+		}
+
+		resultList = searchResultMapper.detailSearchResult(param);
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+
+	}
+	
+	
 	// 수질측정지점 LAYER CODE : A _ 2018 ( 표준화테이블 )
 	public HashMap searchResult_A2018(SearchResultVO param) throws Exception {
 

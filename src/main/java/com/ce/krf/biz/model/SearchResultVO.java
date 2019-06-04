@@ -26,6 +26,10 @@ public class SearchResultVO implements Serializable{
 	private String[] siteIds = null;
 	private String siteId2 = "";
 	
+	private String[] detailSiteIds = null;
+	private String detailSiteIds2 = "";
+	private String groupCode = "";
+	
 	private String startYear = "";
 	private String startMonth = "";
 	private String startDay = "";
@@ -203,6 +207,25 @@ public class SearchResultVO implements Serializable{
 	}
 	public void setSiteId2(String siteId2) {
 		this.siteId2 = siteId2;
+	}
+	
+	public String getDetailSiteIds2() {
+		return detailSiteIds2;
+	}
+	public void setDetailSiteIds2(String detailSiteIds2) {
+		this.detailSiteIds2 = detailSiteIds2;
+	}
+	public String getGroupCode() {
+		return groupCode;
+	}
+	public void setGroupCode(String groupCode) {
+		this.groupCode = groupCode;
+	}
+	public String[] getDetailSiteIds() {
+		return detailSiteIds;
+	}
+	public void setDetailSiteIds(String[] detailSiteIds) {
+		this.detailSiteIds = detailSiteIds;
 	}
 	
 	
