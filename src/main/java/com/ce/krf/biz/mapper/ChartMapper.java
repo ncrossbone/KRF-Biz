@@ -48,11 +48,11 @@ public interface ChartMapper {
 	
 	public List getInfo_Q(ChartVO param);
 	
-	public List getRWMDTSelectZ001(ChartVO param);
-	public List getRWMDTSelectZ002(ChartVO param);
-	public List getRWMDTSelectZ003(ChartVO param);
-	public List getRWMDTSelectZ004(ChartVO param);
-	public List getRWMDTSelectZ005(ChartVO param);
-	public List getRWMDTSelectZ006(ChartVO param);
+	public List getRWMDTSelect2018Z001(ChartVO param);
+	public List getRWMDTSelect2018Z002(ChartVO param);
+	public List getRWMDTSelect2018Z003(ChartVO param);
+	public List getRWMDTSelect2018Z004(ChartVO param);
+	public List getRWMDTSelect2018Z005(ChartVO param);
+	public List getRWMDTSelect2018Z006(ChartVO param);
 	
 }
