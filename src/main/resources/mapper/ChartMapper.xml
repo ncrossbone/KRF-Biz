@@ -125,6 +125,7 @@
     					MESURE_DE,
     					MESURE_DE || ' ' || NO || '회차(' || ODR || ')' AS WMCYMD
 				   FROM MSR_NPMN_PASSIV
+				   WHERE NPMN_CODE = #{recordId}
                     ORDER BY MESURE_DE DESC, WMCYMD
 			    )
 			    <if test="defaultChart != null and defaultChart == 1">
@@ -142,6 +143,31 @@
 		   FROM MSR_NPMN_PASSIV
            ORDER BY MESURE_DE, WMCYMD
       </select>
+      
+       <select id="getRWMDTSelect2018Z001" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    		SELECT RN,PT_NO,WMCYMD,ITEM_NAME,ITEM_VALUE FROM V_EXM_HRLK_FISHSPCS_GIS_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018Z006" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    		SELECT RN,PT_NO,WMCYMD,ITEM_NAME,ITEM_VALUE FROM V_EXM_HRLK_PHPKSPCS_GIS_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018Z005" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    		SELECT RN,PT_NO,WMCYMD,ITEM_NAME,ITEM_VALUE FROM V_EXM_HRLK_ZOPKSPCS_GIS_CHART
+    </select>
+    
+     <select id="getRWMDTSelect2018Z002" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    		SELECT RN,PT_NO,WMCYMD,ITEM_NAME,ITEM_VALUE FROM V_EXM_HRLK_VTNSPCS_GIS_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018Z003" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    		SELECT RN,PT_NO,WMCYMD,ITEM_NAME,ITEM_VALUE FROM V_EXM_HRLK_BEMASPCS_GIS_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018Z004" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    		SELECT RN,PT_NO,WMCYMD,ITEM_NAME,ITEM_VALUE FROM V_EXM_HRLK_GIS_CHART
+    </select>
+      
       
       <select id="getRWMDTSelect2018L" resultType="hashmap">
       

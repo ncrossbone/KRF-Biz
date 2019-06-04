@@ -8179,6 +8179,46 @@ ORDER  BY NO_1,
 	  AND DCWTRH_MANAGE_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	  AND MESURE_DE BETWEEN #{startYear}||#{startMonth}||'01' AND #{endYear}||#{endMonth}||'31'
 	</select>
+	  
+	<insert id="searchResultWindow_Z_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear}||#{startMonth},#{endYear}||#{endMonth}, #{siteId2}) 
+	</insert>
+	
+	<select id="searchResultWindow_Z_Z006_joInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "MESURE_DP", "CHCK_PD_BEGIN_DE", "CHCK_PD_END_DE", "EXAMIN_INSTT_NM", "EXMNR_NM"
+		  FROM V_EXM_HRLK_PHPK_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z004_joInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "HRLK_CODE", "SITE_NM", "YEAR", "MT", "TME", "CHCK_DE", "CHCK_BEGIN_DE", "CHCK_END_DE", "EXMNR_NM", "EXINST_NM"
+		  FROM V_EXM_HRLK_META_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z005_joInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "MESURE_DP", "CHCK_PD_BEGIN_DE", "CHCK_PD_END_DE", "EXAMIN_INSTT_NM", "EXMNR_NM"
+		  FROM V_EXM_HRLK_ZOPK_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z002_danInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "PNTTM_LO_DEGR", "PNTTM_LO_MIN", "PNTTM_LO_SECND", "PNTTM_LA_DEGR", "PNTTM_LA_MIN", "PNTTM_LA_SECND", "TMNL_LO_DEGR", "TMNL_LO_MIN", "TMNL_LO_SECND", "TMNL_LA_DEGR", "TMNL_LA_MIN", "TMNL_LA_SECND", "DRC", "RVTMNT_FROM_DSTNC", "SCTN_SN", "SCTN_BEGIN_VALUE", "SCTN_END_VALUE", "DPWT", "DISPOS", "HD", "VTN_HG", "SPECIES_CODE", "SPECIES_SCNCENM", "SPECIES_KORNM", "CV_VALUE"
+		  FROM V_EXM_HRLK_TRNSECT_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z002_joInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "SCTN_SN", "DPWT", "VTN_HG", "SCTN_BEGIN_VALUE", "SCTN_END_VALUE", "EXMNR_NM", "EXAMIN_INSTT_NM"
+		  FROM V_EXM_HRLK_VTN_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z001_joInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "SN", "HS_NAME", "SITE_CODE", "SITE_NM", "MESURE_YEAR", "MESURE_MT", "MESURE_TME", "EXAMIN_BEGIN_DE", "EXAMIN_END_DE", "EXMNR_NM", "EXAMIN_INSTT_NM"
+		  FROM V_EXM_HRLK_FISH_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z003_joInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "EXAMIN_UNT", "EXAMIN_DP", "EXAMIN_INSTT_NM", "EXMNR_NM"
+		  FROM V_EXM_HRLK_BEMA_GIS
+
+	</select>
 	
 	<select id="searchResult_File" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	/* 보고서 파일 */
