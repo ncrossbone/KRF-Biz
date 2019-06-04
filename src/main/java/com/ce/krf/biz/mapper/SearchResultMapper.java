@@ -173,4 +173,8 @@ public interface SearchResultMapper {
 	public List searchResult_Z002_2018_getDate(SearchResultVO param);
 	public int searchResult_Z002_2018_setParam(SearchResultVO param);
 	public List searchResult_Z002_2018_result(SearchResultVO param);
+	
+	public List searchResult_Z001_2018_getDate(SearchResultVO param);
+	public int searchResult_Z001_2018_setParam(SearchResultVO param);
+	public List searchResult_Z001_2018_result(SearchResultVO param);
 }

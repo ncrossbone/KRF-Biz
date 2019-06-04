@@ -8062,6 +8062,36 @@ ORDER  BY NO_1,
 		  FROM V_EXM_HRLK_VTNSPCS_GIS
 	</select>
 	
+	<select id="searchResult_Z001_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		 SELECT  MAX(MESURE_YEAR ||'.'|| LPAD(MESURE_MT,2,'0')) AS WMCYMD 
+		   FROM EXM_HRLK_FISHSPCS
+		 WHERE SITE_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<insert id="searchResult_Z001_2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear}||#{startMonth},#{endYear}||#{endMonth}, #{siteId2}) 
+	</insert>
+	
+	<select id="searchResult_Z001_2018_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "SN", "HS_NAME", "SITE_CODE", "SITE_NM", "MESURE_YEAR", "MESURE_MT", "MESURE_TME", "SPECIES_SCNCENM", "SPECIES_KORNM"
+		  FROM V_EXM_HRLK_FISHMASTR_GIS
+	</select>
+	
+	<select id="searchResult_Z003_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT MAX(EXAMIN_YEAR ||'.'|| LPAD(EXAMIN_MT,2,'0')) AS WMCYMD 
+		  FROM EXM_HRLK_BEMASPCS
+		 WHERE SITE_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<insert id="searchResult_Z003_2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear}||#{startMonth},#{endYear}||#{endMonth}, #{siteId2}) 
+	</insert>
+	
+	<select id="searchResult_Z003_2018_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "RELM_SE", "DPWT_SE", "SPECIES_CODE", "SPECIES_SCNCENM", "SPECIES_KORNM", "INDVD_CO"
+		  FROM V_EXM_HRLK_BEMASPCS_GIS
+	</select>
+	
 	<select id="searchResult_File" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	/* 보고서 파일 */
 	SELECT BRRER_CODE,
