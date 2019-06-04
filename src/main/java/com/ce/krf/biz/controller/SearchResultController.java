@@ -43,6 +43,25 @@ public class SearchResultController extends BaseController implements Serializab
 	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
+	
+//	@RequestMapping(value = "/search", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+//	public String searchSstg(@ModelAttribute SearchResultVO param) {
+//		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+//		def.setName("example-ranscation");
+//		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+//		
+//		TransactionStatus status = transactionManager.getTransaction(def);
+//		try {
+//			HashMap result = searchResultService.searchSstg(param);
+//			transactionManager.commit(status);
+//			return getEuckrString(result, false);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			transactionManager.rollback(status);
+//			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			return "error";
+//		}
+//	}
 
 	@RequestMapping(value = "/searchSstg", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchSstg(@ModelAttribute SearchResultVO param) {
@@ -63,6 +82,29 @@ public class SearchResultController extends BaseController implements Serializab
 			HashMap result = searchResultService.searchResult_A(param);
 			return getEuckrString(result, false);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	
+	// 상세검색 query
+	@RequestMapping(value = "/detialSearchResult", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String detialSearchResult(@ModelAttribute SearchResultVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = searchResultService.detailSearchResult(param);
+			transactionManager.commit(status);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
 			// TODO Auto-generated catch block
 			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";

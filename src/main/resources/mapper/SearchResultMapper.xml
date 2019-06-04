@@ -16,6 +16,52 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.SearchResultMapper">
 
+
+	<insert id="detailSearchSetParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR(VRIABL_1_VALUE, VRIABL_2_VALUE, VRIABL_3_VALUE, VRIABL_4_VALUE) VALUES (#{groupCode}, #{detailSiteIds2}, #{startYear}||#{startMonth}||'01', #{endYear}||#{endMonth}||'31') 
+	</insert>
+	
+	<select id="detailSearchResult" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT  /* KRF-BIZ.SearchResultMapper.detailSearchResult */ 
+		   DTA_SE,
+	       GROUP_CODE,
+	       DTA_DETAIL_SE,
+	       LAEYR_CODE,
+	       SITE_CODE,
+	       SITE_NM,
+	       DE,
+	       TME,
+	       ADRES,
+	       MESURE_DP,
+	       IEM_1060,
+	       IEM_1054,
+	       IEM_1039,
+	       IEM_1050,
+	       IEM_1052,
+	       IEM_1049,
+	       IEM_1053,
+	       IEM_1055,
+	       IEM_1056,
+	       IEM_1073,
+	       IEM_1013,
+	       IEM_1012,
+	       IEM_1066,
+	       IEM_1067,
+	       IEM_1065,
+	       IDEX,
+	       GRAD,
+	       IEM_1160,
+	       IEM_1155,
+	       TOT_INFLOW_QY,
+	       TOT_DWEQTY,
+	       WLV,
+	       RAINFL,
+	       FLUX,
+	       AVRG_SPFLD,
+	       SORT
+	  FROM V_UNITY_SEARCH
+	</select>
+
 	<select id="sstg" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		SELECT SE, SPOT_CODE ,SPOT_NM, ATAL_SE, BEMA_SE, FISH_SE, VTN_SE, INHA_SE, QLTWTR_SE 
 			FROM TAE_SPOT_SE
@@ -8248,6 +8294,13 @@ ORDER  BY NO_1,
 	 WHERE YEAR || TME = #{year}
 	   AND IEM_CODE = #{item} 
        AND DPMN_CODE IN <foreach collection="siteIds" item="arr" separator="," open="(" close=")"> #{arr}</foreach>
+	</select>
+	
+	<insert id="setTotalSearch" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR(VRIABL_1_VALUE, VRIABL_2_VALUE, VRIABL_3_VALUE, VRIABL_4_VALUE) VALUES (#{layerCode}, #{siteId2}, #{startYear}||#{startMonth}, #{endYear}||#{endMonth})
+	</insert>
+	
+	<select id="getTotalSearch" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	</select>
 	
 	
