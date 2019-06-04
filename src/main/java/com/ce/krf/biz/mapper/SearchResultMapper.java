@@ -181,4 +181,12 @@ public interface SearchResultMapper {
 	public List searchResult_Z001_2018_getDate(SearchResultVO param);
 	public int searchResult_Z001_2018_setParam(SearchResultVO param);
 	public List searchResult_Z001_2018_result(SearchResultVO param);
+	
+	public int searchResultWindow_Z_setParam(SearchResultVO param);
+	public List searchResultWindow_Z_Z006_joInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z004_joInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z005_joInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z002_danInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z002_joInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z001_joInfoBtn_result(SearchResultVO param);
 }

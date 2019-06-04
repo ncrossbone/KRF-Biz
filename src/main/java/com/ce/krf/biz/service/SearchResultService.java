@@ -1022,41 +1022,71 @@ public class SearchResultService implements Serializable{
 
 	}
 	
-		public HashMap searchResult_Z_2018(SearchResultVO param, String index) throws Exception {
+	public HashMap searchResult_Z_2018(SearchResultVO param, String index) throws Exception {
 
-			// param.setSiteIds();
-			HashMap result = new HashMap();
-			List resultList = null;
+		// param.setSiteIds();
+		HashMap result = new HashMap();
+		List resultList = null;
 
-			if ("noDate".equals(param.getFirstSearch())) {
-				
-				Method method = searchResultMapper.getClass().getMethod("searchResult_Z" + index + "_2018_getDate",SearchResultVO.class);
-				resultList = (List) method.invoke(searchResultMapper,param);
-			} else {
-				
-				// 지점코드 하나씩 insert 하기 (검색조건)
-				for(int i = 0 ; i < param.getSiteIds().length; i++) {
-					param.setSiteId2(param.getSiteIds()[i]);
-					
-					Method method = searchResultMapper.getClass().getMethod("searchResult_Z" + index + "_2018_setParam",SearchResultVO.class);
-					int dataList = (int) method.invoke(searchResultMapper,param);
-				}
-				
-				Method method = searchResultMapper.getClass().getMethod("searchResult_Z" + index + "_2018_result",SearchResultVO.class);
-				resultList = (List) method.invoke(searchResultMapper,param);
-				          
+		if ("noDate".equals(param.getFirstSearch())) {
+
+			Method method = searchResultMapper.getClass().getMethod("searchResult_Z" + index + "_2018_getDate",SearchResultVO.class);
+			resultList = (List) method.invoke(searchResultMapper,param);
+		} else {
+
+			// 지점코드 하나씩 insert 하기 (검색조건)
+			for(int i = 0 ; i < param.getSiteIds().length; i++) {
+				param.setSiteId2(param.getSiteIds()[i]);
+
+				Method method = searchResultMapper.getClass().getMethod("searchResult_Z" + index + "_2018_setParam",SearchResultVO.class);
+				int dataList = (int) method.invoke(searchResultMapper,param);
 			}
-			
-			if (checkNull(resultList)) {
-				HashMap nullMgs = new HashMap();
-				nullMgs.put("msg", "데이터가 존재하지 않습니다.");
-				resultList = new ArrayList();
-				resultList.add(nullMgs);
-			}
-			result.put("data", resultList);
-			return result;
+
+			Method method = searchResultMapper.getClass().getMethod("searchResult_Z" + index + "_2018_result",SearchResultVO.class);
+			resultList = (List) method.invoke(searchResultMapper,param);
 
 		}
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+
+	}
+	
+	public HashMap searchResultWindow_Z(SearchResultVO param, String index) throws Exception {
+
+		// param.setSiteIds();
+		HashMap result = new HashMap();
+		List resultList = null;
+
+
+		// 지점코드 하나씩 insert 하기 (검색조건)
+		for(int i = 0 ; i < param.getSiteIds().length; i++) {
+			param.setSiteId2(param.getSiteIds()[i]);
+
+			Method method = searchResultMapper.getClass().getMethod("searchResultWindow_Z_setParam",SearchResultVO.class);
+			int dataList = (int) method.invoke(searchResultMapper,param);
+		}
+
+		Method method = searchResultMapper.getClass().getMethod("searchResultWindow_Z_" + index + "_result",SearchResultVO.class);
+		resultList = (List) method.invoke(searchResultMapper,param);
+
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+
+	}
 
 	// 수질측정지점 LAYER CODE : B
 	public HashMap searchResult_B(SearchResultVO param) throws Exception {

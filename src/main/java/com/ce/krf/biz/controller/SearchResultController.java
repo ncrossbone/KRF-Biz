@@ -134,26 +134,47 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 	
 	
-		@RequestMapping(value = "/searchResult_Z{index}_2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
-		public String searchResult_Z_2018(@ModelAttribute SearchResultVO param, @PathVariable String index) {
-			
-			DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-			def.setName("example-ranscation");
-			def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-			
-			TransactionStatus status = transactionManager.getTransaction(def);
-			
-			try {
-				HashMap result = searchResultService.searchResult_Z_2018(param,index);
-				transactionManager.commit(status);
-				return getEuckrString(result, false);
-			} catch (Exception e) {
-				transactionManager.rollback(status);
-				// TODO Auto-generated catch block
-				// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				return "error";
-			}
+	@RequestMapping(value = "/searchResult_Z{index}_2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_Z_2018(@ModelAttribute SearchResultVO param, @PathVariable String index) {
+
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+		TransactionStatus status = transactionManager.getTransaction(def);
+
+		try {
+			HashMap result = searchResultService.searchResult_Z_2018(param,index);
+			transactionManager.commit(status);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
 		}
+	}
+	
+	@RequestMapping(value = "/searchResultWindow_Z_{index}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResultWindow_Z(@ModelAttribute SearchResultVO param, @PathVariable String index) {
+
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+		TransactionStatus status = transactionManager.getTransaction(def);
+
+		try {
+			HashMap result = searchResultService.searchResultWindow_Z(param,index);
+			transactionManager.commit(status);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
 
 	// 수질자동측정지점 - 사업장TMS GROUP CODE : B
 	@RequestMapping(value = "/searchResult_B", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
