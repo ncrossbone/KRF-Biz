@@ -26,6 +26,8 @@ public class SearchResultVO implements Serializable{
 	private String[] siteIds = null;
 	private String siteId2 = "";
 	
+	private String parentSiteIds = "";
+	
 	private String[] detailSiteIds = null;
 	private String detailSiteIds2 = "";
 	private String groupCode = "";
@@ -227,6 +229,13 @@ public class SearchResultVO implements Serializable{
 	public void setDetailSiteIds(String[] detailSiteIds) {
 		this.detailSiteIds = detailSiteIds;
 	}
+	public String getParentSiteIds() {
+		return parentSiteIds;
+	}
+	public void setParentSiteIds(String parentSiteIds) {
+		this.parentSiteIds = parentSiteIds;
+	}
+	
 	
 	
 	

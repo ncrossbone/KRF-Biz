@@ -1215,6 +1215,7 @@
 	</select>
 	
 	
+	
 	<insert id="searchResult_A2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
 	
 			INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES 
@@ -8136,6 +8137,47 @@ ORDER  BY NO_1,
 	<select id="searchResult_Z003_2018_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "RELM_SE", "DPWT_SE", "SPECIES_CODE", "SPECIES_SCNCENM", "SPECIES_KORNM", "INDVD_CO"
 		  FROM V_EXM_HRLK_BEMASPCS_GIS
+	</select>
+	
+	
+	
+	
+	<insert id="searchResult_K2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	
+	</insert>
+	
+	<select id="searchResult_K_getDate2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT MAX(MESURE_DE) AS MESURE_DE
+		  FROM MSR_IEPS_DCWTRH
+		 WHERE IEPSBP_CODE = #{parentSiteIds}
+		   AND DCWTRH_MANAGE_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<select id="searchResult_K_RESULT_2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT 
+		   IEPSBP_CODE,
+	       DCWTRH_MANAGE_NO,
+	       MESURE_DE,
+	       EXHST_FCLTY_MANAGE_NO,
+	       EXHST_FCLTY_NM,
+	       MESURE_MTH,
+	       FUEL_NM,
+	       FUEL_USGQTY,
+	       MTRAL_NM,
+	       MTRAL_USGQTY,
+	       CNTMNNT_NM,
+	       DNSTY,
+	       SSWTY_ENNC,
+	       DWEQTY,
+	       PRMISN_EXHST_STDR,
+	       REGIST_DT,
+	       REGISTER_ID,
+	       CHANGE_DT,
+	       CHANGER_ID
+	  FROM MSR_IEPS_DCWTRH
+	  WHERE IEPSBP_CODE = #{parentSiteIds}
+	  AND DCWTRH_MANAGE_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	  AND MESURE_DE BETWEEN #{startYear}||#{startMonth}||'01' AND #{endYear}||#{endMonth}||'31'
 	</select>
 	
 	<select id="searchResult_File" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">

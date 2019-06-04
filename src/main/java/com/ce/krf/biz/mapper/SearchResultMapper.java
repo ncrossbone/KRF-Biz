@@ -155,6 +155,11 @@ public interface SearchResultMapper {
 	public int searchResult_L2018_setParam(SearchResultVO param);
 	public List searchResult_L_RESULT_2018(SearchResultVO param);
 	
+	//통합환경허가
+	public List searchResult_K_getDate2018(SearchResultVO param);
+	public int searchResult_K2018_setParam(SearchResultVO param);
+	public List searchResult_K_RESULT_2018(SearchResultVO param);
+	
 	
 	public int searchResult_File_Param(SearchResultVO param);
 	public List searchResult_File(SearchResultVO param);

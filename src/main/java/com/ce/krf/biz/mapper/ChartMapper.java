@@ -12,6 +12,7 @@ public interface ChartMapper {
 	
 	
 	public int insertChartPram(ChartVO param);
+	public int insertChartPramK(ChartVO param);
 	
 	public List getRWMDTSelectA(ChartVO param);
 	public List getRWMDTSelect2018A(ChartVO param);
@@ -45,6 +46,8 @@ public interface ChartMapper {
 	public List getRWMDTSelectQ(ChartVO param);
 	
 	public List getRWMDTSelect2018L(ChartVO param);
+	
+	public List getRWMDTSelect2018K(ChartVO param);
 	
 	public List getInfo_Q(ChartVO param);
 	

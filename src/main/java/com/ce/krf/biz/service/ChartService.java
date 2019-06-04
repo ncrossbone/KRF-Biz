@@ -74,7 +74,13 @@ public class ChartService implements Serializable{
 			param.setRecordId(splitParam[1]);
 		}
 		
-		int chartParam = chartMapper.insertChartPram(param);
+		
+		if(index.equals("K")) { //통합한경허가 param 다름
+			int chartParam = chartMapper.insertChartPramK(param);
+		}else {
+			int chartParam = chartMapper.insertChartPram(param);
+		}
+		
 		
 		Method method = chartMapper.getClass().getMethod("getRWMDTSelect2018" + index,ChartVO.class);
 		List result = (List) method.invoke(chartMapper,param);

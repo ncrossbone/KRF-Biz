@@ -33,8 +33,8 @@ spring:
   #jndi-name: krf_db 
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@112.217.167.123:31720:STKDIV
-    username: WATER2018
-    password: WATER2018
+    username: WATER_2
+    password: WATER_2
     tomcat:
       max-idle: 30
       min-idle: 1
