@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import com.ce.krf.biz.mapper.SearchResultMapper;
+import com.ce.krf.biz.model.ChartVO;
 import com.ce.krf.biz.model.SearchResultVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -1020,6 +1021,42 @@ public class SearchResultService implements Serializable{
 		return result;
 
 	}
+	
+		public HashMap searchResult_Z_2018(SearchResultVO param, String index) throws Exception {
+
+			// param.setSiteIds();
+			HashMap result = new HashMap();
+			List resultList = null;
+
+			if ("noDate".equals(param.getFirstSearch())) {
+				
+				Method method = searchResultMapper.getClass().getMethod("searchResult_Z" + index + "_2018_getDate",SearchResultVO.class);
+				resultList = (List) method.invoke(searchResultMapper,param);
+			} else {
+				
+				// 지점코드 하나씩 insert 하기 (검색조건)
+				for(int i = 0 ; i < param.getSiteIds().length; i++) {
+					param.setSiteId2(param.getSiteIds()[i]);
+					
+					Method method = searchResultMapper.getClass().getMethod("searchResult_Z" + index + "_2018_setParam",SearchResultVO.class);
+					int dataList = (int) method.invoke(searchResultMapper,param);
+				}
+				
+				Method method = searchResultMapper.getClass().getMethod("searchResult_Z" + index + "_2018_result",SearchResultVO.class);
+				resultList = (List) method.invoke(searchResultMapper,param);
+				          
+			}
+			
+			if (checkNull(resultList)) {
+				HashMap nullMgs = new HashMap();
+				nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+				resultList = new ArrayList();
+				resultList.add(nullMgs);
+			}
+			result.put("data", resultList);
+			return result;
+
+		}
 
 	// 수질측정지점 LAYER CODE : B
 	public HashMap searchResult_B(SearchResultVO param) throws Exception {
@@ -1369,6 +1406,27 @@ public class SearchResultService implements Serializable{
 			}else {
 				resultList = searchResultMapper.searchResult_M002(param);
 			}
+		}
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
+	
+	public HashMap searchResult_Q(SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		if ("noDate".equals(param.getFirstSearch())) {
+			resultList = searchResultMapper.searchResult_Q_getDate(param);
+		} else {
+			resultList = searchResultMapper.searchResult_Q(param);
 		}
 
 		if (checkNull(resultList)) {

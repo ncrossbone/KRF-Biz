@@ -147,6 +147,8 @@ public interface SearchResultMapper {
 	public List searchResult_M002_getDate(SearchResultVO param);
 	public List searchResult_M002(SearchResultVO param);
 	
+	public List searchResult_Q_getDate(SearchResultVO param);
+	public List searchResult_Q(SearchResultVO param);
 	
 	//한기조
 	public List searchResult_L_getDate2018(SearchResultVO param);
@@ -159,4 +161,20 @@ public interface SearchResultMapper {
 	public List searchResult_View(SearchResultVO param);
 	
 	public List getSedimentItemValue(SearchResultVO param);
+	
+	public List searchResult_Z006_2018_getDate(SearchResultVO param);
+	public int searchResult_Z006_2018_setParam(SearchResultVO param);
+	public List searchResult_Z006_2018_result(SearchResultVO param);
+	
+	public List searchResult_Z004_2018_getDate(SearchResultVO param);
+	public int searchResult_Z004_2018_setParam(SearchResultVO param);
+	public List searchResult_Z004_2018_result(SearchResultVO param);
+	
+	public List searchResult_Z005_2018_getDate(SearchResultVO param);
+	public int searchResult_Z005_2018_setParam(SearchResultVO param);
+	public List searchResult_Z005_2018_result(SearchResultVO param);
+	
+	public List searchResult_Z002_2018_getDate(SearchResultVO param);
+	public int searchResult_Z002_2018_setParam(SearchResultVO param);
+	public List searchResult_Z002_2018_result(SearchResultVO param);
 }

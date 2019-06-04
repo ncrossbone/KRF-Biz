@@ -132,6 +132,28 @@ public class SearchResultController extends BaseController implements Serializab
 			return "error";
 		}
 	}
+	
+	
+		@RequestMapping(value = "/searchResult_Z{index}_2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+		public String searchResult_Z_2018(@ModelAttribute SearchResultVO param, @PathVariable String index) {
+			
+			DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+			def.setName("example-ranscation");
+			def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+			
+			TransactionStatus status = transactionManager.getTransaction(def);
+			
+			try {
+				HashMap result = searchResultService.searchResult_Z_2018(param,index);
+				transactionManager.commit(status);
+				return getEuckrString(result, false);
+			} catch (Exception e) {
+				transactionManager.rollback(status);
+				// TODO Auto-generated catch block
+				// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				return "error";
+			}
+		}
 
 	// 수질자동측정지점 - 사업장TMS GROUP CODE : B
 	@RequestMapping(value = "/searchResult_B", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
@@ -317,6 +339,16 @@ public class SearchResultController extends BaseController implements Serializab
 	public String searchResult_M(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_M(param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			return "error";
+		}
+	}
+	
+	@RequestMapping(value = "/searchResult_Q", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_Q(@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchResult_Q(param);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
 			return "error";

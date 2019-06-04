@@ -7896,6 +7896,40 @@ ORDER  BY NO_1,
 		   AND A.MESURE_DE BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth}
 	</select>
 	
+	<select id="searchResult_Q_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_Q_getDate */
+			   SUBSTR(MAX(A.MESURE_DE),0,4) ||'.'||  SUBSTR(MAX(A.MESURE_DE), 5, 2)||'.'||  SUBSTR(MAX(A.MESURE_DE), 7, 2) AS WMCYMD
+  		  FROM MSR_SWGDSPT_DCWTR_DAY A,
+       		   MSR_SWGDSPT_INFLOW_DAY B
+       	 WHERE A.SWGDSPT_CODE = B.SWGDSPT_CODE
+	       AND A.MESURE_DE = B.MESURE_DE
+           AND A.SWGDSPT_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> 
+	</select>
+	
+	<select id="searchResult_Q" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT /* KRF-BIZ.SearchResultMapper.searchResult_Q */ 
+			   A.SWGDSPT_CODE,
+       		   A.MESURE_DE,
+       		   B.INFLT_QY,
+       		   A.BOD_VALUE AS DC_BOD_VALUE,
+       		   A.COD_VALUE AS DC_COD_VALUE,
+       		   A.SS_VALUE AS DC_SS_VALUE,
+       		   A.TN_VALUE AS DC_TN_VALUE,
+       		   A.TP_VALUE AS DC_TP_VALUE,
+       		   A.COC_VALUE AS DC_COC_VALUE,
+       		   B.BOD_VALUE AS IN_BOD_VALUE,
+       		   B.COD_VALUE AS IN_COD_VALUE,
+       		   B.SS_VALUE AS IN_SS_VALUE,
+       		   B.TN_VALUE AS IN_TN_VALUE,
+       		   B.TP_VALUE AS IN_TP_VALUE,
+       		   B.COC_VALUE AS IN_COC_VALUE
+  		  FROM MSR_SWGDSPT_DCWTR_DAY A,
+       		   MSR_SWGDSPT_INFLOW_DAY B
+       	 WHERE A.SWGDSPT_CODE = B.SWGDSPT_CODE
+           AND A.MESURE_DE = B.MESURE_DE
+           AND A.SWGDSPT_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
 	<select id="searchResult_J001" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		/*취수장*/
 		SELECT FCLTS_NO
@@ -8012,6 +8046,66 @@ ORDER  BY NO_1,
 		       BEMA,
 		       FISHES
 		  FROM V_EXM_ENVBSIS_GIS
+	</select>
+	
+	
+	<select id="searchResult_Z006_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT MAX(EXAMIN_YEAR ||'.'|| LPAD(EXAMIN_MT,2,'0')) AS WMCYMD 
+		  FROM EXM_HRLK_PHPKSPCS
+		 WHERE SITE_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<insert id="searchResult_Z006_2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear}||#{startMonth},#{endYear}||#{endMonth}, #{siteId2}) 
+	</insert>
+	
+	<select id="searchResult_Z006_2018_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "SPECIES_SCNCENM", "SPECIES_KORNM", "CELL_CO"
+		  FROM V_EXM_HRLK_PHPKSPCS_GIS
+	</select>
+	
+	<select id="searchResult_Z004_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT MAX(YEAR||'.'||MT) AS WMCYMD FROM EXM_HRLK
+		 WHERE HRLK_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<insert id="searchResult_Z004_2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear}||#{startMonth},#{endYear}||#{endMonth}, #{siteId2}) 
+	</insert>
+	
+	<select id="searchResult_Z004_2018_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "HRLK_CODE", "SITE_NM", "YEAR", "MT", "TME", "MESURE_DP", "WTRTP", "PH", "DOCB", "EC", "TUR", "SD", "CHLA", "SS", "TP", "DTP", "PO4P", "TN", "DTN", "NO3N", "BOD", "COD", "POC", "DOC", "TOC", "TCOLI_CO", "FCOLI_CO", "UV254" 
+		  FROM V_EXM_HRLK_GIS
+	</select>
+	
+	<select id="searchResult_Z005_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT MAX(EXAMIN_YEAR ||'.'|| LPAD(EXAMIN_MT,2,'0')) AS WMCYMD  
+		  FROM EXM_HRLK_ZOPKSPCS
+		 WHERE SITE_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<insert id="searchResult_Z005_2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear}||#{startMonth},#{endYear}||#{endMonth}, #{siteId2})
+	</insert>
+	
+	<select id="searchResult_Z005_2018_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "SPECIES_SCNCENM", "SPECIES_KORNM", "INDVD_CO" 
+		  FROM V_EXM_HRLK_ZOPKSPCS_GIS
+	</select>
+	
+	<select id="searchResult_Z002_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT MAX(EXAMIN_YEAR ||'.'|| LPAD(EXAMIN_MT,2,'0')) AS WMCYMD 
+		  FROM EXM_HRLK_VTNSPCS
+		 WHERE SITE_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<insert id="searchResult_Z002_2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear}||#{startMonth},#{endYear}||#{endMonth}, #{siteId2}) 
+	</insert>
+	
+	<select id="searchResult_Z002_2018_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "GROWFRM", "SPECIES_SCNCENM", "SPECIES_KORNM", "DN", "LVB_QY"
+		  FROM V_EXM_HRLK_VTNSPCS_GIS
 	</select>
 	
 	<select id="searchResult_File" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
