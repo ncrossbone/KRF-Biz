@@ -50,6 +50,7 @@ public interface ChartMapper {
 	public List getRWMDTSelect2018K(ChartVO param);
 	
 	public List getInfo_Q(ChartVO param);
+	public List getInfo_Z(ChartVO param);
 	
 	public List getRWMDTSelect2018Z001(ChartVO param);
 	public List getRWMDTSelect2018Z002(ChartVO param);

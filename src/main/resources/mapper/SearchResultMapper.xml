@@ -8120,7 +8120,7 @@ ORDER  BY NO_1,
 	</insert>
 	
 	<select id="searchResult_Z001_2018_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
-		SELECT "SN", "HS_NAME", "SITE_CODE", "SITE_NM", "MESURE_YEAR", "MESURE_MT", "MESURE_TME", "SPECIES_SCNCENM", "SPECIES_KORNM"
+		SELECT "SN", "HS_NAME", "SITE_CODE", "SITE_NM", "MESURE_YEAR", "MESURE_MT", "MESURE_TME", "SPECIES_SCNCENM", "SPECIES_KORNM", "INDVD_CO"
 		  FROM V_EXM_HRLK_FISHMASTR_GIS
 	</select>
 	
