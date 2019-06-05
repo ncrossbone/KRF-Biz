@@ -49,6 +49,16 @@
 	CONNECT BY LEVEL <![CDATA[<=]]> 12
     </select>
     
+    <select id="getInfo_Z" resultType="hashmap">
+    	SELECT /* KRF-BIZ.ChartMapper.getInfo_Z */
+    		   DECODE(ROWNUM,1,SITE_CODE ,2,SITE_NM ,3,DETAIL_ADRES,4) AS "cont",
+			   DECODE(ROWNUM,1,'지점코드' ,2,'지점명' ,3,'주소') AS "column"
+		  FROM ( SELECT SITE_CODE,SITE_NM,DETAIL_ADRES 
+ 				   FROM FCL_HRLK
+				  WHERE SITE_CODE =  #{recordId})
+	CONNECT BY LEVEL <![CDATA[<=]]> 3
+    </select>
+    
     <select id="getRWMDTSelectQ" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
     SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelectQ */ 
     	   PT_NO,
