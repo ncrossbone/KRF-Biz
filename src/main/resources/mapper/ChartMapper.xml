@@ -191,10 +191,32 @@
       
       </select>
       
+      <select id="getRWMDTSelect2018K" resultType="hashmap">
+      
+      	SELECT RN,
+		       PT_NO,
+		       PT_NM,
+		       WMCYMD,
+		       ITEM_NAME,
+		       ITEM_VALUE
+		  FROM V_MSR_IEPS_DCWTRH_GIS_CHART
+      
+      </select>
+      
     <insert id="insertChartPram" parameterType="com.ce.krf.biz.model.ChartVO">
     	INSERT
 		  INTO COM_VRIABL_TMPR(VRIABL_1_VALUE, VRIABL_2_VALUE, VRIABL_3_VALUE, VRIABL_4_VALUE)
 		VALUES(#{recordId},
+               #{selectItem}, 
+               #{preFullDate},
+               #{nextFullDate})
+    </insert>
+    
+    <insert id="insertChartPramK" parameterType="com.ce.krf.biz.model.ChartVO">
+    	INSERT
+		  INTO COM_VRIABL_TMPR(VRIABL_1_VALUE, VRIABL_2_VALUE, VRIABL_3_VALUE, VRIABL_4_VALUE, VRIABL_5_VALUE)
+		VALUES(#{siteId},
+			   #{recordId},
                #{selectItem}, 
                #{preFullDate},
                #{nextFullDate})

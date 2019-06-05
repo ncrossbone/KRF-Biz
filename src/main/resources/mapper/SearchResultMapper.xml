@@ -1215,6 +1215,7 @@
 	</select>
 	
 	
+	
 	<insert id="searchResult_A2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
 	
 			INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES 
@@ -8138,6 +8139,47 @@ ORDER  BY NO_1,
 		  FROM V_EXM_HRLK_BEMASPCS_GIS
 	</select>
 	
+	
+	
+	
+	<insert id="searchResult_K2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	
+	</insert>
+	
+	<select id="searchResult_K_getDate2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT MAX(MESURE_DE) AS MESURE_DE
+		  FROM MSR_IEPS_DCWTRH
+		 WHERE IEPSBP_CODE = #{parentSiteIds}
+		   AND DCWTRH_MANAGE_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</select>
+	
+	<select id="searchResult_K_RESULT_2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT 
+		   IEPSBP_CODE,
+	       DCWTRH_MANAGE_NO,
+	       MESURE_DE,
+	       EXHST_FCLTY_MANAGE_NO,
+	       EXHST_FCLTY_NM,
+	       MESURE_MTH,
+	       FUEL_NM,
+	       FUEL_USGQTY,
+	       MTRAL_NM,
+	       MTRAL_USGQTY,
+	       CNTMNNT_NM,
+	       DNSTY,
+	       SSWTY_ENNC,
+	       DWEQTY,
+	       PRMISN_EXHST_STDR,
+	       REGIST_DT,
+	       REGISTER_ID,
+	       CHANGE_DT,
+	       CHANGER_ID
+	  FROM MSR_IEPS_DCWTRH
+	  WHERE IEPSBP_CODE = #{parentSiteIds}
+	  AND DCWTRH_MANAGE_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	  AND MESURE_DE BETWEEN #{startYear}||#{startMonth}||'01' AND #{endYear}||#{endMonth}||'31'
+	</select>
+	  
 	<insert id="searchResultWindow_Z_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
 		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear}||#{startMonth},#{endYear}||#{endMonth}, #{siteId2}) 
 	</insert>
@@ -8175,6 +8217,7 @@ ORDER  BY NO_1,
 	<select id="searchResultWindow_Z_Z003_joInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "EXAMIN_UNT", "EXAMIN_DP", "EXAMIN_INSTT_NM", "EXMNR_NM"
 		  FROM V_EXM_HRLK_BEMA_GIS
+
 	</select>
 	
 	<select id="searchResultWindow_Z_Z006_bunInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">

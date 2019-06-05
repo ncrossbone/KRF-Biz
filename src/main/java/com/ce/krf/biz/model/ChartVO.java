@@ -9,6 +9,7 @@ public class ChartVO implements Serializable{
 	private static final long serialVersionUID = -5273705657731656135L;
 
 	private String recordId;
+	private String siteId;
 	
 	private String parentId;
 	
@@ -92,6 +93,12 @@ public class ChartVO implements Serializable{
 	}
 	public void sethMaxDate(String hMaxDate) {
 		this.hMaxDate = hMaxDate;
+	}
+	public String getSiteId() {
+		return siteId;
+	}
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
 	}
 	
 	

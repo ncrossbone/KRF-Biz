@@ -1503,6 +1503,33 @@ public class SearchResultService implements Serializable{
 
 	}
 	
+	// 통합환경허가  LAYER CODE : K _ 2018 ( 표준화테이블 )
+	public HashMap searchResult_K2018(SearchResultVO param) throws Exception {
+
+		// param.setSiteIds();
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		if ("noDate".equals(param.getFirstSearch())) {
+			resultList = searchResultMapper.searchResult_K_getDate2018(param);
+		} else {
+			
+			// 수질측정지점 표준화 검색 쿼리
+			resultList = searchResultMapper.searchResult_K_RESULT_2018(param);
+			          
+		}
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+
+	}
+	
 	// 보고서
 	public HashMap searchResult_File(SearchResultVO param) throws Exception {
 

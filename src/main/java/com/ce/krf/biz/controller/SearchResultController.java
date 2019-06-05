@@ -396,6 +396,26 @@ public class SearchResultController extends BaseController implements Serializab
 		}
 	}
 	
+	// 한기조 GROUP_CODE : L
+	@RequestMapping(value = "/searchResult_K2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_K2018(@ModelAttribute SearchResultVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = searchResultService.searchResult_K2018(param);
+			transactionManager.commit(status);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
+			return "error";
+		}
+	}
+	
 	
 	// 보고서 : 보고서
 	@RequestMapping(value = "/searchResult_File", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
