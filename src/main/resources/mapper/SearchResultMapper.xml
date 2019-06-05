@@ -8177,6 +8177,31 @@ ORDER  BY NO_1,
 		  FROM V_EXM_HRLK_BEMA_GIS
 	</select>
 	
+	<select id="searchResultWindow_Z_Z006_bunInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "ANALS_INFO_NM", "ANALS_VALUE"
+		  FROM V_EXM_HRLK_PHPK_ANALS_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z005_bunInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "ANALS_INFO_NM", "ANALS_VALUE"
+		  FROM V_EXM_HRLK_ZOPK_ANALS_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z002_bunInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "ANALS_INFO_NM", "ANALS_VALUE"
+		  FROM V_EXM_HRLK_VTN_ANALS_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z003_bunInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "EXAMIN_YEAR", "EXAMIN_MT", "EXAMIN_TME", "EXAMIN_DE", "ANALS_INFO_NM", "ANALS_VALUE"
+		  FROM V_EXM_HRLK_BEMA_ANALS_GIS
+	</select>
+	
+	<select id="searchResultWindow_Z_Z001_bunInfoBtn_result" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT "HS_NAME", "SITE_CODE", "SITE_NM", "MESURE_YEAR", "MESURE_MT", "MESURE_TME", "EXAMIN_DE", "ANALS_INFO_NM", "ANALS_VALUE"
+		  FROM V_EXM_HRLK_FISH_ANALS_GIS
+	</select>
+	
 	<select id="searchResult_File" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	/* 보고서 파일 */
 	SELECT BRRER_CODE,

@@ -194,4 +194,9 @@ public interface SearchResultMapper {
 	public List searchResultWindow_Z_Z002_joInfoBtn_result(SearchResultVO param);
 	public List searchResultWindow_Z_Z001_joInfoBtn_result(SearchResultVO param);
 	public List searchResultWindow_Z_Z003_joInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z006_bunInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z005_bunInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z002_bunInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z003_bunInfoBtn_result(SearchResultVO param);
+	public List searchResultWindow_Z_Z001_bunInfoBtn_result(SearchResultVO param);
 }
