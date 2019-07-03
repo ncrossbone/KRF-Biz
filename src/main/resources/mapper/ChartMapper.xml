@@ -1938,5 +1938,36 @@ SELECT 999 AS RN,
     	  FROM V_FLU_BRRER_MIN_GIS_CHART 
     </select>
     
-     
+     <select id="getRWMDTSelect2018I" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018I */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_MSR_SWMN_DAY_GIS_CHART 
+    </select>
+    
+    <select id="getRWMDTSelect2018F_1" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect20188F_1 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_MSR_POLTNSRC_INFLOW_CHART 
+    </select>
+    
+     <select id="getRWMDTSelect2018F_3" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect20188F_3 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_MSR_POLTNSRC_DWEQTY_CHART 
+    </select>
 </mapper>
