@@ -98,23 +98,6 @@ public class CommonController extends BaseController implements Serializable{
 		return cnt +"건 저장됨";
 	}
 	
-	@GetMapping(value = "/getLabelLayerAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, Object> getLabelLayerAdmin(){
-		return commonService.getLabelLayerAdmin();
-	}
-	
-	/**
-	 * Desc : 접속 IP 로그
-	 * @Method Name : sessionData
-	 * @return
-	 */
-	@RequestMapping(value = "/sessionData", method= RequestMethod.POST,  produces = "text/html; charset=utf-8")
-	public String sessionData() {
-		String ip = request.getRemoteAddr();
-		int cnt = commonService.sessionData(ip);
-		return cnt +"건 저장됨";
-	}
-	
 	@PostMapping(value="/imageDelete",consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void imageDelete(@RequestBody ImageVO imageVO) {
 		

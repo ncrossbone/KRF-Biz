@@ -15,22 +15,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ce.krf.biz.mapper.CommonMapper">
-    <!-- insert id="clickSession" parameterType="com.ce.krf.biz.model.ClickLogVO">
-    	INSERT INTO SEARCHLOGTB (USER_IP
-    	 						,TYPE
-    	 						,SEARCH_DATE 
-    	 						,CLICK_NODE
-    	 						,CLICK_PARENT_NODE 
-    	 						,CLICK_DATA ,CLICK_DATA_ID) 
-    	 		        VALUES(#{ip}
-    	 		              ,#{type}
-    	 		              ,SYSDATE 
-    	 		              ,#{node}
-    	 		              ,#{parentId}
-    	 		              ,#{data}
-    	 		              ,#{id})
-    </insert-->
-    
     <insert id="clickSession" parameterType="com.ce.krf.biz.model.ClickLogVO">
     	INSERT INTO COM_GIS_ACCES_LOG (GIS_ACCES_LOG_SN,SYS_SE,ACCES_SE,LYR_CODE,MSRSTN_CODE,LOGIN_ID,ACCES_IP,ACCES_DT) 
     	 		        VALUES(NVL((SELECT MAX(GIS_ACCES_LOG_SN) FROM COM_GIS_ACCES_LOG),0)+1
@@ -42,21 +26,4 @@
     	 		              ,#{ip}
     	 		              ,SYSDATE)
     </insert>
-    
-    <select id="getLabelLayerAdmin" parameterType="String" resultType="hashmap">
-    	SELECT  /* KRF-BIZ.CommonMapper.getLabelLayerAdmin */
-    			GUBUN,
-    	        PT_NO,
-    	        VAL
-    	  FROM KRF_MAP_VALUE_V_A001
-    	 WHERE GUBUN = #{gubun}
-    </select>
-    
-	<insert id="sessionData" parameterType="String">
-	INSERT INTO KRF_COUNT 
-	            (USER_IP, 
-	             LOGIN_DT) 
-	VALUES     (#{ip}, 
-	            SYSDATE) 
-	</insert>
 </mapper>

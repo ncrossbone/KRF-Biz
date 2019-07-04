@@ -25,13 +25,13 @@
     	SELECT /* KRF_BIZ.BookmarkMapper.getBookmark  */
     		   SN,
     		   USER_ID,
-    		   JSON_TEST AS RM
+    		   JSON_DATA AS RM
     	  FROM TGS_BKMK_INFO
     	 WHERE USER_ID = #{userId}
     </select>
     
     <insert id="putBookmark" parameterType="hashmap">
-        INSERT INTO TGS_BKMK_INFO (SN,USER_ID,TM_XAXS,TM_YAXS,SC,BKMK_NM,SUMRY_DC,RM,REGISTER_ID,REGIST_DT,CHANGER_ID,CHANGE_DT,JSON_TEST) VALUES (TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS'),#{userId},1,1,1,1,1,1,1,SYSDATE,1,SYSDATE,#{param:CLOB})
+        INSERT INTO TGS_BKMK_INFO (SN,USER_ID,TM_XAXS,TM_YAXS,SC,BKMK_NM,SUMRY_DC,RM,REGISTER_ID,REGIST_DT,CHANGER_ID,CHANGE_DT,JSON_DATA) VALUES (TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS'),#{userId},1,1,1,1,1,1,1,SYSDATE,1,SYSDATE,#{param:CLOB})
     </insert>
     
      <insert id="deleteBookmark" parameterType="String">
