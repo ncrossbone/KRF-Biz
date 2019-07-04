@@ -1869,7 +1869,7 @@ SELECT 999 AS RN,
     		   WMCYMD,
     		   ITEM_NAME, 
     		   ITEM_VALUE
-    	  FROM V_FLU_WLV_DAY_GIS_CHART 
+    	  FROM V_FLU_WLV_DAY_GIS_CHART
     </select>
     
     <select id="getRWMDTSelect2018D002" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
@@ -1880,7 +1880,7 @@ SELECT 999 AS RN,
     		   WMCYMD,
     		   ITEM_NAME, 
     		   ITEM_VALUE
-    	  FROM V_FLU_RAINFALL_DAY_GIS_CHART 
+    	  FROM V_FLU_RAINFALL_DAY_GIS_CHART
     </select>
 	
 	<select id="getRWMDTSelect2018D003" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
@@ -1891,7 +1891,7 @@ SELECT 999 AS RN,
     		   WMCYMD,
     		   ITEM_NAME, 
     		   ITEM_VALUE
-    	  FROM V_FLU_FLUX_DAY_GIS_CHART 
+    	  FROM V_FLU_FLUX_DAY_GIS_CHART
     </select>
     
 	 <select id="getRWMDTSelect2018D004" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
@@ -1913,7 +1913,7 @@ SELECT 999 AS RN,
     		   WMCYMD,
     		   ITEM_NAME, 
     		   ITEM_VALUE
-    	  FROM V_FLU_AWS_DAY_GIS_CHART 
+    	  FROM V_FLU_AWS_DAY_GIS_CHART
     </select>
     
      <select id="getRWMDTSelect2018D006" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
@@ -1924,7 +1924,7 @@ SELECT 999 AS RN,
     		   WMCYMD,
     		   ITEM_NAME, 
     		   ITEM_VALUE
-    	  FROM V_FLU_GDWETHER_DAY_GIS_CHART 
+    	  FROM V_FLU_GDWETHER_DAY_GIS_CHART
     </select>
     
      <select id="getRWMDTSelect2018D007" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
@@ -1935,7 +1935,7 @@ SELECT 999 AS RN,
     		   WMCYMD,
     		   ITEM_NAME, 
     		   ITEM_VALUE
-    	  FROM V_FLU_BRRER_MIN_GIS_CHART 
+    	  FROM V_FLU_BRRER_MIN_GIS_CHART
     </select>
     
      <select id="getRWMDTSelect2018I" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
@@ -1946,7 +1946,7 @@ SELECT 999 AS RN,
     		   WMCYMD,
     		   ITEM_NAME, 
     		   ITEM_VALUE
-    	  FROM V_MSR_SWMN_DAY_GIS_CHART 
+    	  FROM V_MSR_SWMN_DAY_GIS_CHART
     </select>
     
     <select id="getRWMDTSelect2018F_1" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
@@ -1957,7 +1957,7 @@ SELECT 999 AS RN,
     		   WMCYMD,
     		   ITEM_NAME, 
     		   ITEM_VALUE
-    	  FROM V_MSR_POLTNSRC_INFLOW_CHART 
+    	  FROM V_MSR_POLTNSRC_INFLOW_CHART
     </select>
     
      <select id="getRWMDTSelect2018F_3" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
@@ -1968,6 +1968,17 @@ SELECT 999 AS RN,
     		   WMCYMD,
     		   ITEM_NAME, 
     		   ITEM_VALUE
-    	  FROM V_MSR_POLTNSRC_DWEQTY_CHART 
+    	  FROM V_MSR_POLTNSRC_DWEQTY_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018C" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect20188C */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_MSR_DPMN_GIS_CHART
     </select>
 </mapper>
