@@ -69,6 +69,210 @@
 		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</select>
 	
+	<select id="sstgText" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT SE, SPOT_CODE ,SPOT_NM, ATAL_SE, BEMA_SE, FISH_SE, VTN_SE, INHA_SE, QLTWTR_SE 
+			FROM TAE_SPOT_SE
+		  WHERE SPOT_NM LIKE '%'||#{textField}||'%'
+	</select>
+	
+	
+	<select id="searchSstg_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	
+		<if test="gubun == 'HgAtalSe' ">  <!-- 하구 부착돌말류 -->
+			<if test="comboValue == 1 "> <!-- 조사자료 -->
+				SELECT MAX(YEAR||'.'||TME) AS WMCYMD  
+					FROM MSR_AEMES_ATAL
+				  WHERE AEMES_CODE IN 
+				  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			</if>
+			<if test="comboValue == 2 "> <!-- 출현생물종 -->
+			  SELECT MAX(YEAR||'.'||TME) AS WMCYMD 
+	    		FROM MSR_AEMES_ATALSPCS
+	    		WHERE AEMES_CODE IN 
+			  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			</if>
+		
+			
+	  	</if>
+	  	<if test="gubun == 'HgBemaSe' "> <!-- 하구 - 저서성대형무척추동물 -->
+	  		<if test="comboValue == 1 "> <!-- 조사자료 -->
+	  			SELECT MAX(A.YEAR||'.'||A.TME) AS WMCYMD
+				  FROM MSR_AEMES_BEMA A ,
+				       ANL_AEMES_BEMA B
+				 WHERE A.AEMES_CODE = B.AEMES_CODE
+				   AND A.YEAR = B.YEAR
+				   AND A.AEMES_CODE IN 
+				  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			</if>
+			<if test="comboValue == 2 "><!-- 출현생물종 -->
+				 SELECT MAX(YEAR||'.'||TME) AS WMCYMD
+  					FROM MSR_AEMES_BEMASPCS
+	    		  WHERE AEMES_CODE IN 
+				  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			</if>
+		  	
+	  	</if>
+	  	
+	  	<if test="gubun == 'HgFishSe' "> <!-- 하구 - 어류 -->
+	  		<if test="comboValue == 1 "> <!-- 조사자료 -->
+	  			SELECT MAX(A.YEAR||'.'||A.TME) AS WMCYMD
+				  FROM MSR_AEMES_FISH A ,
+				       ANL_AEMES_FISH B
+				 WHERE A.AEMES_CODE = B.AEMES_CODE
+				   AND A.YEAR = B.YEAR
+				   AND A.AEMES_CODE IN 
+				  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			</if>
+			<if test="comboValue == 2 "> <!-- 출현생물종 -->
+				SELECT MAX(YEAR||'.'||TME) AS WMCYMD
+  					FROM MSR_AEMES_FISHSPCS
+				  WHERE AEMES_CODE IN 
+				  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			</if>
+	  	</if>
+	  	
+	  	<if test="gubun == 'HgVtnSe' "> <!-- 하구 - 식생 -->
+	  		<if test="comboValue == 1 "> <!-- 조사자료 -->
+	  			SELECT MAX(EXAMIN_YEAR||'.'||EXAMIN_TME) AS WMCYMD  
+					FROM V_AEMES_ATAL_ACPEXM
+				  WHERE EXBF_CD IN 
+				  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			</if>
+			<if test="comboValue == 2 "> <!-- 출현식생 -->
+			    SELECT MAX(EXAMIN_YEAR||'.'||EXAMIN_TME) AS WMCYMD
+	  				  FROM V_AEMES_VTN_SPCS
+	  			  WHERE EXBF_CD IN 
+				  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+			</if>
+		  	
+	  	</if>
+	  	
+	  	<if test="gubun == 'HcAtalSe' ">  <!-- 하천 - 부착돌말류 -->
+	  		<if test="comboValue == 1 "> <!-- 조사자료 -->
+	  			SELECT MAX(A.YEAR||'.'||A.TME) AS WMCYMD 
+			    FROM MSR_AEMRV_ATAL A , ANL_AEMRV_ATAL B
+                WHERE A.AEMRV_CODE = B.AEMRV_CODE
+                AND A.YEAR = B.YEAR
+			  AND A.AEMRV_CODE IN 
+			  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	  		</if>
+	  		
+	  		<if test="comboValue == 2 "> <!-- 출현생물종 -->
+	  			SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
+	    			FROM MSR_AEMRV_ATALSPCS
+	    		  WHERE AEMRV_CODE IN
+	  			<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	  		</if>
+		  	
+	  	</if>
+	  	
+	  	<if test="gubun == 'HcBemaSe' "> <!-- 하천 - 저서성대형무척추동물 -->
+	  		<if test="comboValue == 1 "> <!-- 조사자료 -->
+		  		SELECT MAX(A.YEAR||'.'||A.TME) AS WMCYMD 
+				    FROM MSR_AEMRV_BEMA A , ANL_AEMRV_BEMA B
+				    WHERE A.AEMRV_CODE = B.AEMRV_CODE 
+				    AND A.YEAR = B.YEAR
+				 AND A.AEMRV_CODE IN
+		  		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    </if>
+		    <if test="comboValue == 2 "> <!-- 출현생물종 -->
+		    
+		    	SELECT MAX (YEAR || '.' || TME) AS WMCYMD 
+	   				 FROM MSR_AEMRV_BEMASPCS
+		    	  WHERE AEMRV_CODE IN
+		  		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    </if>
+	  	</if>
+	  	
+	  	<if test="gubun == 'HcFishSe' ">  <!-- 하천 - 어류 -->
+	  	
+	  		<if test="comboValue == 1 "> <!-- 조사자료 -->
+	  			SELECT MAX(A.YEAR||'.'||A.TME) AS WMCYMD 
+				    FROM MSR_AEMRV_FISH A , ANL_AEMRV_FISH B
+				    WHERE A.AEMRV_CODE = B.AEMRV_CODE 
+				    AND A.YEAR = B.YEAR
+				    AND A.AEMRV_CODE IN 
+			  	<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    </if>
+		    <if test="comboValue == 2 "> <!-- 출현생물종 -->
+		    	SELECT MAX(YEAR||'.'||TME) AS WMCYMD 
+	    			FROM MSR_AEMRV_FISHSPCS
+	   			  WHERE AEMRV_CODE IN 
+			  	<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    </if>
+	  	
+	  	
+	  	</if>
+	  	
+	  	<if test="gubun == 'HcInhaSe' ">  <!-- 하천 - 수질 --> <!-- 조사자료 -->
+		SELECT MAX(A.YEAR||'.'||A.TME) AS WMCYMD 
+		    FROM MSR_AEMRV_INHA A , ANL_AEMRV_INHA B
+		    WHERE A.AEMRV_CODE = B.AEMRV_CODE 
+		    AND A.YEAR = B.YEAR 
+		    AND A.AEMRV_CODE IN
+	      <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	  	</if>
+	  	
+	  	<if test="gubun == 'HcQltwtrSe' ">  <!-- 하천 - 서식 및 수변환경 --> <!-- 조사자료 -->
+	  	  SELECT MAX(A.YEAR||'.'||A.TME) AS WMCYMD 
+		    FROM MSR_AEMRV_INHA A , ANL_AEMRV_INHA B
+		    WHERE A.AEMRV_CODE = B.AEMRV_CODE 
+		    AND A.YEAR = B.YEAR
+		    AND A.AEMRV_CODE IN
+	        <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	  	</if>
+	  	
+	  	<if test="gubun == 'HcVtnSe' ">  <!-- 하천 - 수변 식생 -->
+	  		<if test="comboValue == 1 "> <!-- 조사자료 -->
+	  			SELECT MAX(A.YEAR||'.'||A.TME) AS WMCYMD 
+			    	FROM MSR_AEMRV_VTN A , ANL_AEMRV_VTN B
+			      WHERE A.AEMRV_CODE = B.AEMRV_CODE
+			      AND A.YEAR = B.YEAR
+			      AND  A.AEMRV_CODE IN
+			      <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    </if>
+		    <if test="comboValue == 2 "> <!-- 출현식생 -->
+		    	SELECT MAX(YEAR||','||TME) AS WMCYMD 
+	    			FROM MSR_AEMRV_VTNSPCS
+	   			  WHERE AEMRV_CODE IN
+		          <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    </if>
+		    <if test="comboValue == 3 "> <!-- 식생 면적 -->
+		    	SELECT MAX(YEAR||','||TME) AS WMCYMD 
+	     	   FROM MSR_AEMRV_VTNAREA
+	     	   WHERE AEMRV_CODE IN
+			<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    	  
+		    </if>
+		    <if test="comboValue == 4 "> <!-- 구간 -->
+		   	   SELECT MAX(YEAR||','||TME) AS WMCYMD 
+		        	FROM MSR_AEMRV_VTNSCTN
+		        WHERE AEMRV_CODE IN
+			<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    </if>
+		    
+	  		<if test="comboValue == 5 "> <!-- 구간별정보 *사용안함 -->
+	  		  SELECT MAX(YEAR||','||TME) AS WMCYMD 
+	       		 FROM V_AEMRV_VTN_SCTNDTL
+	   		  WHERE SPOT_CODE IN
+			<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    </if>
+		    
+		    <if test="comboValue == 6 ">  <!-- 우점도 *사용안함 -->
+		   	   SELECT MAX(YEAR||','||TME) AS WMCYMD 
+		        FROM V_AEMRV_VTN_SCTNDTL
+		        WHERE SPOT_CODE IN
+			<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+		    </if>
+	  	
+	  	
+	  	</if>
+  	
+  	
+  	
+	
+	</select>
+	
 	
 	<select id="searchSstg_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	
@@ -261,6 +465,113 @@
   	
 	</select>
 	
+	<insert id="searchResult_Esstg_2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE,VRIABL_4_VALUE,VRIABL_5_VALUE) VALUES (#{siteId2}, #{startYear} , #{startMonth} ,#{endYear} , #{endMonth})
+	
+	</insert>
+	
+	<select id="searchSstg_2018_HcAtalSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		<if test="comboValue == 1 ">
+			SELECT YEAR,
+		       TME,
+		       AEMRV_CODE,
+		       AEMRV_NM,
+		       WRSSM_NM,
+		       WRSSM_CODE,
+		       DETAIL_WRSSM_NM,
+		       MDT_NM,
+		       MDT_CODE,
+		       SDT_NM,
+		       RIVER_NM,
+		       BSTRM_SE,
+		       LA,
+		       LO,
+		       DE,
+		       WETHR_SE,
+		       EXAMIN_INSTT_NM,
+		       EXMNR_NM,
+		       RIVER_STLE_SE,
+		       HBTT_SAND_RT,
+		       HBTT_PEBB_RT,
+		       HBTT_ROCK_RT,
+		       HBTT_LP_RT,
+		       HBTT_BP_RT,
+		       HBTT_ROOT_RT,
+		       HBTT_RAP_RT,
+		       HBTT_FLOW_RT,
+		       HBTT_POND_RT,
+		       HBTT_CNPY_RT,
+		       HBTT_VEGCOV_RT,
+		       SMPLE_COLCT_UNT,
+		       SMPLE_COLCT_MTH,
+		       SMPLE_SAND_RT,
+		       SMPLE_PEBB_RT,
+		       SMPLE_ROCK_RT,
+		       SMPLE_LP_RT,
+		       SMPLE_BP_RT,
+		       SMPLE_ROOT_RT,
+		       RE_DCOL_SE,
+		       RE_SMELL_SE,
+		       RE_HRB_RT,
+		       RE_SRB_RT,
+		       RE_CTY_RT,
+		       RE_FRT_RT,
+		       RE_FRLND_RT,
+		       RE_ISRLPX_RT,
+		       RE_DRDG_RT,
+		       RE_STALL_RT,
+		       RE_WASH_SE,
+		       BRRER_LC_SE,
+		       BRRER_GAP_DSTNC,
+		       BRRER_AFWQ_SE,
+		       ENVFTR_BTRV,
+		       ENVFTR_DPWT,
+		       ENVFTR_WTRTP,
+		       ENVFTR_DOC,
+		       ENVFTR_PH,
+		       ENVFTR_EC,
+		       ENVFTR_TUR,
+		       CLIMP_PARTCLR_MATTER,
+		       CLIMP_DETAIL_CN,
+		       CLPSS_PARTCLR_MATTER,
+		       CHLA_QY,
+		       AFDM_QY,
+		       TOT_CELL_DN,
+		       TOT_SPECIES_CO,
+		       DKPAR_SCNCENM,
+		       DKPAR_CELL_DN,
+		       DKPAR_PARTN_DN,
+		       KSP_CO,
+		       KSP_RT,
+		       KSP_CELL_DN,
+		       KSP_PARTN_DN,
+		       PSP_CO,
+		       PSP_RT,
+		       PSP_CELL_DN,
+		       PSP_PARTN_DN,
+		       RIC_IDEX,
+		       LPRSP_CN,
+		       EXO_CN,
+		       TDI,
+		       HEALTH_GRAD
+		  FROM V_MSR_AEMRV_ATAL_GIS
+		</if>
+		<if test="comboValue == 2 ">
+			SELECT AEMRV_CODE,
+			       AEMRV_NM,
+			       YEAR,
+			       TME,
+			       RIVER_ATAL_SPECIES_CODE,
+			       SCNCENM,
+			       KORNM,
+			       CELL_CO,
+			       KLYS_IDEX,
+			       WATX_IDEX
+			  FROM V_MSR_AEMRV_ATALSPCS_GIS
+		</if>
+	</select>
+	
 	
 	<select id="searchSstgHgAtalSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		<if test="comboValue == 1 ">
@@ -366,6 +677,118 @@
 	
 	</select>
 	
+	<select id="searchSstg_2018_HcBemaSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	<if test="comboValue == 1 ">
+		SELECT YEAR,
+		       TME,
+		       WRSSM_CODE,
+		       WRSSM_NM,
+		       LDT_NM,
+		       MDT_CODE,
+		       MDT_NM,
+		       SDT_NM,
+		       RIVER_NM,
+		       AEMRV_CODE,
+		       AEMRV_NM,
+		       HIST_BUTTON,
+		       BSTRM_SE,
+		       BSTRM_SE_NM,
+		       LA,
+		       LO,
+		       DE,
+		       WETHR_SE,
+		       WETHR_SE_NM,
+		       EXAMIN_INSTT_NM,
+		       EXMNR_NM,
+		       TMPRT,
+		       WTRTP,
+		       SBN30_EXAMIN_CO,
+		       SBN50_EXAMIN_CO,
+		       DR_EXAMIN_CO,
+		       EK_EXAMIN_CO,
+		       DRGUSE_MTST_AT,
+		       DRGUSE_FORAGE_AT,
+		       DRGUSE_VILAGE_AT,
+		       DRGUSE_SOPSRT_AT,
+		       DRGUSE_FRLND_AT,
+		       DRGUSE_FCTRY_AT,
+		       DRGUSE_RESIDE_AT,
+		       DRGUSE_ETC_AT,
+		       DRGUSE_ETC_CN,
+		       POLTNSRC_LVSEWG_AT,
+		       POLTNSRC_LSKR_AT,
+		       POLTNSRC_WSTR_AT,
+		       POLTNSRC_ETC_AT,
+		       POLTNSRC_ETC_CN,
+		       RE_VTN_TREE_RT,
+		       RE_VTN_SRB_RT,
+		       RE_VTN_HRB_RT,
+		       RE_CNPY_SE,
+		       RE_FLD_USE_SE,
+		       RE_LFTBNK_NATURE_AT,
+		       RE_LFTBNK_STON_AT,
+		       RE_LFTBNK_GABN_AT,
+		       RE_LFTBNK_CNCRT_AT,
+		       RE_LFTBNK_VERTCL_AT,
+		       RE_RHTBNK_NATURE_AT,
+		       RE_RHTBNK_STON_AT,
+		       RE_RHTBNK_GABN_AT,
+		       RE_RHTBNK_CNCRT_AT,
+		       RE_RHTBNK_VERTCL_AT,
+		       STR_MD_RT,
+		       STR_SAND_RT,
+		       STR_SBAL_RT,
+		       STR_PEBB_RT,
+		       STR_SS_RT,
+		       STR_LS_RT,
+		       RIVER_TY_SE,
+		       BTRV,
+		       WTRBT_SCOPE,
+		       AVRG_DPWT_SCOPE,
+		       AVRG_SPFLD_SCOPE,
+		       RIVER_RAP_RT,
+		       RIVER_FLOW_RT,
+		       RIVER_POND_RT,
+		       TRNSPRC_SE,
+		       SMELL_SE,
+		       CLIMP_PARTCLR_MATTER,
+		       CLIMP_DETAIL_CN,
+		       CLPSS_PARTCLR_MATTER,
+		       TOT_SPECIES_CO,
+		       TOT_INDVD_CO,
+		       DKPAR_SCNCENM,
+		       DKPAR_POSSESN_RT,
+		       DKPAR_INDVD_CO,
+		       DIV_IDEX,
+		       RIC_IDEX,
+		       EVN_IDEX,
+		       EPT_SPECIES_CO,
+		       EPT_SPECIES_RT,
+		       EPT_INDVD_CO,
+		       EPT_INDVD_RT,
+		       BMI,
+		       HEALTH_GRAD
+		  FROM V_MSR_AEMRV_BEMA_GIS
+	</if>
+	<if test="comboValue == 2 ">
+		SELECT AEMRV_CODE,
+		       AEMRV_NM,
+		       YEAR,
+		       TME,
+		       RIVER_BEMA_SPECIES_CODE,
+		       SCNCENM,
+		       KORNM,
+		       INDVD_CO,
+		       EXO_AT,
+		       ENSPC_1CLS_AT,
+		       ENSPC_2CLS_AT,
+		       OEASP_AT,
+		       EPT_AT
+		  FROM V_MSR_AEMRV_BEMASPCS_GIS
+	</if>
+
+	</select>
+	
 	<select id="searchSstgHgBemaSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	<if test="comboValue == 1 ">
 				SELECT EXBF_NM,
@@ -451,6 +874,7 @@
 
 	</select>
 	
+	
 	<select id="searchSstgHgFishSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		<if test="comboValue == 1 ">
 			SELECT 
@@ -524,6 +948,8 @@
 		</if>
 		
 	</select>
+	
+	
 	
 	<select id="searchSstgHgVtnSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		<if test="comboValue == 1 ">
@@ -830,6 +1256,96 @@
 		
 	</select>
 	
+	<select id="searchSstg_2018_HcFishSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		<if test="comboValue == 1 ">
+			SELECT YEAR,
+		       TME,
+		       AEMRV_CODE,
+		       AEMRV_NM,
+		       WRSSM_NM,
+		       WRSSM_CODE,
+		       MDT_NM,
+		       MDT_CODE,
+		       SDT_NM,
+		       RIVER_NM,
+		       BSTRM_SE,
+		       LA,
+		       LO,
+		       DE,
+		       WETHR_SE,
+		       EXAMIN_INSTT_NM,
+		       EXMNR_NM,
+		       RIVER_ODR,
+		       COLCT_REQRE_TIME,
+		       COLCT_UNT_SE,
+		       FLOW_STTUS_SE,
+		       STR_ROCK_RT,
+		       STR_CNCRT_RT,
+		       STR_MD_RT,
+		       STR_SAND_RT,
+		       STR_SBAL_RT,
+		       STR_PEBB_RT,
+		       STR_SS_RT,
+		       STR_LS_RT,
+		       RIVER_STLE_SE,
+		       FLOW_VE_SE,
+		       CLIMP_PARTCLR_MATTER,
+		       CLIMP_DETAIL_CN,
+		       CLPSS_PARTCLR_MATTER,
+		       ABNRM_INDVD_CO,
+		       ABNRM_INDVD_RT,
+		       UNEVL_M1_PT,
+		       UNEVL_M2_PT,
+		       UNEVL_M3_PT,
+		       UNEVL_M4_PT,
+		       UNEVL_M5_PT,
+		       UNEVL_M6_PT,
+		       UNEVL_M7_PT,
+		       UNEVL_M8_PT,
+		       TOT_SPECIES_CO,
+		       TOT_INDVD_CO,
+		       SSP_CO,
+		       SSP_RT,
+		       SSP_INDVD_CO,
+		       SSP_INDVD_RT,
+		       TSP_CO,
+		       TSP_RT,
+		       TSP_INDVD_CO,
+		       TSP_INDVD_RT,
+		       RIC_IDEX,
+		       DKPAR_KORNM,
+		       DKPAR_INDVD_CO,
+		       DKPAR_POSSESN_RT,
+		       DSP_INDVD_RT,
+		       RSP_INDVD_RT,
+		       PSP_INDVD_RT,
+		       ASP_INDVD_RT,
+		       FAI,
+		       HEALTH_GRAD
+		  FROM V_MSR_AEMRV_FISH_GIS
+		</if>
+		<if test="comboValue == 2 ">
+			SELECT AEMRV_CODE,
+		       AEMRV_NM,
+		       YEAR,
+		       TME,
+		       RIVER_FISHES_SPECIES_CODE,
+		       SCNCENM,
+		       KORNM,
+		       INDVD_CO,
+		       TOE_CODE,
+		       FED_CODE,
+		       HBTT_CODE,
+		       EXO_AT,
+		       ESP_AT,
+		       ENSPC_1CLS_AT,
+		       ENSPC_2CLS_AT,
+		       NTRMN_AT
+		  FROM V_MSR_AEMRV_FISHSPCS_GIS
+		</if>
+	</select>
+	
+	
 	<select id="searchSstgHcFishSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		<if test="comboValue == 1 ">
 			SELECT
@@ -931,6 +1447,47 @@
 	
 	</select>
 	
+	<select id="searchSstg_2018_HcInhaSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT YEAR,
+		       TME,
+		       AEMRV_CODE,
+		       AEMRV_NM,
+		       WRSSM_NM,
+		       WRSSM_CODE,
+		       DETAIL_WRSSM_NM,
+		       MDT_NM,
+		       MDT_CODE,
+		       SDT_NM,
+		       RIVER_NM,
+		       BSTRM_SE,
+		       LA,
+		       LO,
+		       DE,
+		       WETHR_SE,
+		       EXAMIN_INSTT_NM,
+		       EXMNR_NM,
+		       RIVER_GRAD,
+		       ELEVTN,
+		       RRSMLD_SE,
+		       FILE_NM,
+		       EXIMP_PARTCLR_MATTER,
+		       EXIMP_DETAIL_CN,
+		       EXPSS_PARTCLR_MATTER,
+		       LBSB_CO_EVL,
+		       NTRLTY_PRECSN_EVL,
+		       SPFLD_DVRSTY_EVL,
+		       RVS_BT_EVL,
+		       RSV_ARV_EVL,
+		       ARV_MATRL_EVL,
+		       SEDM_STTUS_EVL,
+		       WDSTRCTU_DSTRBNC_EVL,
+		       FRCE_LANDUSE_EVL,
+		       PRLL_LANDUSE_EVL,
+		       HRI,
+		       HEALTH_GRAD
+		  FROM V_MSR_AEMRV_INHA_GIS
+	</select>
+	
 	<select id="searchSstgHcInhaSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		SELECT 
 	       A.YEAR,
@@ -980,6 +1537,29 @@
 		AND A.YEAR||A.TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
 	</select>
 	
+	<select id="searchSstg_2018_HcQltwtrSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT YEAR,
+		       TME,
+		       AEMRV_CODE,
+		       AEMRV_NM,
+		       WTRTP,
+		       DOC,
+		       PH,
+		       EC,
+		       TUR,
+		       BOD,
+		       NH3N,
+		       NO3N,
+		       TN,
+		       PO4P,
+		       TP,
+		       CHLA,
+		       SS,
+		       RM,
+		       DETAIL_MATTER
+		  FROM V_MSR_AEMRV_WTR_GIS
+	</select>
+	
 	<select id="searchSstgHcQltwtrSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	SELECT 
 	       YEAR,
@@ -1005,6 +1585,140 @@
 	  WHERE SPOT_CODE IN
 		<foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 		AND YEAR||TME BETWEEN #{startYear} || #{startMonth} AND #{endYear} || #{endMonth} /* 시작일자 및 종료일자 */
+	</select>
+	
+	<select id="searchSstg_2018_HcVtnSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		<if test="comboValue == 1 ">
+			SELECT YEAR,
+		       TME,
+		       AEMRV_CODE,
+		       AEMRV_NM,
+		       WRSSM_NM,
+		       WRSSM_CODE,
+		       DETAIL_WRSSM_NM,
+		       MDT_NM,
+		       MDT_CODE,
+		       SDT_NM,
+		       RIVER_NM,
+		       BSTRM_SE,
+		       LA,
+		       LO,
+		       DE,
+		       WETHR_SE,
+		       EXAMIN_INSTT_NM,
+		       EXMNR_NM,
+		       WTCORS_AR,
+		       BRGRD_AR,
+		       ARSTRU_AR,
+		       MTST_AR,
+		       RESIDE_AR,
+		       CLVT_AR,
+		       EXIMP_PARTCLR_MATTER,
+		       EXIMP_DETAIL_CN,
+		       EXPSS_PARTCLR_MATTER,
+		       DOMPT_SALX_RT,
+		       DOMPT_GRMN_RT,
+		       DOMPT_CPRC_RT,
+		       DOMPT_OBL_RT,
+		       DOMPT_FACW_RT,
+		       DOMPT_OBLFACW_RT,
+		       DOMPT_TREE_RT,
+		       DOMPT_NATSPCS_RT,
+		       DOMPT_DISP_RT,
+		       DOMPT_APGEN_RT,
+		       DOMAR_SALX_RT,
+		       DOMAR_GRMN_RT,
+		       DOMAR_CPRC_RT,
+		       DOMAR_OBL_RT,
+		       DOMAR_FACW_RT,
+		       DOMAR_OBLFACW_RT,
+		       DOMAR_TREE_RT,
+		       DOMAR_NATSPCS_RT,
+		       DOMAR_DISP_RT,
+		       DOMAR_APGEN_RT,
+		       EVL_HAA_RT,
+		       EVL_EA_RT,
+		       EVL_WTD_RT,
+		       EVL_SALFRAA_RT,
+		       EVL_TOSC_RT,
+		       EVL_BTI_RT,
+		       EVL_HAA_SCORE,
+		       EVL_EA_SCORE,
+		       EVL_WTD_SCORE,
+		       EVL_SALFRAA_SCORE,
+		       EVL_TOSC_SCORE,
+		       EVL_BTI_SCORE,
+		       TOT_COMM_CO,
+		       TOT_AR,
+		       RVI,
+		       HEALTH_GRAD
+		  FROM V_MSR_AEMRV_VTN_GIS
+		</if>
+		<if test="comboValue == 2 ">
+			SELECT AEMRV_CODE,
+		       AEMRV_NM,
+		       YEAR,
+		       TME,
+		       RIVER_VTN_SPECIES_CODE,
+		       SCNCENM,
+		       KORNM,
+		       ERE_AT,
+		       SMLD_ERE_CODE,
+		       GROWFRM_CODE,
+		       NATSPCS_AT,
+		       CULSP_AT,
+		       EXO_AT,
+		       APPN_1_AT,
+		       APPN_2_AT,
+		       TOE_AT,
+		       DISP_AT,
+		       RARSP_AT,
+		       ESP_AT,
+		       ENSPC_AT
+		  FROM V_MSR_AEMRV_VTNSPCS_GIS
+		</if>
+		<if test="comboValue == 3 ">
+			SELECT AEMRV_CODE,
+		       AEMRV_NM,
+		       YEAR,
+		       TME,
+		       RIVER_VTN_SPECIES_CODE,
+		       SCNCENM,
+		       KORNM,
+		       INDVD_CO,
+		       SMLD_ERE_CODE,
+		       GROWFRM_CODE,
+		       NATSPCS_AT,
+		       CULSP_AT,
+		       EXO_AT,
+		       APPN_1_AT,
+		       APPN_2_AT,
+		       TOE_AT,
+		       DISP_AT,
+		       RARSP_AT,
+		       ESP_AT,
+		       ENSPC_AT
+		  FROM V_MSR_AEMRV_VTNAREA_GIS
+		</if>
+		<if test="comboValue == 4 ">
+			SELECT AEMRV_CODE,
+		       AEMRV_NM,
+		       YEAR,
+		       TME,
+		       PNTTM_LA,
+		       PNTTM_LO,
+		       TMNL_LA,
+		       TMNL_LO,
+		       LC,
+		       PNTTM_ANGLE,
+		       PNTTM_TARGT,
+		       FRCE_RVSTRCT_SE,
+		       FRCE_DSTRB_SE,
+		       PRLL_LFTBNK_SE,
+		       PRLL_RHTBNK_SE,
+		       EXIMP_PARTCLR_MATTER
+		  FROM V_MSR_AEMRV_VTNSCTN_GIS
+		</if>
 	</select>
 	
 	<select id="searchSstgHcVtnSe" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
@@ -3683,11 +4397,207 @@ ORDER  BY RIVER_ID,
     </select>
     
     <!-- 퇴적물 -->
+    <select id="searchResult_C_getDate2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+    	SELECT MAX(YEAR||'.'||SUBSTR(TME, 3, 4)) AS WMYR
+		  FROM MSR_DPMN_META
+		 WHERE DPMN_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+    </select>
+    
+    <!-- 퇴적물 -->
     <select id="searchResult_C_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
     	SELECT MAX (WMYR || '.' || WMWK) AS WMYR
 		  FROM SDM_RWMDTI
 		 WHERE PT_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
     </select>
+    
+    <insert id="searchResult_C2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+    	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE, VRIABL_2_VALUE, VRIABL_3_VALUE, VRIABL_4_VALUE, VRIABL_5_VALUE) VALUES (#{siteId2}, #{startYear}, 'H0'||#{startMonth}, #{endYear}, 'H0'||#{endMonth})
+    </insert>
+    
+    <select id="searchResult_C_RESULT_2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+    	SELECT RN,
+		       DPMN_CODE,
+		       DPMN_NM,
+		       YEAR,
+		       TME,
+		       MT,
+		       DE,
+		       WMCYMD_VAL,
+		       WTRSMPLE_TM,
+		       POLL_STEP,
+		       CURR_DOW,
+		       CURR_DOW_SURF,
+		       CURR_TEMP_SURF,
+		       CURR_DO_SURF,
+		       CURR_PH_SURF,
+		       CURR_EC_SURF,
+		       CURR_DOW_LOW,
+		       CURR_TEMP_LOW,
+		       CURR_DO_LOW,
+		       CURR_PH_LOW,
+		       CURR_EC_LOW,
+		       CURR_TRANSPARENCY,
+		       CURR_FSD,
+		       CURR_FST,
+		       CURR_FCL,
+		       CURR_WTC,
+		       CURR_PCA,
+		       PCA_CLASS,
+		       CURR_COD,
+		       CURR_TOC,
+		       CURR_TN,
+		       TN_CLASS,
+		       CURR_TP,
+		       TP_CLASS,
+		       CURR_SRP,
+		       CURR_PB,
+		       PB_CLASS,
+		       CURR_ZN,
+		       ZN_CLASS,
+		       CURR_CU,
+		       CU_CLASS,
+		       CURR_CR,
+		       CR_CLASS,
+		       CURR_NI,
+		       NI_CLASS,
+		       CURR_AS,
+		       AS_CLASS,
+		       CURR_CD,
+		       CD_CLASS,
+		       CURR_HG,
+		       HG_CLASS,
+		       CURR_AL,
+		       CURR_LI,
+		       CURR_CL_2_PHENYL,
+		       CURR_2_CL_2_PHENYL,
+		       CURR_3_CL_2_PHENYL,
+		       CURR_4_CL_2_PHENYL,
+		       CURR_5_CL_2_PHENYL,
+		       CURR_6_CL_2_PHENYL,
+		       CURR_7_CL_2_PHENYL,
+		       CURR_8_CL_2_PHENYL,
+		       CURR_9_CL_2_PHENYL,
+		       CURR_10_CL_2_PHENYL,
+		       CURR_TOT_PCBS,
+		       CURR_NAPTHALENE,
+		       CURR_ACENAPTHALENE,
+		       CURR_ACENAPTHENE,
+		       CURR_FLUORENE,
+		       CURR_PHENANTHRENE,
+		       CURR_ANTHRACENE,
+		       CURR_FLUORANTHENE,
+		       CURR_PYRENE,
+		       CURR_BENZO_A_ANTHRACENE,
+		       CURR_CRYSENE,
+		       CURR_BENZO_B_FLUORANTHENE,
+		       CURR_BENZO_F_FLUORANTHENE,
+		       CURR_BENZO_A_PYRENE,
+		       CURR_INDENO_1_2_3_CD_PYRENE,
+		       CURR_DIBENZO_A_H_ANTHRACENE,
+		       CURR_BENZO_G_H_I_PERYLENE,
+		       CURR_TOTAL_PAHS,
+		       CURR_O_P_DDE,
+		       CURR_P_P_DDE,
+		       CURR_O_P_DDD,
+		       CURR_P_P_DDD,
+		       CURR_O_P_DDT,
+		       CURR_P_P_DDT,
+		       CURR_TOTAL_DDT,
+		       CURR_1_1_1_TRICHLOROETHANE,
+		       CURR_1_2_DICHLOROETHANE,
+		       CURR_BENZENE,
+		       CURR_CARBON_TETRA_CHLORIDE,
+		       CURR_CHLOROFORM,
+		       CURR_ETHYL_BENZENE,
+		       CURR_METHYL_CHLORIDE,
+		       CURR_TETRA_CHLORO_ETHYLENE,
+		       CURR_TRI_CHLORO_ETHYLENE,
+		       CURR_TOLUENE,
+		       CURR_M_P_XYLENE,
+		       CURR_O_XYLENE,
+		       EXAMIN_INSTT_NM,
+		       CHART_DOW,
+		       CHART_DOW_SURF,
+		       CHART_TEMP_SURF,
+		       CHART_DO_SURF,
+		       CHART_PH_SURF,
+		       CHART_EC_SURF,
+		       CHART_DOW_LOW,
+		       CHART_TEMP_LOW,
+		       CHART_DO_LOW,
+		       CHART_PH_LOW,
+		       CHART_EC_LOW,
+		       CHART_TRANSPARENCY,
+		       CHART_FSD,
+		       CHART_FST,
+		       CHART_FCL,
+		       CHART_WTC,
+		       CHART_PCA,
+		       CHART_COD,
+		       CHART_TOC,
+		       CHART_TN,
+		       CHART_TP,
+		       CHART_SRP,
+		       CHART_PB,
+		       CHART_ZN,
+		       CHART_CU,
+		       CHART_CR,
+		       CHART_NI,
+		       CHART_AS,
+		       CHART_CD,
+		       CHART_HG,
+		       CHART_AL,
+		       CHART_LI,
+		       CHART_CL_2_PHENYL,
+		       CHART_2_CL_2_PHENYL,
+		       CHART_3_CL_2_PHENYL,
+		       CHART_4_CL_2_PHENYL,
+		       CHART_5_CL_2_PHENYL,
+		       CHART_6_CL_2_PHENYL,
+		       CHART_7_CL_2_PHENYL,
+		       CHART_8_CL_2_PHENYL,
+		       CHART_9_CL_2_PHENYL,
+		       CHART_10_CL_2_PHENYL,
+		       CHART_TOT_PCBS,
+		       CHART_NAPTHALENE,
+		       CHART_ACENAPTHALENE,
+		       CHART_ACENAPTHENE,
+		       CHART_FLUORENE,
+		       CHART_PHENANTHRENE,
+		       CHART_ANTHRACENE,
+		       CHART_FLUORANTHENE,
+		       CHART_PYRENE,
+		       CHART_BENZO_A_ANTHRACENE,
+		       CHART_CRYSENE,
+		       CHART_BENZO_B_FLUORANTHENE,
+		       CHART_BENZO_F_FLUORANTHENE,
+		       CHART_BENZO_A_PYRENE,
+		       CHART_INDENO_1_2_3_CD_PYRENE,
+		       CHART_DIBENZO_A_H_ANTHRACENE,
+		       CHART_BENZO_G_H_I_PERYLENE,
+		       CHART_TOTAL_PAHS,
+		       CHART_O_P_DDE,
+		       CHART_P_P_DDE,
+		       CHART_O_P_DDD,
+		       CHART_P_P_DDD,
+		       CHART_O_P_DDT,
+		       CHART_P_P_DDT,
+		       CHART_TOTAL_DDT,
+		       CHART_1_1_1_TRICHLOROETHANE,
+		       CHART_1_2_DICHLOROETHANE,
+		       CHART_BENZENE,
+		       CHART_CARBON_TETRA_CHLORIDE,
+		       CHART_CHLOROFORM,
+		       CHART_ETHYL_BENZENE,
+		       CHART_METHYL_CHLORIDE,
+		       CHART_TETRA_CHLORO_ETHYLENE,
+		       CHART_TRI_CHLORO_ETHYLENE,
+		       CHART_TOLUENE,
+		       CHART_M_P_XYLENE,
+		       CHART_O_XYLENE
+		  FROM V_MSR_DPMN_GIS
+    </select>
+    
 	<select id="searchResult_C" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 
       SELECT RN,
@@ -4906,7 +5816,45 @@ GROUP BY RN,
          CODE_CTN
 ORDER BY PT_NO , WMYR DESC, WMOM DESC   	
 	
-	</select>    
+	</select>
+	
+<select id="searchResult_D_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	<if test="gubun == 1">
+		SELECT MAX(SUBSTR(OBSR_DE, 1, 6)) AS WMCYMD
+		  FROM FLU_WLV_DAY
+		 WHERE WLVOBS_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+	<if test="gubun == 2">
+		SELECT MAX(SUBSTR(OBSR_DE, 1, 6)) AS WMCYMD
+		  FROM FLU_RAINFALL_DAY
+		 WHERE RAINOBS_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+	<if test="gubun == 3">
+		SELECT MAX(SUBSTR(OBSR_DE, 1, 6)) AS WMCYMD
+		  FROM FLU_FLUX_DAY
+		 WHERE FLUOBS_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+	<if test="gubun == 4">
+		SELECT MAX(SUBSTR(OBSR_DE, 1, 6)) AS WMCYMD
+		  FROM FLU_DAM_DAY
+		 WHERE DAMOBS_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+	<if test="gubun == 5">
+		SELECT MAX(SUBSTR(OBSR_DT, 1, 6)) AS WMCYMD
+		  FROM FLU_AWS_HOUR
+		 WHERE AWSOBS_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+	<if test="gubun == 6">
+		SELECT MAX(SUBSTR(OBSR_DE, 1, 6)) AS WMCYMD
+		  FROM FLU_GDWETHER_DAY
+		 WHERE GRWOBS_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+	<if test="gubun == 7">
+	SELECT MAX(SUBSTR(OBSR_DT, 1, 10)) AS WMCYMD
+		  FROM FLU_BRRER_MIN
+		WHERE BRROBS_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+</select>    
     
 <select id="searchResult_D_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	<if test="gubun == 1">
@@ -4945,6 +5893,32 @@ ORDER BY PT_NO , WMYR DESC, WMOM DESC
 		 WHERE BOOBSCD IN  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</if>
 </select>    
+
+<insert id="searchResult_D2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE,VRIABL_4_VALUE,VRIABL_5_VALUE) VALUES (#{siteId2}, #{startYear} , #{startMonth} ,#{endYear} , #{endMonth})
+</insert>
+
+<insert id="searchResult_D2018_setParam_7" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{siteId2}, #{startYear} || #{startMonth} || #{startDay}, #{endYear} || #{endMonth} || #{endDay})
+</insert>
+
+
+<!-- 기타측정지점 - 수위관측소 GROUT CODE : D / LAYER CODE : D001 -->
+<select id="searchResult_D_2018_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT RN,
+	       MDT_NM,
+	       SDT_NM,
+	       PT_NO,
+	       PT_NM,
+	       OBSR_DE,
+	       CURR_WLV,
+	       CURR_TOP_WLV,
+	       CURR_LWET_WLV,
+	       CHART_WLV,
+	       CHART_TOP_WLV,
+	       CHART_LWET_WLV
+	  FROM V_FLU_WLV_DAY_GIS
+</select>
     
 <!-- 기타측정지점 - 수위관측소 GROUT CODE : D / LAYER CODE : D001 -->
 <select id="searchResult_D_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
@@ -5049,6 +6023,20 @@ ORDER BY PT_NO, WMCYMD DESC
 </select>
 
 <!-- 기타측정지점 - 우량관측소 GROUT CODE : D / LAYER CODE : D002 -->
+<select id="searchResult_D_2018_2" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT RN,
+	       PT_NO,
+	       OBSR_DE,
+	       WRSSM_NM,
+	       MDT_NM,
+	       SDT_NM,
+	       PT_NM,
+	       CURR_RAINFALL,
+	       CHART_RAINFALL
+	  FROM V_FLU_RAINFALL_DAY_GIS
+</select>
+
+<!-- 기타측정지점 - 우량관측소 GROUT CODE : D / LAYER CODE : D002 -->
 <select id="searchResult_D_2" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
   SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_2 */
          RN,
@@ -5140,6 +6128,20 @@ GROUP BY RN,
          CURR_RF
 ORDER BY PT_NO, WMCYMD DESC
 </select>    
+
+<!-- 기타측정지점 - 유량관측소 GROUT CODE : D / LAYER CODE : D003 -->
+<select id="searchResult_D_2018_3" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT RN,
+	       PT_NO,
+	       OBSR_DE,
+	       WRSSM_NM,
+	       MDT_NM,
+	       SDT_NM,
+	       PT_NM,
+	       CURR_FLUX,
+	       CHART_FLUX
+	  FROM V_FLU_FLUX_DAY_GIS
+</select>
 
 <!-- 기타측정지점 - 유량관측소 GROUT CODE : D / LAYER CODE : D003 -->
 <select id="searchResult_D_3" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
@@ -5236,6 +6238,29 @@ GROUP BY RN,
          CURR_FW   
 ORDER BY PT_NO, WMCYMD DESC
 </select>
+
+
+<!-- 기타측정지점 - 댐관측소 GROUT CODE : D / LAYER CODE : D004 -->
+<select id="searchResult_D_2018_4" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT RN,
+	       MDT_NM,
+	       SDT_NM,
+	       PT_NO,
+	       PT_NM,
+	       OBSR_DE,
+	       CURR_LOW_WLV,
+	       CURR_INFLOW_QY,
+	       CURR_DCWTR_QY,
+	       CURR_RSVWT_QY,
+	       CURR_CMNUSE_QY,
+	       CHART_LOW_WLV,
+	       CHART_INFLOW_QY,
+	       CHART_DCWTR_QY,
+	       CHART_RSVWT_QY,
+	       CHART_CMNUSE_QY
+	  FROM V_FLU_DAM_DAY_GIS
+</select>
+
 
 <!-- 기타측정지점 - 댐관측소 GROUT CODE : D / LAYER CODE : D004 -->
 <select id="searchResult_D_4" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
@@ -5383,6 +6408,37 @@ SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_4 */
 	       CURR_ECPC
   ORDER BY PT_NO, WMCYMD DESC
 
+</select>
+
+<!-- 기타측정지점 - AWS기상관측소 GROUT CODE : D / LAYER CODE : D005 -->
+<select id="searchResult_D_2018_5" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+
+	SELECT RN,
+	       MDT_NM,
+	       SDT_NM,
+	       AWSOBS_CODE,
+	       OBSRVT_NM,
+	       OBSR_DT,
+	       CURR_WD,
+	       CURR_WS,
+	       CURR_TA,
+	       CURR_HM,
+	       CURR_PA,
+	       CURR_PS,
+	       CURR_RNYN,
+	       CURR_RN1HR,
+	       CURR_RNDAY,
+	       CHART_WD,
+	       CHART_WS,
+	       CHART_TA,
+	       CHART_HM,
+	       CHART_PA,
+	       CHART_PS,
+	       CHART_RNYN,
+	       CHART_RN1HR,
+	       CHART_RNDAY
+	  FROM V_FLU_AWS_DAY_GIS
+	  
 </select>
 
 <!-- 기타측정지점 - AWS기상관측소 GROUT CODE : D / LAYER CODE : D005 -->
@@ -5564,6 +6620,26 @@ SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_5 */
 </select>
 
 <!-- 기타측정지점 - 지상기상관측소 GROUT CODE : D / LAYER CODE : D006 -->
+<select id="searchResult_D_2018_6" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+
+	SELECT RN, 
+	       WRSSM_NM,
+	       MDT_NM,
+	       SDT_NM,
+	       PT_NO,
+	       PT_NM,
+	       OBSR_DE,
+	       CURR_RAINFL,
+	       CURR_TMPRT,
+	       CURR_SOLRAD_QY,
+	       CHART_RAINFL,
+	       CHART_TMPRT,
+	       CHART_SOLRAD_QY
+	  FROM V_FLU_GDWETHER_DAY_GIS
+	  
+</select>
+
+<!-- 기타측정지점 - 지상기상관측소 GROUT CODE : D / LAYER CODE : D006 -->
 <select id="searchResult_D_6" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_6 */
        RN, 
@@ -5685,6 +6761,39 @@ SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_6 */
 
 </select>
 
+<!-- 기타측정지점 - 보관측소 GROUT CODE : D / LAYER CODE : D007 -->
+<select id="searchResult_D_2018_7" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT RN,
+       WRSSM_NM,
+       MDT_NM,
+       SDT_NM,
+       OBSR_DT,
+       BRROBS_CODE,
+       BRRER_NM,
+       CURR_SWL,
+       CURR_OWL,
+       CURR_SFW,
+       CURR_ECPC,
+       CURR_INF,
+       CURR_TOTOTF,
+       CURR_EGOTF,
+       CURR_GTOTF,
+       CURR_CBOTF,
+       CURR_FWOTF,
+       CURR_ETCOTF,
+       CHART_SWL,
+       CHART_OWL,
+       CHART_SFW,
+       CHART_ECPC,
+       CHART_INF,
+       CHART_TOTOTF,
+       CHART_EGOTF,
+       CHART_GTOTF,
+       CHART_CBOTF,
+       CHART_FWOTF,
+       CHART_ETCOTF
+  FROM V_FLU_BRRER_MIN_GIS
+</select>
 <!-- 기타측정지점 - 보관측소 GROUT CODE : D / LAYER CODE : D007 -->
 <select id="searchResult_D_7" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 SELECT /* KRF-BIZ.SearchResultMapper.searchResult_D_7 */
@@ -5907,7 +7016,66 @@ ORDER BY PT_NO, WMCYMD DESC
 </select>
 
 
+<select id="searchResult_F_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	<if test="gubun == 1">
+	SELECT MAX(MESURE_DE) AS WORK_DT_VAL
+	  FROM MSR_POLTNSRC_DWEQTY_DAY A,
+	       FCL_POLTNSRC_FCLTY B
+	 WHERE A.POLRFCL_CODE = B.POLRFCL_CODE
+	   AND A.YEAR = B.YEAR
+	   AND A.POLRFCL_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+	<if test="gubun == 2">
+	</if>
+	<if test="gubun == 3">
+		SELECT  MAX(MESURE_DE) AS WORK_DT_VAL
+		  FROM MSR_POLTNSRC_INFLOW_DAY A,
+		       FCL_POLTNSRC_FCLTY B
+		 WHERE A.POLRFCL_CODE = B.POLRFCL_CODE
+		   AND A.YEAR = B.YEAR
+		   AND A.POLRFCL_CODE
+	</if>
+	<if test="gubun == 4">
+	</if>
+</select>
 
+
+<insert id="searchResult_F2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE,VRIABL_4_VALUE,VRIABL_5_VALUE) VALUES (#{siteId2}, #{startYear} , #{startMonth} ,#{endYear} , #{endMonth})
+</insert>
+
+
+
+<!-- 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001 -->
+<select id="searchResult_F_2018_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT POLRFCL_CODE,
+	       NO,
+	       PROCESS_FCLTY_NM,
+	       WORK_DT_VAL,
+	       CHART_DATE,
+	       DCWTRH_NO,
+	       DISCHARGE_AMT_PHYS_VAL,
+	       DISCHARGE_AMT_BIO_VAL,
+	       DISCHARGE_AMT_HIGHTEC_VAL,
+	       BOD_VAL,
+	       COD_VAL,
+	       SS_VAL,
+	       TN_VAL,
+	       TP_VAL,
+	       COLI_VAL,
+	       DCWTRW_DSNF_MTH,
+	       DCWTRW_CNTC_PROCESS_FCLTY_NM,
+	       CHART_DISCHARGE_AMT_PHYS,
+	       CHART_DISCHARGE_AMT_BIO,
+	       CHART_DISCHARGE_AMT_HIGHTEC,
+	       CHART_BOD,
+	       CHART_COD,
+	       CHART_SS,
+	       CHART_TN,
+	       CHART_TP,
+	       CHART_COLI
+	  FROM V_MSR_POLTNSRC_DWEQTY_DAY_GIS
+</select>
 
 <!-- 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001 -->
 <select id="searchResult_F_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
@@ -6235,6 +7403,31 @@ ORDER BY PT_NO, WMCYMD DESC
 </select>
 
 <!-- 환경기초시설 - 총유입량 GROUT CODE : F / LAYER CODE : F003 -->
+<select id="searchResult_F_2018_3" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT POLRFCL_CODE,
+       NO,
+       PROCESS_FCLTY_NM,
+       WORK_DT_VAL,
+       CHART_DATE,
+       INFLOWH_NO,
+       AMT_VAL,
+       BOD_VAL,
+       COD_VAL,
+       SS_VAL,
+       TN_VAL,
+       TP_VAL,
+       COLI_VAL,
+       CHART_AMT,
+       CHART_BOD,
+       CHART_COD,
+       CHART_SS,
+       CHART_TN,
+       CHART_TP,
+       CHART_COLI
+  FROM V_MSR_POLTNSRC_INFLOW_DAY_GIS
+</select>
+
+<!-- 환경기초시설 - 총유입량 GROUT CODE : F / LAYER CODE : F003 -->
 <select id="searchResult_F_3" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 
 	  SELECT 	/* KRF-BIZ.SearchResultMapper.searchResult_F_3 */
@@ -6542,6 +7735,22 @@ ORDER BY PT_NO, WMCYMD DESC
 </select>
 
 
+<select id="searchResult_I_2018_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	<if test="gubun == 1">
+		SELECT MAX(A.YEAR||'.'||A.MT) AS WMCYMD
+		  FROM MSR_SWMN_META A,
+		       FCL_SWMN B
+		 WHERE A.SWMN_CODE = B.SWMN_CODE
+		   AND B.LC_TY = 'B'
+		   AND A.SWMN_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	</if>
+	<if test="gubun == 2">
+	</if>
+</select>
+
+<insert id="searchResult_I2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE,VRIABL_4_VALUE,VRIABL_5_VALUE) VALUES (#{siteId2}, #{startYear} , #{startMonth} ,#{endYear} , #{endMonth})
+</insert>
 
 <select id="searchResult_I_getDate" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 
@@ -6559,6 +7768,38 @@ ORDER BY PT_NO, WMCYMD DESC
 	</if>
 </select>
 
+<select id="searchResult_I_2018_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	SELECT RN,
+	       SWMN_CODE,
+	       SWMN_NM,
+	       CURR_WMCYMD,
+	       CURR_ITEM_TEMP,
+	       CURR_ITEM_PH,
+	       CURR_ITEM_EC,
+	       CURR_ITEM_DOC,
+	       CURR_ITEM_BOD,
+	       CURR_ITEM_COD,
+	       CURR_ITEM_TP,
+	       CURR_ITEM_AVERAGE_CLOA,
+	       CURR_ITEM_SURFACE_CLOA,
+	       CURR_ITEM_SURF_BL_GR_ALGAE,
+	       CURR_ITEM_GEOSMIN,
+	       CURR_ITEM_2MIB,
+	       CHART_ITEM_TEMP,
+	       CHART_ITEM_PH,
+	       CHART_ITEM_EC,
+	       CHART_ITEM_DOC,
+	       CHART_ITEM_BOD,
+	       CHART_ITEM_COD,
+	       CHART_ITEM_TP,
+	       CHART_ITEM_AVERAGE_CLOA,
+	       CHART_ITEM_SURF_BL_GR_ALGAE,
+	       CHART_ITEM_GEOSMIN,
+	       CHART_ITEM_2MIB
+	  FROM V_MSR_SWMN_META_GIS
+</select>
+<select id="searchResult_I_2018_2" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+</select>
 
 <select id="searchResult_I_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	SELECT  
@@ -6936,7 +8177,9 @@ SELECT      /* 2.상수원구간, 친수활동구간 */
                         OUT_BOD_SUM, 
                         OUT_TN_SUM, 
                         OUT_TP_SUM 
-                 FROM   POLLULANT_LOAD_FOR_CAT) 
+                 FROM   POLLULANT_LOAD_FOR_CAT
+                 WHERE YYYY = #{year}
+                 ) 
          WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
          ORDER  BY WS_CD, 
                    SW_CODE, 
@@ -7034,6 +8277,7 @@ ORDER  BY NO_1,
                 OUT_TP_SUM 
          FROM   (SELECT '1'      AS NO, 
                         '소계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7057,6 +8301,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '2'         AS NO, 
                         '생활계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7080,6 +8325,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '3'         AS NO, 
                         '축산계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7103,6 +8349,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '4'         AS NO, 
                         '산업계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7126,6 +8373,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '5'         AS NO, 
                         '토지계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7148,7 +8396,8 @@ ORDER  BY NO_1,
                  FROM   POLLULANT_LOAD_FOR_CAT 
                  UNION 
                  SELECT '6'         AS NO, 
-                        '양식계' AS GUBUN, 
+                        '양식계' AS GUBUN,
+                        YYYY, 
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7171,7 +8420,8 @@ ORDER  BY NO_1,
                  FROM   POLLULANT_LOAD_FOR_CAT 
                  UNION 
                  SELECT '7'         AS NO, 
-                        '매립계' AS GUBUN, 
+                        '매립계' AS GUBUN,
+                        YYYY, 
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7192,7 +8442,8 @@ ORDER  BY NO_1,
                         OUT_TN_LANDFILL, 
                         OUT_TP_LANDFILL 
                  FROM   POLLULANT_LOAD_FOR_CAT) 
-         WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
+         WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>
+         AND YYYY = #{year}	 
          ORDER  BY WS_CD, 
                    SW_CODE, 
                    CAT_DID, 
@@ -7285,6 +8536,7 @@ ORDER  BY NO_1,
                 OUT_TP_SUM 
          FROM   (SELECT '1'      AS NO, 
                         '소계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7308,6 +8560,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '2'         AS NO, 
                         '생활계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7331,6 +8584,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '3'         AS NO, 
                         '축산계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7354,6 +8608,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '4'         AS NO, 
                         '산업계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7377,6 +8632,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '5'         AS NO, 
                         '토지계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7400,6 +8656,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '6'         AS NO, 
                         '양식계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7423,6 +8680,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '7'         AS NO, 
                         '매립계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7444,6 +8702,7 @@ ORDER  BY NO_1,
                         OUT_TP_LANDFILL 
                  FROM   POLLULANT_LOAD_FOR_CAT) 
          WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
+         AND YYYY = #{year}
          ORDER  BY WS_CD, 
                    SW_CODE, 
                    CAT_DID, 
@@ -7541,6 +8800,7 @@ ORDER  BY NO_1,
                 OUT_TP_SUM 
          FROM   (SELECT '1'      AS NO, 
                         '소계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7564,6 +8824,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '2'         AS NO, 
                         '생활계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7587,6 +8848,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '3'         AS NO, 
                         '축산계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7610,6 +8872,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '4'         AS NO, 
                         '산업계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7633,6 +8896,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '5'         AS NO, 
                         '토지계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7656,6 +8920,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '6'         AS NO, 
                         '양식계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7679,6 +8944,7 @@ ORDER  BY NO_1,
                  UNION 
                  SELECT '7'         AS NO, 
                         '매립계' AS GUBUN, 
+                        YYYY,
                         WS_NM, 
                         WS_CD, 
                         AM_NM, 
@@ -7699,7 +8965,8 @@ ORDER  BY NO_1,
                         OUT_TN_LANDFILL, 
                         OUT_TP_LANDFILL 
                  FROM   POLLULANT_LOAD_FOR_CAT) 
-         WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>	 
+         WHERE  CAT_DID IN <foreach collection="catDids" item="item" separator="," open="(" close=")"> #{item}</foreach>
+         AND YYYY = #{year}	 
          ORDER  BY WS_CD, 
                    SW_CODE, 
                    CAT_DID, 
@@ -8035,6 +9302,7 @@ ORDER  BY NO_1,
 	
 	<select id="searchResult_L_RESULT_2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		SELECT ENVBSIS_SITE_MANAGE_NO,
+			   ENVBSIS_SITE_MANAGE_NM,
 		       BSNS_NM,
 		       MESURE_DE,
 		       BOD,
@@ -8047,6 +9315,27 @@ ORDER  BY NO_1,
 		       BEMA,
 		       FISHES
 		  FROM V_EXM_ENVBSIS_GIS
+	</select>
+	
+	<select id="searchResult_L_RESULT_2018_Window" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT ENVBSIS_SITE_MANAGE_NO,
+	       ENVBSIS_SITE_CODE,
+	       ENVBSIS_SITE_NM,
+	       STEP_CODE,
+	       LCLAS_NM,
+	       BSNS_NM,
+	       RSRCH_INSTT_NM,
+	       BSNS_YEAR,
+	       MDT_CODE,
+	       SDT_CODE,
+	       RN_CODE,
+	       RSRCH_PURPS_CN,
+	       RSRCH_RESULT_CN,
+	       KWRD_NM,
+	       JOB_CL,
+	       TOT_RSRCH_CT
+	  FROM EXM_ENVBSIS
+	 WHERE ENVBSIS_SITE_MANAGE_NO = #{siteId}
 	</select>
 	
 	

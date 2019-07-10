@@ -74,6 +74,18 @@ public class SearchResultController extends BaseController implements Serializab
 			return "error";
 		}
 	}
+	
+	@RequestMapping(value = "/searchSstgText", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchSstgText(@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchSstgText(param);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
 
 	// 수질측정지점 LAYER CODE : A
 	@RequestMapping(value = "/searchResult_A", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
@@ -238,6 +250,28 @@ public class SearchResultController extends BaseController implements Serializab
 	}
 	
 	// 퇴적물 LAYER CODE : C
+	@RequestMapping(value = "/searchResult_C2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_C2018(@ModelAttribute SearchResultVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = searchResultService.searchResult_C2018(param);
+			transactionManager.commit(status);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	// 퇴적물 LAYER CODE : C
 	@RequestMapping(value = "/searchResult_C", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_C(@ModelAttribute SearchResultVO param) {
 		try {
@@ -257,6 +291,51 @@ public class SearchResultController extends BaseController implements Serializab
 			HashMap result = searchResultService.searchResult_D(gubun, param);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	// 기타측정지점 - 수위관측소 GROUT CODE : D / LAYER CODE : D001
+	@RequestMapping(value = "/searchResult_D_2018_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_D_2018_1(@PathVariable String gubun, @ModelAttribute SearchResultVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		
+		try {
+			HashMap result = searchResultService.searchResult_D_2018(gubun, param);
+			transactionManager.commit(status);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	// 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001
+	@RequestMapping(value = "/searchResult_F_2018_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_F_2018_1(@PathVariable String gubun, @ModelAttribute SearchResultVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = searchResultService.searchResult_F_2018(gubun, param);
+			transactionManager.commit(status);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
 			// TODO Auto-generated catch block
 			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
@@ -284,6 +363,27 @@ public class SearchResultController extends BaseController implements Serializab
 			HashMap result = searchResultService.searchResult_I(gubun, param);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	// 조류모니터링 GROUP CODE : I
+	@RequestMapping(value = "/searchResult_I_2018_{gubun}", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_I2018(@PathVariable String gubun, @ModelAttribute SearchResultVO param) {
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = searchResultService.searchResult_I2018(gubun, param);
+			transactionManager.commit(status);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
 			// TODO Auto-generated catch block
 			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
@@ -326,6 +426,28 @@ public class SearchResultController extends BaseController implements Serializab
 			HashMap result = searchResultService.searchSstg(gubun, param);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	// 부하량2018
+	@RequestMapping(value = "/Esstg{gubun}_2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchSstg_2018(@PathVariable String gubun, SearchResultVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = searchResultService.searchSstg2018(gubun, param);
+			transactionManager.commit(status);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
 			// TODO Auto-generated catch block
 			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
@@ -388,6 +510,26 @@ public class SearchResultController extends BaseController implements Serializab
 		
 		try {
 			HashMap result = searchResultService.searchResult_L2018(param);
+			transactionManager.commit(status);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
+			return "error";
+		}
+	}
+	
+	// 한기조 GROUP_CODE : L
+	@RequestMapping(value = "/searchResult_L2018_Window", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_L2018_Window(@ModelAttribute SearchResultVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = searchResultService.searchResult_L2018_Window(param);
 			transactionManager.commit(status);
 			return getEuckrString(result, true);
 		} catch (Exception e) {

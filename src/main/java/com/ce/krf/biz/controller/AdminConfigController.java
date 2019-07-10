@@ -54,6 +54,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 	@Autowired
 	public AdminConfigService adminConfigService;
 
+	/* 삭제 */
 	@RequestMapping(value = "/getLayerSetAll", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String getLayerSetAll(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -65,6 +66,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 현행 */
 	@RequestMapping(value="/getBoInfo", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String getBoInfo(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -75,6 +77,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 삭제 */
 	@RequestMapping(value = "/getLayerSetForUser", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String getLayerSetForUser(@ModelAttribute AdminConfigVO param) {		
 		try {
@@ -87,6 +90,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 삭제 */
 	@RequestMapping(value = "/getUsers", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String getUsers(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -98,6 +102,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 현행 */
 	@RequestMapping(value = "/loginSession", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String loginSession(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -109,6 +114,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 현행 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String selectIdPass(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -120,6 +126,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 현행 */
 	@RequestMapping(value = "/getUserLayerInfo", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String getUserLayerInfo(@ModelAttribute AdminConfigVO param) {
 		
@@ -140,6 +147,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 삭제 */
 	@RequestMapping(value = "/putLayerSet", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String putLayerSet(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -151,7 +159,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 
-	
+	/* 삭제 */
 	@RequestMapping(value = "/putLayerSetByUser", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String putLayerSetByUser(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -163,6 +171,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 삭제 */
 	@RequestMapping(value = "/updateLayerSet", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String updateLayerSet(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -174,6 +183,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 
+	/* 삭제 */
 	@RequestMapping(value = "/delLayerSet", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String delLayerSet(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -185,6 +195,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 현행 */
 	@RequestMapping(value = "/getDroneLayer", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String getDroneLayer(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -196,6 +207,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 현행 */
 	@RequestMapping(value = "/deleteDroneLayer", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String deleteDroneLayer(@ModelAttribute AdminConfigVO param) {
 		try {
@@ -207,6 +219,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 		}
 	}
 	
+	/* 현행 */
 	@RequestMapping(value = "/insertDroneLayer", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String insertDroneLayer(@ModelAttribute AdminConfigVO param) {
 		
@@ -221,6 +234,7 @@ public class AdminConfigController extends BaseController implements Serializabl
 
 	}
 	
+	/* TEST */
 	@RequestMapping(value = "/testDroneLayer", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	@ResponseBody
 	public String test(String result, @RequestBody AdminConfigVO param) throws Exception {

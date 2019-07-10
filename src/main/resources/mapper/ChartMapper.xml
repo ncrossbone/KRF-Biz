@@ -26,6 +26,16 @@
     	  </if>
     </select>
     
+    <select id="getInfo_L" resultType="hashmap">
+    	SELECT /* KRF-BIZ.ChartMapper.getInfo_L */
+		    DECODE(ROWNUM, 1, '지점코드' , 2, '지점명' , 3, '주소', 4, '수계명', 5, '중권역명', 6, '주소') AS "column",
+		    DECODE(ROWNUM, 1, ENVBSIS_SITE_MANAGE_NO , 2, ENVBSIS_SITE_MANAGE_NM , 3, '', 4, '',5, '', 6, '') AS "cont" 
+		  FROM (SELECT ENVBSIS_SITE_MANAGE_NO,
+		               ENVBSIS_SITE_NM || '('||ENVBSIS_SITE_CODE||')' AS ENVBSIS_SITE_MANAGE_NM
+		          FROM EXM_ENVBSIS
+		         WHERE ENVBSIS_SITE_MANAGE_NO = #{recordId} ) CONNECT BY LEVEL <![CDATA[ <= ]]> 6
+    </select>
+    
     <select id="getInfo_Q" resultType="hashmap">
     	SELECT /* KRF-BIZ.ChartMapper.getInfo_Q */
     		   DECODE(ROWNUM,1,SWGDSPT_NM ,2,FCLTY_CPCTY ,3,DE_AVRG_INFLOW_QY,4,FYER_INFLOW_QY,5,DE_AVRG_PHYTRMT_QY,6,DE_AVRG_BIOTRMT_QY,

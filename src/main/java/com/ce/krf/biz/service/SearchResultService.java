@@ -40,6 +40,15 @@ public class SearchResultService implements Serializable{
 		return result;
 	}
 	
+	public HashMap searchSstgText(SearchResultVO param) throws Exception{
+		
+		HashMap result = new HashMap();
+		List resultList = null;
+		resultList = searchResultMapper.sstgText(param);
+		result.put("data", resultList);
+		return result;
+	}
+	
 	// 수질측정지점 LAYER CODE : A
 	public HashMap searchResult_A(SearchResultVO param) throws Exception {
 
@@ -1198,6 +1207,39 @@ public class SearchResultService implements Serializable{
 	}
 	
 	// 퇴적물 LAYER CODE : C
+	public HashMap searchResult_C2018(SearchResultVO param) throws Exception {
+
+		// param.setSiteIds();
+		HashMap result = new HashMap();
+		List resultList = null;
+		
+		if ("noDate".equals(param.getFirstSearch())) {
+			resultList = searchResultMapper.searchResult_C_getDate2018(param);
+		} else {
+			
+			// 지점코드 하나씩 insert 하기 (검색조건)
+			for(int i = 0 ; i < param.getSiteIds().length; i++) {
+				param.setSiteId2(param.getSiteIds()[i]);
+				int dataList = searchResultMapper.searchResult_C2018_setParam(param);				
+			}
+			
+			// 수질측정지점 표준화 검색 쿼리
+			resultList = searchResultMapper.searchResult_C_RESULT_2018(param);
+			          
+		}
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+
+	}
+	
+	// 퇴적물 LAYER CODE : C
 	public HashMap searchResult_C(SearchResultVO param) throws Exception {
 
 		// param.setSiteIds();
@@ -1244,6 +1286,80 @@ public class SearchResultService implements Serializable{
 		result.put("data", resultList);
 		return result;
 	}
+	
+	public HashMap searchResult_D_2018(String gubun, SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		// param.setSiteIds();
+		
+		
+
+		if ("noDate".equals(param.getFirstSearch())) {
+			param.setGubun(gubun);
+			resultList = searchResultMapper.searchResult_D_2018_getDate(param);
+		} else {
+			
+			// 지점코드 하나씩 insert 하기 (검색조건)
+			for(int i = 0 ; i < param.getSiteIds().length; i++) {
+				param.setSiteId2(param.getSiteIds()[i]);
+				if(param.getGubun().equals('7')) {
+					int dataList = searchResultMapper.searchResult_D2018_setParam_7(param);
+				}else {
+					int dataList = searchResultMapper.searchResult_D2018_setParam(param);
+				}
+								
+			}
+			
+			Method method = searchResultMapper.getClass().getMethod("searchResult_D_2018_" + gubun, SearchResultVO.class);
+			resultList = (List) method.invoke(searchResultMapper, param);
+		}
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
+	
+	// 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001
+	public HashMap searchResult_F_2018(String gubun, SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		// param.setSiteIds();
+		
+		if ("noDate".equals(param.getFirstSearch())) {
+			param.setGubun(gubun);
+			resultList = searchResultMapper.searchResult_F_2018_getDate(param);
+		} else {
+			
+			// 지점코드 하나씩 insert 하기 (검색조건)
+			for(int i = 0 ; i < param.getSiteIds().length; i++) {
+				param.setSiteId2(param.getSiteIds()[i]);
+				int dataList = searchResultMapper.searchResult_F2018_setParam(param);				
+			}
+			
+			Method method = searchResultMapper.getClass().getMethod("searchResult_F_2018_" + gubun, SearchResultVO.class);
+			resultList = (List) method.invoke(searchResultMapper, param);
+		}
+
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+
+	}
 
 	// 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001
 	public HashMap searchResult_F(String gubun, SearchResultVO param) throws Exception {
@@ -1270,6 +1386,39 @@ public class SearchResultService implements Serializable{
 		result.put("data", resultList);
 		return result;
 
+	}
+	
+	// 조류모니터링 GROUP CODE : I
+	public HashMap searchResult_I2018(String gubun, SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		// param.setSiteIds();
+
+		if ("noDate".equals(param.getFirstSearch())) {
+			param.setGubun(gubun);
+			resultList = searchResultMapper.searchResult_I_2018_getDate(param);
+		} else {
+			
+			// 지점코드 하나씩 insert 하기 (검색조건)
+			for(int i = 0 ; i < param.getSiteIds().length; i++) {
+				param.setSiteId2(param.getSiteIds()[i]);
+				int dataList = searchResultMapper.searchResult_I2018_setParam(param);				
+			}
+			
+			Method method = searchResultMapper.getClass().getMethod("searchResult_I_2018_" + gubun, SearchResultVO.class);
+			resultList = (List) method.invoke(searchResultMapper, param);
+		}
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
 	}
 	
 	// 조류모니터링 GROUP CODE : I
@@ -1367,6 +1516,41 @@ public class SearchResultService implements Serializable{
 		return result;
 	}
 	
+	// 수생태계 2018
+	public HashMap searchSstg2018(String gubun, SearchResultVO param) throws Exception {
+		HashMap result = new HashMap();
+		List resultList = null;
+		
+		
+		if ("noDate".equals(param.getFirstSearch())) {
+			
+			resultList = searchResultMapper.searchSstg_2018_getDate(param);
+			
+		} else {
+			
+			// 지점코드 하나씩 insert 하기 (검색조건)
+			for(int i = 0 ; i < param.getSiteIds().length; i++) {
+				param.setSiteId2(param.getSiteIds()[i]);
+				int dataList = searchResultMapper.searchResult_Esstg_2018_setParam(param);				
+			}
+			
+			// 수질측정지점 표준화 검색 쿼리
+			Method method = searchResultMapper.getClass().getMethod("searchSstg_2018_" + gubun, SearchResultVO.class);
+			resultList = (List) method.invoke(searchResultMapper, param);
+			          
+		}
+		
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		
+		return result;
+	}
 	
 	
 	
@@ -1502,6 +1686,26 @@ public class SearchResultService implements Serializable{
 		return result;
 
 	}
+	
+	// 한기조  LAYER CODE : L _ 2018 ( 표준화테이블 ) 보고서 데이터
+		public HashMap searchResult_L2018_Window(SearchResultVO param) throws Exception {
+
+			// param.setSiteIds();
+			HashMap result = new HashMap();
+			List resultList = null;
+
+			resultList = searchResultMapper.searchResult_L_RESULT_2018_Window(param);
+			
+			if (checkNull(resultList)) {
+				HashMap nullMgs = new HashMap();
+				nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+				resultList = new ArrayList();
+				resultList.add(nullMgs);
+			}
+			result.put("data", resultList);
+			return result;
+
+		}
 	
 	// 통합환경허가  LAYER CODE : K _ 2018 ( 표준화테이블 )
 	public HashMap searchResult_K2018(SearchResultVO param) throws Exception {

@@ -26,12 +26,13 @@
 		               CAT_DID,
 		               DO_NM || ' ' || CTY_NM || ' ' || DONG_NM || ' ' || RI_NM AS ADDR,
 		               PERCENTAGE,
-		               GNR_BOD_SUM,
-		               GNR_TN_SUM,
-		               GNR_TP_SUM,
-		               OUT_BOD_SUM,
-		               OUT_TN_SUM,
-		               OUT_TP_SUM
+		               GNR_FLOW_SUM AS GNR_FLOW_S,
+		               GNR_BOD_SUM AS GNR_BOD_S,
+		               GNR_TN_SUM AS GNR_TN_S,
+		               GNR_TP_SUM AS GNR_TP_S,
+		               OUT_BOD_SUM AS OUT_BOD_S, 
+		               OUT_TN_SUM AS OUT_TN_S,
+		               OUT_TP_SUM AS OUT_TP_S
 		        FROM   (SELECT 
 		                       WS_NM,
 		                       WS_CD,
@@ -46,6 +47,7 @@
 		                       ADM_CD,
 		                       CAT_DID,
 		                       '' AS PERCENTAGE,
+		                       GNR_FLOW_SUM,
 		                       GNR_BOD_SUM,
 		                       GNR_TN_SUM,
 		                       GNR_TP_SUM,
@@ -60,13 +62,13 @@
 		       AM_NM,
 		       SW_NAME,
 		       CAT_DID,
-		       
-		       GNR_BOD_SUM,
-		       GNR_TN_SUM,
-		       GNR_TP_SUM,
-		       OUT_BOD_SUM,
-		       OUT_TN_SUM,
-		       OUT_TP_SUM
+		       GNR_FLOW_S,
+		       GNR_BOD_S,
+		       GNR_TN_S,
+		       GNR_TP_S,
+		       OUT_BOD_S,
+		       OUT_TN_S,
+		       OUT_TP_S
 		FROM   (
 		SELECT 
 		               WS_CD,
@@ -75,12 +77,13 @@
 		               AM_NM,
 		               SW_NAME,
 		               CAT_DID,
-		               SUM(GNR_BOD_SUM) AS GNR_BOD_SUM,
-		               SUM(GNR_TN_SUM) AS GNR_TN_SUM,
-		               SUM(GNR_TP_SUM) AS GNR_TP_SUM,
-		               SUM(OUT_BOD_SUM) AS OUT_BOD_SUM,
-		               SUM(OUT_TN_SUM) AS OUT_TN_SUM,
-		               SUM(OUT_TP_SUM) AS OUT_TP_SUM
+		               SUM(GNR_FLOW_S) AS GNR_FLOW_S,
+		               SUM(GNR_BOD_S) AS GNR_BOD_S,
+		               SUM(GNR_TN_S) AS GNR_TN_S,
+		               SUM(GNR_TP_S) AS GNR_TP_S,
+		               SUM(OUT_BOD_S) AS OUT_BOD_S,
+		               SUM(OUT_TN_S) AS OUT_TN_S,
+		               SUM(OUT_TP_S) AS OUT_TP_S
 		        FROM   POLLULANT_LOAD_FOR_CAT_TBL
 		        GROUP BY WS_CD, SW_CODE, WS_NM, AM_NM, SW_NAME, CAT_DID)
 		ORDER BY WS_CD, SW_CODE
