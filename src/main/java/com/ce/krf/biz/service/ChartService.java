@@ -68,19 +68,11 @@ public class ChartService implements Serializable{
 		param.setPreFullDate(param.getRecordYear() + param.getRecordMonth());
 		param.setNextFullDate(param.getRecordYear2() + param.getRecordMonth2());
 		
-		if("M".equals(index)) {
-			String [] splitParam = param.getRecordId().split("_");
-			index = splitParam[0];
-			param.setRecordId(splitParam[1]);
-		}
-		
-		
 		if(index.equals("K")) { //통합한경허가 param 다름
 			int chartParam = chartMapper.insertChartPramK(param);
 		}else {
 			int chartParam = chartMapper.insertChartPram(param);
 		}
-		
 		
 		Method method = chartMapper.getClass().getMethod("getRWMDTSelect2018" + index,ChartVO.class);
 		List result = (List) method.invoke(chartMapper,param);

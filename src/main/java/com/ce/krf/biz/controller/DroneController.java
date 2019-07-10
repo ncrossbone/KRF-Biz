@@ -37,8 +37,6 @@ public class DroneController extends BaseController implements Serializable{
 		try {
 			return om.writeValueAsString(result);
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return "error";
 		}
 	}

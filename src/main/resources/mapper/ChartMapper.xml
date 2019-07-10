@@ -1870,4 +1870,125 @@ SELECT 999 AS RN,
 		       )
 		 ORDER BY TO_DATE(PREDICT_DT,'YYYYMMDDHH24')
 	</select>
+	
+	<select id="getRWMDTSelect2018D001" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018D001 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_FLU_WLV_DAY_GIS_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018D002" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018D002 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_FLU_RAINFALL_DAY_GIS_CHART
+    </select>
+	
+	<select id="getRWMDTSelect2018D003" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018D003 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_FLU_FLUX_DAY_GIS_CHART
+    </select>
+    
+	 <select id="getRWMDTSelect2018D004" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018D004 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_FLU_DAM_DAY_GIS_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018D005" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018D005 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_FLU_AWS_DAY_GIS_CHART
+    </select>
+    
+     <select id="getRWMDTSelect2018D006" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018D006 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_FLU_GDWETHER_DAY_GIS_CHART
+    </select>
+    
+     <select id="getRWMDTSelect2018D007" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018D007 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_FLU_BRRER_MIN_GIS_CHART
+    </select>
+    
+     <select id="getRWMDTSelect2018I" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018I */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_MSR_SWMN_DAY_GIS_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018F_1" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect20188F_1 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_MSR_POLTNSRC_INFLOW_CHART
+    </select>
+    
+     <select id="getRWMDTSelect2018F_3" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect20188F_3 */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_MSR_POLTNSRC_DWEQTY_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018C" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect20188C */
+    		   RN, 
+    		   PT_NM, 
+    		   PT_NO, 
+    		   WMCYMD,
+    		   ITEM_NAME, 
+    		   ITEM_VALUE
+    	  FROM V_MSR_DPMN_GIS_CHART
+    </select>
 </mapper>
