@@ -69,6 +69,26 @@
 		  <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</select>
 	
+	<insert id="searchResult_sstg_2018_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+	
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE) VALUES ( #{siteId2} )
+	
+	</insert>
+	
+	<select id="sstg2018" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT SE,
+		       AEMRV_CODE AS SPOT_CODE,
+		       AEMRV_NM AS SPOT_NM,
+		       ATAL_SE, 
+		       BEMA_SE,
+		       FISH_SE,
+		       VTN_SE,
+		       INHA_SE,
+		       QLTWTR_SE
+		  FROM V_TAE_SPOT_SE
+	</select>
+	
+	
 	<select id="sstgText" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 		SELECT SE, SPOT_CODE ,SPOT_NM, ATAL_SE, BEMA_SE, FISH_SE, VTN_SE, INHA_SE, QLTWTR_SE 
 			FROM TAE_SPOT_SE

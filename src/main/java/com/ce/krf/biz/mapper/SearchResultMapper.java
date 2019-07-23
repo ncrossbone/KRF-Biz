@@ -146,6 +146,10 @@ public interface SearchResultMapper {
 		
 	public List sstg(SearchResultVO param);
 	
+	public int searchResult_sstg_2018_setParam(SearchResultVO param);
+	
+	public List sstg2018(SearchResultVO param);
+	
 	public List sstgText(SearchResultVO param);
 	
 	

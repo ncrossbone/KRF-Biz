@@ -40,6 +40,25 @@ public class SearchResultService implements Serializable{
 		return result;
 	}
 	
+	
+	
+	public HashMap searchSstg_2018(SearchResultVO param) throws Exception{
+		
+		HashMap result = new HashMap();
+		List resultList = null;
+		
+		for(int i = 0 ; i < param.getSiteIds().length; i++) {
+			param.setSiteId2(param.getSiteIds()[i]);
+			int dataList = searchResultMapper.searchResult_sstg_2018_setParam(param);				
+		}
+		
+		// 수질측정지점 표준화 검색 쿼리
+		resultList = searchResultMapper.sstg2018(param);
+		
+		result.put("data", resultList);
+		return result;
+	}
+	
 	public HashMap searchSstgText(SearchResultVO param) throws Exception{
 		
 		HashMap result = new HashMap();

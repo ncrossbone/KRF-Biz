@@ -75,6 +75,28 @@ public class SearchResultController extends BaseController implements Serializab
 		}
 	}
 	
+	
+	@RequestMapping(value = "/searchSstg_2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchSstg_2018(@ModelAttribute SearchResultVO param) {
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			HashMap result = searchResultService.searchSstg_2018(param);
+			transactionManager.commit(status);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			transactionManager.rollback(status);
+			return "error";
+		}
+	}
+	
 	@RequestMapping(value = "/searchSstgText", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchSstgText(@ModelAttribute SearchResultVO param) {
 		try {
