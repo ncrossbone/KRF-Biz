@@ -74,4 +74,7 @@ public interface ChartMapper {
 	public List getRWMDTSelect2018F_3(ChartVO param);
 	
 	public List getRWMDTSelect2018C(ChartVO param);
+	
+	public List getSstgInfo(ChartVO param);
+	public int insertSstgInfo(ChartVO param);
 }

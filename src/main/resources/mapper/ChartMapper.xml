@@ -1991,4 +1991,25 @@ SELECT 999 AS RN,
     		   ITEM_VALUE
     	  FROM V_MSR_DPMN_GIS_CHART
     </select>
+    
+    <select id="getSstgInfo" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT AEMRV_CODE,
+    		   AEMRV_NM,
+    		   WRSSM_CODE,
+    		   WRSSM_NM,
+    		   LDT_NM,
+    		   MDT_CODE,
+    		   MDT_NM,
+    		   YEAR,
+    		   TME,
+    		   FAI,
+    		   HEALTH_GRAD,HEALTH_GRAD2,
+    		   ADRES 
+    	  FROM V_ANL_AEMRV_FISH_GIS
+    </select>
+    
+    
+     <insert id="insertSstgInfo" parameterType="com.ce.krf.biz.model.ChartVO">
+    	INSERT INTO COM_VRIABL_TMPR(VRIABL_1_VALUE) VALUES (#{recordId})
+    </insert>
 </mapper>

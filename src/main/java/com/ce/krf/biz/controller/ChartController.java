@@ -94,4 +94,26 @@ public class ChartController extends BaseController implements Serializable{
 			return e.getMessage();
 		}
 	}
+	
+	@RequestMapping(value = "/getSstgInfo", produces = "text/html; charset=utf-8")
+	public String getSstgInfo(@ModelAttribute ChartVO param) {
+		HashMap result = new HashMap();
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("example-ranscation");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		try {
+			result = chartService.getSstgInfo(param);
+			transactionManager.commit(status);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			transactionManager.rollback(status);
+			logger.error("[CHART]----------"+e.getStackTrace());
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return e.getMessage();
+		}
+	}
 }

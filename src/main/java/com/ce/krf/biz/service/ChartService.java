@@ -83,4 +83,14 @@ public class ChartService implements Serializable{
 		return reMap;
 	}
 	
+	public HashMap getSstgInfo(ChartVO param) throws Exception {
+
+		int chartParam = chartMapper.insertSstgInfo(param);
+		List result = (List) chartMapper.getSstgInfo(param);
+		
+		HashMap reMap = new HashMap();
+		reMap.put("data", result);
+		return reMap;
+	}
+	
 }
