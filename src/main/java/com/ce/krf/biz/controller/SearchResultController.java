@@ -540,8 +540,8 @@ public class SearchResultController extends BaseController implements Serializab
 		}
 	}
 	
-	// 한기조 GROUP_CODE : L
-	@RequestMapping(value = "/searchResult_L2018_Window", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	// 한기조 GROUP_CODE : L 
+	@RequestMapping(value = "/searchResult_L2018_Window", method = RequestMethod.POST, produces = "text/html; charset=utf-8") 
 	public String searchResult_L2018_Window(@ModelAttribute SearchResultVO param) {
 		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
