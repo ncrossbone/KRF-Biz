@@ -2005,11 +2005,32 @@ SELECT 999 AS RN,
     		   FAI,
     		   HEALTH_GRAD,HEALTH_GRAD2,
     		   ADRES 
-    	  FROM V_ANL_AEMRV_FISH_GIS
+    	  	FROM V_ANL_AEMRV_FISH_GIS
+    </select>
+    <select id="getSstgInfoD" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT AEMRV_CODE,
+    		   AEMRV_NM,
+    		   WRSSM_CODE,
+    		   WRSSM_NM,
+    		   LDT_NM,
+    		   MDT_CODE,
+    		   MDT_NM,
+    		   YEAR,
+    		   TME,
+    		   FAI,
+    		   HEALTH_GRAD,HEALTH_GRAD2,
+    		   ADRES 
+    	  	FROM V_ANL_AEMRV_FISH_GIS_D
     </select>
     
     
      <insert id="insertSstgInfo" parameterType="com.ce.krf.biz.model.ChartVO">
-    	INSERT INTO COM_VRIABL_TMPR(VRIABL_1_VALUE) VALUES (#{recordId})
+     
+     	  <if test="item == 'none'">
+     	  	INSERT INTO COM_VRIABL_TMPR(VRIABL_1_VALUE) VALUES (#{id})
+    	  </if>
+    	  <if test="item != 'none'">
+    	  	INSERT INTO COM_VRIABL_TMPR(VRIABL_1_VALUE, VRIABL_2_VALUE, VRIABL_3_VALUE) VALUES (#{id}, #{year}, #{tme})
+    	  </if>
     </insert>
 </mapper>
