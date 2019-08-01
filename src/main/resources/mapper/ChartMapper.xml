@@ -232,6 +232,30 @@
                #{nextFullDate})
     </insert>
     
+    <select id="getRWMDTSelect2018E003" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT PT_NO,
+		       PT_NM,
+		       WMYR,
+		       WMWK,
+		       WMCYMD,
+		       ITEM_NAME,
+		       ITEM_VALUE,
+		       ITEM_VALUE_1
+		  FROM V_ANL_AEMRV_FISH_GIS_E_CHART
+    </select>
+    
+    <select id="getRWMDTSelect2018E004" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+    	SELECT PT_NO,
+		       PT_NM,
+		       WMYR,
+		       WMWK,
+		       WMCYMD,
+		       ITEM_NAME,
+		       ITEM_VALUE,
+		       ITEM_VALUE_1
+		  FROM V_ANL_AEMRV_FISH_GIS_X_CHART
+    </select>
+    
     <select id="getRWMDTSelect2018A" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
     	SELECT RN,
 		       WMYR,
