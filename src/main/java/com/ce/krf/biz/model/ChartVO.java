@@ -26,6 +26,36 @@ public class ChartVO implements Serializable{
 	private String nextFullDate;
 	private String preFullDate;
 	
+	private String id;
+	private String item;
+	private String tme;
+	private String year;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getItem() {
+		return item;
+	}
+	public void setItem(String item) {
+		this.item = item;
+	}
+	public String getTme() {
+		return tme;
+	}
+	public void setTme(String tme) {
+		this.tme = tme;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	
 	public String getRecordYear() {
 		return recordYear;
 	}
