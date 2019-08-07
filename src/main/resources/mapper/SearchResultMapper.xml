@@ -5919,7 +5919,7 @@ ORDER BY PT_NO , WMYR DESC, WMOM DESC
 </insert>
 
 <insert id="searchResult_D2018_setParam_7" parameterType="com.ce.krf.biz.model.SearchResultVO">
-	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{siteId2}, #{startYear} || #{startMonth} || #{startDay}, #{endYear} || #{endMonth} || #{endDay})
+	INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{siteId2}, #{startYear} || #{startMonth} ||'01', #{endYear} || #{endMonth} ||'31')
 </insert>
 
 
@@ -7045,7 +7045,10 @@ ORDER BY PT_NO, WMCYMD DESC
 	   AND A.YEAR = B.YEAR
 	   AND A.POLRFCL_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</if>
-	<if test="gubun == 2">
+	<if test="gubun == 2">	
+		SELECT  MAX(WORK_DT) AS WORK_DT_VAL 
+		    FROM   VPLA_FACI_DIRECT_TRANSFER 
+		  WHERE  FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</if>
 	<if test="gubun == 3">
 		SELECT  MAX(MESURE_DE) AS WORK_DT_VAL
@@ -7056,6 +7059,9 @@ ORDER BY PT_NO, WMCYMD DESC
 		   AND A.POLRFCL_CODE
 	</if>
 	<if test="gubun == 4">
+		SELECT MAX(WORK_DT) AS WORK_DT_VAL 
+		    FROM   VPLA_FACI_PIPE_TRANSFER 
+		  WHERE  FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</if>
 </select>
 
@@ -7069,8 +7075,8 @@ ORDER BY PT_NO, WMCYMD DESC
 <!-- 환경기초시설 - 방류유량 GROUT CODE : F / LAYER CODE : F001 -->
 <select id="searchResult_F_2018_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	SELECT POLRFCL_CODE,
-	       NO,
-	       PROCESS_FCLTY_NM,
+	       NO AS DISCHARGE_NUM,
+	       PROCESS_FCLTY_NM AS FACI_NM,
 	       WORK_DT_VAL,
 	       CHART_DATE,
 	       DCWTRH_NO,
@@ -7426,7 +7432,7 @@ ORDER BY PT_NO, WMCYMD DESC
 <select id="searchResult_F_2018_3" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	SELECT POLRFCL_CODE,
        NO,
-       PROCESS_FCLTY_NM,
+       PROCESS_FCLTY_NM  AS FACI_NM,
        WORK_DT_VAL,
        CHART_DATE,
        INFLOWH_NO,

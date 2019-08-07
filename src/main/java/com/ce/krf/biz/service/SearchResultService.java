@@ -1323,7 +1323,7 @@ public class SearchResultService implements Serializable{
 			// 지점코드 하나씩 insert 하기 (검색조건)
 			for(int i = 0 ; i < param.getSiteIds().length; i++) {
 				param.setSiteId2(param.getSiteIds()[i]);
-				if(param.getGubun().equals('7')) {
+				if(param.getGubun().equals("7")) {
 					int dataList = searchResultMapper.searchResult_D2018_setParam_7(param);
 				}else {
 					int dataList = searchResultMapper.searchResult_D2018_setParam(param);

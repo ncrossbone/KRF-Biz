@@ -90,6 +90,7 @@ public interface SearchResultMapper {
 	
 	//기타측정지점 - 보관측소 GROUT CODE : D / LAYER CODE : D007
 	public List searchResult_D_7(SearchResultVO param);
+	public List searchResult_D_2018_7(SearchResultVO param);
 	
 	
 	//환경기초시설 - 최근날짜
