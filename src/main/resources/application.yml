@@ -134,7 +134,7 @@ spring:
       request-timeout: 60000
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@10.101.95.195:1521/WEIS2
+    url: jdbc:oracle:thin:@10.101.95.195:1521/WEIS
     username: water 
     password: water123
     tomcat:
