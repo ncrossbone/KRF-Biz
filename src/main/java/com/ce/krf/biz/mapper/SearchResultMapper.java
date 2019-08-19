@@ -254,4 +254,12 @@ public interface SearchResultMapper {
 	public List searchResultWindow_Z_Z002_bunInfoBtn_result(SearchResultVO param);
 	public List searchResultWindow_Z_Z003_bunInfoBtn_result(SearchResultVO param);
 	public List searchResultWindow_Z_Z001_bunInfoBtn_result(SearchResultVO param);
+	
+	
+	public int searchResultWindow_K_setParam(SearchResultVO param);
+	public List searchResultWindow_K_1(SearchResultVO param);
+	public List searchResultWindow_K_2(SearchResultVO param);
+	public List searchResultWindow_K_3(SearchResultVO param);
+	public List searchResultWindow_K_4(SearchResultVO param);/*배출시설 오염물질정보*/
+	public List searchResultWindow_K_5(SearchResultVO param);/*방지시설 오염물질정보*/
 }

@@ -7056,7 +7056,7 @@ ORDER BY PT_NO, WMCYMD DESC
 		       FCL_POLTNSRC_FCLTY B
 		 WHERE A.POLRFCL_CODE = B.POLRFCL_CODE
 		   AND A.YEAR = B.YEAR
-		   AND A.POLRFCL_CODE
+		   AND A.POLRFCL_CODE IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	</if>
 	<if test="gubun == 4">
 		SELECT MAX(WORK_DT) AS WORK_DT_VAL 
@@ -7358,7 +7358,7 @@ ORDER BY PT_NO, WMCYMD DESC
 		                 OVER( 
 		                   PARTITION BY FACI_CD, IN_PL_TYPE 
 		                   ORDER BY FACI_CD, IN_PL_TYPE, WORK_DT DESC) AS NO, 
-		               TT.ADM_CD, 
+		               TT.LEGALDONG_CODE, 
 		               T.YYYY, 
 		               FACI_NM, 
 		               FACI_CD, 
@@ -7372,15 +7372,15 @@ ORDER BY PT_NO, WMCYMD DESC
 		               TP, 
 		               COLI 
 		        FROM   VPLA_FACI_DIRECT_TRANSFER T, 
-		               COM_DISTRICT_RAW TT, 
-		               KESTI_WATER_ALL_MAP C 
-		        WHERE  T.ADM_CD = C.ADM_CD 
-		               AND T.ADM_CD = TT.ADM_CD) A, 
+		               ADM_LEGALDONG TT, 
+		               DGR_WRSSM_MAPNG C 
+		        WHERE  T.ADM_CD = C.LEGALDONG_CODE 
+		               AND T.ADM_CD = TT.LEGALDONG_CODE) A, 
 		       (SELECT RANK() 
 		                 OVER( 
 		                   PARTITION BY FACI_CD, IN_PL_TYPE 
 		                   ORDER BY FACI_CD, IN_PL_TYPE, WORK_DT DESC) AS NO, 
-		               TT.ADM_CD, 
+		               TT.LEGALDONG_CODE, 
 		               T.YYYY, 
 		               FACI_NM, 
 		               FACI_CD, 
@@ -7394,13 +7394,13 @@ ORDER BY PT_NO, WMCYMD DESC
 		               TP, 
 		               COLI 
 		        FROM   VPLA_FACI_DIRECT_TRANSFER T, 
-		               COM_DISTRICT_RAW TT, 
-		               KESTI_WATER_ALL_MAP C 
-		        WHERE  T.ADM_CD = C.ADM_CD 
-		               AND T.ADM_CD = TT.ADM_CD) B 
+		               ADM_LEGALDONG TT, 
+		               DGR_WRSSM_MAPNG C 
+		        WHERE  T.ADM_CD = C.LEGALDONG_CODE 
+		               AND T.ADM_CD = TT.LEGALDONG_CODE) B 
 		WHERE  A.FACI_CD = B.FACI_CD 
 		       AND A.IN_PL_TYPE = B.IN_PL_TYPE 
-		       AND A.ADM_CD = B.ADM_CD 
+		       AND A.LEGALDONG_CODE = B.LEGALDONG_CODE 
 		       AND A.NO BETWEEN B.NO - 4 AND B.NO 
 		       AND A.FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach> 
 		       AND SUBSTR(A.WORK_DT, 1, 4) 
@@ -7620,118 +7620,113 @@ ORDER BY PT_NO, WMCYMD DESC
 	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   TP_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_TP
 	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   COLI_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_COLI
 	        , '['||REPLACE(SUBSTR (XMLAGG (XMLELEMENT (COL,',[','"'||RN2 || REPLACE(WORK_DT_GRAPH,'-','') || '","',TRIM(' ' FROM   BYPASS_AMT_GRAPH) || '"]') ORDER BY WORK_DT_GRAPH).EXTRACT ('//text()').GETSTRINGVAL (),2) , <![CDATA[  '&'||'quot;' ]]> , '"') ||']' AS CHART_BYPASS_AMT
-	    FROM (  SELECT A.FACI_CD,
-	                   RANK ()
-	                      OVER (PARTITION BY A.NO, A.FACI_CD ORDER BY B.WORK_DT ASC)
-	                      AS RN2,
-	                   A.NO                                           /* 순번 참고용 */,
-	                   A.FACI_NM                                        /* 처리시설명*/,
-	                   A.WORK_DT AS WORK_DT_VAL                          /* 운영일자*/,
-	                   A.WORK_DT AS CHART_DATE                           /* 운영일자*/,
-	                   B.WORK_DT AS WORK_DT_GRAPH                  /* 운영일자(추이변화)*/,
-	                   A.PIPE_NUM                                        /* 관거번호*/,
-	                   A.PIPE_TYPE                                       /* 관거유형*/,
-	                   A.AMT AS AMT_VAL                               /* 유량(㎥/일)*/,
-	                   B.AMT AS AMT_GRAPH                            /* 유량(추이변화)*/,
-	                   A.BOD AS BOD_VAL                              /* BOD(㎎/ℓ)*/,
-	                   B.BOD AS BOD_GRAPH                           /* BOD(추이변화)*/,
-	                   A.COD AS COD_VAL                              /* COD(㎎/ℓ)*/,
-	                   B.COD AS COD_GRAPH                           /* COD(추이변화)*/,
-	                   A.SS AS SS_VAL                                 /* SS(㎎/ℓ)*/,
-	                   B.SS AS SS_GRAPH                              /* SS(추이변화)*/,
-	                   A.TN AS TN_VAL                                 /* TN(㎎/ℓ)*/,
-	                   B.TN AS TN_GRAPH                              /* TN(추이변화)*/,
-	                   A.TP AS TP_VAL                                 /* TP(㎎/ℓ)*/,
-	                   B.TP AS TP_GRAPH                              /* TP(추이변화)*/,
-	                   A.COLI AS COLI_VAL                       /* 대장균군수(총대장균군수)*/,
-	                   B.COLI AS COLI_GRAPH                       /* 대장균군수(추이변화)*/,
-	                   A.BYPASS_AMT AS BYPASS_AMT_VAL            /* 미처리배제유량(㎥/일)*/,
-	                   B.BYPASS_AMT AS BYPASS_AMT_GRAPH         /* 미처리배제유량(추이변화)*/,
-	                   A.CONNECT_FACI_NM                               /*연계처리시설명*/
-	              FROM (SELECT RANK ()
-	                              OVER (PARTITION BY FACI_CD, PIPE_NUM
-	                                    ORDER BY FACI_CD, PIPE_NUM, WORK_DT DESC)
-	                              AS NO,
-	                           FACI_CD,
-	                           FACI_NM,
-	                           WORK_DT,
-	                           PIPE_NUM,
-	                           PIPE_TYPE,
-	                           AMT,
-	                           BOD,
-	                           COD,
-	                           SS,
-	                           TN,
-	                           TP,
-	                           COLI,
-	                           BYPASS_AMT,
-	                           CONNECT_FACI_NM,
-	                           ADM_CD
-	                      FROM (SELECT FACI_CD,
-	                                   FACI_NM,
-	                                   WORK_DT,
-	                                   PIPE_NUM,
-	                                   PIPE_TYPE,
-	                                   AMT,
-	                                   BOD,
-	                                   COD,
-	                                   SS,
-	                                   TN,
-	                                   TP,
-	                                   COLI,
-	                                   BYPASS_AMT,
-	                                   CONNECT_FACI_NM,
-	                                   T.ADM_CD
-	                              FROM VPLA_FACI_PIPE_TRANSFER T,
-	                                   COM_DISTRICT_RAW TT,
-	                                   KESTI_WATER_ALL_MAP C
-	                             WHERE T.ADM_CD = C.ADM_CD AND T.ADM_CD = TT.ADM_CD))
-	                   A,
-	                   (SELECT RANK ()
-	                              OVER (PARTITION BY FACI_CD, PIPE_NUM
-	                                    ORDER BY FACI_CD, PIPE_NUM, WORK_DT DESC)
-	                              AS NO,
-	                           FACI_CD,
-	                           FACI_NM,
-	                           WORK_DT,
-	                           PIPE_NUM,
-	                           PIPE_TYPE,
-	                           AMT,
-	                           BOD,
-	                           COD,
-	                           SS,
-	                           TN,
-	                           TP,
-	                           COLI,
-	                           BYPASS_AMT,
-	                           CONNECT_FACI_NM,
-	                           ADM_CD
-	                      FROM (SELECT FACI_CD,
-	                                   FACI_NM,
-	                                   WORK_DT,
-	                                   PIPE_NUM,
-	                                   PIPE_TYPE,
-	                                   AMT,
-	                                   BOD,
-	                                   COD,
-	                                   SS,
-	                                   TN,
-	                                   TP,
-	                                   COLI,
-	                                   BYPASS_AMT,
-	                                   CONNECT_FACI_NM,
-	                                   T.ADM_CD
-	                              FROM VPLA_FACI_PIPE_TRANSFER T,
-	                                   COM_DISTRICT_RAW TT,
-	                                   KESTI_WATER_ALL_MAP C
-	                             WHERE T.ADM_CD = C.ADM_CD AND T.ADM_CD = TT.ADM_CD))
-	                   B
-	             WHERE     A.FACI_CD = B.FACI_CD
-	                   AND A.PIPE_NUM = B.PIPE_NUM
-	                   AND A.PIPE_TYPE = B.PIPE_TYPE
-	                   AND A.ADM_CD = B.ADM_CD
-	                   AND A.NO BETWEEN B.NO - 4 AND B.NO
-	                   AND A.FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
+	    FROM (SELECT A.FACI_CD,
+               RANK () OVER (PARTITION BY A.NO, A.FACI_CD
+                 ORDER BY B.WORK_DT ASC) AS RN2,
+               A.NO /* 순번 참고용 */,
+               A.FACI_NM /* 처리시설명*/,
+               A.WORK_DT AS WORK_DT_VAL /* 운영일자*/,
+               A.WORK_DT AS CHART_DATE /* 운영일자*/,
+               B.WORK_DT AS WORK_DT_GRAPH /* 운영일자(추이변화)*/,
+               A.PIPE_NUM /* 관거번호*/,
+               A.PIPE_TYPE /* 관거유형*/,
+               A.AMT AS AMT_VAL /* 유량(㎥/일)*/,
+       B.AMT AS AMT_GRAPH /* 유량(추이변화)*/,
+       A.BOD AS BOD_VAL /* BOD(㎎/ℓ)*/,
+       B.BOD AS BOD_GRAPH /* BOD(추이변화)*/,
+       A.COD AS COD_VAL /* COD(㎎/ℓ)*/,
+       B.COD AS COD_GRAPH /* COD(추이변화)*/,
+       A.SS AS SS_VAL /* SS(㎎/ℓ)*/,
+       B.SS AS SS_GRAPH /* SS(추이변화)*/,
+       A.TN AS TN_VAL /* TN(㎎/ℓ)*/,
+       B.TN AS TN_GRAPH /* TN(추이변화)*/,
+       A.TP AS TP_VAL /* TP(㎎/ℓ)*/,
+       B.TP AS TP_GRAPH /* TP(추이변화)*/,
+       A.COLI AS COLI_VAL /* 대장균군수(총대장균군수)*/,
+       B.COLI AS COLI_GRAPH /* 대장균군수(추이변화)*/,
+       A.BYPASS_AMT AS BYPASS_AMT_VAL /* 미처리배제유량(㎥/일)*/,
+       B.BYPASS_AMT AS BYPASS_AMT_GRAPH /* 미처리배제유량(추이변화)*/,
+       A.CONNECT_FACI_NM /*연계처리시설명*/
+  FROM (SELECT RANK () OVER (PARTITION BY FACI_CD, PIPE_NUM
+                 ORDER BY FACI_CD, PIPE_NUM, WORK_DT DESC) AS NO,
+					               FACI_CD,
+					               FACI_NM,
+					               WORK_DT,
+					               PIPE_NUM,
+					               PIPE_TYPE,
+					               AMT,
+					               BOD,
+					               COD,
+					               SS,
+					               TN,
+					               TP,
+					               COLI,
+					               BYPASS_AMT,
+					               CONNECT_FACI_NM,
+					               ADM_CD
+					          FROM (SELECT FACI_CD,
+					                       FACI_NM,
+					                       WORK_DT,
+					                       PIPE_NUM,
+					                       PIPE_TYPE,
+					                       AMT,
+					                       BOD,
+					                       COD,
+					                       SS,
+					                       TN,
+					                       TP,
+					                       COLI,
+					                       BYPASS_AMT,
+					                       CONNECT_FACI_NM,
+					                       T.ADM_CD
+					                  FROM VPLA_FACI_PIPE_TRANSFER T,
+					                       ADM_LEGALDONG TT,
+					                       DGR_WRSSM_MAPNG C
+					                 WHERE T.ADM_CD = C.LEGALDONG_CODE
+					                   AND T.ADM_CD = TT.LEGALDONG_CODE)) A,
+					       (SELECT RANK () OVER (PARTITION BY FACI_CD, PIPE_NUM
+					                 ORDER BY FACI_CD, PIPE_NUM, WORK_DT DESC) AS NO,
+					               FACI_CD,
+					               FACI_NM,
+					               WORK_DT,
+					               PIPE_NUM,
+					               PIPE_TYPE,
+					               AMT,
+					               BOD,
+					               COD,
+					               SS,
+					               TN,
+					               TP,
+					               COLI,
+					               BYPASS_AMT,
+					               CONNECT_FACI_NM,
+					               ADM_CD
+					          FROM (SELECT FACI_CD,
+					                       FACI_NM,
+					                       WORK_DT,
+					                       PIPE_NUM,
+					                       PIPE_TYPE,
+					                       AMT,
+					                       BOD,
+					                       COD,
+					                       SS,
+					                       TN,
+					                       TP,
+					                       COLI,
+					                       BYPASS_AMT,
+					                       CONNECT_FACI_NM,
+					                       T.ADM_CD
+					                  FROM VPLA_FACI_PIPE_TRANSFER T,
+					                       ADM_LEGALDONG TT,
+					                       DGR_WRSSM_MAPNG C
+					                 WHERE T.ADM_CD = C.LEGALDONG_CODE
+					                   AND T.ADM_CD = TT.LEGALDONG_CODE)) B
+					 WHERE A.FACI_CD = B.FACI_CD
+					   AND A.PIPE_NUM = B.PIPE_NUM
+					   AND A.PIPE_TYPE = B.PIPE_TYPE
+					   AND A.ADM_CD = B.ADM_CD
+					   AND A.NO BETWEEN B.NO - 4 AND B.NO
+					   AND A.FACI_CD IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	                   AND SUBSTR (A.WORK_DT, 1, 4) || SUBSTR (A.WORK_DT, 6, 2) BETWEEN #{startYear} || #{startMonth}
 	                                                                                AND  #{endYear} || #{endMonth}
 	          ORDER BY A.FACI_NM,
@@ -9494,6 +9489,90 @@ ORDER  BY NO_1,
 	  AND DCWTRH_MANAGE_NO IN <foreach collection="siteIds" item="item" separator="," open="(" close=")"> #{item}</foreach>
 	  AND MESURE_DE BETWEEN #{startYear}||#{startMonth}||'01' AND #{endYear}||#{endMonth}||'31'
 	</select>
+	
+	
+	
+	<insert id="searchResultWindow_K_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
+		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE) VALUES ( #{siteId2} ) 
+	</insert>
+	
+	
+	<select id="searchResultWindow_K_1" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		  SELECT /*searchResultWindow_K_1*/ DHGP_INNB,
+		       PROCS_NO,
+		       ADCLS_INFO,
+		       BPLC_ONSLF_MANAGE_NM,
+		       CPCTY,
+		       CPCTY_UNIT,
+		       WQY,
+		       DRV_TP,
+		       DRV_PRESSR,
+		       DE_OPR_TIME,
+		       YY_OPR_DAYCNT,
+		       DRV_FACTR,
+		       INSTL_SITE,
+		       DCWTRH_NO,
+		       CHANGE_SE,
+		       LGL_TRGET_AT,
+		       RM,
+		       CLS_OPR_STPGE_AT
+		  FROM V_FCL_IEPS_DHGP_GIS
+	</select>
+	
+	<select id="searchResultWindow_K_2" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT /*searchResultWindow_K_2*/ PRVFCLTY_INNB ,
+		       PROCS_NO ,
+		       BPLC_ONSLF_MANAGE_NO ,
+		       PRVFCLTY_NM ,
+		       ADCLS_INFO ,
+		       CPCTY ,
+		       CPCTY_UNIT ,
+		       WQY ,
+		       PROCESS_QY ,
+		       DE_OPR_TIME ,
+		       YY_OPR_DAYCNT ,
+		       DIFPRS_MANAGE ,
+		       DRV_FACTR ,
+		       INSTL_SITE ,
+		       DCWTRH_NO ,
+		       BFE_PRVFCLTY_INNB_LIST ,
+		       AFTER_PRVFCLTY_INNB ,
+		       DELETE_AT
+		  FROM V_FCL_IEPS_PRVFCLTY_GIS 
+	</select>
+	
+	<select id="searchResultWindow_K_3" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+		SELECT 'BBB' AS A, 'BBB' AS B, 'BBB' AS C, 'BBB' AS D, 'BBB' AS E, 'BBB' AS F, 'BBB' AS G, 'BBB' AS H
+  			FROM DUAL
+	</select>
+	
+	<select id="searchResultWindow_K_4" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	</select>
+	
+	<select id="searchResultWindow_K_5" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
+	
+		 SELECT PRVFCLTY_INNB ,
+		       MEDIA_NM ,
+		       PRVFCLTY_NO ,
+		       PROCESS_CNTMNNT_NM ,
+		       REDUC_EFCNY ,
+		       EXHST_FLUX ,
+		       EXHST_FLUX_UNIT ,
+		       EXHST_DNSTY ,
+		       EXHST_DNSTY_UNIT ,
+		       HOUR_MXMM_DSCAMT ,
+		       DE_MXMM_DSCAMT ,
+		       YY_MXMM_DSCAMT ,
+		       EXHST_TP ,
+		       MXMM_EXHST_STDR_VALUE ,
+		       BFE_CNTMNNT_PRSMP_TOTQY ,
+		       ATCH_FILE_MANAGE_NO ,
+		       DELETE_AT
+		  FROM V_FCL_IEPS_PRVFCLTYCNTMNNT_GIS
+  
+	</select>
+	
+	
 	  
 	<insert id="searchResultWindow_Z_setParam" parameterType="com.ce.krf.biz.model.SearchResultVO">
 		INSERT INTO COM_VRIABL_TMPR (VRIABL_1_VALUE,VRIABL_2_VALUE,VRIABL_3_VALUE) VALUES (#{startYear}||#{startMonth},#{endYear}||#{endMonth}, #{siteId2}) 

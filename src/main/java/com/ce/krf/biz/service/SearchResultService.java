@@ -1115,6 +1115,36 @@ public class SearchResultService implements Serializable{
 		return result;
 
 	}
+	
+	public HashMap searchResultWindow_K(SearchResultVO param, String index) throws Exception {
+
+		// param.setSiteIds();
+		HashMap result = new HashMap();
+		List resultList = null;
+
+
+		// 지점코드 하나씩 insert 하기 (검색조건)
+		for(int i = 0 ; i < param.getSiteIds().length; i++) {
+			param.setSiteId2(param.getSiteIds()[i]);
+
+			Method method = searchResultMapper.getClass().getMethod("searchResultWindow_K_setParam",SearchResultVO.class);
+			int dataList = (int) method.invoke(searchResultMapper,param);
+		}
+
+		Method method = searchResultMapper.getClass().getMethod("searchResultWindow_K_" + index,SearchResultVO.class);
+		resultList = (List) method.invoke(searchResultMapper,param);
+
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+
+	}
 
 	// 수질측정지점 LAYER CODE : B
 	public HashMap searchResult_B(SearchResultVO param) throws Exception {
