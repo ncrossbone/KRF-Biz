@@ -170,6 +170,13 @@ public interface SearchResultMapper {
 	
 	
 	//수생태계 하구
+	public List searchSstg_2018_HgAtalSe(SearchResultVO param); // 돌착말류
+	public List searchSstg_2018_HgBemaSe(SearchResultVO param); // 저서성대형무척추동물
+	public List searchSstg_2018_HgFishSe(SearchResultVO param); // 어류
+	public List searchSstg_2018_HgVtnSe(SearchResultVO param); // 식생
+	
+	
+	//수생태계 하구
 	public List searchSstgHgAtalSe(SearchResultVO param); // 돌착말류
 	public List searchSstgHgBemaSe(SearchResultVO param); // 저서성대형무척추동물
 	public List searchSstgHgFishSe(SearchResultVO param); // 어류

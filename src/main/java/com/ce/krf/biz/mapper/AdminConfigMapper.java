@@ -28,6 +28,7 @@ public interface AdminConfigMapper {
 	public List selectDroneLayer(AdminConfigVO param);
 	public int deleteDroneLayer(AdminConfigVO param);
 	public int insertDroneLayer(AdminConfigVO param);
+	public int updateDroneLayer(AdminConfigVO param);
 	
 	public List selectBoInfo(AdminConfigVO param);
 	

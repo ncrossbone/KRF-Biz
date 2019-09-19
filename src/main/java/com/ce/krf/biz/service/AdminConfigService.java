@@ -223,6 +223,14 @@ public class AdminConfigService implements Serializable {
 		
 	}
 	
+	public HashMap updateDroneLayer(AdminConfigVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		result.put("result", adminConfigMapper.updateDroneLayer(param));
+		return result;
+		
+	}
+	
 	public HashMap testDroneLayer(AdminConfigVO param) throws Exception {
 
 		HashMap result = new HashMap();

@@ -234,6 +234,21 @@ public class AdminConfigController extends BaseController implements Serializabl
 
 	}
 	
+	/* 현행 */
+	@RequestMapping(value = "/updateDroneLayer", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String updateDroneLayer(@ModelAttribute AdminConfigVO param) {
+		
+		try {
+			HashMap result = adminConfigService.updateDroneLayer(param);
+			return getEuckrString(result, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return "error";
+		}
+		
+
+	}
+	
 	/* TEST */
 	@RequestMapping(value = "/testDroneLayer", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	@ResponseBody

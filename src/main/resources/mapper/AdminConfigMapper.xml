@@ -208,12 +208,26 @@
   	</select>
   	
   	<delete id="deleteDroneLayer" parameterType="com.ce.krf.biz.model.AdminConfigVO">
-  		delete from KRF_DRONE_LAYER_INFO
+  		delete from KRF_DRONE_LAYER_INFO WHERE ETC = #{etc}
   	</delete>
   	
   	<insert id="insertDroneLayer" parameterType="com.ce.krf.biz.model.AdminConfigVO">
 		INSERT INTO KRF_DRONE_LAYER_INFO (RIVER,DRONELAYERID,DRONEDATE,MEASUREDATE,CHLALAYERID,CHLADATE,PHYLAYERID,PHYDATE,ETC)
             VALUES (#{river},#{droneLayerId},#{droneDate},#{measureDate},#{chlaLayerId},#{chlaDate},#{phyLayerId},#{phyDate},#{etc})
+  	</insert>
+  	
+  	
+  	<insert id="updateDroneLayer" parameterType="com.ce.krf.biz.model.AdminConfigVO">
+		UPDATE KRF_DRONE_LAYER_INFO
+		   SET RIVER = #{river},
+		   DRONELAYERID = #{droneLayerId},
+		   DRONEDATE = #{droneDate},
+		   MEASUREDATE = #{measureDate},
+		   CHLALAYERID = #{chlaLayerId},
+		   CHLADATE= #{chlaDate},
+		   PHYLAYERID = #{phyLayerId},
+		   PHYDATE = #{phyDate}
+		 WHERE ETC = #{etc}
   	</insert>
   	
   	<select id="selectBoInfo" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
