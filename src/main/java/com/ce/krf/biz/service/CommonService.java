@@ -16,6 +16,10 @@ import javax.servlet.ServletOutputStream;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,10 +82,11 @@ public class CommonService implements Serializable{
 			}
 		}
 
-		HSSFWorkbook workbook = new HSSFWorkbook();
-		HSSFSheet sheet = workbook.createSheet("검색결과");
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet("검색결과");
+		
 
-		HSSFRow hRow = sheet.createRow(0);
+		Row hRow = sheet.createRow(0);
 		for (int i = 0; i < headNameList.size(); i++) {
 			String headName = (String) headNameList.get(i);
 			hRow.createCell(i).setCellValue(headName);
@@ -91,7 +96,7 @@ public class CommonService implements Serializable{
 
 		for (int i = 0; i < dataSize; i++) {
 			HashMap<String, Object> dataSet = (HashMap<String, Object>) dataList.get(i);
-			HSSFRow row = sheet.createRow(i + 1);
+			Row row = sheet.createRow(i + 1);
 			for (int k = 0; k < headList.size(); k++) {
 				String head = (String) headList.get(k);
 				if (dataSet.get(head) == null && !(dataSet.get(head) instanceof java.lang.String)) {
