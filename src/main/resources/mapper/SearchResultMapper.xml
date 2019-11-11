@@ -346,7 +346,7 @@
 				,TOT_FCLTY_CPCTY
 				,GROUP_CODE
 				,LAYER_CODE
-	  FROM V_UNITY_SEARCH_1
+	  FROM V_UNITY_SEARCH
 	</select>
 
 	<select id="sstg" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
