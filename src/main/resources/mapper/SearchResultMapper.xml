@@ -6600,21 +6600,21 @@ ORDER BY PT_NO, WMCYMD DESC
 <!-- 기타측정지점 - 댐관측소 GROUT CODE : D / LAYER CODE : D004 -->
 <select id="searchResult_D_2018_4" parameterType="com.ce.krf.biz.model.SearchResultVO" resultType="hashmap">
 	SELECT RN,
-	       MDT_NM,
-	       SDT_NM,
-	       PT_NO,
-	       PT_NM,
-	       OBSR_DE,
-	       CURR_LOW_WLV,
-	       CURR_INFLOW_QY,
-	       CURR_DCWTR_QY,
-	       CURR_RSVWT_QY,
-	       CURR_CMNUSE_QY,
-	       CHART_LOW_WLV,
-	       CHART_INFLOW_QY,
-	       CHART_DCWTR_QY,
-	       CHART_RSVWT_QY,
-	       CHART_CMNUSE_QY
+       MDT_NM,
+       SDT_NM,
+       PT_NO,
+       PT_NM,
+       OBSR_DE,
+       CURR_LOWWL,
+       CURR_INFLOW_QY,
+       CURR_TOT_DWEQTY,
+       CURR_RSVWT_QY,
+       CURR_CMNUSE_QY,
+       CHART_LOWWL,
+       CHART_INFLOW_QY,
+       CHART_TOT_DWEQTY,
+       CHART_RSVWT_QY, 
+       CHART_CMNUSE_QY
 	  FROM V_FLU_DAM_DAY_GIS
 </select>
 
