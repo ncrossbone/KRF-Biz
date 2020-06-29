@@ -1717,7 +1717,195 @@ SELECT 999 AS RN,
 	 ORDER BY CASE WHEN RN = '999' THEN 0 ELSE RN END DESC
 	</select>
 	
+	
 	<select id="getRWMDTSelectHDate" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+		SELECT MAX (SUBSTR(DE,1,4) || '-' ||SUBSTR(DE,5,2) || '-' || SUBSTR(DE,7,2)) AS DE
+		  FROM MSR_WQFRMN_HSPF
+		 WHERE WQFRMN_CODE = #{recordId}
+	</select>
+	
+	<select id="getRWMDTSelectH" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
+		/* HSPF 차트*/
+		WITH TEMP_TBL AS (
+		    SELECT WQFRMN_CODE AS SPOT_CODE
+		         , SUBSTR(DE,1,4) || '-' ||SUBSTR(DE,5,2) || '-' || SUBSTR(DE,7,2) AS DE
+		         , TO_CHAR(PREDICT_DT,'YYYYMMDDHH24') AS PREDICT_DT
+		              , TO_NUMBER(MIN(DECODE(IEM_CODE, '1052', DECODE(AT, '02', '정량한계미만', '03', '분석중', '00', VALUE)))) AS BOD /*BOD*/
+                      , TO_NUMBER(MIN(DECODE(IEM_CODE, '1063', DECODE(AT, '02', '정량한계미만', '03', '분석중', '00', VALUE)))) AS CHLA /*CHLA*/
+                      , TO_NUMBER(MIN(DECODE(IEM_CODE, '1054', DECODE(AT, '02', '정량한계미만', '03', '분석중', '00', VALUE)))) AS DOC /*DOC*/
+                      , TO_NUMBER(MIN(DECODE(IEM_CODE, '1059', DECODE(AT, '02', '정량한계미만', '03', '분석중', '00', VALUE)))) AS FLUX /*FLUX*/
+                      , TO_NUMBER(MIN(DECODE(IEM_CODE, '1060', DECODE(AT, '02', '정량한계미만', '03', '분석중', '00', VALUE)))) AS WTRTP /*WTRTP*/
+                      , TO_NUMBER(MIN(DECODE(IEM_CODE, '1012', DECODE(AT, '02', '정량한계미만', '03', '분석중', '00', VALUE)))) AS NH3 /*NH3*/
+                      , TO_NUMBER(MIN(DECODE(IEM_CODE, '1013', DECODE(AT, '02', '정량한계미만', '03', '분석중', '00', VALUE)))) AS NO3 /*NO3*/
+                      , TO_NUMBER(MIN(DECODE(IEM_CODE, '1065', DECODE(AT, '02', '정량한계미만', '03', '분석중', '00', VALUE)))) AS OP4 /*OP4*/
+		      FROM MSR_WQFRMN_HSPF
+		     WHERE REPLACE(WQFRMN_CODE,'Reach','RCH') = #{recordId}
+		       AND DE BETWEEN TO_CHAR(TO_DATE(#{hMaxDate} ,'YYYYMMDD')-2,'YYYYMMDD') AND #{hMaxDate} 
+             GROUP BY WQFRMN_CODE, DE, PREDICT_DT
+		)
+		SELECT REPLACE(SPOT_CODE,'Reach','RCH') as SPOT_CODE
+		     , PREDICT_DT
+		     , ${selectItem}_1, ${selectItem}_2, ${selectItem}_3, ${selectItem}_4
+		  FROM (
+		        SELECT SPOT_CODE
+		             , PREDICT_DT
+		             , TO_NUMBER('') AS BOD_1, BOD_2, BOD_3, BOD_4
+		             , TO_NUMBER('') AS CHLA_1, CHLA_2, CHLA_3, CHLA_4
+		             , TO_NUMBER('') AS DOC_1, DOC_2, DOC_3, DOC_4
+		             , TO_NUMBER('') AS FLUX_1, FLUX_2, FLUX_3, FLUX_4
+		             , TO_NUMBER('') AS WTRTP_1, WTRTP_2, WTRTP_3, WTRTP_4
+		             , TO_NUMBER('') AS NH3_1, NH3_2, NH3_3, NH3_4
+		             , TO_NUMBER('') AS NO3_1, NO3_2, NO3_3, NO3_4
+		             , TO_NUMBER('') AS OP4_1, OP4_2, OP4_3, OP4_4
+		          FROM (
+		                SELECT A.SPOT_CODE
+		                     , A.PREDICT_DT
+		                     , BOD_2
+		                     , BOD_3
+		                     , B.BOD   AS BOD_4
+		                     , CHLA_2
+		                     , CHLA_3
+		                     , B.CHLA  AS CHLA_4
+		                     , DOC_2
+		                     , DOC_3
+		                     , B.DOC   AS DOC_4
+		                     , FLUX_2
+		                     , FLUX_3
+		                     , B.FLUX  AS FLUX_4
+		                     , WTRTP_2
+		                     , WTRTP_3
+		                     , B.WTRTP AS WTRTP_4
+		                     , NH3_2
+		                     , NH3_3
+		                     , B.NH3   AS NH3_4
+		                     , NO3_2
+		                     , NO3_3
+		                     , B.NO3   AS NO3_4
+		                     , OP4_2
+		                     , OP4_3
+		                     , B.OP4   AS OP4_4
+		                  FROM (
+		                        SELECT A.SPOT_CODE
+		                             , A.PREDICT_DT
+		                             , A.BOD   AS BOD_2
+		                             , B.BOD   AS BOD_3
+		                             , A.CHLA  AS CHLA_2
+		                             , B.CHLA  AS CHLA_3
+		                             , A.DOC   AS DOC_2
+		                             , B.DOC   AS DOC_3
+		                             , A.FLUX  AS FLUX_2
+		                             , B.FLUX  AS FLUX_3
+		                             , A.WTRTP AS WTRTP_2
+		                             , B.WTRTP AS WTRTP_3
+		                             , A.NH3   AS NH3_2
+		                             , B.NH3   AS NH3_3
+		                             , A.NO3   AS NO3_2
+		                             , B.NO3   AS NO3_3
+		                             , A.OP4   AS OP4_2
+		                             , B.OP4   AS OP4_3
+		                          FROM (
+		                                SELECT SPOT_CODE, DE, PREDICT_DT, BOD, CHLA, DOC, FLUX, WTRTP, NH3, NO3, OP4
+		                                  FROM TEMP_TBL
+		                                 WHERE REPLACE(DE,'-','') = '20180131'
+		                               ) A LEFT JOIN
+		                               (
+		                                SELECT SPOT_CODE, DE, PREDICT_DT, BOD, CHLA, DOC, FLUX, WTRTP, NH3, NO3, OP4
+		                                  FROM TEMP_TBL
+		                                 WHERE REPLACE(DE,'-','') = TO_CHAR(TO_DATE(#{hMaxDate},'YYYYMMDD')-1,'YYYYMMDD') 
+		                               ) B
+		                            ON (A.SPOT_CODE = B.SPOT_CODE AND A.PREDICT_DT = B.PREDICT_DT)
+		                       ) A LEFT JOIN
+		                       (
+		                        SELECT SPOT_CODE, DE, PREDICT_DT, BOD, CHLA, DOC, FLUX, WTRTP, NH3, NO3, OP4
+		                          FROM TEMP_TBL
+		                         WHERE REPLACE(DE,'-','') = TO_CHAR(TO_DATE(#{hMaxDate},'YYYYMMDD')-2,'YYYYMMDD')  
+		                       ) B
+		                    ON (A.SPOT_CODE = B.SPOT_CODE AND A.PREDICT_DT = B.PREDICT_DT)
+		               )
+		        UNION ALL
+		         SELECT RCH_CDOE AS SPOT_CODE
+		              , REPLACE(WMYMD,'-','')||WMCTM AS PREDICT_DT
+		              , ITEM_BOD AS BOD_1,TO_NUMBER(''),TO_NUMBER(''),TO_NUMBER('')
+		              , ITEM_CLOA AS CHLA_1,TO_NUMBER(''),TO_NUMBER(''),TO_NUMBER('')
+		              , ITEM_DOC AS DOC_1,TO_NUMBER(''),TO_NUMBER(''),TO_NUMBER('')
+		              , ITEM_AMNT AS FLUX_1,TO_NUMBER(''),TO_NUMBER(''),TO_NUMBER('')
+		              , ITEM_TEMP AS WTRTP_1,TO_NUMBER(''),TO_NUMBER(''),TO_NUMBER('')
+		              , ITEM_NH3N AS NH3_1,TO_NUMBER(''),TO_NUMBER(''),TO_NUMBER('')
+		              , ITEM_NO3N AS NO3_1,TO_NUMBER(''),TO_NUMBER(''),TO_NUMBER('')
+		              , ITEM_POP AS OP4_1,TO_NUMBER(''),TO_NUMBER(''),TO_NUMBER('')
+		           FROM (
+		                 SELECT RANK() OVER(PARTITION BY B.RCH_CDOE ORDER BY WMYMD DESC) AS RN
+		                      , B.RCH_CDOE, WMYMD, WMCTM, ITEM_BOD, ITEM_CLOA, ITEM_DOC, ITEM_AMNT, ITEM_TEMP, ITEM_NH3N, ITEM_NO3N, ITEM_POP
+		                   FROM (
+		                         SELECT A.WQMN_CODE AS PT_NO
+                                      , SUBSTR(B.CHCK_DE,1,4) || '-' || SUBSTR(B.CHCK_DE,5,2) || '-' || SUBSTR(B.CHCK_DE,7,2) AS WMYMD
+		                              , CASE WHEN WTRSMPLE_TM IS NULL THEN '00'
+		                                ELSE SUBSTR(WTRSMPLE_TM,1,2)
+		                                END WMCTM
+                                      , MIN(DECODE(IEM_CODE, '1052', VALUE)) AS ITEM_BOD
+                                      , MIN(DECODE(IEM_CODE, '1063', VALUE)) AS ITEM_CLOA
+                                      , MIN(DECODE(IEM_CODE, '1054', VALUE)) AS ITEM_DOC 
+                                      , MIN(DECODE(IEM_CODE, '1059', VALUE)) AS ITEM_AMNT
+                                      , MIN(DECODE(IEM_CODE, '1060', VALUE)) AS ITEM_TEMP
+                                      , MIN(DECODE(IEM_CODE, '1012', VALUE)) AS ITEM_NH3N
+                                      , MIN(DECODE(IEM_CODE, '1013', VALUE)) AS ITEM_NO3N
+                                      , MIN(DECODE(IEM_CODE, '1065', VALUE)) AS ITEM_POP
+		                           FROM MSR_WQMN A
+		                              , MSR_WQMN_META B
+		                         WHERE A.WQMN_CODE = B.WQMN_CODE
+		                           AND A.YEAR = B.YEAR 
+		                           AND A.MT = B.MT
+		                           AND A.TME = B.TME
+		                           AND B.CHCK_DE  <![CDATA[  <  ]]> #{hMaxDate} 
+		                           AND SUBSTR(A.WQMN_CODE,5,1) = 'A'
+		                           AND A.YEAR >= '2017'
+                                 GROUP BY A.WQMN_CODE, CHCK_DE, WTRSMPLE_TM
+		                       ) A
+		                     , (
+		                        SELECT 'RCH48' AS RCH_CDOE,'2003A12' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH49' AS RCH_CDOE,'2004A90' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH51' AS RCH_CDOE,'2001A60' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH52' AS RCH_CDOE,'2002A50' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH56' AS RCH_CDOE,'2003A20' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH61' AS RCH_CDOE,'2003A40' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH62' AS RCH_CDOE,'2003A43' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH63' AS RCH_CDOE,'2005A30' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH69' AS RCH_CDOE,'2006A20' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH74' AS RCH_CDOE,'2008A40' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH89' AS RCH_CDOE,'2009A10' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH90' AS RCH_CDOE,'2010A30' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH105' AS RCH_CDOE,'2011A19' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH130' AS RCH_CDOE,'2011A50' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH131' AS RCH_CDOE,'2011A30' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH135' AS RCH_CDOE,'2012A70' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH144' AS RCH_CDOE,'2014A20' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH145' AS RCH_CDOE,'2014A35' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH158' AS RCH_CDOE,'2013A40' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH161' AS RCH_CDOE,'2016A30' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH168' AS RCH_CDOE,'2017A20' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH169' AS RCH_CDOE,'2017A40' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH183' AS RCH_CDOE,'2020A15' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH184' AS RCH_CDOE,'2020A10' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH185' AS RCH_CDOE,'2017A60' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH186' AS RCH_CDOE,'2019A80' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH188' AS RCH_CDOE,'2020A30' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH189' AS RCH_CDOE,'2021A60' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH191' AS RCH_CDOE,'2020A40' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH193' AS RCH_CDOE,'2020A35' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH199' AS RCH_CDOE,'2020A50' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH201' AS RCH_CDOE,'2020A47' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH209' AS RCH_CDOE,'2022A10' AS PT_NO FROM DUAL UNION ALL
+		                        SELECT 'RCH210' AS RCH_CDOE,'2022A25' AS PT_NO FROM DUAL
+		                       ) B
+		                 WHERE A.PT_NO = B.PT_NO
+		               ) 
+		          WHERE RN  <![CDATA[  <=  ]]>  '4'
+		            AND RCH_CDOE = 'RCH91' 
+		       ) 
+		 ORDER BY TO_DATE(PREDICT_DT,'YYYYMMDDHH24')
+	</select>
+	
+	<!-- select id="getRWMDTSelectHDate" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
 		SELECT MAX (DE) AS DE
 		  FROM HSPF_MODEL_RESULT
 		 WHERE SPOT_CODE = #{recordId}
@@ -1893,7 +2081,7 @@ SELECT 999 AS RN,
 		            AND RCH_CDOE = #{recordId} 
 		       )
 		 ORDER BY TO_DATE(PREDICT_DT,'YYYYMMDDHH24')
-	</select>
+	</select -->
 	
 	<select id="getRWMDTSelect2018D001" resultType="hashmap" parameterType="com.ce.krf.biz.model.ChartVO">
     	SELECT /* KRF-BIZ.ChartMapper.getRWMDTSelect2018D001 */

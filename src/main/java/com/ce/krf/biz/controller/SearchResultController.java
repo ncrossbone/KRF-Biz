@@ -256,7 +256,7 @@ public class SearchResultController extends BaseController implements Serializab
 		TransactionStatus status = transactionManager.getTransaction(def);
 		
 		try {
-			HashMap result = (searchResultService.searchResult_B2018(param));
+			HashMap result = searchResultService.searchResult_B2018(param);
 			transactionManager.commit(status);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
@@ -271,7 +271,7 @@ public class SearchResultController extends BaseController implements Serializab
 	@RequestMapping(value = "/searchResult_B001", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_B001(@ModelAttribute SearchResultVO param) {
 		try {
-			HashMap result = (searchResultService.searchResult_B001(param));
+			HashMap result = searchResultService.searchResult_B001(param);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -284,7 +284,7 @@ public class SearchResultController extends BaseController implements Serializab
 	@RequestMapping(value = "/searchResult_B001_Fix", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
 	public String searchResult_B001_Fix(@ModelAttribute SearchResultVO param) {
 		try {
-			HashMap result = (searchResultService.searchResult_B001_Fix(param));
+			HashMap result = searchResultService.searchResult_B001_Fix(param);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -448,12 +448,26 @@ public class SearchResultController extends BaseController implements Serializab
 		}
 	}
 
-	// 부하량 - 총괄표
+	// 3D- 수직측정지점 (구DB)
 	@RequestMapping(value = "/searchMeasuredValue", method = RequestMethod.GET, produces = "text/html; charset=utf-8")
 	public String searchMeasuredValue(@QueryParam("type") String type) {
 
 		try {
 			HashMap result = searchResultService.searchMeasuredValue(type);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return "error";
+		}
+	}
+	
+	// 3D- 수직측정지점 (신DB)
+	@RequestMapping(value = "/searchMeasuredValue2018", method = RequestMethod.GET, produces = "text/html; charset=utf-8")
+	public String searchMeasuredValue2018(@QueryParam("type") String type) {
+
+		try {
+			HashMap result = searchResultService.searchMeasuredValue2018(type);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -503,6 +517,17 @@ public class SearchResultController extends BaseController implements Serializab
 	public String searchResult_H(@ModelAttribute SearchResultVO param) {
 		try {
 			HashMap result = searchResultService.searchResult_H(param);
+			return getEuckrString(result, true);
+		} catch (Exception e) {
+			return "error";
+		}
+	}
+	
+	// HSPF GROUP CODE : H
+	@RequestMapping(value = "/searchResult_H2018", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+	public String searchResult_H2018(@ModelAttribute SearchResultVO param) {
+		try {
+			HashMap result = searchResultService.searchResult_H2018(param);
 			return getEuckrString(result, true);
 		} catch (Exception e) {
 			return "error";

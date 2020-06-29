@@ -1619,6 +1619,22 @@ public class SearchResultService implements Serializable{
 		return result;
 	}
 	
+	public HashMap searchMeasuredValue2018(String type) throws Exception {
+		HashMap result = new HashMap();
+		
+		List resultList = searchResultMapper.searchMeasuredValue2018(type);
+		
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		
+		return result;
+	}
+	
 	// 조류모니터링 GROUP CODE : H
 	public HashMap searchResult_H(SearchResultVO param) throws Exception {
 
@@ -1631,6 +1647,30 @@ public class SearchResultService implements Serializable{
 			resultList = searchResultMapper.searchResult_H_getDate(param);
 		} else {
 			resultList = searchResultMapper.searchResult_H(param);
+		}
+
+		if (checkNull(resultList)) {
+			HashMap nullMgs = new HashMap();
+			nullMgs.put("msg", "데이터가 존재하지 않습니다.");
+			resultList = new ArrayList();
+			resultList.add(nullMgs);
+		}
+		result.put("data", resultList);
+		return result;
+	}
+	
+	// 조류모니터링 GROUP CODE : H
+	public HashMap searchResult_H2018(SearchResultVO param) throws Exception {
+
+		HashMap result = new HashMap();
+		List resultList = null;
+
+		// param.setSiteIds();
+
+		if ("noDate".equals(param.getFirstSearch())) {
+			resultList = searchResultMapper.searchResult_H2018_getDate(param);
+		} else {
+			resultList = searchResultMapper.searchResult_H2018(param);
 		}
 
 		if (checkNull(resultList)) {

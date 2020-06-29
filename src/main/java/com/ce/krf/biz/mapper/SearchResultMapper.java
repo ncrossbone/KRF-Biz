@@ -192,9 +192,13 @@ public interface SearchResultMapper {
 	
 
 	public List searchMeasuredValue(String type);
+	public List searchMeasuredValue2018(String type);
 	
 	public List searchResult_H_getDate(SearchResultVO param);
 	public List searchResult_H(SearchResultVO param);
+	
+	public List searchResult_H2018_getDate(SearchResultVO param);
+	public List searchResult_H2018(SearchResultVO param);
 	
 	public List searchResult_M001_getDate(SearchResultVO param);
 	public List searchResult_M001(SearchResultVO param);

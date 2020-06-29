@@ -24,6 +24,7 @@ public class SearchResultVO implements Serializable{
 	
 	private String siteId = "";
 	private String[] siteIds = null;
+	private String[] siteIdsChar = null;
 	private String siteId2 = "";
 	
 	private String parentSiteIds = "";
@@ -117,12 +118,14 @@ public class SearchResultVO implements Serializable{
 	}
 	public void setStartFull(String startFull) {
 		this.startFull = startFull;
+		this.startFull = getRPad(startFull, 42, ' ');
 	}
 	public String getEndFull() {
 		return endFull;
 	}
 	public void setEndFull(String endFull) {
 		this.endFull = endFull;
+		this.endFull = getRPad(endFull, 42, ' ');
 	}
 	public String getGubun() {
 		return gubun;
@@ -168,6 +171,26 @@ public class SearchResultVO implements Serializable{
 			}
 		}
 	}
+	
+	
+	public void setSiteIdsChar () {
+		if (siteIdsChar != null && siteIdsChar.length > 0) {
+			for (int i = 0; i < siteIdsChar.length; i++) {
+				siteIdsChar[i] = siteIdsChar[i].replaceAll("'", "");
+				
+				siteIdsChar[i] = getRPad(siteIdsChar[i], 18, ' ');
+				
+			}
+		}
+	}
+	
+	public static String getRPad(String str, int size, char c) {
+        for(int i = (str.getBytes()).length; i < size; i++) {
+            str += c;
+        }
+        return str;
+    }
+	
 	public String getCon() {
 		return con;
 	}
@@ -234,6 +257,13 @@ public class SearchResultVO implements Serializable{
 	}
 	public void setParentSiteIds(String parentSiteIds) {
 		this.parentSiteIds = parentSiteIds;
+	}
+	public String[] getSiteIdsChar() {
+		return siteIdsChar;
+	}
+	public void setSiteIdsChar(String[] siteIdsChar) {
+		this.siteIdsChar = siteIdsChar;
+		setSiteIdsChar();
 	}
 	
 	

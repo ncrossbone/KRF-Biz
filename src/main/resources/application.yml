@@ -26,7 +26,7 @@ spring:
   mvc: 
     view: 
       prefix: /WEB-INF/jsp/
-      suffix: .jsp
+      suffix: .jsp 
     async:
       request-timeout: 60000
   datasource: 
@@ -36,10 +36,46 @@ spring:
     username: WATER2018
     password: WATER2018
     tomcat:
-      max-idle: 30
-      min-idle: 1
+      max-idle: 40
+      min-idle: 2
       test-while-idle: true
       validation-query2: select 1 from dual      default-auto-commit: false
+logging: 
+#  config: classpath:logback.xml
+  file: logs/spring-boot-logging.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level: 
+    org.springframework.web: INFO
+    root: INFO
+server: 
+  context-path: /krf
+
+print: 
+  img: 
+     path: C:/arcgisserver/directories/arcgisoutput/customPrintTask/
+---
+spring:
+  profiles: local2
+  mvc: 
+    view: 
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+    async:
+      request-timeout: 60000
+  datasource: 
+  #jndi-name: krf_db 
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@112.217.167.123:31720:STKDIV
+    username: WATER_2
+    password: WATER_2
+    tomcat:
+      max-idle: 40
+      min-idle: 2
+      test-while-idle: true
+      validation-query2: select 1 from dual
+      default-auto-commit: false
 logging: 
 #  config: classpath:logback.xml
   file: logs/spring-boot-logging.log
