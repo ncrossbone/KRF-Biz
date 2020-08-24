@@ -1,6 +1,6 @@
 spring: 
     profiles: 
-      active: local
+      active: prod-in-new
     
 server:
   session:

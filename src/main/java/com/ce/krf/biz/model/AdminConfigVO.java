@@ -25,6 +25,8 @@ public class AdminConfigVO implements Serializable {
 	private String chlaDate;
 	private String phyLayerId;
 	private String phyDate;
+	private String blueLayerId;
+	private String blueDate;
 	private String etc;
 	
 	private List<AdminConfigVO> data;
@@ -124,6 +126,18 @@ public class AdminConfigVO implements Serializable {
 	}
 	public void setUserPass(String userPass) {
 		this.userPass = userPass;
+	}
+	public String getBlueLayerId() {
+		return blueLayerId;
+	}
+	public void setBlueLayerId(String blueLayerId) {
+		this.blueLayerId = blueLayerId;
+	}
+	public String getBlueDate() {
+		return blueDate;
+	}
+	public void setBlueDate(String blueDate) {
+		this.blueDate = blueDate;
 	}
 	
 	

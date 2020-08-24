@@ -203,8 +203,8 @@
     
     <select id="selectDroneLayer" resultType="hashmap" parameterType="com.ce.krf.biz.model.AdminConfigVO">
 		SELECT 
-		    RIVER,DRONELAYERID,DRONEDATE,MEASUREDATE,CHLALAYERID,CHLADATE,PHYLAYERID,PHYDATE,ETC
-		  FROM KRF_DRONE_LAYER_INFO
+		    RIVER,DRONELAYERID,DRONEDATE,MEASUREDATE,CHLALAYERID,CHLADATE,PHYLAYERID,PHYDATE,BLUELAYERID,BLUEDATE,ETC
+		  FROM KRF_DRONE_LAYER_INFO ORDER BY DRONEDATE DESC
   	</select>
   	
   	<delete id="deleteDroneLayer" parameterType="com.ce.krf.biz.model.AdminConfigVO">
@@ -212,8 +212,8 @@
   	</delete>
   	
   	<insert id="insertDroneLayer" parameterType="com.ce.krf.biz.model.AdminConfigVO">
-		INSERT INTO KRF_DRONE_LAYER_INFO (RIVER,DRONELAYERID,DRONEDATE,MEASUREDATE,CHLALAYERID,CHLADATE,PHYLAYERID,PHYDATE,ETC)
-            VALUES (#{river},#{droneLayerId},#{droneDate},#{measureDate},#{chlaLayerId},#{chlaDate},#{phyLayerId},#{phyDate},#{etc})
+		INSERT INTO KRF_DRONE_LAYER_INFO (RIVER,DRONELAYERID,DRONEDATE,MEASUREDATE,CHLALAYERID,CHLADATE,PHYLAYERID,PHYDATE,BLUELAYERID,BLUEDATE,ETC)
+            VALUES (#{river},#{droneLayerId},#{droneDate},#{measureDate},#{chlaLayerId},#{chlaDate},#{phyLayerId},#{phyDate},#{blueLayerId},#{blueDate},#{etc})
   	</insert>
   	
   	
@@ -226,7 +226,9 @@
 		   CHLALAYERID = #{chlaLayerId},
 		   CHLADATE= #{chlaDate},
 		   PHYLAYERID = #{phyLayerId},
-		   PHYDATE = #{phyDate}
+		   PHYDATE = #{phyDate},
+		   BLUELAYERID = #{blueLayerId},
+		   BLUEDATE = #{blueDate}
 		 WHERE ETC = #{etc}
   	</insert>
   	
